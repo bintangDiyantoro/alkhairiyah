@@ -1,0 +1,37 @@
+body{
+    background-color: rgba(0,150,0, .2);
+}
+.anu{
+    color: white;
+    background-color: rgb(0,70,50);
+}
+
+.duanger{
+    color: white!important;
+    background-color: darkred!important;
+}
+
+
+.dropdown-item:hover{
+    color: #fff !important;
+    background-color: rgb(0,70,50)!important;
+    border-color: transparent !important;
+}
+
+/* .dropdown-toggle{
+    color: rgba(255,255,255,.5) !important;
+    background-color: transparent!important;
+    border-color: transparent !important;
+}
+
+.dropdown-toggle:hover{
+    color: rgba(255,255,255,.75) !important;
+    background-color: transparent!important;
+    border-color: transparent !important;
+}
+
+.dropdown-toggle:active{
+    color: #fff !important;
+    background-color: transparent!important;
+    border-color: transparent !important;
+} */
