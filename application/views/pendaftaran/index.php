@@ -20,14 +20,17 @@
                         <div class="form-group">
                             <label for="pekerjaan_ayah">Pekerjaan</label>
                             <input type="text" name="pekerjaan_ayah" class="form-control" id="pekerjaan_ayah" autocomplete="off" value="<?= $this->session->userdata('pekerjaan_ayah') ?>">
+                            <?= form_error('pekerjaan_ayah', '<small class="text-danger pl-3">', '</small>') ?>
                         </div>
                         <div class="form-group">
                             <label for="pendterakhir_ayah">Pendidikan terakhir</label>
                             <input type="text" name="pendterakhir_ayah" class="form-control" id="pendterakhir_ayah" autocomplete="off" value="<?= $this->session->userdata('pendterakhir_ayah') ?>">
+                            <?= form_error('pendterakhir_ayah', '<small class="text-danger pl-3">', '</small>') ?>
                         </div>
                         <div class="form-group">
                             <label for="keterangan_ayah">Keterangan</label>
                             <input type="text" name="keterangan_ayah" class="form-control" id="keterangan_ayah" autocomplete="off" value="<?= $this->session->userdata('keterangan_ayah') ?>" placeholder="(meninggal, bercerai, di luar kota, dsb)">
+                            <?= form_error('keterangan_ayah', '<small class="text-danger pl-3">', '</small>') ?>
                         </div>
                         <div class="form-group">
                             <label for="nohape_ayah">No HP/WA</label>
@@ -56,14 +59,17 @@
                         <div class="form-group">
                             <label for="pekerjaan_ibu">Pekerjaan</label>
                             <input type="text" name="pekerjaan_ibu" class="form-control" id="pekerjaan_ibu" autocomplete="off" value="<?= $this->session->userdata('pekerjaan_ibu') ?>">
+                            <?= form_error('pekerjaan_ibu', '<small class="text-danger pl-3">', '</small>') ?>
                         </div>
                         <div class="form-group">
                             <label for="pendterakhir_ibu">Pendidikan terakhir</label>
                             <input type="text" name="pendterakhir_ibu" class="form-control" id="pendterakhir_ibu" autocomplete="off" value="<?= $this->session->userdata('pendterakhir_ibu') ?>">
+                            <?= form_error('pendterakhir_ibu', '<small class="text-danger pl-3">', '</small>') ?>
                         </div>
                         <div class="form-group">
                             <label for="keterangan_ibu">Keterangan</label>
                             <input type="text" name="keterangan_ibu" class="form-control" id="keterangan_ibu" autocomplete="off" value="<?= $this->session->userdata('keterangan_ibu') ?>" placeholder="(meninggal, bercerai, di luar kota, dsb)">
+                            <?= form_error('keterangan_ibu', '<small class="text-danger pl-3">', '</small>') ?>
                         </div>
                         <div class="form-group">
                             <label for="nohape_ibu">No HP/WA</label>

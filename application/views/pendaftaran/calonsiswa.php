@@ -28,6 +28,7 @@
                         <div class="form-group">
                             <label for="asal_tk">Asal TK</label>
                             <input type="text" name="asal_tk" class="form-control" id="asal_tk" placeholder="TK asal" autocomplete="off" value="<?= set_value('asal_tk') ?>">
+                            <?= form_error('asal_tk', '<small class="text-danger pl-3">', '</small>') ?>
                             <input type="hidden" class="error" value="<?= $this->session->userdata('error') ?>">
                             <input type="hidden" class="wali" value="<?= $this->session->userdata('wali') ?>">
                         </div>
