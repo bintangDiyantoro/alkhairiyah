@@ -80,7 +80,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-3 mb-5">
+        <div class="row mt-3 mb-3">
             <div class="col-sm">
                 <label class="float-right mt-2" for="wali">Wali murid:</label>
             </div>

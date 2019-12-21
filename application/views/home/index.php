@@ -2,7 +2,7 @@
     <div class="col-lg-8">
         <div class="jumbotron mt-3">
             <h3 class="display-4 text-center">Ahlan Wasahlan!</h3>
-            <div id="carouselExampleCaptions" class="carousel slide mb-3 mt-3" data-ride="carousel">
+            <div id="carouselExampleCaptions" class="carousel slide mt-3" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
                     <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
