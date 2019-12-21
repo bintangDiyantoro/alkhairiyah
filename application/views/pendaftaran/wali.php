@@ -25,10 +25,12 @@
                         <div class="form-group">
                             <label for="pekerjaan_wali">Pekerjaan</label>
                             <input type="text" name="pekerjaan_wali" class="form-control" id="pekerjaan_wali" autocomplete="off" value="<?= $this->session->userdata('pekerjaan_wali') ?>">
+                            <?= form_error('pekerjaan_wali', '<small class="text-danger pl-3">', '</small>') ?>
                         </div>
                         <div class="form-group">
                             <label for="pendterakhir_wali">Pendidikan terakhir</label>
                             <input type="text" name="pendterakhir_wali" class="form-control" id="pendterakhir_wali" autocomplete="off" value="<?= $this->session->userdata('pendterakhir_wali') ?>">
+                            <?= form_error('pendterakhir_wali', '<small class="text-danger pl-3">', '</small>') ?>
                         </div>
                         <div class="form-group">
                             <label for="nohape_wali">No HP/WA</label>

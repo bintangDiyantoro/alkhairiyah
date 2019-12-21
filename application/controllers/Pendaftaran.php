@@ -21,26 +21,35 @@ class Pendaftaran extends CI_Controller{
     }
     
     private function _validateFormOrtu(){
-        $this->form_validation->set_rules('nama_ayah', 'nama_ayah', 'required|alpha_numeric_spaces', ['required' => 'nama ayah wajib diisi','alpha_numeric_spaces' => 'nama tidak boleh mengandung selain huruf latin']);
-        $this->form_validation->set_rules('alamat_ayah', 'alamat_ayah', 'required', ['required' => 'alamat ayah wajib diisi']);
+        $this->form_validation->set_rules('nama_ayah', 'nama_ayah', 'required|regex_match[/^[a-z-\s\']+$/i]|max_length[50]',['required' => 'nama ayah wajib diisi','regex_match' => 'nama tidak boleh mengandung selain huruf, spasi, petik tunggal (\') dan strip (-)','max_length'=>'nama maksimal 50 huruf']);
+        $this->form_validation->set_rules('alamat_ayah', 'alamat_ayah', 'required|regex_match[/^[a-z0-9,.\/":&-()\s\']+$/i]|max_length[255]',['required' => 'alamat ayah wajib diisi', 'regex_match' => 'karakter inputan tidak valid', 'max_length'=>'alamat tidak boleh lebih dari 255 karakter']);
+        $this->form_validation->set_rules('pekerjaan_ayah', 'pekerjaan_ayah', 'regex_match[/^[a-z0-9,.\/\-()\s]+$/i]|max_length[255]', ['regex_match' => 'karakter inputan tidak valid', 'max_length' => 'pekerjaan tidak boleh lebih dari 255 karakter']);
+        $this->form_validation->set_rules('pendterakhir_ayah', 'pendterakhir_ayah','regex_match[/^[a-z0-9,.\/\-()\s]+$/i]|max_length[50]', ['regex_match' => 'karakter inputan tidak valid', 'max_length' => 'pendidikan terakhir ayah tidak boleh melebihi 50 karakter']);
+        $this->form_validation->set_rules('keterangan_ayah', 'keterangan_ayah', 'regex_match[/^[a-z0-9,.\/\-()\s]+$/i]|max_length[50]', ['regex_match' => 'karakter inputan tidak valid','max_length'=>'keterangan tidak boleh lebih dari 50 karakter']);
         $this->form_validation->set_rules('nohape_ayah', 'nohape_ayah', 'numeric|min_length[11]|max_length[15]', ['numeric' => 'nomor hp tidak valid','min_length'=>'nomor hp minimal berisi 11 digit','max_length'=>'nomor hp maksimal berisi 15 digit']);
-        $this->form_validation->set_rules('nama_ibu', 'nama_ibu', 'required|alpha_numeric_spaces', ['required' => 'nama ibu wajib diisi', 'alpha_numeric_spaces' => 'nama tidak boleh mengandung selain huruf latin']);
-        $this->form_validation->set_rules('alamat_ibu', 'alamat_ibu', 'required', ['required' => 'alamat ibu wajib diisi']);
+        $this->form_validation->set_rules('nama_ibu', 'nama_ibu', 'required|regex_match[/^[a-z-\s\']+$/i]|max_length[50]', ['required' => 'nama ibu wajib diisi', 'regex_match' => 'nama tidak boleh mengandung selain huruf, spasi, petik tunggal (\') dan strip (-)', 'max_length' => 'nama maksimal 50 huruf']);
+        $this->form_validation->set_rules('alamat_ibu', 'alamat_ibu', 'required|regex_match[/^[a-z0-9,.\/":&-()\s\']+$/i]|max_length[255]', ['required' => 'alamat ibu wajib diisi', 'regex_match' => 'karakter inputan tidak valid', 'max_length' => 'alamat tidak boleh lebih dari 255 karakter']);
+        $this->form_validation->set_rules('pekerjaan_ibu', 'pekerjaan_ibu', 'regex_match[/^[a-z0-9,.\/\-()\s]+$/i]|max_length[255]', ['regex_match' => 'karakter inputan tidak valid', 'max_length' => 'pekerjaan tidak boleh lebih dari 255 karakter']);
+        $this->form_validation->set_rules('pendterakhir_ibu', 'pendterakhir_ibu', 'regex_match[/^[a-z0-9,.\/\-()\s]+$/i]|max_length[50]', ['regex_match' => 'karakter inputan tidak valid', 'max_length' => 'pendidikan terakhir ibu tidak boleh melebihi 50 karakter']);
+        $this->form_validation->set_rules('keterangan_ibu', 'keterangan_ibu', 'regex_match[/^[a-z0-9,.\/\-()\s]+$/i]|max_length[50]', ['regex_match' => 'karakter inputan tidak valid', 'max_length' => 'keterangan tidak boleh lebih dari 50 karakter']);
         $this->form_validation->set_rules('nohape_ibu', 'nohape_ibu', 'numeric|min_length[11]|max_length[15]', ['numeric' => 'nomor hp tidak valid', 'min_length' => 'nomor hp minimal berisi 11 digit', 'max_length' => 'nomor hp maksimal berisi 15 digit']);
-        $this->form_validation->set_rules('wali', 'wali', 'required|alpha', ['required' => 'Setiap siswa harus memiliki wali murid, silahkan pilih wali murid terlebih dahulu!']);
+        $this->form_validation->set_rules('wali','wali', 'in_list[Ayah,Ibu,Lainnya]');
     }
 
     private function _validateFormWali(){
-        $this->form_validation->set_rules('nama_wali', 'nama_wali', 'required|alpha_numeric_spaces', ['required' => 'nama wali wajib diisi','alpha_numeric_spaces'=>'nama tidak boleh mengandung selain huruf latin']);
-        $this->form_validation->set_rules('alamat_wali', 'alamat_wali', 'required', ['required' => 'alamat wali wajib diisi']);
-        $this->form_validation->set_rules('status_wali', 'status_wali', 'required', ['required' => 'status wali wajib diisi']);
-        $this->form_validation->set_rules('nohape_wali', 'nohape_wali', 'required|numeric|min_length[11]|max_length[15]', ['numeric' => 'nomor hp tidak valid','required' => 'nomor hp wali tidak boleh kosong', 'min_length' => 'nomor hp minimal berisi 11 digit', 'max_length' => 'nomor hp maksimal berisi 15 digit']);
+        $this->form_validation->set_rules('nama_wali', 'nama_wali', 'required|regex_match[/^[a-z-\s\']+$/i]|max_length[50]', ['required' => 'nama wali wajib diisi', 'regex_match' => 'nama tidak boleh mengandung selain huruf, spasi, petik tunggal (\') dan strip (-)', 'max_length' => 'nama maksimal 50 huruf']);
+        $this->form_validation->set_rules('alamat_wali', 'alamat_wali', 'required|regex_match[/^[a-z0-9,.\/":&-()\s\']+$/i]|max_length[255]', ['required' => 'alamat wali wajib diisi', 'regex_match' => 'karakter inputan tidak valid', 'max_length' => 'alamat tidak boleh lebih dari 255 karakter']);
+        $this->form_validation->set_rules('status_wali', 'status_wali', 'required|regex_match[/^[a-z0-9,.\/\-()\s]+$/i]|max_length[50]', ['required' => 'status wali wajib diisi','regex_match' => 'karakter inputan tidak valid', 'max_length' => 'status tidak boleh lebih dari 50 karakter']);
+        $this->form_validation->set_rules('pekerjaan_wali', 'pekerjaan_wali', 'regex_match[/^[a-z0-9,.\/\-()\s]+$/i]|max_length[255]', ['regex_match' => 'karakter inputan tidak valid', 'max_length' => 'pekerjaan tidak boleh lebih dari 255 karakter']);
+        $this->form_validation->set_rules('pendterakhir_wali', 'pendterakhir_wali', 'regex_match[/^[a-z0-9,.\/\-()\s]+$/i]|max_length[50]', ['regex_match' => 'karakter inputan tidak valid', 'max_length' => 'pendidikan terakhir wali tidak boleh melebihi 50 karakter']);
+        $this->form_validation->set_rules('nohape_wali', 'nohape_wali', 'required|numeric|min_length[11]|max_length[15]', ['required' => 'nomor hp wali tidak boleh kosong', 'numeric' => 'nomor hp tidak valid', 'min_length' => 'nomor hp minimal berisi 11 digit', 'max_length' => 'nomor hp maksimal berisi 15 digit']);
     }
 
     private function _validateFormCalonSiswa(){
-        $this->form_validation->set_rules('nama_calon_siswa', 'nama_calon_siswa', 'required|alpha_numeric_spaces', ['required' => 'nama calon siswa wajib diisi','alpha_numeric_spaces'=> 'nama tidak boleh mengandung selain huruf latin']);
-        $this->form_validation->set_rules('jenis_kelamin', 'jenis_kelamin', 'required|alpha', ['required' => 'jenis kelamin wajib dipilih']);
-        $this->form_validation->set_rules('umur', 'umur', 'required|numeric', ['required' => 'usia calon siswa wajib diisi','numeric' => 'umur hanya boleh diisi dengan angka']);
+        $this->form_validation->set_rules('nama_calon_siswa', 'nama_calon_siswa', 'required|regex_match[/^[a-z-\s\']+$/i]|max_length[50]', ['required' => 'nama wali wajib diisi', 'regex_match' => 'nama tidak boleh mengandung selain huruf, spasi, petik tunggal (\') dan strip (-)', 'max_length' => 'nama maksimal 50 huruf']);
+        $this->form_validation->set_rules('jenis_kelamin', 'jenis_kelamin', 'required|in_list[L,P]', ['required' => 'jenis kelamin wajib dipilih']);
+        $this->form_validation->set_rules('umur', 'umur', 'required|numeric|max_length[1]', ['required' => 'usia calon siswa wajib diisi','numeric' => 'umur hanya boleh diisi dengan angka','max_length'=>'usia terlalu tua']);
+        $this->form_validation->set_rules('asal_tk', 'asal_tk', 'regex_match[/^[a-z0-9,.\/\-()\s]+$/i]|max_length[50]', ['required' => 'status wali wajib diisi', 'regex_match' => 'karakter inputan tidak valid', 'max_length' => 'asal tk tidak boleh lebih dari 50 karakter']);
     }
 
     private function _dataOrtu($data_ortu){
@@ -103,7 +112,7 @@ class Pendaftaran extends CI_Controller{
     }
     
     public function wali(){
-        if($this->session->userdata('wali') == 'Lainnya'){
+        if($this->session->userdata('wali') == 'Lainnya' && $this->csrf['name'] == $this->security->get_csrf_token_name() && $this->csrf['hash'] == $this->security->get_csrf_hash()){
             $this->_validateFormWali();
             if($this->form_validation->run() == FALSE){
                 if(isset($_POST['submit'])){
@@ -127,7 +136,7 @@ class Pendaftaran extends CI_Controller{
     }
     
     public function calonsiswa(){
-        if($this->session->userdata('stwali') == 'valid'){
+        if($this->session->userdata('stwali') == 'valid' && $this->csrf['name'] == $this->security->get_csrf_token_name() && $this->csrf['hash'] == $this->security->get_csrf_hash()){
 
             if($this->input->post('jenis_kelamin') == 'L'){
                 $this->session->set_userdata('jenis_kelamin', 'L');
@@ -169,7 +178,29 @@ class Pendaftaran extends CI_Controller{
 
     public function tersimpan(){
         $data['title'] = 'Pendaftaran';
-        $data['calon_siswa'] = $this->db->get('calon_siswa')->result_array();
+
+        $config['base_url'] = base_url().'pendaftaran/tersimpan';
+        $config['total_rows'] = $this->db->count_all('calon_siswa');
+        $config['per_page'] = 8;
+        $config['full_tag_open'] = '<nav><ul class="pagination">';
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['first_link'] = 'First';
+        $config['first_tag_open'] = '<li class="page-item">';
+        $config['first_tag_close'] = '</li>';
+        $config['last_link'] = 'Last';
+        $config['last_tag_open'] = '<li class="page-item">';
+        $config['last_tag_close'] = '</li>';
+        $config['prev_link'] = '<li class="page-item"><span aria-hidden="true">&laquo;</span></li>';
+        $config['next_link'] = '<li class="page-item"><span aria-hidden="true">&raquo;</span></li>';
+        $config['num_tag_open'] = '<li class="page-item ">';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['attributes'] = array('class' => 'page-link');
+        $data['start'] = $this->uri->segment(3);
+        $this->pagination->initialize($config);
+        $this->db->limit($config['per_page']);
+        $data['calon_siswa'] = $this->db->get('calon_siswa',$config['per_page'],$data['start'])->result_array();
         $this->load->view('templates/header', $data);
         $this->load->view('pendaftaran/tersimpan');
         $this->load->view('templates/footer');

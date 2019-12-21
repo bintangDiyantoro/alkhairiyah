@@ -1,15 +1,36 @@
 <div class="container mt-3 mb-3">
     <div class="row">
-        <div class="col">
+        <div class="col-md-6 justify-content-center">
             <h1>Daftar calon siswa</h1>
-            <ul class="list-group col-md-5">
-                <?php foreach($calon_siswa as $cs):?>
-                <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                    <?= $cs['nama'] ?>
-                    <a href="<?= base_url('pendaftaran/detail/'.$cs['id'])?>" class="badge badge-primary badge-pill detail">Detail</a>
-                </li>
-                <?php endforeach;?>
-            </ul>
+            <table class="table table-hover table-success mt-3">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">#</th>
+                        <th scope="col" class="text-center">ID</th>
+                        <th scope="col">Nama</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($calon_siswa as $cs) : ?>
+                        <tr>
+                            <th scope="row" class="text-center"><?= ++$start ?></th>
+                            <td class="text-center">
+                                <?php
+                                $zeroes = '000';
+                                $cs['id'] = (string) $cs['id'];
+                                echo 'CS-' . substr($zeroes . $cs['id'], -4, 4);
+                                ?>
+                            </td>
+                            <td><?= $cs['nama'] ?></td>
+                            <td class="text-center">
+                                <a href="<?= base_url('pendaftaran/detail/' . $cs['id']) ?>" class="badge badge-primary badge-pill detail">Detail</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            <?= $this->pagination->create_links() ?>
             <input type="hidden" name="tersimpan" id="tersimpan" value="ok">
         </div>
     </div>
