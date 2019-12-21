@@ -178,7 +178,29 @@ class Pendaftaran extends CI_Controller{
 
     public function tersimpan(){
         $data['title'] = 'Pendaftaran';
-        $data['calon_siswa'] = $this->db->get('calon_siswa')->result_array();
+
+        $config['base_url'] = base_url().'pendaftaran/tersimpan';
+        $config['total_rows'] = $this->db->count_all('calon_siswa');
+        $config['per_page'] = 8;
+        $config['full_tag_open'] = '<nav><ul class="pagination">';
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['first_link'] = 'First';
+        $config['first_tag_open'] = '<li class="page-item">';
+        $config['first_tag_close'] = '</li>';
+        $config['last_link'] = 'Last';
+        $config['last_tag_open'] = '<li class="page-item">';
+        $config['last_tag_close'] = '</li>';
+        $config['prev_link'] = '<li class="page-item"><span aria-hidden="true">&laquo;</span></li>';
+        $config['next_link'] = '<li class="page-item"><span aria-hidden="true">&raquo;</span></li>';
+        $config['num_tag_open'] = '<li class="page-item ">';
+        $config['num_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['attributes'] = array('class' => 'page-link');
+        $data['start'] = $this->uri->segment(3);
+        $this->pagination->initialize($config);
+        $this->db->limit($config['per_page']);
+        $data['calon_siswa'] = $this->db->get('calon_siswa',$config['per_page'],$data['start'])->result_array();
         $this->load->view('templates/header', $data);
         $this->load->view('pendaftaran/tersimpan');
         $this->load->view('templates/footer');
