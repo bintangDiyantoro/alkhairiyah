@@ -33,7 +33,7 @@ class Pendaftaran extends CI_Controller{
         $this->form_validation->set_rules('pendterakhir_ibu', 'pendterakhir_ibu', 'regex_match[/^[a-z0-9,.\/\-()\s]+$/i]|max_length[50]', ['regex_match' => 'karakter inputan tidak valid', 'max_length' => 'pendidikan terakhir ibu tidak boleh melebihi 50 karakter']);
         $this->form_validation->set_rules('keterangan_ibu', 'keterangan_ibu', 'regex_match[/^[a-z0-9,.\/\-()\s]+$/i]|max_length[50]', ['regex_match' => 'karakter inputan tidak valid', 'max_length' => 'keterangan tidak boleh lebih dari 50 karakter']);
         $this->form_validation->set_rules('nohape_ibu', 'nohape_ibu', 'numeric|min_length[11]|max_length[15]', ['numeric' => 'nomor hp tidak valid', 'min_length' => 'nomor hp minimal berisi 11 digit', 'max_length' => 'nomor hp maksimal berisi 15 digit']);
-        $this->form_validation->set_rules('wali','wali', 'in_list[Ayah,Ibu,Lainnya]');
+        $this->form_validation->set_rules('wali','wali', 'required|in_list[Ayah,Ibu,Lainnya]',['required'=> 'Setiap siswa harus memiliki wali murid, silahkan pilih wali murid terlebih dahulu!']);
     }
 
     private function _validateFormWali(){
