@@ -64,6 +64,7 @@ class Pendaftaran extends CI_Controller{
     public function index()
     {
         $this->session->unset_userdata('error');
+        $this->session->unset_userdata('search');
         if($this->session->userdata('stwali') == 'valid' || $this->session->userdata('wali') == 'Lainnya'){
             $this->session->unset_userdata('first');
         }else{
@@ -178,9 +179,21 @@ class Pendaftaran extends CI_Controller{
 
     public function tersimpan(){
         $data['title'] = 'Pendaftaran';
-
+        $data['csrf'] = $this->csrf;
+        if($this->input->post('search') || isset($_POST['search'])){
+            $keyword=$this->input->post('search');
+            $this->session->set_userdata('search', $this->input->post('search'));
+            $data['start'] = NULL;
+        }else{
+            $keyword = $this->session->userdata('search');
+            $this->session->unset_userdata('search');
+            $data['start'] = $this->uri->segment(3);
+        }
+        $this->db->like('nama', $keyword);
+        $result = $this->db->get('calon_siswa')->num_rows();
+        // var_dump($this->session->userdata('search'));
         $config['base_url'] = base_url().'pendaftaran/tersimpan';
-        $config['total_rows'] = $this->db->count_all('calon_siswa');
+        $config['total_rows'] = $result;
         $config['per_page'] = 8;
         $config['full_tag_open'] = '<nav><ul class="pagination">';
         $config['full_tag_close'] = '</ul></nav>';
@@ -197,10 +210,12 @@ class Pendaftaran extends CI_Controller{
         $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link">';
         $config['cur_tag_close'] = '</a></li>';
         $config['attributes'] = array('class' => 'page-link');
-        $data['start'] = $this->uri->segment(3);
         $this->pagination->initialize($config);
         $this->db->limit($config['per_page']);
+        $this->db->like('nama', $keyword);
+        $this->db->or_like('id_cs', $keyword);
         $data['calon_siswa'] = $this->db->get('calon_siswa',$config['per_page'],$data['start'])->result_array();
+        // var_dump($data['calon_siswa']);die;
         $this->load->view('templates/header', $data);
         $this->load->view('pendaftaran/tersimpan');
         $this->load->view('templates/footer');

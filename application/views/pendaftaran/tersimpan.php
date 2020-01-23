@@ -2,34 +2,46 @@
     <div class="row">
         <div class="col-md-6 justify-content-center">
             <h1>Daftar calon siswa</h1>
-            <table class="table table-hover table-success mt-3">
-                <thead>
-                    <tr>
-                        <th scope="col" class="text-center">#</th>
-                        <th scope="col" class="text-center">ID</th>
-                        <th scope="col">Nama</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($calon_siswa as $cs) : ?>
+            <form class="form-inline my-2 my-lg-0" method="post" action="">
+                <div class="srctest">
+                    <input type="hidden" class="srctoken" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" />
+                </div>
+                <input class="form-control mr-sm-2" type="search" name="search" placeholder="cari data calon siswa" value="<?= $this->session->userdata('search') ?>" autofocus>
+                <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <?php if ($calon_siswa) : ?>
+                <table class="table table-hover table-success mt-3">
+                    <thead>
                         <tr>
-                            <th scope="row" class="text-center"><?= ++$start ?></th>
-                            <td class="text-center">
-                                <?php
-                                $zeroes = '000';
-                                $cs['id'] = (string) $cs['id'];
-                                echo 'CS-' . substr($zeroes . $cs['id'], -4, 4);
-                                ?>
-                            </td>
-                            <td><?= $cs['nama'] ?></td>
-                            <td class="text-center">
-                                <a href="<?= base_url('pendaftaran/detail/' . $cs['id']) ?>" class="badge badge-primary badge-pill detail">Detail</a>
-                            </td>
+                            <th scope="col" class="text-center">#</th>
+                            <th scope="col" class="text-center">ID</th>
+                            <th scope="col">Nama</th>
+                            <th></th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($calon_siswa as $cs) : ?>
+                            <tr>
+                                <th scope="row" class="text-center"><?= ++$start ?></th>
+                                <td class="text-center">
+                                    <?php
+                                    // $zeroes = '000';
+                                    // $cs['id'] = (string) $cs['id'];
+                                    // echo 'CS-' . substr($zeroes . $cs['id'], -4, 4);
+                                    echo $cs['id_cs'];
+                                    ?>
+                                </td>
+                                <td><?= $cs['nama'] ?></td>
+                                <td class="text-center">
+                                    <a href="<?= base_url('pendaftaran/detail/' . $cs['id']) ?>" class="badge badge-primary badge-pill detail">Detail</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else : ?>
+                <h5 class="my-5">Maaf data tidak ditemukan</h5>
+            <?php endif; ?>
             <?= $this->pagination->create_links() ?>
             <input type="hidden" name="tersimpan" id="tersimpan" value="ok">
         </div>

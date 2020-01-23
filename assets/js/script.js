@@ -1,5 +1,5 @@
 $(function(){
-
+    
     const title = $('title').html().split(' ')[3]
     const navlink = $('a:contains('+title+')')
     const navtersimpan = $('a:contains(Lihat Data Calon Siswa)')
@@ -9,7 +9,7 @@ $(function(){
     const wali = $('.wali').val()
     const waliback = $('.waliback')
     const stuback = $('.stuback')
-
+    const keyword = $('.mr-sm-2')
     navlink.addClass('active')
     const otherlink = $('a').not('.active')
     
@@ -71,15 +71,26 @@ $(function(){
             window.location.href = '/pendaftaran/wali'
         }
     })
-
+    
     if($('#sukses').val() == 'ok'){
         $('#MyModal').modal('show')
     }
-
+    
     $('#modal-close').on('click', function(){
         $.ajax({
             url: 'http://localhost/pendaftaran/berhasil',
             method: 'get'
         })
     })
-})
+    
+    if(keyword.val()){
+        const len = keyword.val().length
+        keyword[0].focus();
+        keyword[0].setSelectionRange(len, len);
+    }
+    // const tokensrc = $('.srctoken').val()
+    
+    keyword.on('keyup',function(){
+            $('.srctest').load('http://localhost/csrf');
+        })
+    })

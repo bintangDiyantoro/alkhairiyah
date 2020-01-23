@@ -71,6 +71,10 @@ class ModelPendaftaran extends CI_Model{
         $idWali = (int) $this->db->get('wali')->result_array()[0]['id_wali'] + 1;
         $this->db->select_max('id_dftr');
         $idDftr = (int) $this->db->get('pendaftaran')->result_array()[0]['id_dftr'] + 1;
+
+        $zeroes = '000';
+        $idCS = (string) $idDftr;
+        $idCS = 'CS-' . substr($zeroes . $idCS, -4, 4);
         
         $dataCalonSiswa = [
             'nama' => $data['nama_calon_siswa'],
@@ -80,7 +84,8 @@ class ModelPendaftaran extends CI_Model{
             'lengkap' => 0,
             'wali' => $this->session->userdata('wali'),
             'id_wali' => $idWali,
-            'id_dftr' => $idDftr
+            'id_dftr' => $idDftr,
+            'id_cs' => $idCS,
         ];
 
         $dataDftr = [
@@ -132,7 +137,6 @@ class ModelPendaftaran extends CI_Model{
     }
     public function detail($id){
 
-        
         $data = $this->db->query('SELECT calon_siswa.id, calon_siswa.nama, calon_siswa.jenis_kelamin,
                 calon_siswa.umur, calon_siswa.asal_tk, calon_siswa.wali, pendaftaran.tanggal, pendaftaran.jam 
                 FROM calon_siswa JOIN pendaftaran 

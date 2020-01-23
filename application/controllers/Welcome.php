@@ -28,7 +28,8 @@ class Welcome extends CI_Controller {
 		$this->session->unset_userdata('pendterakhir_wali');
 		$this->session->unset_userdata('nohape_wali');
 		$this->session->unset_userdata('stwali');
-        $this->session->unset_userdata('wali');
+		$this->session->unset_userdata('wali');
+		$this->session->unset_userdata('search');
 	}
 	public function index()
 	{
