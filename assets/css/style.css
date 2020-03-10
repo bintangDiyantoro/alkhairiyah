@@ -18,6 +18,14 @@ body{
     border-color: transparent !important;
 }
 
+.nav-admin{
+    background-color: rgba(0,150,0, .2);
+}
+
+.fixed-bottom{
+    z-index: -1!important;
+}
+
 /* .dropdown-toggle{
     color: rgba(255,255,255,.5) !important;
     background-color: transparent!important;
