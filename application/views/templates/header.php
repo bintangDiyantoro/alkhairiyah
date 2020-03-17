@@ -12,40 +12,59 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark anu sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top mr-0">
         <div class="container">
             <img src="<?= base_url() ?>assets/img/alkhairiyah.png" width="50px" height="50px" style="margin-right:7px"></img>
-            <a class="navbar-brand" href="<?= base_url() ?>">SDI Al-Khairiyah</a>
+            <a class="navbar-brand" href="<?= base_url() ?>">SDI Al-Khairiyah Banyuwangi</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url() ?>">Home</a>
+                        <a class="nav-link" href="<?= base_url() ?>"><strong>Halaman Utama</strong></a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('profile') ?>">Profile</a>
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <strong>Profil</strong>
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="<?= base_url('profil') ?>">Sekolah</a>
+                                <a class="dropdown-item" href="<?= base_url('profil/ptk') ?>">Tenaga Kependidikan</a>
+                                <a class="dropdown-item" href="<?= base_url('profil/pesertadidik') ?>">Peserta Didik</a>
+                                <a class="dropdown-item" href="<?= base_url('profil/sarana') ?>">Sarana</a>
+                            </div>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <div class="dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Pendaftaran
+                                <strong>Akademik</strong>
                             </a>
-
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="<?= base_url('pendaftaran') ?>">Daftarkan Siswa Baru</a>
-                                <a class="dropdown-item" href="<?= base_url('pendaftaran/tersimpan') ?>">Lihat Data Calon Siswa</a>
+                                <a class="dropdown-item" href="<?= base_url('akademik') ?>">Jadwal</a>
+                                <a class="dropdown-item" href="<?= base_url('akademik/rombonganbelajar') ?>">Rombongan Belajar</a>
                             </div>
                         </div>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url() ?>"><strong>Dakwah</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url() ?>"><strong>Lembaga</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url() ?>"><strong>Alumni</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url('kontak') ?>"><strong>Hubungi Kami</strong></a>
+                    </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
             </div>
         </div>
     </nav>
-    <div class="container">
+    <!-- <div class="container"> -->
