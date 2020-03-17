@@ -33,4 +33,11 @@ class Admin extends CI_Controller{
         $this->load->view('admin/404');
         $this->load->view('admin/footer');
     }
+
+    public function postDakwah(){
+        $data['title'] = 'Buat Artikel Dakwah';
+        $this->load->view('admin/header', $data);
+        $this->load->view('admin/postdakwah');
+        $this->load->view('admin/footer');
+    }
 }

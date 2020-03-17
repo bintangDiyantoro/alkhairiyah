@@ -91,41 +91,48 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Addons
+                Posts
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
+                    <i class="fas fa-star-and-crescent"></i>
+                    <span>Dakwah</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="#">Login</a>
-                        <a class="collapse-item" href="#">Register</a>
-                        <a class="collapse-item" href="#">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="<?= base_url('admin/notfound') ?>">404 Page</a>
-                        <a class="collapse-item" href="blank.php">Blank Page</a>
+                        <h6 class="collapse-header">Menu Dakwah:</h6>
+                        <a class="collapse-item" href="<?= base_url('admin/postdakwah') ?>">Buat Artikel Dakwah</a>
+                        <a class="collapse-item" href="<?= base_url('admin/dakwah') ?>">Lihat Artikel Dakwah</a>
                     </div>
                 </div>
             </li>
 
-            <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+                    <i class="far fa-newspaper"></i>
+                    <span>Berita</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Menu Berita:</h6>
+                        <a class="collapse-item" href="#">Tulis Berita Baru</a>
+                        <a class="collapse-item" href="#">Lihat Semua Berita</a>
+                    </div>
+                </div>
             </li>
 
-            <!-- Nav Item - Tables -->
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Nav Item - Logout -->
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-fw"></i>
+                    <span>Logout</span>
+                </a>
             </li>
 
             <!-- Divider -->
