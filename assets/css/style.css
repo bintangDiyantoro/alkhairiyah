@@ -1,6 +1,6 @@
 @font-face{
     font-family: "corbel";
-    src: url('.assets/fonts/corbel.ttf');
+    src: url('../fonts/corbel.ttf');
 }
 
 body{
