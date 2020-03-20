@@ -10,7 +10,7 @@
   <div class="row">
     <div class="col">
       <div class="jumbotron">
-        Selamat Datang Ust. Arif Isnandi, S.Pd!
+        Selamat Datang <?= $this->session->userdata('admin') ?>!
       </div>
     </div>
   </div>
