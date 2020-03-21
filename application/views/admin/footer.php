@@ -42,7 +42,14 @@
         <script src="<?= base_url('assets/js/ckeditor.js') ?>"></script>
         <script>
             ClassicEditor
-                .create(document.querySelector('#editor'))
+                .create(document.querySelector('#editor'), {
+                    ckfinder: {
+                        uploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
+                        options: {
+                            resourceType: 'Images'
+                        }
+                    }
+                })
                 .catch(error => {
                     console.error(error);
                 });

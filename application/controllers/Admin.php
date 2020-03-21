@@ -98,6 +98,20 @@ class Admin extends CI_Controller{
         $this->load->view('admin/footer');
     }
 
+    public function dakwah(){
+        $data['title'] = 'Dakwah';
+        $data['dakwah'] = $this->db->get('test')->result_array();
+        // var_dump($data); die;
+        $this->load->view('admin/header', $data);
+        $this->load->view('admin/dakwah');
+        $this->load->view('admin/footer');
+    }
+
+    public function post(){
+        $data['content'] = $this->input->post('content');
+        $this->db->insert('test',$data);
+    }
+
     public function logout(){
         $this->session->unset_userdata('admin');
         redirect('admin');
