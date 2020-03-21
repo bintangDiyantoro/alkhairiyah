@@ -29,7 +29,7 @@
         <ul class="navbar-nav anu sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('admin')?>">
                 <div class="sidebar-brand-icon">
                     <img src="<?= base_url() ?>assets/img/alkhairiyah.png" width="50px" height="50px" style="margin-right:7px"></img>
                 </div>
@@ -174,7 +174,7 @@
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Ust. Arif Isnandi, S.Pd</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $this->session->userdata('admin')?></span>
                                 <img class="img-profile rounded-circle" src="<?= base_url('assets/img/') ?>pp.jpeg">
                             </a>
                             <!-- Dropdown - User Information -->
