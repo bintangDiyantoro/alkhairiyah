@@ -1,3 +1,8 @@
+        <div class="row justify-content-center sticky-bottom my-5">
+            <small class="text-center">
+                Copyright &#169; 2019 SDI Al-Khairiyah
+            </small>
+        </div>
         <!-- Footer -->
         <footer class="fixed-bottom bg-white">
             <div class="container my-auto">
@@ -24,12 +29,12 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Anda benar-benar ingin logout?</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-body">Klik "Logout" untuk keluar, pilih "Cancel" untuk batal.</div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                         <a class="btn btn-primary" href="<?= base_url('admin/logout') ?>">Logout</a>
@@ -37,6 +42,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- Bootstrap core JavaScript-->
         <script src="<?= base_url('assets/js/ckeditor.js') ?>"></script>
@@ -62,8 +68,8 @@
 
         <!-- Custom scripts for all pages-->
         <script src="<?= base_url('assets/js/') ?>sb-admin-2.min.js"></script>
-
-
+        <script src="<?= base_url('assets/js/') ?>sweetalert2.all.min.js"></script>
+        <script src="<?= base_url('assets/js/') ?>script.js"></script>
         </body>
 
         </html>

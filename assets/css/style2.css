@@ -3,7 +3,7 @@
     src: url('../fonts/corbel.ttf');
 }
 
-body{
+/* body{
     width: 98%!important;
     background-color: rgba(0,150,0, .2);
     font-family: "corbel"!important;
@@ -11,8 +11,8 @@ body{
 
 .navbar{
     width: 102%!important;
-    text-shadow: 2px 2px 3px rgba(0,0,0, .5);
-}
+    text-shadow: 2px 2px 3px rgba(0,0,0, .5); 
+}*/
 
 .dropdown-menu{
     text-shadow: none !important;
@@ -108,4 +108,8 @@ figcaption{
 
 p{
     text-align: justify !important;
+}
+
+.right-bar{
+    background-image: linear-gradient(to right,rgba(255,255,255,.0), rgba(0,0,0,.06), rgba(255,255,255,.0), rgba(255,255,255,.0),rgba(255,255,255,.0),rgba(255,255,255,.0),rgba(255,255,255,.0),rgba(255,255,255,.0), rgba(255,255,255,.0), rgba(255,255,255,.0),rgba(255,255,255,.0),rgba(255,255,255,.0),rgba(255,255,255,.0),rgba(255,255,255,.0),rgba(255,255,255,.0),rgba(255,255,255,.0),rgba(255,255,255,.0),rgba(255,255,255,.0),rgba(255,255,255,.0),rgba(255,255,255,.0),rgba(255,255,255,.0),rgba(255,255,255,.0),rgba(255,255,255,.0),rgba(255,255,255,.0),rgba(255,255,255,.0));
 }
