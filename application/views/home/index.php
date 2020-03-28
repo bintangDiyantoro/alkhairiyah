@@ -5,49 +5,50 @@
     </div>
 </div>
 <div class="container-fluid">
-    <div class="card card-2 col-md-8" style="margin-top: -70px">
+    <div class="card card-2 card-3" style="margin-top: -70px">
         <div class="container">
-            <div class="row ">
-                <h3 class="display-4 text-center">Berita Terkini</h3>
-            </div>
             <div class="row">
-                <div class="col-md">                
+                <div class="col-lg-9">
+                    <h3 class="display-4 text-center">Berita Terkini</h3>
                     <div id="carouselExampleCaptions" class="carousel slide mt-3" data-ride="carousel">
                         <ol class="carousel-indicators">
-                            <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
-                            <li data-target="#carouselExampleCaptions" data-slide-to="3"></li>
+                            <?php
+                            if (count($berita) <= 4) :
+                                for ($i = 0; $i < count($berita); $i++) : ?>
+                                    <li data-target="#carouselExampleCaptions" data-slide-to="<?= $i ?>" class="c-ind"></li>
+                                <?php endfor;
+                            else :
+                                for ($i = 0; $i <= 3; $i++) : ?>
+                                    <li data-target="#carouselExampleCaptions" data-slide-to="<?= $i ?>" class="c-ind"></li>
+                            <?php endfor;
+                            endif; ?>
                         </ol>
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="<?= base_url() ?>/assets/img/fotohlm.jpeg" class="d-block rounded w-100" alt="...">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>Selamat Datang di halaman Resmi SDI Al-Khairiyah</h5>
-                                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <img src="<?= base_url() ?>/assets/img/1.jpg" class="d-block rounded w-100" alt="...">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>Second slide label</h5>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <img src="<?= base_url() ?>/assets/img/2.jpg" class="d-block rounded w-100" alt="...">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>Third slide label</h5>
-                                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <img src="<?= base_url() ?>/assets/img/3.jpg" class="d-block rounded w-100" alt="...">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h5>Third slide label</h5>
-                                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                                </div>
-                            </div>
+                            <?php if (count($berita) <= 4) :
+                                for ($j = 0; $j <= count($berita) - 1; $j++) : ?>
+                                    <div class="carousel-item">
+                                        <a href="berita/detail/<?= $berita[$k]['id'] - 1 ?>">
+                                            <img src="<?= base_url() . $berita[$j]['image'] ?>" class="d-block rounded w-100" alt="...">
+                                            <div class="carousel-caption d-none d-md-block">
+                                                <h1 class="news-heading"><?= $berita[$j]['title'] ?></h1>
+                                                <p class="news-heading"><?= $berita[$j]['prev'] ?>...</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                <?php endfor;
+                            else :
+                                for ($k = 0; $k <= 3; $k++) : ?>
+                                    <div class="carousel-item">
+                                        <a href="berita/detail/<?= $berita[$k]['id']-1 ?>">
+                                            <img src="<?= base_url() . $berita[$k]['image'] ?>" class="d-block rounded w-100" alt="...">
+                                            <div class="carousel-caption d-none d-md-block">
+                                                <h1 class="news-heading"><?= $berita[$k]['title'] ?></h1>
+                                                <p class="news-heading"><?= $berita[$k]['prev'] ?>...</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                            <?php endfor;
+                            endif; ?>
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -61,6 +62,77 @@
                     <!-- <p class="lead text-center">Selamat datang di halaman utama SDI Al Khairiyah </p>
                     <hr class="my-4"> -->
                     <!-- <a class="btn btn-primary btn" href="<?= base_url('pendaftaran') ?>" role="button">Daftarkan Siswa Baru</a> -->
+                </div>
+                <div class="col-lg-3">
+                    <h3 class="text-center my-3"><strong>Semua Berita</strong></h3>
+                    <?php if(count($berita) <= 15):?>
+                    <ul>
+                        <?php for ($i = 0; $i <= count($berita) - 1; $i++) : ?>
+                            <li>
+                                <a href="berita/detail/<?= $berita[$i]['id']-1 ?>">
+                                    <?php
+                                    $str = $berita[$i]['content'];
+                                    $length = strlen(substr($str, strpos($str, "<p>") + 3));
+                                    $link = strip_tags(substr($str, 0, -$length));
+                                    echo $link;
+                                    ?>
+                                </a>
+                                &nbsp;<small>(<?= $berita[$i]['date'] ?>)</small>
+                            </li>
+                        <?php endfor; ?>
+                    </ul>
+                    <?php else:?>
+                    <ul>
+                    <?php for ($i = 0; $i <= 14; $i++) : ?>
+                        <li>
+                            <a href="berita/detail/<?= $berita[$i]['id']-1 ?>">
+                                <?php
+                                $str = $berita[$i]['content'];
+                                $length = strlen(substr($str, strpos($str, "<p>") + 3));
+                                $link = strip_tags(substr($str, 0, -$length));
+                                echo $link;
+                                ?>
+                            </a>
+                            &nbsp;<small>(<?= $berita[$i]['date'] ?>)</small>
+                        </li>
+                    <?php endfor; ?>
+                    </ul>
+                    <?php endif;?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card card-1 card-3 mt-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <h1 class="text-center mb-3 main-section"><strong>Buletin Dakwah Terbaru</strong></h1>
+
+                    <?php
+                    if ($dakwah) {
+                        echo "<small>" . $dakwah[count($dakwah) - 1]['date'] . "</small>";
+                        echo $dakwah[count($dakwah) - 1]['content'];
+                        echo "<small><i>Diposting oleh: " . $dakwah[count($dakwah) - 1]['admin'] . "</i></small>";
+                    }
+                    ?>
+                </div>
+                <div class="col-lg-3 right-bar">
+                    <h3 class="text-center my-3"><strong>Semua Artikel Dakwah</strong></h3>
+                    <ul>
+                        <?php for ($i = count($dakwah) - 1; $i >= 0; $i--) : ?>
+                            <li>
+                                <a href="dakwah/detail/<?= $i ?>">
+                                    <?php
+                                    $str = $dakwah[$i]['content'];
+                                    $length = strlen(substr($str, strpos($str, "<p>") + 3));
+                                    $link = strip_tags(substr($str, 0, -$length));
+                                    echo $link;
+                                    ?>
+                                </a>
+                                &nbsp; <small>(<?= $dakwah[$i]['date'] ?>)</small>
+                            </li>
+                        <?php endfor; ?>
+                    </ul>
                 </div>
             </div>
         </div>

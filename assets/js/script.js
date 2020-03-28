@@ -6,7 +6,8 @@ $(function () {
     const success = $('.success').val()
     const postimg = $('.image-style-side').children('img')
     const postimgwide = $('.image').not('.image-style-side').children('img')
-
+    const carousel = document.querySelector('.carousel-item')
+    const carouselIndicator = document.querySelector('.c-ind')
 
     navlink.addClass('active')
 
@@ -36,6 +37,11 @@ $(function () {
         "margin": "auto",
         "width": "70%"
     })
+
+    
+
+    carousel.className += " active";
+    carouselIndicator.className += " active";
 
 })
 $(window).scroll(() => {
