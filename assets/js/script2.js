@@ -6,8 +6,7 @@ $(function () {
     const success = $('.success').val()
     const postimg = $('.image-style-side').children('img')
     const postimgwide = $('.image').not('.image-style-side').children('img')
-    const carousel = document.querySelector('.carousel-item')
-    const carouselIndicator = document.querySelector('.c-ind')
+
 
     navlink.addClass('active')
 
@@ -38,19 +37,4 @@ $(function () {
         "width": "70%"
     })
 
-    
-
-    carousel.className += " active";
-    carouselIndicator.className += " active";
-
-})
-$(window).scroll(() => {
-    var scroll = $(window).scrollTop();
-    if (scroll > 70) {
-        $('.navbar').addClass('anu');
-    } else {
-        $('.navbar').removeClass('anu');
-    }
-
-    document.querySelector('.container-fluid').style.marginTop = (-80 - 0.5 * scroll) + "px";
 })

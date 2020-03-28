@@ -4,7 +4,7 @@ class Admin extends CI_Controller{
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('ModelPendaftaran', 'Pendaftaran');
+        $this->load->model('ModelAdmin', 'Admin');
         $this->csrf = array(
             'name' => $this->security->get_csrf_token_name(),
             'hash' => $this->security->get_csrf_hash()
@@ -93,23 +93,68 @@ class Admin extends CI_Controller{
     public function postDakwah(){
         $data['title'] = 'Buat Artikel Dakwah';
         $data['csrf'] = $this->csrf;
+
         $this->load->view('admin/header', $data);
         $this->load->view('admin/postdakwah');
         $this->load->view('admin/footer');
+
+        if(isset($_POST['submit'])){
+            $content = $this->input->post('content');
+            $this->Admin->postDakwah($content);
+        }
     }
 
     public function dakwah(){
         $data['title'] = 'Dakwah';
-        $data['dakwah'] = $this->db->get('test')->result_array();
-        // var_dump($data); die;
+        $data['dakwah'] = $this->db->get('dakwah')->result_array();
+
         $this->load->view('admin/header', $data);
         $this->load->view('admin/dakwah');
         $this->load->view('admin/footer');
     }
 
-    public function post(){
-        $data['content'] = $this->input->post('content');
-        $this->db->insert('test',$data);
+    public function detailDakwah($index){
+        $data['title'] = 'Dakwah';
+        $data['dakwah'] = $this->db->get('dakwah')->result_array();
+        $data['detail'] = $data['dakwah'][$index];
+        $this->load->view('admin/header', $data);
+        $this->load->view('admin/detaildakwah');
+        $this->load->view('admin/footer');
+    }
+
+    public function postBerita()
+    {
+        $data['title'] = 'Buat Berita';
+        $data['csrf'] = $this->csrf;
+
+        $this->load->view('admin/header', $data);
+        $this->load->view('admin/postberita');
+        $this->load->view('admin/footer');
+
+        if (isset($_POST['submit'])) {
+            $content = $this->input->post('content');
+            $this->Admin->postBerita($content);
+        }
+    }
+
+    public function berita()
+    {
+        $data['title'] = 'Berita';
+        $data['berita'] = $this->db->get('berita')->result_array();
+
+        $this->load->view('admin/header', $data);
+        $this->load->view('admin/berita');
+        $this->load->view('admin/footer');
+    }
+
+    public function detailBerita($index)
+    {
+        $data['title'] = 'Berita';
+        $data['berita'] = $this->db->get('berita')->result_array();
+        $data['detail'] = $data['berita'][$index];
+        $this->load->view('admin/header', $data);
+        $this->load->view('admin/detailberita');
+        $this->load->view('admin/footer');
     }
 
     public function logout(){

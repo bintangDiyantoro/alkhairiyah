@@ -1,5 +1,5 @@
 <div class="container pb-3">
-    <h1>Buat Artikel Dakwah</h1>
+    <h1>Post Berita Baru</h1>
 
     <form method="post">
         <input type="hidden" class="srctoken" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" />

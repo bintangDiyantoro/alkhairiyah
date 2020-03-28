@@ -17,7 +17,7 @@
 
     <!-- Custom styles for this template-->
     <link href="<?= base_url('assets/css/') ?>sb-admin-2.min.css" rel="stylesheet">
-    <link href="<?= base_url('assets/css/') ?>style.css" rel="stylesheet">
+    <link href="<?= base_url('assets/css/') ?>style2.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -29,7 +29,7 @@
         <ul class="navbar-nav anu sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('admin')?>">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('admin') ?>">
                 <div class="sidebar-brand-icon">
                     <img src="<?= base_url() ?>assets/img/alkhairiyah.png" width="50px" height="50px" style="margin-right:7px"></img>
                 </div>
@@ -69,23 +69,6 @@
                 </div>
             </li>
 
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="#">Colors</a>
-                        <a class="collapse-item" href="#">Borders</a>
-                        <a class="collapse-item" href="#">Animations</a>
-                        <a class="collapse-item" href="#">Other</a>
-                    </div>
-                </div>
-            </li>
-
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -117,8 +100,8 @@
                 <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Menu Berita:</h6>
-                        <a class="collapse-item" href="#">Tulis Berita Baru</a>
-                        <a class="collapse-item" href="#">Lihat Semua Berita</a>
+                        <a class="collapse-item" href="<?= base_url('admin/postberita') ?>">Tulis Berita Baru</a>
+                        <a class="collapse-item" href="<?= base_url('admin/berita') ?>">Lihat Semua Berita</a>
                     </div>
                 </div>
             </li>
@@ -174,7 +157,7 @@
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $this->session->userdata('admin')?></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $this->session->userdata('admin') ?></span>
                                 <img class="img-profile rounded-circle" src="<?= base_url('assets/img/') ?>pp.jpeg">
                             </a>
                             <!-- Dropdown - User Information -->

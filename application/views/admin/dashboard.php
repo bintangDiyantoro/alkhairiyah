@@ -8,9 +8,11 @@
 
   <!-- Content Row -->
   <div class="row">
-    <div class="col">
+    <div class="col-md-7">
       <div class="jumbotron">
+      <h1 class="text-center">
         Selamat Datang <?= $this->session->userdata('admin') ?>!
+      </h1>
       </div>
     </div>
   </div>

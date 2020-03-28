@@ -28,11 +28,11 @@
 
                     <li class="nav-item">
                         <div class="dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" id="profil" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <strong>Profil</strong>
                             </a>
 
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-menu" aria-labelledby="profil">
                                 <a class="dropdown-item" href="<?= base_url('profil') ?>">Sekolah</a>
                                 <a class="dropdown-item" href="<?= base_url('profil/ptk') ?>">Tenaga Kependidikan</a>
                                 <a class="dropdown-item" href="<?= base_url('profil/pesertadidik') ?>">Peserta Didik</a>
@@ -41,24 +41,32 @@
                         </div>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url('dakwah') ?>"><strong>Dakwah</strong></a>
+                    </li>
+                    <li class="nav-item">
                         <div class="dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" id="akademik" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <strong>Akademik</strong>
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-menu" aria-labelledby="akademik">
                                 <a class="dropdown-item" href="<?= base_url('akademik') ?>">Jadwal</a>
                                 <a class="dropdown-item" href="<?= base_url('akademik/rombonganbelajar') ?>">Rombongan Belajar</a>
                             </div>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url() ?>"><strong>Dakwah</strong></a>
+                        <a class="nav-link" href="<?= base_url('lembaga') ?>"><strong>Lembaga</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url() ?>"><strong>Lembaga</strong></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url() ?>"><strong>Alumni</strong></a>
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" id="alumni" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <strong>Alumni</strong>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="alumni">
+                                <a class="dropdown-item" href="<?= base_url('alumni/th2018') ?>">2018</a>
+                                <a class="dropdown-item" href="<?= base_url('alumni/th2019') ?>">2019</a>
+                            </div>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?= base_url('kontak') ?>"><strong>Hubungi Kami</strong></a>
