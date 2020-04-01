@@ -1,5 +1,5 @@
 <div class="container mt-3 mb-3">
-    <div class="row">
+    <div class="row d-flex justify-content-center">
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-body">
