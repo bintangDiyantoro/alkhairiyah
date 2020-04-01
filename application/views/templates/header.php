@@ -15,7 +15,9 @@
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top mr-0">
         <div class="container">
             <img src="<?= base_url() ?>assets/img/alkhairiyah.png" width="50px" height="50px" style="margin-right:7px"></img>
-            <a class="navbar-brand" href="<?= base_url() ?>">SDI Al-Khairiyah Banyuwangi</a>
+            <a class="navbar-brand" href="<?= base_url() ?>">
+                SDI Al-Khairiyah Banyuwangi
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -37,6 +39,18 @@
                                 <a class="dropdown-item" href="<?= base_url('profil/ptk') ?>">Tenaga Kependidikan</a>
                                 <a class="dropdown-item" href="<?= base_url('profil/pesertadidik') ?>">Peserta Didik</a>
                                 <a class="dropdown-item" href="<?= base_url('profil/sarana') ?>">Sarana</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <strong>Pendaftaran</strong>
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="<?= base_url('pendaftaran') ?>">Daftarkan Siswa Baru</a>
+                                <a class="dropdown-item" href="<?= base_url('pendaftaran/tersimpan') ?>">Lihat Data Calon Siswa</a>
                             </div>
                         </div>
                     </li>

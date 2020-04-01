@@ -1,6 +1,6 @@
 <div class="container mt-3 mb-3">
-    <div class="row">
-        <div class="col-md-6 justify-content-center">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-9">
             <h1>Daftar calon siswa</h1>
             <form class="form-inline my-2 my-lg-0" method="post" action="">
                 <div class="srctest">
@@ -10,7 +10,7 @@
                 <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
             </form>
             <?php if ($calon_siswa) : ?>
-                <table class="table table-hover table-success mt-3">
+                <table class="table table-hover table-success my-3">
                     <thead>
                         <tr>
                             <th scope="col" class="text-center">#</th>
