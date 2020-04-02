@@ -125,6 +125,10 @@ p{
     text-shadow: 1px 1px 5px rgba(0,0,0,.7);
 }
 
+div.nav-link{
+    cursor: pointer;
+}
+
 @media(max-width:800px){
     body{
         width: 96%!important;

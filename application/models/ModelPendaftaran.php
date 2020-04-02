@@ -79,7 +79,7 @@ class ModelPendaftaran extends CI_Model{
         $dataCalonSiswa = [
             'nama' => $data['nama_calon_siswa'],
             'jenis_kelamin' => $data['jenis_kelamin'],
-            'umur' => (int)$data['umur'],
+            'tgl_lahir' => (int)$data['tgl_lahir'],
             'asal_tk' => $data['asal_tk'],
             'lengkap' => 0,
             'wali' => $this->session->userdata('wali'),

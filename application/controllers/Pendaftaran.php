@@ -12,6 +12,15 @@ class Pendaftaran extends CI_Controller{
         );
     }
 
+    private function _regex(){
+        $string = "/^". "(0[1-9]|1[0-9]|2[0-9]|3[0-1])-(0[1-9]|1[0-2])-201[2-4]$/";
+        if (preg_match($string, $this->input->post('tgl_lahir'))) {
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
     private function _fillTheForm(){
         $data['title'] = 'Pendaftaran';
         $data['csrf'] = $this->csrf;
@@ -48,8 +57,8 @@ class Pendaftaran extends CI_Controller{
     private function _validateFormCalonSiswa(){
         $this->form_validation->set_rules('nama_calon_siswa', 'nama_calon_siswa', 'required|regex_match[/^[a-z-\s\']+$/i]|max_length[50]', ['required' => 'nama wali wajib diisi', 'regex_match' => 'nama tidak boleh mengandung selain huruf, spasi, petik tunggal (\') dan strip (-)', 'max_length' => 'nama maksimal 50 huruf']);
         $this->form_validation->set_rules('jenis_kelamin', 'jenis_kelamin', 'required|in_list[L,P]', ['required' => 'jenis kelamin wajib dipilih']);
-        $this->form_validation->set_rules('umur', 'umur', 'required|numeric|max_length[1]', ['required' => 'usia calon siswa wajib diisi','numeric' => 'umur hanya boleh diisi dengan angka','max_length'=>'usia terlalu tua']);
-        $this->form_validation->set_rules('asal_tk', 'asal_tk', 'regex_match[/^[a-z0-9,.\/\-()\s]+$/i]|max_length[50]', ['required' => 'status wali wajib diisi', 'regex_match' => 'karakter inputan tidak valid', 'max_length' => 'asal tk tidak boleh lebih dari 50 karakter']);
+        $this->form_validation->set_rules('tgl_lahir2','tgl_lahir2', 'require',['require'=>'tanggal lahir wajib diisi']);
+        $this->form_validation->set_rules('asal_tk', 'asal_tk', 'regex_match[/^[a-z0-9,.\/\-()\s]+$/i]|max_length[50]', ['regex_match' => 'karakter inputan tidak valid', 'max_length' => 'asal tk tidak boleh lebih dari 50 karakter']);
     }
 
     private function _dataOrtu($data_ortu){
@@ -148,15 +157,18 @@ class Pendaftaran extends CI_Controller{
             }
 
             $this->_validateFormCalonSiswa();
-            if($this->form_validation->run() == FALSE){
+            $this->_regex();
+            if($this->form_validation->run() == FALSE && $this->_regex() == 0){
                 if (isset($_POST['submit'])) {
                     $this->session->set_userdata('error', 'error');
+                    $this->session->set_userdata('regex', 'input tidak valid atau usia di bawah 6 tahun / di atas 7,6 tahun');
                 }
                 $data['title'] = 'Pendaftaran';
                 $data['csrf'] = $this->csrf;
                 $this->load->view('templates/header', $data);
                 $this->load->view('pendaftaran/calonsiswa');
                 $this->load->view('templates/footer');
+                
             }else{
                 if($this->session->userdata('wali') == 'Ayah' || $this->session->userdata('wali') == 'Ibu'){
                     $this->session->unset_userdata('nama_wali');
@@ -169,6 +181,7 @@ class Pendaftaran extends CI_Controller{
                 $this->session->unset_userdata('error');
                 $data_calon_siswa = $this->security->xss_clean($this->input->post());
                 $this->Pendaftaran->inputDataCalonSiswa($data_calon_siswa);
+                // var_dump($data_calon_siswa);
             }
         }elseif($this->session->userdata('wali') == 'Lainnya'){
             redirect('pendaftaran/wali');
@@ -191,7 +204,6 @@ class Pendaftaran extends CI_Controller{
         }
         $this->db->like('nama', $keyword);
         $result = $this->db->get('calon_siswa')->num_rows();
-        // var_dump($this->session->userdata('search'));
         $config['base_url'] = base_url().'pendaftaran/tersimpan';
         $config['total_rows'] = $result;
         $config['per_page'] = 8;

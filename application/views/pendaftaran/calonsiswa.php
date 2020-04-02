@@ -8,7 +8,7 @@
                         <div class="form-group">
                             <label for="nama_calon_siswa">Nama</label>
                             <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" />
-                            <input type="text" name="nama_calon_siswa" class="form-control" id="nama_calon_siswa" placeholder="(Nama sesuai KK)" autocomplete="off" value="<?= set_value('nama_calon_siswa') ?>">
+                            <input type="text" name="nama_calon_siswa" class="form-control fill" id="nama_calon_siswa" placeholder="(Nama sesuai KK)" autocomplete="off" value="<?= set_value('nama_calon_siswa') ?>" autofocus>
                             <?= form_error('nama_calon_siswa', '<small class="text-danger pl-3">', '</small>') ?>
                         </div>
                         <div class="form-group">
@@ -21,9 +21,12 @@
                             <?= form_error('jenis_kelamin', '<small class="text-danger pl-3">', '</small>') ?>
                         </div>
                         <div class="form-group">
-                            <label for="umur">Umur (tahun)</label>
-                            <input type="text" name="umur" class="form-control" id="umur" placeholder="cukup tuliskan angka" autocomplete="off" value="<?= set_value('umur') ?>">
-                            <?= form_error('umur', '<small class="text-danger pl-3">', '</small>') ?>
+                            <label for="tgl_lahir">Tanggal Lahir</label>
+                            <div id="inline" data-date="01/01/2020"></div>
+                            <!-- <input type="date" name="tgl_lahir" id="tgl_lahir" class="form-control" value="<?= set_value('tgl_lahir') ?>" placeholder="dd-mm-yyyy" autocomplete="off"> -->
+                            <input type="text" name="tgl_lahir" id="tgl_lahir" class="form-control" value="<?= set_value('tgl_lahir') ?>" placeholder="dd-mm-yyyy" autocomplete="off">
+                            <?= form_error('tgl_lahir', '<small class="text-danger pl-3">', '</small>') ?>
+                            <?= '<small class="text-danger pl-3">'.$this->session->userdata('regex').'</small>'?>
                         </div>
                         <div class="form-group">
                             <label for="asal_tk">Asal TK</label>

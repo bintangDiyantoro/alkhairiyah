@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= base_url() ?>assets/css/pickmeup.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/style.css">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url() ?>assets/img/alkhairiyah.png">
     <title>SDI Al-Khairiyah | <?= $title; ?></title>
@@ -30,9 +31,9 @@
 
                     <li class="nav-item">
                         <div class="dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" id="profil" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="nav-link dropdown-toggle" href="#" role="button" id="profil" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <strong>Profil</strong>
-                            </a>
+                            </div>
 
                             <div class="dropdown-menu" aria-labelledby="profil">
                                 <a class="dropdown-item" href="<?= base_url('profil') ?>">Sekolah</a>
@@ -59,9 +60,9 @@
                     </li>
                     <li class="nav-item">
                         <div class="dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" id="akademik" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="nav-link dropdown-toggle" href="#" role="button" id="akademik" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <strong>Akademik</strong>
-                            </a>
+                            </div>
                             <div class="dropdown-menu" aria-labelledby="akademik">
                                 <a class="dropdown-item" href="<?= base_url('akademik') ?>">Jadwal</a>
                                 <a class="dropdown-item" href="<?= base_url('akademik/rombonganbelajar') ?>">Rombongan Belajar</a>
@@ -73,9 +74,9 @@
                     </li>
                     <li class="nav-item">
                         <div class="dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" id="alumni" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="nav-link dropdown-toggle" href="#" role="button" id="alumni" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <strong>Alumni</strong>
-                            </a>
+                            </div>
                             <div class="dropdown-menu" aria-labelledby="alumni">
                                 <a class="dropdown-item" href="<?= base_url('alumni/th2018') ?>">2018</a>
                                 <a class="dropdown-item" href="<?= base_url('alumni/th2019') ?>">2019</a>

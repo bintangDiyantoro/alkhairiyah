@@ -9,7 +9,7 @@
                         <div class="form-group">
                             <label for="nama_wali">Nama</label>
                             <input type="hidden" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" />
-                            <input type="text" name="nama_wali" class="form-control" id="nama_wali" placeholder="(Nama sesuai KTP)" autocomplete="off" value="<?= $this->session->userdata('nama_wali') ?>">
+                            <input type="text" name="nama_wali" class="form-control fill" id="nama_wali" placeholder="(Nama sesuai KTP)" autocomplete="off" value="<?= $this->session->userdata('nama_wali') ?>" autofocus>
                             <?= form_error('nama_wali', '<small class="text-danger pl-3">', '</small>') ?>
                         </div>
                         <div class="form-group">
