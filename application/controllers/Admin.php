@@ -12,6 +12,8 @@ class Admin extends CI_Controller{
     }
 
     public function index(){
+        netralize();
+        netralize3();
         if($this->session->userdata('admin')){
             $this->session->unset_userdata('error');
             redirect('admin/dashboard');
@@ -49,6 +51,7 @@ class Admin extends CI_Controller{
     }
 
     public function register(){
+        netralize();
         $this->form_validation->set_rules('name', 'Name', 'required|regex_match[/^[a-z-\s\']+$/i]|max_length[50]', ['required' => 'nama admin wajib diisi', 'regex_match' => 'nama tidak boleh mengandung selain huruf, spasi, petik tunggal (\') dan strip (-)', 'max_length' => 'nama maksimal 50 huruf']);
         $this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[3]|matches[password2]', [
             'required'=>'Password wajib diisi',
@@ -77,6 +80,8 @@ class Admin extends CI_Controller{
     }
 
     public function dashboard(){
+        netralize();
+        netralize3();
         $data['title'] = 'Dashboard';
         $this->load->view('admin/header', $data);
         $this->load->view('admin/dashboard');
@@ -84,6 +89,7 @@ class Admin extends CI_Controller{
     }
 
     public function notfound(){
+        netralize();
         $data['title'] = 'Not Found';
         $this->load->view('admin/header', $data);
         $this->load->view('admin/404');
@@ -91,6 +97,7 @@ class Admin extends CI_Controller{
     }
 
     public function postDakwah(){
+        netralize();
         $data['title'] = 'Buat Artikel Dakwah';
         $data['csrf'] = $this->csrf;
 
@@ -105,6 +112,7 @@ class Admin extends CI_Controller{
     }
 
     public function dakwah(){
+        netralize();
         $data['title'] = 'Dakwah';
         $data['dakwah'] = $this->db->get('dakwah')->result_array();
 
@@ -114,6 +122,7 @@ class Admin extends CI_Controller{
     }
 
     public function detailDakwah($index){
+        netralize();
         $data['title'] = 'Dakwah';
         $data['dakwah'] = $this->db->get('dakwah')->result_array();
         $data['detail'] = $data['dakwah'][$index];
@@ -124,6 +133,7 @@ class Admin extends CI_Controller{
 
     public function postBerita()
     {
+        netralize();
         $data['title'] = 'Buat Berita';
         $data['csrf'] = $this->csrf;
 
@@ -139,6 +149,7 @@ class Admin extends CI_Controller{
 
     public function berita()
     {
+        netralize();
         $data['title'] = 'Berita';
         $data['berita'] = $this->db->get('berita')->result_array();
 
@@ -149,6 +160,7 @@ class Admin extends CI_Controller{
 
     public function detailBerita($index)
     {
+        netralize();
         $data['title'] = 'Berita';
         $data['berita'] = $this->db->get('berita')->result_array();
         $data['detail'] = $data['berita'][$index];
@@ -158,6 +170,7 @@ class Admin extends CI_Controller{
     }
 
     public function logout(){
+        netralize();
         $this->session->unset_userdata('admin');
         redirect('admin');
     }

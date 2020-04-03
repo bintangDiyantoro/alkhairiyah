@@ -13,8 +13,7 @@ $(function () {
     const first = $('.first').val()
     const error = $('.error').val()
     const wali = $('.wali').val()
-    const waliback = $('.waliback')
-    const stuback = $('.stuback')
+    const waliback2 = $('.waliback2')
     const stuback2 = $('.stuback2')
     const keyword = $('.mr-sm-2')
     navlink.addClass('active')
@@ -40,20 +39,20 @@ $(function () {
         "margin-left": "20px"
     })
 
-    postimgwide.attr('align','center')
+    postimgwide.attr('align', 'center')
     postimgwide.css({
         "display": "block",
         "margin": "auto",
         "width": "70%"
     })
 
-    if(carousel){
-        if (title == 'Halaman' && $('.display-3:first').html() == 'Ahlan Wa Sahlan!'){
+    if (carousel) {
+        if (title == 'Halaman' && $('.display-3:first').html() == 'Ahlan Wa Sahlan!') {
             carousel.className += " active";
             carouselIndicator.className += " active";
         }
     }
-        
+
     if (first) {
         Swal.fire({
             type: 'info',
@@ -100,16 +99,18 @@ $(function () {
             // footer: '<a href>Butuh dana cepat?</a>'
         })
     }
-    waliback.on('click', (e) => {
+
+    waliback2.on('click', (e) => {
         e.preventDefault()
-        window.location.href = '/pendaftaran'
+        window.location.href = '/admpendaftaran'
     })
-    stuback.on('click', function (e) {
+
+    stuback2.on('click', function (e) {
         e.preventDefault()
         if (wali == 'Ayah' || wali == 'Ibu') {
-            window.location.href = '/pendaftaran'
+            window.location.href = '/admpendaftaran'
         } else if (wali == 'Lainnya') {
-            window.location.href = '/pendaftaran/wali'
+            window.location.href = '/admpendaftaran/wali'
         }
     })
 
@@ -134,9 +135,9 @@ $(function () {
     //     $('.srctest').load('http://localhost/csrf');
     // })
 
-    pickmeup('#tgl_lahir')
+    pickmeup('#tgl_lahir2')
 
-    if (title !== 'Pendaftaran'){
+    if (title !== 'Pendaftaran') {
         $(window).scroll(() => {
             var scroll = $(window).scrollTop();
             if (scroll > 70) {
@@ -144,10 +145,10 @@ $(function () {
             } else {
                 $('.navbar').removeClass('anu');
             }
-            
+
             document.querySelector('.container-fluid').style.marginTop = (-80 - 0.5 * scroll) + "px";
         })
-    }else{
+    } else {
         $('.navbar').addClass('anu');
     }
 

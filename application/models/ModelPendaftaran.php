@@ -67,6 +67,11 @@ class ModelPendaftaran extends CI_Model{
         $jam = substr($expl[4],0,5);
         $tanggal = $hari.", " . $expl[1] . " " . $expl[2] . " " . $expl[3];
 
+        $yyyy = explode('-', $data['tgl_lahir'])[2];
+        $mm = explode('-', $data['tgl_lahir'])[1];
+        $dd = explode('-', $data['tgl_lahir'])[0];
+        $tgl_lahir = $yyyy."-".$mm."-".$dd;
+
         $this->db->select_max('id_wali');
         $idWali = (int) $this->db->get('wali')->result_array()[0]['id_wali'] + 1;
         $this->db->select_max('id_dftr');
@@ -76,12 +81,13 @@ class ModelPendaftaran extends CI_Model{
         $idCS = (string) $idDftr;
         $idCS = 'CS-' . substr($zeroes . $idCS, -4, 4);
         
+
         $dataCalonSiswa = [
             'nama' => $data['nama_calon_siswa'],
             'jenis_kelamin' => $data['jenis_kelamin'],
-            'tgl_lahir' => (int)$data['tgl_lahir'],
+            'tgl_lahir' => $tgl_lahir,
             'asal_tk' => $data['asal_tk'],
-            'lengkap' => 0,
+            'titipan' => 0,
             'wali' => $this->session->userdata('wali'),
             'id_wali' => $idWali,
             'id_dftr' => $idDftr,
@@ -138,7 +144,7 @@ class ModelPendaftaran extends CI_Model{
     public function detail($id){
 
         $data = $this->db->query('SELECT calon_siswa.id, calon_siswa.nama, calon_siswa.jenis_kelamin,
-                calon_siswa.umur, calon_siswa.asal_tk, calon_siswa.wali, pendaftaran.tanggal, pendaftaran.jam 
+                calon_siswa.tgl_lahir, calon_siswa.asal_tk, calon_siswa.wali, pendaftaran.tanggal, pendaftaran.jam 
                 FROM calon_siswa JOIN pendaftaran 
                 ON calon_siswa.id_dftr = pendaftaran.id_dftr 
                 WHERE calon_siswa.id = '.$id)->row_array();

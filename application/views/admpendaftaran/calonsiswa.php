@@ -23,20 +23,18 @@
                         <div class="form-group">
                             <label for="tgl_lahir">Tanggal Lahir</label>
                             <div id="inline" data-date="01/01/2020"></div>
-                            <!-- <input type="date" name="tgl_lahir" id="tgl_lahir" class="form-control" value="<?= set_value('tgl_lahir') ?>" placeholder="dd-mm-yyyy" autocomplete="off"> -->
-                            <input type="text" name="tgl_lahir" id="tgl_lahir" class="form-control" value="<?= $this->session->userdata('tgl_lahir') ?>" placeholder="dd-mm-yyyy" autocomplete="off">
-                            <?= form_error('tgl_lahir', '<small class="text-danger pl-3">', '</small>') ?>
-                            <?= '<small class="text-danger pl-3">'.$this->session->flashdata('regex').'</small>'?>
+                            <input type="text" name="tgl_lahir2" id="tgl_lahir2" class="form-control" value="<?= $this->session->userdata('tgl_lahir3') ?>" placeholder="dd-mm-yyyy">
+                            <?= '<small class="text-danger pl-3">' . $this->session->flashdata('regex2') . '</small>' ?>
                         </div>
                         <div class="form-group">
                             <label for="asal_tk">Asal TK</label>
                             <input type="text" name="asal_tk" class="form-control" id="asal_tk" placeholder="TK asal" autocomplete="off" value="<?= set_value('asal_tk') ?>">
                             <?= form_error('asal_tk', '<small class="text-danger pl-3">', '</small>') ?>
-                            <input type="hidden" class="error" value="<?= $this->session->userdata('error') ?>">
-                            <input type="hidden" class="wali" value="<?= $this->session->userdata('wali') ?>">
+                            <input type="hidden" class="error" value="<?= $this->session->userdata('error2') ?>">
+                            <input type="hidden" class="wali" value="<?= $this->session->userdata('wali2') ?>">
                         </div>
                         <div class="form-group float-md-right">
-                            <button class="btn btn-info stuback">Kembali</button>
+                            <button class="btn btn-info stuback2">Kembali</button>
                             <button type="submit" class="btn btn-primary" name="submit">Simpan Data</button>
                         </div>
                     </div>

@@ -178,10 +178,10 @@
                 </div>
                 <div class="row">
                     <div class="col-md-5">
-                        Umur</br>
+                        Tanggal Lahir</br>
                     </div>
                     <div class="col-md-5 font-weight-bolder">
-                        <?= $calon_siswa['umur'] . ' tahun' ?> <br>
+                        <?= $calon_siswa['tgl_lahir'] ?> <br>
                     </div>
                 </div>
                 <?php if ($calon_siswa['asal_tk'] !== null || $calon_siswa['asal_tk'] !== "") : ?>
