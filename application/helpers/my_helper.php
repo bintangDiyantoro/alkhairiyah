@@ -32,6 +32,20 @@ function selectwali($name){
     }
 }
 
+function selectwali2($name)
+{
+    $CI = get_instance();
+    if ($CI->session->userdata('wali2') == $name) {
+        return 'selected';
+    }
+}
+function selectitip($status)
+{
+    $CI = get_instance();
+    if ($CI->session->userdata('titip') == $status) {
+        return 'selected';
+    }
+}
 function selectKel($jns_kelamin)
 {
     $CI = get_instance();
@@ -47,4 +61,84 @@ function stu_back(){
     }elseif($CI->session->userdata('wali') == 'Lainnya'){
         return '/pendaftaran/wali';
     }
+}
+
+function netralize(){
+    $CI = get_instance();
+    $CI->session->unset_userdata('nama_ayah');
+    $CI->session->unset_userdata('alamat_ayah');
+    $CI->session->unset_userdata('pekerjaan_ayah');
+    $CI->session->unset_userdata('pendterakhir_ayah');
+    $CI->session->unset_userdata('keterangan_ayah');
+    $CI->session->unset_userdata('nohape_ayah');
+    $CI->session->unset_userdata('nama_ibu');
+    $CI->session->unset_userdata('alamat_ibu');
+    $CI->session->unset_userdata('pekerjaan_ibu');
+    $CI->session->unset_userdata('pendterakhir_ibu');
+    $CI->session->unset_userdata('keterangan_ibu');
+    $CI->session->unset_userdata('nohape_ibu');
+    $CI->session->unset_userdata('nama_wali');
+    $CI->session->unset_userdata('alamat_wali');
+    $CI->session->unset_userdata('status_wali');
+    $CI->session->unset_userdata('pekerjaan_wali');
+    $CI->session->unset_userdata('pendterakhir_wali');
+    $CI->session->unset_userdata('nohape_wali');
+    $CI->session->unset_userdata('stwali');
+    $CI->session->unset_userdata('wali');
+    $CI->session->unset_userdata('search');
+    $CI->session->unset_userdata('tgl_lahir');
+}
+
+function netralize2()
+{
+    $CI = get_instance();
+    $CI->session->unset_userdata('nama_ayah');
+    $CI->session->unset_userdata('alamat_ayah');
+    $CI->session->unset_userdata('pekerjaan_ayah');
+    $CI->session->unset_userdata('pendterakhir_ayah');
+    $CI->session->unset_userdata('keterangan_ayah');
+    $CI->session->unset_userdata('nohape_ayah');
+    $CI->session->unset_userdata('nama_ibu');
+    $CI->session->unset_userdata('alamat_ibu');
+    $CI->session->unset_userdata('pekerjaan_ibu');
+    $CI->session->unset_userdata('pendterakhir_ibu');
+    $CI->session->unset_userdata('keterangan_ibu');
+    $CI->session->unset_userdata('nohape_ibu');
+    $CI->session->unset_userdata('nama_wali');
+    $CI->session->unset_userdata('alamat_wali');
+    $CI->session->unset_userdata('status_wali');
+    $CI->session->unset_userdata('pekerjaan_wali');
+    $CI->session->unset_userdata('pendterakhir_wali');
+    $CI->session->unset_userdata('nohape_wali');
+    $CI->session->unset_userdata('stwali');
+    $CI->session->unset_userdata('wali');
+    // $CI->session->unset_userdata('search');
+    $CI->session->unset_userdata('tgl_lahir');
+}
+
+function netralize3()
+{
+    $CI = get_instance();
+    $CI->session->unset_userdata('nama_ayah2');
+    $CI->session->unset_userdata('alamat_ayah2');
+    $CI->session->unset_userdata('pekerjaan_ayah2');
+    $CI->session->unset_userdata('pendterakhir_ayah2');
+    $CI->session->unset_userdata('keterangan_ayah2');
+    $CI->session->unset_userdata('nohape_ayah2');
+    $CI->session->unset_userdata('nama_ibu2');
+    $CI->session->unset_userdata('alamat_ibu2');
+    $CI->session->unset_userdata('pekerjaan_ibu2');
+    $CI->session->unset_userdata('pendterakhir_ibu2');
+    $CI->session->unset_userdata('keterangan_ibu2');
+    $CI->session->unset_userdata('nohape_ibu2');
+    $CI->session->unset_userdata('nama_wali2');
+    $CI->session->unset_userdata('alamat_wali2');
+    $CI->session->unset_userdata('status_wali2');
+    $CI->session->unset_userdata('pekerjaan_wali2');
+    $CI->session->unset_userdata('pendterakhir_wali2');
+    $CI->session->unset_userdata('nohape_wali2');
+    $CI->session->unset_userdata('stwali2');
+    $CI->session->unset_userdata('wali2');
+    $CI->session->unset_userdata('titip');
+    $CI->session->unset_userdata('tgl_lahir2');
 }

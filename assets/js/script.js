@@ -1,7 +1,7 @@
 $(function () {
 
     const title = $('title').html().split(' ')[3]
-    const navlink = $('a:contains(' + title + ')')
+    const navlink = $('.nav-link:contains(' + title + ')')
     const fill = $('.fill')
     const success = $('.success').val()
     const postimg = $('.image-style-side').children('img')
@@ -15,6 +15,7 @@ $(function () {
     const wali = $('.wali').val()
     const waliback = $('.waliback')
     const stuback = $('.stuback')
+    const stuback2 = $('.stuback2')
     const keyword = $('.mr-sm-2')
     navlink.addClass('active')
     const otherlink = $('a').not('.active')
@@ -46,11 +47,13 @@ $(function () {
         "width": "70%"
     })
 
-    if(title == 'Halaman'){
-        carousel.className += " active";
-        carouselIndicator.className += " active";
+    if(carousel){
+        if (title == 'Halaman' && $('.display-3:first').html() == 'Ahlan Wa Sahlan!'){
+            carousel.className += " active";
+            carouselIndicator.className += " active";
+        }
     }
-
+        
     if (first) {
         Swal.fire({
             type: 'info',
@@ -60,7 +63,7 @@ $(function () {
         })
     }
 
-    if (title !== 'Pendaftaran') {
+    if (title !== 'Pendaftaran' && title !== 'Profil' && title !== 'Akademik' && title !== 'Alumni' && $('.display-3:first').html() == 'Ahlan Wa Sahlan!') {
         navlink.on('click', () => {
             return false
         })
@@ -126,11 +129,12 @@ $(function () {
         keyword[0].focus();
         keyword[0].setSelectionRange(len, len);
     }
-    // const tokensrc = $('.srctoken').val()
 
-    keyword.on('keyup', function () {
-        $('.srctest').load('http://localhost/csrf');
-    })
+    // keyword.on('keyup', function () {
+    //     $('.srctest').load('http://localhost/csrf');
+    // })
+
+    pickmeup('#tgl_lahir')
 
     if (title !== 'Pendaftaran'){
         $(window).scroll(() => {
@@ -147,5 +151,4 @@ $(function () {
         $('.navbar').addClass('anu');
     }
 
-    console.log(title)
 })

@@ -15,8 +15,11 @@ class Alumni extends CI_Controller{
         $alumni2019 = './assets/sheets/alumni2019.xlsx';
         $this->spreadsheet19 = \PhpOffice\PhpSpreadsheet\IOFactory::load($alumni2019);
     }
-    public function index(){}
+    public function index(){
+        netralize();
+    }
     public function th2018(){
+        netralize();
         $alumni2018 = $this->spreadsheet18->getSheet(0)->rangeToArray('B2:K138', NULL, true, true, true);
         $data['title'] = 'Alumni';
         $data['tahun'] = 2018;
@@ -25,8 +28,8 @@ class Alumni extends CI_Controller{
         $this->load->view('alumni/alumni2018');
         $this->load->view('templates/footer');
     }
-    public function th2019()
-    {
+    public function th2019(){
+        netralize();
         $alumni2019 = $this->spreadsheet19->getSheet(0)->rangeToArray('B5:J173', NULL, true, true, true);
         $data['title'] = 'Alumni';
         $data['tahun'] = 2019;

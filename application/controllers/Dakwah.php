@@ -2,7 +2,7 @@
 
 class Dakwah extends CI_Controller{
     public function index(){
-    
+        netralize();
         $data['title'] = 'Dakwah';
         $data['dakwah'] = $this->db->get('dakwah')->result_array();
 
@@ -12,6 +12,7 @@ class Dakwah extends CI_Controller{
     }
     public function detail($index)
     {
+        netralize();
         $data['title'] = 'Dakwah';
         $data['dakwah'] = $this->db->get('dakwah')->result_array();
         $data['detail'] = $data['dakwah'][$index];

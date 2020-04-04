@@ -28,14 +28,6 @@
                             <?= $calon_siswa['jenis_kelamin'] ?> <br>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-5 font-weight-bolder">
-                            Umur</br>
-                        </div>
-                        <div class="col-md-5">
-                            <?= $calon_siswa['umur'] . ' tahun' ?> <br>
-                        </div>
-                    </div>
                     <?php if ($calon_siswa['asal_tk'] !== null || $calon_siswa['asal_tk'] !== "") : ?>
                         <div class="row">
                             <div class="col-md-5 font-weight-bolder">

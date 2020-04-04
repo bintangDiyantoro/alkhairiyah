@@ -13,8 +13,8 @@ class Akademik extends CI_Controller{
         $this->spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($akademik);
     }
     public function index(){
+        netralize();
         $jadwal = $this->spreadsheet->getSheet(7)->rangeToArray('A8:J199', NULL, true, true, true);
-
         $data['title'] = 'Akademik';
         $data['jadwal'] = $jadwal;
         $this->load->view('templates/header', $data);
@@ -23,8 +23,8 @@ class Akademik extends CI_Controller{
     }
     public function rombonganBelajar()
     {
+        netralize();
         $rombonganBelajar = $this->spreadsheet->getSheet(3)->rangeToArray('A6:I29', NULL, true, true, true);
-
         $data['title'] = 'Akademik';
         $data['rombongan'] = $rombonganBelajar;
         $this->load->view('templates/header', $data);

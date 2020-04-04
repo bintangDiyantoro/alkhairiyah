@@ -12,6 +12,7 @@ class Profil extends CI_Controller{
         $this->spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($profil);
     }
     public function index(){
+        netralize();
         $identitasSekolah = $this->spreadsheet->getSheet(0)->rangeToArray('B4:D16', NULL,true,true,true);
         $dataPelengkap = $this->spreadsheet->getSheet(0)->rangeToArray('B19:D33', NULL, true, true, true);
         $dataPeriodik = $this->spreadsheet->getSheet(0)->rangeToArray('B40:D46', NULL, true, true, true);
@@ -27,6 +28,7 @@ class Profil extends CI_Controller{
         $this->load->view('templates/footer');
     }
     public function ptk(){
+        netralize();
         $tngPengajarKependidikan = $this->spreadsheet->getSheet(1)->rangeToArray('A5:Q40', NULL, true, true, true);
 
         $data['title'] = 'Profil';
@@ -36,6 +38,7 @@ class Profil extends CI_Controller{
         $this->load->view('templates/footer');
     }
     public function pesertaDidik(){
+        netralize();
         $pdJK = $this->spreadsheet->getSheet(2)->rangeToArray('A6:C6', NULL, true, true, true);
         $pdUsia = $this->spreadsheet->getSheet(2)->rangeToArray('A10:D15', NULL, true, true, true);
         $pdAgama = $this->spreadsheet->getSheet(2)->rangeToArray('A19:D26', NULL, true, true, true);
@@ -54,6 +57,7 @@ class Profil extends CI_Controller{
         $this->load->view('templates/footer');
     }
     public function sarana(){
+        netralize();
         $sarana = $this->spreadsheet->getSheet(5)->rangeToArray('A7:G183', NULL, true, true, true);
         $data['title'] = 'Profil';
         $data['sarana'] = $sarana;
@@ -62,6 +66,7 @@ class Profil extends CI_Controller{
         $this->load->view('templates/footer');
     }
     public function blockgrant(){
+        netralize();
         $blockgrant = $this->spreadsheet->getSheet(6)->rangeToArray('A7:G183', NULL, true, true, true);
         $data['title'] = 'Profil';
         $data['blockgrant'] = $blockgrant;

@@ -6,6 +6,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class Kontak extends CI_Controller{
     public function index(){
+        netralize();
         $spreadsheet = new Spreadsheet();
         $akademik = './assets/sheets/profildapodik.xlsx';
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($akademik);
