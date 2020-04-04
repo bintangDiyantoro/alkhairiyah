@@ -114,8 +114,8 @@
                 <div id="collapsePages3" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Menu Pendaftaran:</h6>
-                        <a class="collapse-item" href="<?= base_url('Admpendaftaran') ?>">Daftarkan Siswa Baru</a>
-                        <a class="collapse-item" href="<?= base_url('Admpendaftaran/tersimpan') ?>">Lihat Calon Siswa</a>
+                        <a class="collapse-item" href="<?= base_url('admpendaftaran') ?>">Daftarkan Siswa Baru</a>
+                        <a class="collapse-item" href="<?= base_url('admpendaftaran/tersimpan') ?>">Lihat Calon Siswa</a>
                     </div>
                 </div>
             </li>

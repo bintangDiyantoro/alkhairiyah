@@ -27,7 +27,7 @@
                             <?php if (count($berita) <= 4) :
                                 for ($j = 0; $j <= count($berita) - 1; $j++) : ?>
                                     <div class="carousel-item">
-                                        <a href="berita/detail/<?= $berita[$k]['id'] - 1 ?>">
+                                        <a href="berita/detail/<?= $berita[$j]['id'] - 1 ?>">
                                             <img src="<?= base_url() . $berita[$j]['image'] ?>" class="d-block rounded w-100" alt="...">
                                             <div class="carousel-caption d-none d-md-block">
                                                 <h1 class="news-heading"><?= $berita[$j]['title'] ?></h1>
