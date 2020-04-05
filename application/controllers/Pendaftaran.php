@@ -22,10 +22,16 @@ class Pendaftaran extends CI_Controller{
     }
 
     private function _fillTheForm(){
-        $data['title'] = 'Pendaftaran';
         $data['csrf'] = $this->csrf;
-        $this->load->view('templates/header', $data);
-        $this->load->view('pendaftaran/index');
+        if(count($this->db->get('calon_siswa')->result_array()) <= 140 ){
+            $data['title'] = 'Pendaftaran';
+            $this->load->view('templates/header', $data);
+            $this->load->view('pendaftaran/index');
+        }else{
+            $data['title'] = 'Tutup';
+            $this->load->view('templates/header', $data);
+            $this->load->view('pendaftaran/tutup');
+        }
         $this->load->view('templates/footer');
     }
     

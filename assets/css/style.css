@@ -154,6 +154,9 @@ div.nav-link{
     .container-fluid,.card-1,.card-2,.card-3{
         width:102% !important;
     }
+    .table{
+        font-size: 9px !important;
+    }
 }
 
 @media(max-width:402px){
@@ -165,5 +168,8 @@ div.nav-link{
     }
     .container-fluid,.card-1,.card-2,.card-3{
         width:102% !important;
+    }
+    .table{
+        font-size: 9px !important;
     }   
 }

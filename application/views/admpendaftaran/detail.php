@@ -43,7 +43,15 @@
                             Wali</br>
                         </div>
                         <div class="col-md-5">
-                            <?= $calon_siswa['namawali'] ?> <br>
+                            <?= $calon_siswa['namawali']." (".$calon_siswa['wali'].")" ?><br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bolder">
+                            Ho. HP Wali</br>
+                        </div>
+                        <div class="col-md-5">
+                            <?= $calon_siswa['nohape_wali'] ?> <br>
                         </div>
                     </div>
                     <div class="row mb-3">
