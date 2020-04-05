@@ -162,6 +162,7 @@ class ModelAdmpendaftaran extends CI_Model
                 ON calon_siswa.id_dftr = pendaftaran.id_dftr 
                 WHERE calon_siswa.id = ' . $id)->row_array();
 
+
         if ($data['jenis_kelamin'] == 'L') {
             $data['jenis_kelamin'] = 'Laki-laki';
         } elseif ($data['jenis_kelamin'] == 'P') {
@@ -169,22 +170,26 @@ class ModelAdmpendaftaran extends CI_Model
         }
 
         if ($data['wali'] == 'Ayah') {
-            $this->db->where('id_wali', $id);
-            $namawali = $this->db->get('wali')->row_array()['nama_ayah'];
+            $namawali = $this->db->query('SELECT nama_ayah FROM wali WHERE id_wali = ' . $id)->row_array()["nama_ayah"];
+            $nohapewali = $this->db->query('SELECT nohape_ayah FROM wali WHERE id_wali = ' . $id)->row_array()["nohape_ayah"];
         } elseif ($data['wali'] == 'Ibu') {
-            $this->db->where('id_wali', $id);
-            $namawali = $this->db->get('wali')->row_array()['nama_ibu'];
+            $namawali = $this->db->query('SELECT nama_ibu FROM wali WHERE id_wali = ' . $id)->row_array()["nama_ibu"];
+            $nohapewali = $this->db->query('SELECT nohape_ibu FROM wali WHERE id_wali = ' . $id)->row_array()["nohape_ibu"];
         } elseif ($data['wali'] == 'Lainnya') {
-            $this->db->where('id_wali', $id);
-            $namawali = $this->db->get('wali')->row_array()['nama_wali'];
+            $namawali = $this->db->query('SELECT nama_wali FROM wali WHERE id_wali = ' . $id)->row_array()["nama_wali"];
+            $nohapewali = $this->db->query('SELECT nohape_wali FROM wali WHERE id_wali = ' . $id)->row_array()["nohape_wali"];
+            $data['wali'] = $this->db->query('SELECT status_wali FROM wali WHERE id_wali = ' . $id)->row_array()["status_wali"];
         } else {
             $namawali = "";
+            $nohapewali = "";
         }
 
         $zeroes = '000';
         $data['id'] = (string) $data['id'];
         $data['id'] = 'CS-' . substr($zeroes . $data['id'], -4, 4);
+
         $data['namawali'] = $namawali;
+        $data['nohape_wali'] = $nohapewali;
 
         return $data;
     }

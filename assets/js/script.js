@@ -15,7 +15,6 @@ $(function () {
     const wali = $('.wali').val()
     const waliback = $('.waliback')
     const stuback = $('.stuback')
-    const stuback2 = $('.stuback2')
     const keyword = $('.mr-sm-2')
     navlink.addClass('active')
     const otherlink = $('a').not('.active')
@@ -136,7 +135,7 @@ $(function () {
 
     pickmeup('#tgl_lahir')
 
-    if (title !== 'Pendaftaran'){
+    if (title !== 'Pendaftaran' && title !== 'Tutup'){
         $(window).scroll(() => {
             var scroll = $(window).scrollTop();
             if (scroll > 70) {
