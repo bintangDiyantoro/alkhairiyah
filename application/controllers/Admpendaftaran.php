@@ -1,6 +1,9 @@
 <?php
 
-use phpDocumentor\Reflection\Types\Null_;
+require_once 'vendor/autoload.php';
+
+
+
 
 class Admpendaftaran extends CI_Controller
 {
@@ -17,22 +20,22 @@ class Admpendaftaran extends CI_Controller
 
     private function _regex()
     {
-        $string = "/^" . "(0[1-9]|1[0-9]|2[0-9]|3[0-1])-(1[0-2]-2012|(0[1-9]|1[0-2])-2013|0[1-4]-2014)$/";
+        $string = "/^" . "(0[1-9]|1[0-9]|2[0-9]|3[0-1])-(0[1-9]|1[0-2])-20[0-9][0-9]$/";
         if (preg_match($string, $this->input->post('tgl_lahir2'))) {
             return 1;
         } else {
             return 0;
         }
     }
-    private function _regex2()
-    {
-        $string = "/^" . "(0[1-9]|1[0-9]|2[0-9]|3[0-1])-(0[1-9]|1[0-2])-201[0-6]$/";
-        if (preg_match($string, $this->input->post('tgl_lahir2'))) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
+    // private function _regex2()
+    // {
+    //     $string = "/^" . "(0[1-9]|1[0-9]|2[0-9]|3[0-1])-(0[1-9]|1[0-2])-201[0-6]$/";
+    //     if (preg_match($string, $this->input->post('tgl_lahir2'))) {
+    //         return 1;
+    //     } else {
+    //         return 0;
+    //     }
+    // }
 
     private function _fillTheForm()
     {
@@ -57,7 +60,6 @@ class Admpendaftaran extends CI_Controller
         $this->form_validation->set_rules('pendterakhir_ibu', 'pendterakhir_ibu', 'regex_match[/^[a-z0-9,.\/\-()\s]+$/i]|max_length[50]', ['regex_match' => 'karakter inputan tidak valid', 'max_length' => 'pendidikan terakhir ibu tidak boleh melebihi 50 karakter']);
         $this->form_validation->set_rules('keterangan_ibu', 'keterangan_ibu', 'regex_match[/^[a-z0-9,.\/\-()\s]+$/i]|max_length[50]', ['regex_match' => 'karakter inputan tidak valid', 'max_length' => 'keterangan tidak boleh lebih dari 50 karakter']);
         $this->form_validation->set_rules('nohape_ibu', 'nohape_ibu', 'numeric|min_length[11]|max_length[15]', ['numeric' => 'nomor hp tidak valid', 'min_length' => 'nomor hp minimal berisi 11 digit', 'max_length' => 'nomor hp maksimal berisi 15 digit']);
-        $this->form_validation->set_rules('titip', 'titip', 'required|in_list[ya,tidak]', ['required' => 'Status titipan harus diisi']);
         $this->form_validation->set_rules('wali', 'wali', 'required|in_list[Ayah,Ibu,Lainnya]', ['required' => 'Setiap siswa harus memiliki wali murid, silahkan pilih wali murid terlebih dahulu!']);
     }
 
@@ -182,18 +184,14 @@ class Admpendaftaran extends CI_Controller
             }
 
             $this->_validateFormCalonSiswa();
-            if($this->session->userdata('titip')=='ya'){
-                $regex=$this->_regex2();
-            }elseif($this->session->userdata('titip') == 'tidak'){
-                $regex=$this->_regex();
-            }
-            // var_dump($regex);
+            $regex=$this->_regex();
+            
             if ($this->form_validation->run() == FALSE || $regex == 0) {
                 if (isset($_POST['submit'])) {
                     $this->session->set_userdata('tgl_lahir3', $this->input->post('tgl_lahir2'));
                     $this->session->set_userdata('error2', 'error');
                     if($regex == 0){
-                        $this->session->set_flashdata('regex2', 'input tidak valid atau usia di bawah 6 tahun / di atas 7,6 tahun');
+                        $this->session->set_flashdata('regex2', 'input tidak valid');
                     }
                 }
                 $data['title'] = 'Pendaftaran';
@@ -286,6 +284,9 @@ class Admpendaftaran extends CI_Controller
 
     public function detail($id)
     {
+        // $mpdf = new \Mpdf\Mpdf();
+        // $mpdf->WriteHTML('<h1>Hello world!</h1>');
+        // $mpdf->Output();
         netralize();
         $data['calon_siswa'] = $this->AdmPendaftaran->detail($id);
         $data['title'] = 'Pendaftaran';

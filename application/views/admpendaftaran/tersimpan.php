@@ -1,6 +1,6 @@
 <div class="container mt-3 mb-3">
     <div class="row d-flex justify-content-center">
-        <div class="col-md-9">
+        <div class="col-md-9" style="overflow-x:auto">
             <h1>Daftar calon siswa</h1>
             <form class="form-inline my-2 my-lg-0" method="post" action="">
                 <div class="srctest">
@@ -16,19 +16,19 @@
                             <th scope="col" class="text-center">#</th>
                             <th scope="col" class="text-center">ID</th>
                             <th scope="col">Nama</th>
-                            <th scope="col">Status</th>
+                            <!-- <th scope="col">Status</th> -->
                             <th scope="col">Tgl. Lahir</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($calon_siswa as $cs) : 
-                            if($cs['titipan']==1){
+                        <?php foreach ($calon_siswa as $cs) :
+                            if ($cs['titipan'] == 1) {
                                 $titip = "Titipan";
-                            }else{
+                            } else {
                                 $titip = "-";
                             }
-                            ?>
+                        ?>
                             <tr>
                                 <th scope="row" class="text-center"><?= ++$start ?></th>
                                 <td class="text-center">
@@ -40,7 +40,7 @@
                                     ?>
                                 </td>
                                 <td><?= $cs['nama'] ?></td>
-                                <td><?= $titip ?></td>
+                                <!-- <td><?= $titip ?></td> -->
                                 <td><?= $cs['tgl_lahir'] ?></td>
                                 <td class="text-center">
                                     <a href="<?= base_url('admpendaftaran/detail/' . $cs['id']) ?>" class="badge badge-primary badge-pill detail">Detail</a>

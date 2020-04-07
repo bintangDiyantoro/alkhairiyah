@@ -11,7 +11,7 @@
                 <h3 class="mt-3 text-center">Daftar Tenaga Kependidikan</h3>
             </div>
             <div class="row justify-content-center mb-3">
-                <div class="col-lg mt-3">
+                <div class="col-lg mt-3" style="overflow-x:auto">
                     <table class="table table-hover ptk">
                         <thead>
                             <tr>

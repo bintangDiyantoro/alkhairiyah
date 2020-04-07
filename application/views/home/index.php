@@ -134,7 +134,7 @@
                         <?php endfor; ?>
                     </ul>
                 </div>
-                <input type="hidden" name="sukses" id="sukses" value="<?= $this->session->userdata('sukses') ?>">
+                <!-- <input type="hidden" name="sukses" id="sukses" value="<?= $this->session->userdata('sukses') ?>"> -->
             </div>
         </div>
     </div>
@@ -142,11 +142,11 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="MyModal" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- <div class="modal fade" id="MyModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title font-weight-bolder" id="MyModalTitle">Selamat! Data anda sudah tersimpan</h5>
+                <h4 class="modal-title font-weight-bolder" id="MyModalTitle">Selamat! Data anda sudah tersimpan</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -202,15 +202,14 @@
                         <?= $calon_siswa['namawali'] ?> <br>
                     </div>
                 </div>
-                </br><strong>Simpan ID pendaftaran yang tertera untuk bukti pendaftaran.</strong>
+                </br>Klik tombol <strong>Cetak PDF</strong> untuk menyimpan data dalam format PDF sebagai bukti pendaftaran.
                 </br>
-                Kami akan menghubungi anda secepatnya, jika siswa diterima.</br>
-                <p>Untuk melihat daftar calon siswa, silahkan pilih menu <strong> Pendaftaran > Lihat data calon siswa</strong></p>
+                <p>Pengumuman siswa diterima dapat dilihat pada tanggal <strong>13 April 2020</strong>, untuk melihat pengumuman klik menu <strong> Pendaftaran > Lihat data calon siswa</strong></p>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="modal-close" data-dismiss="modal">Ok</button>
+                <a class="btn btn-info" href="<?= base_url('pendaftaran/cetak/') . $calon_siswa['id_asli'] ?>" target="_blank" rel="noopener noreferrer">Bukti Pendaftaran</a><button type="button" class="btn btn-primary" id="modal-close" data-dismiss="modal">Ok</button>
             </div>
         </div>
     </div>
-</div>
+</div> -->

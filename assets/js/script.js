@@ -24,14 +24,13 @@ $(function () {
         fill[0].focus()
         fill[0].setSelectionRange(len, len)
     }
-
-    if (success) {
-        Swal.fire({
-            type: 'success',
-            title: 'Berhasil!',
-            html: success
-        })
-    }
+    // if (success) {
+    //     Swal.fire({
+    //         type: 'success',
+    //         title: 'Berhasil!',
+    //         html: success
+    //     })
+    // }
 
     postimg.attr('align', 'right')
     postimg.css({
