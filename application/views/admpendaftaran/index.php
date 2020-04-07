@@ -83,17 +83,6 @@
         </div>
         <div class="row mt-3 mb-3">
             <div class="col-sm">
-                <label class="float-right mt-2" for="titip">Titipan? : </label>
-            </div>
-            <div class="col-sm-2 mb-2">
-                <select class="custom-select" id="titip" name="titip" value="<?= set_value('titip') ?>">
-                    <option value="">Pilih salah satu</option>
-                    <option <?= selectitip('ya') ?> value="ya">Titipan</option>
-                    <option <?= selectitip('tidak') ?> value="tidak">Bukan Titipan</option>
-                </select>
-            </div>
-            <?= form_error('titip', '<small class="text-danger mt-2 pl-3">', '</small>') ?>
-            <div class="col-sm">
                 <label class="float-right mt-2" for="wali">Wali murid:</label>
             </div>
             <div class="col-sm-2 mb-2">

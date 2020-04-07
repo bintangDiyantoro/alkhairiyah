@@ -40,18 +40,146 @@
                     <?php endif; ?>
                     <div class="row">
                         <div class="col-md-5 font-weight-bolder">
-                            Wali</br>
+                            Nama ayah</br>
                         </div>
                         <div class="col-md-5">
-                            <?= $calon_siswa['namawali']." (".$calon_siswa['wali'].")" ?><br>
+                            <?= $calon_siswa['wali']['nama_ayah'] ?>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5 font-weight-bolder">
-                            Ho. HP Wali</br>
+                            Alamat ayah</br>
                         </div>
                         <div class="col-md-5">
-                            <?= $calon_siswa['nohape_wali'] ?> <br>
+                            <?= $calon_siswa['wali']['alamat_ayah'] ?> <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bolder">
+                            Pekerjaan ayah</br>
+                        </div>
+                        <div class="col-md-5">
+                            <?= $calon_siswa['wali']['pekerjaan_ayah'] ?> <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bolder">
+                            Pendidikan terakhir ayah</br>
+                        </div>
+                        <div class="col-md-5">
+                            <?= $calon_siswa['wali']['pendterakhir_ayah'] ?> <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bolder">
+                            Keterangan ayah</br>
+                        </div>
+                        <div class="col-md-5">
+                            <?= $calon_siswa['wali']['keterangan_ayah'] ?> <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bolder">
+                            No. HP ayah</br>
+                        </div>
+                        <div class="col-md-5">
+                            <?= $calon_siswa['wali']['nohape_ayah'] ?> <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bolder">
+                            Nama ibu</br>
+                        </div>
+                        <div class="col-md-5">
+                            <?= $calon_siswa['wali']['nama_ibu'] ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bolder">
+                            Alamat ibu</br>
+                        </div>
+                        <div class="col-md-5">
+                            <?= $calon_siswa['wali']['alamat_ibu'] ?> <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bolder">
+                            Pekerjaan ibu</br>
+                        </div>
+                        <div class="col-md-5">
+                            <?= $calon_siswa['wali']['pekerjaan_ibu'] ?> <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bolder">
+                            Pendidikan terakhir ibu</br>
+                        </div>
+                        <div class="col-md-5">
+                            <?= $calon_siswa['wali']['pendterakhir_ibu'] ?> <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bolder">
+                            Keterangan ibu</br>
+                        </div>
+                        <div class="col-md-5">
+                            <?= $calon_siswa['wali']['keterangan_ibu'] ?> <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bolder">
+                            No. HP ibu</br>
+                        </div>
+                        <div class="col-md-5">
+                            <?= $calon_siswa['wali']['nohape_ibu'] ?> <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bolder">
+                            Nama wali</br>
+                        </div>
+                        <div class="col-md-5">
+                            <?= $calon_siswa['wali']['nama_wali'] ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bolder">
+                            Alamat wali</br>
+                        </div>
+                        <div class="col-md-5">
+                            <?= $calon_siswa['wali']['alamat_wali'] ?> <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bolder">
+                            Status wali</br>
+                        </div>
+                        <div class="col-md-5">
+                            <?= $calon_siswa['wali']['status_wali'] ?> <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bolder">
+                            Pekerjaan wali</br>
+                        </div>
+                        <div class="col-md-5">
+                            <?= $calon_siswa['wali']['pekerjaan_wali'] ?> <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bolder">
+                            Pendidikan terakhir wali</br>
+                        </div>
+                        <div class="col-md-5">
+                            <?= $calon_siswa['wali']['pendterakhir_wali'] ?> <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bolder">
+                            No. HP wali</br>
+                        </div>
+                        <div class="col-md-5">
+                            <?= $calon_siswa['wali']['nohape_wali'] ?> <br>
                         </div>
                     </div>
                     <div class="row mb-3">

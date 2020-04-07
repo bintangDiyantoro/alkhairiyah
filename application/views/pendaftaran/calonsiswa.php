@@ -37,7 +37,7 @@
                         </div>
                         <div class="form-group float-md-right">
                             <button class="btn btn-info stuback">Kembali</button>
-                            <button type="submit" class="btn btn-primary" name="submit">Simpan Data</button>
+                            <button type="submit" class="btn btn-primary" name="submit">Daftar</button>
                         </div>
                     </div>
                 </div>

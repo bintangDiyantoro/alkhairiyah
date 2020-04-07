@@ -87,18 +87,18 @@ class ModelAdmpendaftaran extends CI_Model
         $idCS = (string) $idDftr;
         $idCS = 'CS-' . substr($zeroes . $idCS, -4, 4);
 
-        if($data['titip']=='ya'){
-            $titip = 1;
-        }elseif($data["titip"]=='tidak'){
-            $titip = 0;
-        }
+        // if($data['titip']=='ya'){
+        //     $titip = 1;
+        // }elseif($data["titip"]=='tidak'){
+        //     $titip = 0;
+        // }
 
         $dataCalonSiswa = [
             'nama' => $data['nama_calon_siswa'],
             'jenis_kelamin' => $data['jenis_kelamin'],
             'tgl_lahir' => $tgl_lahir,
             'asal_tk' => $data['asal_tk'],
-            'titipan' => $titip,
+            // 'titipan' => $titip,
             'wali' => $this->session->userdata('wali2'),
             'id_wali' => $idWali,
             'id_dftr' => $idDftr,
@@ -120,7 +120,7 @@ class ModelAdmpendaftaran extends CI_Model
             $id = $this->db->get('calon_siswa')->row_array()['id'];
             $this->session->set_userdata('id_calon_siswa', $id);
             $this->session->set_userdata('sukses', 'ok');
-            redirect('/');
+            redirect('pendaftaran/cetak/'.$idDftr);
         } else {
             echo $this->db->error();
         }
@@ -169,27 +169,29 @@ class ModelAdmpendaftaran extends CI_Model
             $data['jenis_kelamin'] = 'Perempuan';
         }
 
-        if ($data['wali'] == 'Ayah') {
-            $namawali = $this->db->query('SELECT nama_ayah FROM wali WHERE id_wali = ' . $id)->row_array()["nama_ayah"];
-            $nohapewali = $this->db->query('SELECT nohape_ayah FROM wali WHERE id_wali = ' . $id)->row_array()["nohape_ayah"];
-        } elseif ($data['wali'] == 'Ibu') {
-            $namawali = $this->db->query('SELECT nama_ibu FROM wali WHERE id_wali = ' . $id)->row_array()["nama_ibu"];
-            $nohapewali = $this->db->query('SELECT nohape_ibu FROM wali WHERE id_wali = ' . $id)->row_array()["nohape_ibu"];
-        } elseif ($data['wali'] == 'Lainnya') {
-            $namawali = $this->db->query('SELECT nama_wali FROM wali WHERE id_wali = ' . $id)->row_array()["nama_wali"];
-            $nohapewali = $this->db->query('SELECT nohape_wali FROM wali WHERE id_wali = ' . $id)->row_array()["nohape_wali"];
-            $data['wali'] = $this->db->query('SELECT status_wali FROM wali WHERE id_wali = ' . $id)->row_array()["status_wali"];
-        } else {
-            $namawali = "";
-            $nohapewali = "";
-        }
+        // if ($data['wali'] == 'Ayah') {
+        //     $namawali = $this->db->query('SELECT nama_ayah FROM wali WHERE id_wali = ' . $id)->row_array()["nama_ayah"];
+        //     $nohapewali = $this->db->query('SELECT nohape_ayah FROM wali WHERE id_wali = ' . $id)->row_array()["nohape_ayah"];
+        // } elseif ($data['wali'] == 'Ibu') {
+        //     $namawali = $this->db->query('SELECT nama_ibu FROM wali WHERE id_wali = ' . $id)->row_array()["nama_ibu"];
+        //     $nohapewali = $this->db->query('SELECT nohape_ibu FROM wali WHERE id_wali = ' . $id)->row_array()["nohape_ibu"];
+        // } elseif ($data['wali'] == 'Lainnya') {
+        //     $namawali = $this->db->query('SELECT nama_wali FROM wali WHERE id_wali = ' . $id)->row_array()["nama_wali"];
+        //     $nohapewali = $this->db->query('SELECT nohape_wali FROM wali WHERE id_wali = ' . $id)->row_array()["nohape_wali"];
+        //     $data['wali'] = $this->db->query('SELECT status_wali FROM wali WHERE id_wali = ' . $id)->row_array()["status_wali"];
+        // } else {
+        //     $namawali = "";
+        //     $nohapewali = "";
+        // }
+
+        $data['wali'] = $this->db->query('SELECT * FROM wali WHERE id_wali = ' . $id)->row_array();
 
         $zeroes = '000';
         $data['id'] = (string) $data['id'];
         $data['id'] = 'CS-' . substr($zeroes . $data['id'], -4, 4);
 
-        $data['namawali'] = $namawali;
-        $data['nohape_wali'] = $nohapewali;
+        // $data['namawali'] = $namawali;
+        // $data['nohape_wali'] = $nohapewali;
 
         return $data;
     }

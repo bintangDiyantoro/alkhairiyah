@@ -87,7 +87,7 @@ class ModelPendaftaran extends CI_Model{
             'jenis_kelamin' => $data['jenis_kelamin'],
             'tgl_lahir' => $tgl_lahir,
             'asal_tk' => $data['asal_tk'],
-            'titipan' => 0,
+            // 'titipan' => 0,
             'wali' => $this->session->userdata('wali'),
             'id_wali' => $idWali,
             'id_dftr' => $idDftr,
@@ -109,7 +109,7 @@ class ModelPendaftaran extends CI_Model{
             $id = $this->db->get('calon_siswa')->row_array()['id'];
             $this->session->set_userdata('id_calon_siswa',$id);
             $this->session->set_userdata('sukses', 'ok');
-            redirect('/');
+            redirect('pendaftaran/cetak/'.$idDftr);
         }else{
             echo $this->db->error();
         }
@@ -136,6 +136,7 @@ class ModelPendaftaran extends CI_Model{
             $siswa['jenis_kelamin'] = 'Perempuan';
         }
         $zeroes = '000';
+        $siswa['id_asli'] = $siswa['id'];
         $siswa['id'] = (string)$siswa['id'];
         $siswa['id'] = 'CS-'.substr($zeroes.$siswa['id'],-4,4);
         $siswa['namawali'] = $namawali;

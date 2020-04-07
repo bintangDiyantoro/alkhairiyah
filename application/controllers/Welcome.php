@@ -11,8 +11,8 @@ class Welcome extends CI_Controller {
 	public function index()
 	{
 		netralize();
-		$id = $this->session->userdata('id_calon_siswa');
-		$data['calon_siswa'] = $this->Pendaftaran->getCalonSiswa($id);
+		// $id = $this->session->userdata('id_calon_siswa');
+		// $data['calon_siswa'] = $this->Pendaftaran->getCalonSiswa($id);
 		$data['title'] = 'Halaman Utama';
 		$this->db->order_by('id','DESC');
 		$data['berita'] = $this->db->get('berita')->result_array();
