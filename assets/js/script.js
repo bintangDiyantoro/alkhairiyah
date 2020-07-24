@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 
     const title = $('title').html().split(' ')[3]
     const navlink = $('.nav-link:contains(' + title + ')')
@@ -38,25 +38,26 @@ $(function () {
         "margin-left": "20px"
     })
 
-    postimgwide.attr('align','center')
+    postimgwide.attr('align', 'center')
     postimgwide.css({
         "display": "block",
         "margin": "auto",
         "width": "70%"
     })
 
-    if(carousel){
-        if (title == 'Halaman' && $('.display-3:first').html() == 'Ahlan Wa Sahlan!'){
+    if (carousel) {
+        if (title == 'Halaman' && $('.display-3:first').html() == 'Ahlan Wa Sahlan!') {
             carousel.className += " active";
             carouselIndicator.className += " active";
         }
     }
-        
+
     if (first) {
         Swal.fire({
             type: 'info',
             title: 'Selamat datang di Form Pendaftaran!',
-            html: `Silahkan isi form dengan teliti! </br></br> Setelah mengisi form silahkan tekan tombol <strong>Selanjutnya</strong> untuk melanjutkan proses pendaftaran.`,
+            html: `<h4><strong>Rincian Biaya Pendaftaran:</strong></h4>
+            <div style="text-align:left;margin-left:80px;display:flex"><br/><div style="width:50%">Infaq Pengembangan<br/>Infaq Bulanan(Juli)<br/>Seragam</div><div><strong>: Rp 2.000.000,-<br/>: Rp 200.000,- <br/> : Rp. 1.055.000,-</strong></div></div><br/><br/>Silahkan isi form dengan teliti! <br/>Setelah mengisi form silahkan tekan tombol <strong>Selanjutnya</strong> untuk melanjutkan proses pendaftaran.`,
             // footer: '<a href>Butuh dana cepat?</a>'
         })
     }
@@ -69,7 +70,7 @@ $(function () {
 
     if (title == 'Pendaftaran' && $('#tersimpan').val() !== 'ok') {
         navdaftar.hide()
-        otherlink.on('click', function (e) {
+        otherlink.on('click', function(e) {
             e.preventDefault()
             Swal.fire({
                 title: 'Data anda belum tersimpan!',
@@ -102,7 +103,7 @@ $(function () {
         e.preventDefault()
         window.location.href = '/pendaftaran'
     })
-    stuback.on('click', function (e) {
+    stuback.on('click', function(e) {
         e.preventDefault()
         if (wali == 'Ayah' || wali == 'Ibu') {
             window.location.href = '/pendaftaran'
@@ -115,7 +116,7 @@ $(function () {
         $('#MyModal').modal('show')
     }
 
-    $('#modal-close').on('click', function () {
+    $('#modal-close').on('click', function() {
         $.ajax({
             url: 'http://localhost/pendaftaran/berhasil',
             method: 'get'
@@ -134,7 +135,7 @@ $(function () {
 
     pickmeup('#tgl_lahir')
 
-    if (title !== 'Pendaftaran' && title !== 'Tutup'){
+    if (title !== 'Pendaftaran' && title !== 'Tutup') {
         $(window).scroll(() => {
             var scroll = $(window).scrollTop();
             if (scroll > 70) {
@@ -142,10 +143,10 @@ $(function () {
             } else {
                 $('.navbar').removeClass('anu');
             }
-            
+
             document.querySelector('.container-fluid').style.marginTop = (-80 - 0.5 * scroll) + "px";
         })
-    }else{
+    } else {
         $('.navbar').addClass('anu');
     }
 
