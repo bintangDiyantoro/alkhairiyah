@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/pickmeup.css">
-    <link rel="stylesheet" href="<?= base_url() ?>assets/css/style.css">
+    <link rel="stylesheet" href="<?= base_url() ?>assets/css/styles.css">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url() ?>assets/img/alkhairiyah.png">
     <title>SDI Al-Khairiyah | <?= $title; ?></title>
 </head>
@@ -43,18 +43,18 @@
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <div class="dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <strong>Pendaftaran</strong>
-                            </a>
+                    <!--<li class="nav-item">-->
+                    <!--    <div class="dropdown">-->
+                    <!--        <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                    <!--            <strong>Pendaftaran</strong>-->
+                    <!--        </a>-->
 
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="<?= base_url('pendaftaran') ?>">Daftarkan Siswa Baru</a>
-                                <a class="dropdown-item" href="<?= base_url('pendaftaran/cs') ?>">Lihat Data Calon Siswa</a>
-                            </div>
-                        </div>
-                    </li>
+                    <!--        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">-->
+                    <!--            <a class="dropdown-item" href="<?= base_url('pendaftaran') ?>">Daftarkan Siswa Baru</a>-->
+                    <!--            <a class="dropdown-item" href="<?= base_url('pendaftaran/cs') ?>">Lihat Data Calon Siswa</a>-->
+                    <!--        </div>-->
+                    <!--    </div>-->
+                    <!--</li>-->
                     <li class="nav-item">
                         <a class="nav-link" href="<?= base_url('dakwah') ?>"><strong>Dakwah</strong></a>
                     </li>

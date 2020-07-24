@@ -15,7 +15,7 @@ var scrolltotop = {
         isvisible: !1,
         shouldvisible: !1
     },
-    scrollup: function () {
+    scrollup: function() {
         this.cssfixedsupport || this.$control.css({
             opacity: 0
         });
@@ -24,7 +24,7 @@ var scrolltotop = {
             scrollTop: t
         }, this.setting.scrollduration)
     },
-    keepfixed: function () {
+    keepfixed: function() {
         var t = jQuery(window),
             o = t.scrollLeft() + t.width() - this.$control.width() - this.controlattrs.offsetx,
             s = t.scrollTop() + t.height() - this.$control.height() - this.controlattrs.offsety;
@@ -33,7 +33,7 @@ var scrolltotop = {
             top: s + "px"
         })
     },
-    togglecontrol: function () {
+    togglecontrol: function() {
         var t = jQuery(window).scrollTop();
         this.cssfixedsupport || this.keepfixed(), this.state.shouldvisible = t >= this.setting.startline ? !0 : !1, this.state.shouldvisible && !this.state.isvisible ? (this.$control.stop().animate({
             opacity: 1
@@ -41,8 +41,8 @@ var scrolltotop = {
             opacity: 0
         }, this.setting.fadeduration[1]), this.state.isvisible = !1)
     },
-    init: function () {
-        jQuery(document).ready(function (t) {
+    init: function() {
+        jQuery(document).ready(function(t) {
             var o = scrolltotop,
                 s = document.all;
             o.cssfixedsupport = !s || s && "CSS1Compat" == document.compatMode && window.XMLHttpRequest, o.$body = t(window.opera ? "CSS1Compat" == document.compatMode ? "html" : "body" : "html,body"), o.$control = t('<div id="topcontrol">' + o.controlHTML + "</div>").css({
@@ -53,13 +53,13 @@ var scrolltotop = {
                 cursor: "pointer"
             }).attr({
                 title: "Scroll to Top"
-            }).click(function () {
+            }).click(function() {
                 return o.scrollup(), !1
             }).appendTo("body"), document.all && !window.XMLHttpRequest && "" != o.$control.text() && o.$control.css({
                 width: o.$control.width()
-            }), o.togglecontrol(), t('a[href="' + o.anchorkeyword + '"]').click(function () {
+            }), o.togglecontrol(), t('a[href="' + o.anchorkeyword + '"]').click(function() {
                 return o.scrollup(), !1
-            }), t(window).bind("scroll resize", function (t) {
+            }), t(window).bind("scroll resize", function(t) {
                 o.togglecontrol()
             })
         })

@@ -120,7 +120,7 @@ $(function () {
 
     $('#modal-close').on('click', function () {
         $.ajax({
-            url: 'http://localhost/pendaftaran/berhasil',
+            url: 'https://ypialkhairiyahbanyuwangi.com/pendaftaran/berhasil',
             method: 'get'
         })
     })
