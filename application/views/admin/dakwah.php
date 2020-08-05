@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container py-3 d-flex justify-content-center">
     <div class="row">
         <div class="col-lg-9">
             <h1 class="text-center mb-3 main-section"><strong>Buletin Dakwah Terbaru</strong></h1>

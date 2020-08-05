@@ -1,6 +1,7 @@
 <?php
 
-class Admin extends CI_Controller{
+class Admin extends CI_Controller
+{
     public function __construct()
     {
         parent::__construct();
@@ -11,30 +12,31 @@ class Admin extends CI_Controller{
         );
     }
 
-    public function index(){
+    public function index()
+    {
         netralize();
         netralize3();
-        if($this->session->userdata('admin')){
+        if ($this->session->userdata('admin')) {
             $this->session->unset_userdata('error');
             redirect('admin/dashboard');
-        } else {            
+        } else {
             $this->form_validation->set_rules('name', 'Name', 'required|regex_match[/^[a-z-\s\']+$/i]|max_length[50]', ['required' => 'Nama admin wajib diisi', 'regex_match' => 'Nama tidak boleh mengandung selain huruf, spasi, petik tunggal (\') dan strip (-)', 'max_length' => 'Nama maksimal 50 huruf']);
             $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[3]', [
-            'required' => 'Password wajib diisi',
-            'min_length' => 'Password minimal 3 karakter!'
+                'required' => 'Password wajib diisi',
+                'min_length' => 'Password minimal 3 karakter!'
             ]);
-            
+
             $data['csrf'] = $this->csrf;
-            if($this->form_validation->run() == FALSE){
+            if ($this->form_validation->run() == FALSE) {
                 $data['title'] = 'Login';
-                $this->load->view('admin/login',$data);
+                $this->load->view('admin/login', $data);
                 $this->session->unset_userdata('error');
             } else {
                 $this->db->where('name', $this->input->post('name'));
                 $this->db->from('admin');
                 $query = $this->db->get()->row_array();
-                if($query != NULL && password_verify($this->input->post('password'), $query['password']) == TRUE){
-                    if($query['verified'] == 1){
+                if ($query != NULL && password_verify($this->input->post('password'), $query['password']) == TRUE) {
+                    if ($query['verified'] == 1) {
                         $this->session->set_userdata('admin', $this->input->post('name'));
                         $this->session->unset_userdata('error');
                         redirect('admin/dashboard');
@@ -50,36 +52,38 @@ class Admin extends CI_Controller{
         }
     }
 
-    public function register(){
+    public function register()
+    {
         netralize();
         $this->form_validation->set_rules('name', 'Name', 'required|regex_match[/^[a-z-\s\']+$/i]|max_length[50]', ['required' => 'nama admin wajib diisi', 'regex_match' => 'nama tidak boleh mengandung selain huruf, spasi, petik tunggal (\') dan strip (-)', 'max_length' => 'nama maksimal 50 huruf']);
         $this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[3]|matches[password2]', [
-            'required'=>'Password wajib diisi',
+            'required' => 'Password wajib diisi',
             'matches' => 'Password tidak cocok!',
             'min_length' => 'Password minimal 3 karakter!'
         ]);
         $this->form_validation->set_rules('password2', 'Password', 'required|trim|matches[password1]');
 
         $data['csrf'] = $this->csrf;
-        
-        if($this->form_validation->run() == FALSE){
+
+        if ($this->form_validation->run() == FALSE) {
             $data['title'] = 'Registrasi';
             $this->load->view('admin/register', $data);
-        }else{
+        } else {
             $data = [
                 'name' => $this->input->post('name'),
                 'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
                 'verified' => 0
             ];
-            $this->db->insert('admin',$data);
-            if($this->db->affected_rows() > 0){
+            $this->db->insert('admin', $data);
+            if ($this->db->affected_rows() > 0) {
                 $this->session->set_flashdata('success', 'Registrasi sukses! Silahkan hubungi Ust. Arif Isnandi untuk verifikasi');
                 redirect('admin');
             }
         }
     }
 
-    public function dashboard(){
+    public function dashboard()
+    {
         netralize();
         netralize3();
         $data['title'] = 'Dashboard';
@@ -88,7 +92,8 @@ class Admin extends CI_Controller{
         $this->load->view('admin/footer');
     }
 
-    public function notfound(){
+    public function notfound()
+    {
         netralize();
         $data['title'] = 'Not Found';
         $this->load->view('admin/header', $data);
@@ -96,7 +101,8 @@ class Admin extends CI_Controller{
         $this->load->view('admin/footer');
     }
 
-    public function postDakwah(){
+    public function postDakwah()
+    {
         netralize();
         $data['title'] = 'Buat Artikel Dakwah';
         $data['csrf'] = $this->csrf;
@@ -105,13 +111,14 @@ class Admin extends CI_Controller{
         $this->load->view('admin/postdakwah');
         $this->load->view('admin/footer');
 
-        if(isset($_POST['submit'])){
+        if (isset($_POST['submit'])) {
             $content = $this->input->post('content');
             $this->Admin->postDakwah($content);
         }
     }
 
-    public function dakwah(){
+    public function dakwah()
+    {
         netralize();
         $data['title'] = 'Dakwah';
         $data['dakwah'] = $this->db->get('dakwah')->result_array();
@@ -121,7 +128,8 @@ class Admin extends CI_Controller{
         $this->load->view('admin/footer');
     }
 
-    public function detailDakwah($index){
+    public function detailDakwah($index)
+    {
         netralize();
         $data['title'] = 'Dakwah';
         $data['dakwah'] = $this->db->get('dakwah')->result_array();
@@ -134,7 +142,7 @@ class Admin extends CI_Controller{
     public function postBerita()
     {
         netralize();
-        $data['title'] = 'Buat Berita';
+        $data['title'] = 'Buat Berita Baru';
         $data['csrf'] = $this->csrf;
 
         $this->load->view('admin/header', $data);
@@ -169,7 +177,54 @@ class Admin extends CI_Controller{
         $this->load->view('admin/footer');
     }
 
-    public function logout(){
+    public function buatMateri()
+    {
+        netralize();
+        netralize3();
+
+        $data['title'] = 'Buat Materi Baru';
+        $data['csrf'] = $this->csrf;
+        $data['kelas'] = $this->db->get('kelas')->result_array();
+        $data['mapel'] = $this->db->get('mapel')->result_array();
+
+        $this->form_validation->set_rules('class', 'Kelas', 'required', ['required' => 'Kelas wajib dipilih']);
+        // $this->form_validation->set_rules('subject', 'Mata Pelajaran', 'required', ['required' => 'Mata pelajaran wajib dipilih']);
+        // $this->form_validation->set_rules('chapter', 'Bab / Judul Materi', 'required', ['required' => 'Bab / judul materi wajib diisi']);
+        // $this->form_validation->set_rules('material', 'Materi', 'required', ['required' => 'Materi wajib diisi']);
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('admin/header', $data);
+            $this->load->view('admin/buatmateri');
+            $this->load->view('admin/footer');
+        } else {
+            $allowed_format = ["jpg", "jpeg", "png", "bmp", "pdf", "doc", "docx", "xls", "xlsx"];
+            $counter = 0;
+            foreach ($_FILES as $file) {
+                $tmp = explode('.', $file["name"]);
+                $format = strtolower(end($tmp));
+                if ($file["name"] && !in_array($format, $allowed_format)) {
+                    $counter += 1;
+                }
+            }
+            if ($counter == 0) {
+                $content = [$_FILES, $this->input->post()];
+                $this->Admin->buatMateri($content);
+            } else {
+                $this->session->set_flashdata('alert','Gagal');
+            }
+            $this->load->view('admin/header', $data);
+            $this->load->view('admin/buatmateri');
+            $this->load->view('admin/footer');
+        }
+    }
+
+    public function newattach()
+    {
+        $this->load->view('admin/newattach');
+    }
+
+    public function logout()
+    {
         netralize();
         $this->session->unset_userdata('admin');
         redirect('admin');

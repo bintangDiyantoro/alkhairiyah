@@ -43,22 +43,6 @@
             </div>
         </div>
 
-
-        <!-- Bootstrap core JavaScript-->
-        <script src="<?= base_url('assets/js/ckeditor.js') ?>"></script>
-        <script>
-            ClassicEditor
-                .create(document.querySelector('#editor'), {
-                    ckfinder: {
-                        uploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
-                        options: {
-                            resourceType: 'Images'
-                        }
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                });
         </script>
         <script src="<?= base_url('assets/vendor/jquery/') ?>jquery.min.js"></script>
         <script src="<?= base_url('assets/vendor/bootstrap/js/') ?>bootstrap.bundle.min.js"></script>

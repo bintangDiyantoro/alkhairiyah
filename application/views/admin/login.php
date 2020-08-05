@@ -36,21 +36,21 @@
               <div class="col-lg">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">أهلا وسهلا يا أدمين</h1>
+                    <h1 class="h4 text-gray-900 mb-4">Login Khusus Guru</h1>
                   </div>
                   <form class="user" method="post">
                     <input type="hidden" name="<?= $csrf['name'] ?>" value="<?= $csrf['hash'] ?>">
                     <input type="hidden" class="success" value="<?= $this->session->flashdata('success') ?>">
                     <div class="form-group">
-                      <input type="text" name="name" class="form-control form-control-user fill mb-3" value="<?= $this->session->userdata('admin') ?>" placeholder="Nama admin" autofocus autocomplete="off">
+                      <input type="text" name="name" class="form-control form-control-user fill mb-3" value="<?= $this->session->userdata('admin') ?>" placeholder="Nama" autofocus autocomplete="off">
                     </div>
-                    <?php if(form_error('name', '<small class="text-danger">', '</small>')): ?>
+                    <?php if (form_error('name', '<small class="text-danger">', '</small>')) : ?>
                       <div class="pl-3" style="margin: -13px 0 -10px 0">
                         <?= form_error('name', '<small class="text-danger">', '</small>'); ?>
                       </div>
                     <?php endif; ?>
                     <div class="form-group mt-3">
-                      <input type="password" name="password" class="form-control form-control-user" placeholder="Kata sandi admin">
+                      <input type="password" name="password" class="form-control form-control-user" placeholder="Kata sandi">
                       <?= form_error('password', '<small class="text-danger pl-3">', '</small>'); ?>
                       <?= '<small class="text-danger pl-3">' . $this->session->userdata('error') . '</small>' ?>
                       <!-- <input type="hidden" id='error' value="<?= $this->session->userdata('error') ?>"> -->
@@ -67,7 +67,10 @@
                     <hr>
                   </form>
                   <div class="text-center">
-                    <a class="small" href="<?= base_url('admin/register') ?>">Belum punya akun? Buat akun!</a>
+                    <a class="small" href="<?= base_url('admin/register') ?>">Belum punya akun guru? Buat akun!</a>
+                  </div>
+                  <div class="text-center">
+                    <a class="small" href="<?= base_url('/') ?>">Bukan guru? Kembali ke halaman utama!</a>
                   </div>
                 </div>
               </div>
