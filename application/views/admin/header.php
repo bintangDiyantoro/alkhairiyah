@@ -108,10 +108,24 @@
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages3" aria-expanded="true" aria-controls="collapsePages3">
+                    <i class="fa fa-book"></i>
+                    <span>Materi</span>
+                </a>
+                <div id="collapsePages3" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Menu Materi:</h6>
+                        <a class="collapse-item" href="<?= base_url('admin/buatmateri') ?>">Buat Materi Baru</a>
+                        <a class="collapse-item" href="<?= base_url('admin/materi') ?>">Lihat Semua materi</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages4" aria-expanded="true" aria-controls="collapsePages4">
                     <i class="fas fa-clipboard"></i>
                     <span>Pendaftaran</span>
                 </a>
-                <div id="collapsePages3" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div id="collapsePages4" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Menu Pendaftaran:</h6>
                         <a class="collapse-item" href="<?= base_url('admpendaftaran') ?>">Daftarkan Siswa Baru</a>
@@ -148,29 +162,28 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-light topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-light topbar mb-4 static-top shadow d-flex justify-content-center">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
+                    <div class="col-lg-10 d-flex justify-content-center">
+                        <h2 class="text-center" style="margin-left: 100px;"><?= $title ?></h2>
+                    </div>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-
-
-
-
-
-                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <div class="topbar-divider d-none d-sm-block">
+                        </div>
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $this->session->userdata('admin') ?></span>
-                                <img class="img-profile rounded-circle" src="<?= base_url('assets/img/') ?>pp.jpeg">
+                                <!-- <img class="img-profile rounded-circle" src="<?= base_url('assets/img/') ?>pp.jpeg"> -->
+                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

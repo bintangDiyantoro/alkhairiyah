@@ -38,7 +38,7 @@
                   <form class="user" method="post">
                     <input type="hidden" name="<?= $csrf['name'] ?>" value="<?= $csrf['hash'] ?>">
                     <div class="form-group">
-                      <input type="text" class="form-control form-control-user fill" name="name" value="<?= set_value('name') ?>" placeholder="Nama Admin" autofocus autocomplete="off">
+                      <input type="text" class="form-control form-control-user fill" name="name" value="<?= set_value('name') ?>" placeholder="Nama" autofocus autocomplete="off">
                       <?= form_error('name', '<small class="text-danger pl-3">', '</small>'); ?>
                     </div>
                     <div class="form-group">
@@ -48,6 +48,15 @@
                     <div class="form-group">
                       <input type="password" name="password2" class="form-control form-control-user" placeholder="Ulangi Password">
                     </div>
+                    <div class="form-group col-md-12 d-flex justify-content-start">
+                      <label for="class" class="mr-2 col-sm-4 align-middle">Wali Kelas</label>
+                      <select id="class" class="form-control col-sm-5">
+                        <option selected>Pilih kelas</option>
+                        <option>1A</option>
+                        <option>1B</option>
+                        <option>1C</option>
+                      </select>
+                    </div>
                     <button type="submit" name="submit" class="btn btn-primary btn-user btn-block">Buat Akun</button>
                   </form>
                   <hr>
@@ -55,7 +64,10 @@
                     <a class="small" href="forgot-password.html">Forgot Password?</a>
                   </div> -->
                   <div class="text-center">
-                    <a class="small" href="<?= base_url('admin') ?>">Sudah punya akun? Masuk!</a>
+                    <a class="small" href="<?= base_url('admin') ?>">Sudah punya akun guru? Masuk!</a>
+                  </div>
+                  <div class="text-center">
+                    <a class="small" href="<?= base_url('/') ?>">Bukan guru? Kembali ke halaman utama</a>
                   </div>
                 </div>
               </div>
