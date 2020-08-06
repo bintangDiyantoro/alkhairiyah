@@ -168,8 +168,11 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-                    <div class="col-lg-10 d-flex justify-content-center">
-                        <h2 class="text-center" style="margin-left: 100px;"><?= $title ?></h2>
+                    <div class="col-lg-10 d-flex justify-content-center desktop">
+                        <h2 class="text-center " style="margin-left: 100px;"><?= $title ?></h2>
+                    </div>
+                    <div class="col-lg-12 mobile">
+                        <strong><?= $title ?></strong>
                     </div>
 
                     <!-- Topbar Navbar -->
