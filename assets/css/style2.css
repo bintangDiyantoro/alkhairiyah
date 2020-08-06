@@ -42,6 +42,10 @@
     ;
 }
 
+.mobile {
+    display: none;
+}
+
 .duanger {
     color: white!important;
     background-color: darkred!important;
@@ -129,5 +133,12 @@ p {
 @media(max-width:800px) {
     .table {
         font-size: 12px !important;
+    }
+    .mobile {
+        display: block;
+        font-size: 17px;
+    }
+    .desktop {
+        display: none!important;
     }
 }
