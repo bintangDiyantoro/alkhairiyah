@@ -4,8 +4,8 @@
             <input type="hidden" name="<?= $csrf['name'] ?>" value="<?= $csrf['hash'] ?>">
             <div class="form-group col-md-6">
                 <div class="d-flex justify-content-start align-items-baseline">
-                    <label for="class" style="margin-left: -12px;margin-right: 76px;">Kelas</label>
-                    <select id="class" class="form-control col-sm-6" name="class">
+                    <label for="class_id" style="margin-left: -12px;margin-right: 76px;">Kelas</label>
+                    <select id="class_id" class="form-control col-sm-6" name="class_id">
                         <option selected value="">Pilih Kelas</option>
                         <?php foreach ($kelas as $k) : ?>
                             <option value="<?= $k['id'] ?>"><?= $k['class'] ?></option>

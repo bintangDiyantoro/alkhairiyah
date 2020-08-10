@@ -187,7 +187,7 @@ class Admin extends CI_Controller
         $data['kelas'] = $this->db->get('kelas')->result_array();
         $data['mapel'] = $this->db->get('mapel')->result_array();
 
-        $this->form_validation->set_rules('class', 'Kelas', 'required', ['required' => 'Kelas wajib dipilih']);
+        $this->form_validation->set_rules('class_id', 'Kelas', 'required', ['required' => 'Kelas wajib dipilih']);
         $this->form_validation->set_rules('subject', 'Mata Pelajaran', 'required', ['required' => 'Mata pelajaran wajib dipilih']);
         $this->form_validation->set_rules('chapter', 'Bab / Judul Materi', 'required', ['required' => 'Bab / judul materi wajib diisi']);
         $this->form_validation->set_rules('material', 'Materi', 'required', ['required' => 'Materi wajib diisi']);

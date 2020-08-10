@@ -81,7 +81,7 @@ class ModelAdmin extends CI_Model
                 move_uploaded_file($file["tmp_name"], $newname);
             }
         }
-        $this->db->insert('materi',$content[1]);
+        $this->db->insert('materi', $content[1]);
         $this->session->set_flashdata('alert', 'Berhasil');
     }
 }
