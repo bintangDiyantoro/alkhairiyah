@@ -120,7 +120,7 @@ $(function() {
 
     $('#modal-close').on('click', function() {
         $.ajax({
-            url: 'http://localhost/pendaftaran/berhasil',
+            url: '/pendaftaran/berhasil',
             method: 'get'
         })
     })
@@ -143,7 +143,7 @@ $(function() {
         counter += 1
         if (counter <= 4) {
             $('.additional-attachment').before(`<div class="additional-attachment-` + counter + `"></div>`)
-            $('.additional-attachment-' + counter).load('http://localhost/admin/newattach/' + counter)
+            $('.additional-attachment-' + counter).load('/admin/newattach/' + counter)
         }
     })
 

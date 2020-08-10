@@ -66,6 +66,7 @@
                             <div class="dropdown-menu" aria-labelledby="akademik">
                                 <a class="dropdown-item" href="<?= base_url('akademik') ?>">Jadwal</a>
                                 <a class="dropdown-item" href="<?= base_url('akademik/rombonganbelajar') ?>">Rombongan Belajar</a>
+                                <a class="dropdown-item" href="<?= base_url('akademik/materi') ?>">Materi Pelajaran</a>
                             </div>
                         </div>
                     </li>
