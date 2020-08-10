@@ -12,7 +12,7 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <?= form_error('class', '<small class="text-danger" style="margin-left:105px;">', '</small>'); ?>
+                <?= form_error('class_id', '<small class="text-danger" style="margin-left:105px;">', '</small>'); ?>
             </div>
             <div class="form-group col-md-7">
                 <div class="d-flex justify-content-start align-items-baseline">
