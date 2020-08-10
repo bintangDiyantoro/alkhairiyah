@@ -136,6 +136,12 @@
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url()?>">
+                    <i class="fa fa-home"></i>
+                    <span>Halaman Utama</span>
+                </a>
+            </li>
             <!-- Nav Item - Logout -->
             <li class="nav-item">
                 <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">

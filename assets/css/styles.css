@@ -30,14 +30,6 @@ body {
     color: white!important;
 }
 
-.nav-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 96%;
-    /* height: 50px; */
-}
-
 .dropdown-menu {
     text-shadow: none !important;
 }
@@ -87,7 +79,7 @@ body {
 }
 
 .jbtr {
-    background-image: url("https://ypialkhairiyahbanyuwangi.com/assets/img/image925.png");
+    background-image: url("/assets/img/image925.png");
     height: 450px;
     padding-top: 140px;
     width: 102.05%!important;
@@ -163,12 +155,33 @@ div.nav-link {
     cursor: pointer;
 }
 
+.class-card {
+    box-shadow: rgb(150, 150, 150) 0px 0px 6px;
+    transition-duration: 0.4s;
+}
+
+.class-card:hover {
+    transform: scale(1.08, 1.08);
+    background-color: rgb(218, 255, 244);
+    z-index: 99;
+}
+
+@media(min-width:800.1px) {
+    .nav-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 95%;
+        /* height: 50px; */
+    }
+}
+
 @media(max-width:800px) {
     body {
         width: 96%!important;
     }
     .navbar {
-        width: 104%!important;
+        width: 104.1%!important;
         color: white;
         background-color: rgb(0, 70, 50);
         text-shadow: none !important;
