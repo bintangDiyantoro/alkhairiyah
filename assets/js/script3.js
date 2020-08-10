@@ -1,4 +1,4 @@
-$(function () {
+$(function() {
 
     const title = $('title').html().split(' ')[3]
     const navlink = $('.nav-link:contains(' + title + ')')
@@ -70,7 +70,7 @@ $(function () {
 
     if (title == 'Pendaftaran' && $('#tersimpan').val() !== 'ok') {
         navdaftar.hide()
-        otherlink.on('click', function (e) {
+        otherlink.on('click', function(e) {
             e.preventDefault()
             Swal.fire({
                 title: 'Data anda belum tersimpan!',
@@ -105,7 +105,7 @@ $(function () {
         window.location.href = '/admpendaftaran'
     })
 
-    stuback2.on('click', function (e) {
+    stuback2.on('click', function(e) {
         e.preventDefault()
         if (wali == 'Ayah' || wali == 'Ibu') {
             window.location.href = '/admpendaftaran'
@@ -118,9 +118,9 @@ $(function () {
         $('#MyModal').modal('show')
     }
 
-    $('#modal-close').on('click', function () {
+    $('#modal-close').on('click', function() {
         $.ajax({
-            url: 'https://ypialkhairiyahbanyuwangi.com/pendaftaran/berhasil',
+            url: '/pendaftaran/berhasil',
             method: 'get'
         })
     })

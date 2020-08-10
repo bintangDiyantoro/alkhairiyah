@@ -18,6 +18,8 @@ $(function() {
     const keyword = $('.mr-sm-2')
     navlink.addClass('active')
     const otherlink = $('a').not('.active')
+    var counter = 0
+    const myalert = $('#myalert').data('alert')
 
     if (fill.val()) {
         const len = fill.val().length
@@ -118,7 +120,7 @@ $(function() {
 
     $('#modal-close').on('click', function() {
         $.ajax({
-            url: 'http://localhost/pendaftaran/berhasil',
+            url: '/pendaftaran/berhasil',
             method: 'get'
         })
     })
@@ -129,25 +131,36 @@ $(function() {
         keyword[0].setSelectionRange(len, len);
     }
 
-    // keyword.on('keyup', function () {
-    //     $('.srctest').load('http://localhost/csrf');
-    // })
-
     pickmeup('#tgl_lahir')
 
-    if (title !== 'Pendaftaran' && title !== 'Tutup') {
-        $(window).scroll(() => {
-            var scroll = $(window).scrollTop();
-            if (scroll > 70) {
-                $('.navbar').addClass('anu');
-            } else {
-                $('.navbar').removeClass('anu');
-            }
+    $('.custom-file-input').on('change', function() {
+        let fileName = $(this).val().split('\\').pop();
+        $(this).next('.custom-file-label').addClass("selected").html(fileName);
+    });
 
-            document.querySelector('.container-fluid').style.marginTop = (-80 - 0.5 * scroll) + "px";
-        })
-    } else {
-        $('.navbar').addClass('anu');
+    $('.add-attachment').on('click', function(e) {
+        e.preventDefault()
+        counter += 1
+        if (counter <= 4) {
+            $('.additional-attachment').before(`<div class="additional-attachment-` + counter + `"></div>`)
+            $('.additional-attachment-' + counter).load('/admin/newattach/' + counter)
+        }
+    })
+
+    if (myalert) {
+        if (myalert == "Gagal") {
+            Swal.fire({
+                type: 'warning',
+                title: myalert,
+                html: 'Format file yang anda upload tidak valid!',
+                // footer: '<a href>Butuh dana cepat?</a>'
+            })
+        } else if (myalert == "Berhasil") {
+            Swal.fire({
+                type: 'success',
+                title: myalert,
+                html: "Materi baru berhasil ditambahkan!"
+            })
+        }
     }
-
 })

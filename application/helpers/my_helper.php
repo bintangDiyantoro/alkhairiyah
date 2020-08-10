@@ -25,9 +25,10 @@ function check_access($role_id, $menu_id)
         return "checked='checked'";
     }
 }
-function selectwali($name){
+function selectwali($name)
+{
     $CI = get_instance();
-    if($CI->session->userdata('wali') == $name){
+    if ($CI->session->userdata('wali') == $name) {
         return 'selected';
     }
 }
@@ -54,16 +55,18 @@ function selectKel($jns_kelamin)
     }
 }
 
-function stu_back(){
+function stu_back()
+{
     $CI = get_instance();
-    if($CI->session->userdata('wali') == 'Ayah' && $CI->session->userdata('wali') == 'Ibu'){
+    if ($CI->session->userdata('wali') == 'Ayah' && $CI->session->userdata('wali') == 'Ibu') {
         return '/pendaftaran';
-    }elseif($CI->session->userdata('wali') == 'Lainnya'){
+    } elseif ($CI->session->userdata('wali') == 'Lainnya') {
         return '/pendaftaran/wali';
     }
 }
 
-function netralize(){
+function netralize()
+{
     $CI = get_instance();
     $CI->session->unset_userdata('nama_ayah');
     $CI->session->unset_userdata('alamat_ayah');
@@ -141,4 +144,15 @@ function netralize3()
     $CI->session->unset_userdata('wali2');
     $CI->session->unset_userdata('titip');
     $CI->session->unset_userdata('tgl_lahir2');
+}
+
+function is_image($file)
+{
+    $tmp = explode(".", $file);
+    $res = strtolower(end($tmp));
+    if ($res == "jpg" || $res == "jpeg" || $res == "png" || $res == "bmp") {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
 }

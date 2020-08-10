@@ -13,9 +13,9 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top mr-0">
-        <div class="container">
-            <img src="<?= base_url() ?>assets/img/alkhairiyah.png" width="50px" height="50px" style="margin-right:7px"></img>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top mr-0" style="display: flex;justify-content: center;">
+        <div class="nav-container">
+            <img src="<?= base_url() ?>assets/img/alkhairiyah.png" width="47px" height="47px" style="margin-right:7px"></img>
             <a class="navbar-brand" href="<?= base_url() ?>">
                 SDI Al-Khairiyah Banyuwangi
             </a>
@@ -66,6 +66,7 @@
                             <div class="dropdown-menu" aria-labelledby="akademik">
                                 <a class="dropdown-item" href="<?= base_url('akademik') ?>">Jadwal</a>
                                 <a class="dropdown-item" href="<?= base_url('akademik/rombonganbelajar') ?>">Rombongan Belajar</a>
+                                <a class="dropdown-item" href="<?= base_url('akademik/materi') ?>">Materi Pelajaran</a>
                             </div>
                         </div>
                     </li>
@@ -85,6 +86,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?= base_url('kontak') ?>"><strong>Hubungi Kami</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url('admin') ?>"><strong>Login</strong></a>
                     </li>
                 </ul>
             </div>

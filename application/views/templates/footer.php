@@ -10,6 +10,22 @@
 <script src="<?= base_url() ?>assets/js/scrolltotop.js"></script>
 <script src="<?= base_url() ?>assets/js/pickmeup.js"></script>
 <script src="<?= base_url() ?>assets/js/script.js"></script>
+<script>
+    const title = $('title').html().split(' ')[3]
+    if (title !== 'Pendaftaran' && title !== 'Tutup' && title !== 'Materi') {
+        $(window).scroll(() => {
+            var scroll = $(window).scrollTop();
+            if (scroll > 70) {
+                $('.navbar').addClass('anu');
+            } else {
+                $('.navbar').removeClass('anu');
+            }
+            document.querySelector('.container-fluid').style.marginTop = (-80 - 0.5 * scroll) + "px";
+        })
+    } else {
+        $('.navbar').addClass('anu');
+    }
+</script>
 </body>
 
 </html>
