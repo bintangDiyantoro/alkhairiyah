@@ -19,6 +19,7 @@ class Akademik extends CI_Controller
         $jadwal = $this->spreadsheet->getSheet(7)->rangeToArray('A8:J199', NULL, true, true, true);
         $data['title'] = 'Akademik';
         $data['jadwal'] = $jadwal;
+        $data['description'] = 'Data akademik of SDI Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);
         $this->load->view('akademik/jadwal');
         $this->load->view('templates/footer');
@@ -29,6 +30,7 @@ class Akademik extends CI_Controller
         $rombonganBelajar = $this->spreadsheet->getSheet(3)->rangeToArray('A6:I29', NULL, true, true, true);
         $data['title'] = 'Akademik';
         $data['rombongan'] = $rombonganBelajar;
+        $data['description'] = 'Rombongan belajar of SDI Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);
         $this->load->view('akademik/rombonganbelajar');
         $this->load->view('templates/footer');
@@ -38,6 +40,7 @@ class Akademik extends CI_Controller
         netralize();
         $data["kelas"] = $this->db->get('kelas')->result_array();
         $data["title"] = "Akademik";
+        $data['description'] = 'Daftar materi of SDI Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);
         $this->load->view('akademik/materi');
         $this->load->view('templates/footer');

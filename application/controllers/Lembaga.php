@@ -4,6 +4,7 @@ class Lembaga extends CI_Controller{
     public function index(){
         netralize();
         $data['title'] = 'Lembaga';
+        $data['description'] = 'Detail lembaga of SDI Al-Khairiyah Banyuwangi';
 
         $this->load->view('templates/header', $data);
         $this->load->view('lembaga/index');

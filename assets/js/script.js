@@ -1,6 +1,6 @@
 $(function() {
 
-    const title = $('title').html().split(' ')[3]
+    const title = $('title').html().split(' ')[4]
     const navlink = $('.nav-link:contains(' + title + ')')
     const fill = $('.fill')
     const success = $('.success').val()
@@ -20,19 +20,20 @@ $(function() {
     const otherlink = $('a').not('.active')
     var counter = 0
     const myalert = $('#myalert').data('alert')
+    const scroll = $('.scroll').val()
 
     if (fill.val()) {
         const len = fill.val().length
         fill[0].focus()
         fill[0].setSelectionRange(len, len)
     }
-    // if (success) {
-    //     Swal.fire({
-    //         type: 'success',
-    //         title: 'Berhasil!',
-    //         html: success
-    //     })
-    // }
+    if (success) {
+        Swal.fire({
+            type: 'success',
+            title: 'Berhasil!',
+            html: success
+        })
+    }
 
     postimg.attr('align', 'right')
     postimg.css({
@@ -162,5 +163,9 @@ $(function() {
                 html: "Materi baru berhasil ditambahkan!"
             })
         }
+    }
+
+    if (scroll) {
+        window.location.replace('#comment')
     }
 })
