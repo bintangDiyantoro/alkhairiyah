@@ -26,6 +26,7 @@ class Pendaftaran extends CI_Controller{
     private function _fillTheForm(){
         $data['csrf'] = $this->csrf;
         $data['title'] = 'Pendaftaran';
+        $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
         // $data['title'] = 'Tutup';
         $this->load->view('templates/header', $data);
         // $this->load->view('pendaftaran/sabar');
@@ -135,6 +136,7 @@ class Pendaftaran extends CI_Controller{
                     $this->_dataWali($this->security->xss_clean($this->input->post()));
                 }
                 $data['title'] = 'Pendaftaran';
+                $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
                 $data['csrf'] = $this->csrf;
                 $this->load->view('templates/header', $data);
                 $this->load->view('pendaftaran/wali');
@@ -170,6 +172,7 @@ class Pendaftaran extends CI_Controller{
                     $this->session->set_flashdata('regex', 'input tidak valid');
                 }
                 $data['title'] = 'Pendaftaran';
+                $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
                 $data['csrf'] = $this->csrf;
                 $this->load->view('templates/header', $data);
                 $this->load->view('pendaftaran/calonsiswa');
@@ -199,6 +202,7 @@ class Pendaftaran extends CI_Controller{
     public function cs(){
         netralize2();
         $data['title'] = 'Pendaftaran';
+        $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
         $data['csrf'] = $this->csrf;
         if($this->input->post('search') || isset($_POST['search'])){
             $keyword=$this->input->post('search');
@@ -258,6 +262,7 @@ class Pendaftaran extends CI_Controller{
         netralize();
         $data['calon_siswa'] = $this->Pendaftaran->detail($id);
         $data['title'] = 'Pendaftaran';
+        $data['description'] = 'Detail calon siswa of SDI Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);
         $this->load->view('pendaftaran/detail');
         $this->load->view('templates/footer');

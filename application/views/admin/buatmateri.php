@@ -4,7 +4,7 @@
             <input type="hidden" name="<?= $csrf['name'] ?>" value="<?= $csrf['hash'] ?>">
             <div class="form-group col-md-6">
                 <div class="d-flex justify-content-start align-items-baseline">
-                    <label for="class_id" style="margin-left: -12px;margin-right: 76px;">Kelas</label>
+                    <label for="class_id" style="margin-left: -12px;margin-right: 65px;">Kelas</label>
                     <select id="class_id" class="form-control col-sm-6" name="class_id">
                         <option selected value="">Pilih Kelas</option>
                         <?php foreach ($kelas as $k) : ?>
@@ -16,9 +16,9 @@
             </div>
             <div class="form-group col-md-7">
                 <div class="d-flex justify-content-start align-items-baseline">
-                    <label for="subject" class="mr-2" style="margin-left: -12px;">Mata Pelajaran</label>
-                    <select id="subject" class="form-control col-sm-8" name="subject">
-                        <option selected value="">Pilih Mata Pelajaran</option>
+                    <label for="subject" class="mr-2" style="margin-left: -12px;">Tema / Mapel </label>
+                    <select id="subject" class="form-control col-sm-7" name="subject">
+                        <option selected value="">Pilih Tema / Mapel</option>
                         <?php foreach ($mapel as $m) : ?>
                             <option value="<?= $m['id'] ?>"><?= $m['nama_mapel'] ?></option>
                         <?php endforeach; ?>
@@ -27,12 +27,12 @@
                 <?= form_error('subject', '<small class="text-danger">', '</small>'); ?>
             </div>
             <div class="form-group">
-                <input type="text" name="chapter" class="form-control form-control-user" placeholder="Bab / judul materi">
+                <input type="text" name="chapter" class="form-control form-control-user" placeholder="Bab / Sub tema">
                 <?= form_error('chapter', '<small class="text-danger pl-3">', '</small>'); ?>
             </div>
             <div class="form-group">
                 <label for="editor" class="mr-2 col-sm-3" style="margin-left: -12px;">Materi</label>
-                <textarea class="form-control" name="material" id="editor" rows="3" autofocus></textarea>
+                <textarea class="form-control" name="material" id="editor" rows="3" autofocus><?= $this->session->flashdata('material') ?></textarea>
                 <?= form_error('material', '<small class="text-danger pl-3">', '</small>'); ?>
             </div>
             Lampiran (gambar/dokumen)
@@ -49,7 +49,7 @@
             </div>
             <div class="form-group">
                 <label for="questions" class="mr-2 col-sm-3" style="margin-left: -12px;">Soal</label>
-                <textarea class="form-control" name="questions" id="questions" rows="3" autofocus></textarea>
+                <textarea class="form-control" name="questions" id="questions" rows="3"><?= $this->session->flashdata('questions') ?></textarea>
             </div>
             <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary">Unggah</button>

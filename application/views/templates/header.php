@@ -3,21 +3,23 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="<?=$description?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/pickmeup.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/styles.css">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url() ?>assets/img/alkhairiyah.png">
-    <title>SDI Al-Khairiyah | <?= $title; ?></title>
+    <title>SDI Al-Khairiyah Banyuwangi | <?= $title; ?></title>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top mr-0" style="display: flex;justify-content: center;">
         <div class="nav-container">
-            <img src="<?= base_url() ?>assets/img/alkhairiyah.png" width="47px" height="47px" style="margin-right:7px"></img>
-            <a class="navbar-brand" href="<?= base_url() ?>">
-                SDI Al-Khairiyah Banyuwangi
+            <img src="<?= base_url() ?>assets/img/alkhairiyah.png" width="47px" height="47px" style="margin-right:7px" alt="SDI Al-Khairiyah Al Khairiyah Banyuwangi"></img>
+            <a class="navbar-brand pt-3" href="<?= base_url() ?>">
+                <h1 style="font-size: 20px;">SDI Al-Khairiyah Banyuwangi</h1>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

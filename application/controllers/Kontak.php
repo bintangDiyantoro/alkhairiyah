@@ -14,6 +14,7 @@ class Kontak extends CI_Controller{
 
         $data['title'] = 'Hubungi Kami';
         $data['kontak'] = $kontak;
+        $data['description'] = 'Contact of SDI Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);
         $this->load->view('kontak/index');
         $this->load->view('templates/footer');

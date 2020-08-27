@@ -10,6 +10,7 @@ class Berita extends CI_Controller{
         $data['title'] = 'Halaman Utama';
         $data['berita'] = $this->db->get('berita')->result_array();
         $data['detail'] = $data['berita'][$index];
+        $data['description'] = 'Berita of SDI Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);
         $this->load->view('berita/detail');
         $this->load->view('templates/footer');

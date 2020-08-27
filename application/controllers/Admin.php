@@ -193,6 +193,8 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('material', 'Materi', 'required', ['required' => 'Materi wajib diisi']);
 
         if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('material', $this->input->post('material'));
+            $this->session->set_flashdata('questions', $this->input->post('questions'));
             $this->load->view('admin/header', $data);
             $this->load->view('admin/buatmateri');
             $this->load->view('admin/footer');
@@ -209,7 +211,10 @@ class Admin extends CI_Controller
             if ($counter == 0) {
                 $content = [$_FILES, $this->input->post()];
                 $this->Admin->buatMateri($content);
+                $this->session->unset_userdata('material');
             } else {
+                $this->session->set_flashdata('material', $this->input->post('material'));
+                $this->session->set_flashdata('questions', $this->input->post('questions'));
                 $this->session->set_flashdata('alert','Gagal');
             }
             $this->load->view('admin/header', $data);

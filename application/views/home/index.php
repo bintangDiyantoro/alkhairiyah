@@ -5,103 +5,105 @@
     </div>
 </div>
 <div class="container-fluid">
-    <div class="card card-2 card-3" style="margin-top: -70px">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-9">
-                    <h3 class="display-4 text-center">Berita Terkini</h3>
-                    <div id="carouselExampleCaptions" class="carousel slide mt-3" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            <?php
-                            if (count($berita) <= 4) :
-                                for ($i = 0; $i < count($berita); $i++) : ?>
-                                    <li data-target="#carouselExampleCaptions" data-slide-to="<?= $i ?>" class="c-ind"></li>
+    <?php if ($berita) : ?>
+        <div class="card card-2 card-3" style="margin-top: -70px">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <h3 class="display-4 text-center">Berita Terkini</h3>
+                        <div id="carouselExampleCaptions" class="carousel slide mt-3" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <?php
+                                if (count($berita) <= 4) :
+                                    for ($i = 0; $i < count($berita); $i++) : ?>
+                                        <li data-target="#carouselExampleCaptions" data-slide-to="<?= $i ?>" class="c-ind"></li>
+                                    <?php endfor;
+                                else :
+                                    for ($i = 0; $i <= 3; $i++) : ?>
+                                        <li data-target="#carouselExampleCaptions" data-slide-to="<?= $i ?>" class="c-ind"></li>
                                 <?php endfor;
-                            else :
-                                for ($i = 0; $i <= 3; $i++) : ?>
-                                    <li data-target="#carouselExampleCaptions" data-slide-to="<?= $i ?>" class="c-ind"></li>
-                            <?php endfor;
-                            endif; ?>
-                        </ol>
-                        <div class="carousel-inner">
-                            <?php if (count($berita) <= 4) :
-                                for ($j = 0; $j <= count($berita) - 1; $j++) : ?>
-                                    <div class="carousel-item">
-                                        <a href="berita/detail/<?= $berita[$j]['id'] - 1 ?>">
-                                            <img src="<?= base_url() . $berita[$j]['image'] ?>" class="d-block rounded w-100" alt="...">
-                                            <div class="carousel-caption d-none d-md-block">
-                                                <h1 class="news-heading"><?= $berita[$j]['title'] ?></h1>
-                                                <p class="news-heading"><?= $berita[$j]['prev'] ?>...</p>
-                                            </div>
-                                        </a>
-                                    </div>
+                                endif; ?>
+                            </ol>
+                            <div class="carousel-inner">
+                                <?php if (count($berita) <= 4) :
+                                    for ($j = 0; $j <= count($berita) - 1; $j++) : ?>
+                                        <div class="carousel-item">
+                                            <a href="berita/detail/<?= $berita[$j]['id'] - 1 ?>">
+                                                <img src="<?= base_url() . $berita[$j]['image'] ?>" class="d-block rounded w-100" alt="...">
+                                                <div class="carousel-caption d-none d-md-block">
+                                                    <h1 class="news-heading"><?= $berita[$j]['title'] ?></h1>
+                                                    <p class="news-heading"><?= $berita[$j]['prev'] ?>...</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    <?php endfor;
+                                else :
+                                    for ($k = 0; $k <= 3; $k++) : ?>
+                                        <div class="carousel-item">
+                                            <a href="berita/detail/<?= $berita[$k]['id'] - 1 ?>">
+                                                <img src="<?= base_url() . $berita[$k]['image'] ?>" class="d-block rounded w-100" alt="...">
+                                                <div class="carousel-caption d-none d-md-block">
+                                                    <h1 class="news-heading"><?= $berita[$k]['title'] ?></h1>
+                                                    <p class="news-heading"><?= $berita[$k]['prev'] ?>...</p>
+                                                </div>
+                                            </a>
+                                        </div>
                                 <?php endfor;
-                            else :
-                                for ($k = 0; $k <= 3; $k++) : ?>
-                                    <div class="carousel-item">
-                                        <a href="berita/detail/<?= $berita[$k]['id'] - 1 ?>">
-                                            <img src="<?= base_url() . $berita[$k]['image'] ?>" class="d-block rounded w-100" alt="...">
-                                            <div class="carousel-caption d-none d-md-block">
-                                                <h1 class="news-heading"><?= $berita[$k]['title'] ?></h1>
-                                                <p class="news-heading"><?= $berita[$k]['prev'] ?>...</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                            <?php endfor;
-                            endif; ?>
+                                endif; ?>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
                         </div>
-                        <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-                    <!-- <p class="lead text-center">Selamat datang di halaman utama SDI Al Khairiyah </p>
+                        <!-- <p class="lead text-center">Selamat datang di halaman utama SDI Al Khairiyah </p>
                     <hr class="my-4"> -->
-                    <!-- <a class="btn btn-primary btn" href="<?= base_url('pendaftaran') ?>" role="button">Daftarkan Siswa Baru</a> -->
-                </div>
-                <div class="col-lg-3">
-                    <h3 class="text-center my-3"><strong>Semua Berita</strong></h3>
-                    <?php if (count($berita) <= 15) : ?>
-                        <ul>
-                            <?php for ($i = 0; $i <= count($berita) - 1; $i++) : ?>
-                                <li>
-                                    <a href="berita/detail/<?= $berita[$i]['id'] - 1 ?>">
-                                        <?php
-                                        $str = $berita[$i]['content'];
-                                        $length = strlen(substr($str, strpos($str, "<p>") + 3));
-                                        $link = strip_tags(substr($str, 0, -$length));
-                                        echo $link;
-                                        ?>
-                                    </a>
-                                    &nbsp;<small>(<?= $berita[$i]['date'] ?>)</small>
-                                </li>
-                            <?php endfor; ?>
-                        </ul>
-                    <?php else : ?>
-                        <ul>
-                            <?php for ($i = 0; $i <= 14; $i++) : ?>
-                                <li>
-                                    <a href="berita/detail/<?= $berita[$i]['id'] - 1 ?>">
-                                        <?php
-                                        $str = $berita[$i]['content'];
-                                        $length = strlen(substr($str, strpos($str, "<p>") + 3));
-                                        $link = strip_tags(substr($str, 0, -$length));
-                                        echo $link;
-                                        ?>
-                                    </a>
-                                    &nbsp;<small>(<?= $berita[$i]['date'] ?>)</small>
-                                </li>
-                            <?php endfor; ?>
-                        </ul>
-                    <?php endif; ?>
+                        <!-- <a class="btn btn-primary btn" href="<?= base_url('pendaftaran') ?>" role="button">Daftarkan Siswa Baru</a> -->
+                    </div>
+                    <div class="col-lg-3">
+                        <h3 class="text-center my-3"><strong>Semua Berita</strong></h3>
+                        <?php if (count($berita) <= 15) : ?>
+                            <ul>
+                                <?php for ($i = 0; $i <= count($berita) - 1; $i++) : ?>
+                                    <li>
+                                        <a href="berita/detail/<?= $berita[$i]['id'] - 1 ?>">
+                                            <?php
+                                            $str = $berita[$i]['content'];
+                                            $length = strlen(substr($str, strpos($str, "<p>") + 3));
+                                            $link = strip_tags(substr($str, 0, -$length));
+                                            echo $link;
+                                            ?>
+                                        </a>
+                                        &nbsp;<small>(<?= $berita[$i]['date'] ?>)</small>
+                                    </li>
+                                <?php endfor; ?>
+                            </ul>
+                        <?php else : ?>
+                            <ul>
+                                <?php for ($i = 0; $i <= 14; $i++) : ?>
+                                    <li>
+                                        <a href="berita/detail/<?= $berita[$i]['id'] - 1 ?>">
+                                            <?php
+                                            $str = $berita[$i]['content'];
+                                            $length = strlen(substr($str, strpos($str, "<p>") + 3));
+                                            $link = strip_tags(substr($str, 0, -$length));
+                                            echo $link;
+                                            ?>
+                                        </a>
+                                        &nbsp;<small>(<?= $berita[$i]['date'] ?>)</small>
+                                    </li>
+                                <?php endfor; ?>
+                            </ul>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    <?php endif; ?>
     <div class="card card-1 card-3 mt-3">
         <div class="container">
             <div class="row">
@@ -135,6 +137,63 @@
                     </ul>
                 </div>
                 <!-- <input type="hidden" name="sukses" id="sukses" value="<?= $this->session->userdata('sukses') ?>"> -->
+            </div>
+        </div>
+    </div>
+    <div class="card card-2 card-3 mt-3">
+        <div class="container">
+            <div class="row d-flex justify-content-between">
+                <div style="width: 100%;">
+                    <h1 class="text-center mb-3 main-section"><strong>Testimonial</strong></h1>
+                </div>
+                <div class="col-lg-5 mb-3">
+                    <form method="post">
+                        <input type="hidden" name="<?= $csrf['name'] ?>" value="<?= $csrf['hash'] ?>">
+                        <div class="form-group" id="comments">
+                            <label for="comment_name">Nama</label>
+                            <input name="comment_name" type="text" class="form-control" id="comment_name" placeholder="Nama" value="<?= $this->session->userdata('comment_name') ?>">
+                            <?= form_error('comment_name', '<small class="text-danger">', '</small>'); ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment_email">Email</label>
+                            <input name="comment_email" type="text" class="form-control" id="comment_email" placeholder="contoh@email.com" value="<?= $this->session->userdata('comment_email') ?>">
+                            <?= form_error('comment_email', '<small class="text-danger">', '</small>'); ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment">Komentar</label>
+                            <textarea name="comment" class="form-control" id="comment" rows="3" placeholder="Tinggalkan komentar anda"><?= $this->session->userdata('comment') ?></textarea>
+                            <?= form_error('comment', '<small class="text-danger">', '</small>'); ?>
+                        </div>
+                        <input type="hidden" style="display: none;" class="scroll" value="<?= $this->session->flashdata('scroll'); ?>">
+                        <input type="hidden" name="datetime" value="<?= date("d-m-Y, H:i") ?>" id="comments-form">
+                        <button type="submit" name="submit" class="btn btn-primary">Posting Komentar</button>
+                    </form>
+                </div>
+                <?php if ($comments) : ?>
+                    <div class="col-lg-6" style="overflow: auto; height:300px;">
+                        <div>
+                            <ul>
+                                <?php foreach ($comments as $komen) : ?>
+                                    <li class="mb-3">
+                                        <strong><?= $komen["nama"] ?></strong>
+                                        <?php if ($komen["email"]) {
+                                            echo "(" . $komen["email"] . ")";
+                                        } ?>
+                                        <ul>
+                                            <li style="list-style: none; margin-left: -30px;">
+                                                <?= $komen["komentar"] ?>
+                                            </li>
+                                            <li style="list-style: none; margin-left: -30px;">
+                                                <small><?= $komen["tanggal"] ?></small>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <input type="hidden" class="success" value="<?= $this->session->flashdata('success') ?>">
             </div>
         </div>
     </div>
