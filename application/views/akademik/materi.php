@@ -19,8 +19,9 @@
                                     <h5>Kelas <?= $k["class"] ?></h5>
                                 </div>
                                 <div class="card-body">
-                                    <p class="card-title mb-3"></p>
-                                    <a href="<?= base_url('materi/index/') . $k["id"] ?>" class="btn btn-primary">Lihat Materi Pelajaran</a>
+                                    Guru Kelas:
+                                    <p class="card-title mb-3 text-center"><?= $k["gurukelas"] ?></p>
+                                    <a href="<?= base_url('materi/index/') . $k["id"] ?>" class="btn btn-info">Lihat Materi Pelajaran</a>
                                 </div>
                             </div>
                         <?php endforeach; ?>

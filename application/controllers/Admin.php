@@ -199,7 +199,7 @@ class Admin extends CI_Controller
             $this->load->view('admin/buatmateri');
             $this->load->view('admin/footer');
         } else {
-            $allowed_format = ["jpg", "jpeg", "png", "bmp", "pdf", "doc", "docx", "xls", "xlsx"];
+            $allowed_format = ["jpg", "jpeg", "png", "bmp", "pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "pptm"];
             $counter = 0;
             foreach ($_FILES as $file) {
                 $tmp = explode('.', $file["name"]);
@@ -210,12 +210,13 @@ class Admin extends CI_Controller
             }
             if ($counter == 0) {
                 $content = [$_FILES, $this->input->post()];
+                $content[1]['date'] = date("Y-m-d");
                 $this->Admin->buatMateri($content);
                 $this->session->unset_userdata('material');
             } else {
                 $this->session->set_flashdata('material', $this->input->post('material'));
                 $this->session->set_flashdata('questions', $this->input->post('questions'));
-                $this->session->set_flashdata('alert','Gagal');
+                $this->session->set_flashdata('alert', 'Gagal');
             }
             $this->load->view('admin/header', $data);
             $this->load->view('admin/buatmateri');
