@@ -1,7 +1,9 @@
 <div class="container mb-3">
 
     <div class="row d-flex justify-content-center">
-        <h1 class="mt-3 text-center">Materi Pelajaran Kelas <?= $kelas["class"] ?></h1>
+        <h1 class="mt-3 text-center" style="display: block;width:100%">Materi Pelajaran Kelas <?= $kelas["class"] ?></h1>
+        <?php $rd = explode('-', $date) ?>
+        <h1><small>tanggal: <?= $rd[2] . "-" . $rd[1] . "-" . $rd[0] ?></small></h1>
     </div>
     <div class="row d-flex justify-content-center mb-3">
         <div class="col-lg mt-3">
@@ -14,7 +16,7 @@
                             </div>
                             <div class="card-body">
                                 <p class="card-title mb-3"></p>
-                                <a href="<?= base_url('materi/mapel/') . $kelas["id"] . "/" . $m["subject"] ?>" class="btn btn-primary">Lihat Materi Pelajaran</a>
+                                <a href="<?= base_url('materi/mapel/') . $kelas["id"] . "/" . $m["subject"] ?>" class="btn btn-info">Lihat Materi Pelajaran</a>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -23,7 +25,7 @@
                 <?php endif; ?>
             </div>
             <div class="row d-flex justify-content-center">
-                <a href="<?= base_url('akademik/materi') ?>" class="btn btn-primary">Kembali</a>
+                <a href="<?= base_url('materi/index/') . $kelas["id"] ?>" class="btn btn-primary">Kembali</a>
             </div>
         </div>
     </div>

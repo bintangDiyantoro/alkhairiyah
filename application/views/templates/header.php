@@ -19,7 +19,7 @@
         <div class="nav-container">
             <img src="<?= base_url() ?>assets/img/alkhairiyah.png" width="47px" height="47px" style="margin-right:7px" alt="SDI Al-Khairiyah Al Khairiyah Banyuwangi"></img>
             <a class="navbar-brand pt-3" href="<?= base_url() ?>">
-                <h1 style="font-size: 20px;">SDI Al-Khairiyah Banyuwangi</h1>
+                <h1 style="font-size: 18px;">SDI Al-Khairiyah Banyuwangi</h1>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
