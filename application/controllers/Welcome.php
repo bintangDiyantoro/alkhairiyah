@@ -27,7 +27,7 @@ class Welcome extends CI_Controller
 		$data["csrf"] = $this->csrf;
 		date_default_timezone_set("Asia/Jakarta");
 		$data['title'] = 'Halaman Utama';
-		$data['description'] = 'Home page for SDI Al-Khairiyah Banyuwangi';
+		$data['description'] = 'SD Islam Al-Khairiyah adalah sekolah yang melayani pengajaran jenjang pendidikan dasar di Kabupaten Banyuwangi yang mengajarkan semua mata pelajaran wajib sesuai kurikulum yang berlaku disertai tambahan nilai-nilai agama Islam.';
 		$this->db->order_by('id', 'DESC');
 		$data['berita'] = $this->db->get('berita')->result_array();
 		for ($i = 0; $i < count($data['berita']); $i++) {
