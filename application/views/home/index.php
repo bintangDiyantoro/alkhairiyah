@@ -144,7 +144,7 @@
         <div class="container">
             <div class="row d-flex justify-content-between">
                 <div style="width: 100%;">
-                    <h1 class="text-center mb-3 main-section"><strong>Testimonial</strong></h1>
+                    <h1 class="text-center mb-3 main-section"><strong>Komentar</strong></h1>
                 </div>
                 <div class="col-lg-5 mb-3">
                     <form method="post">
