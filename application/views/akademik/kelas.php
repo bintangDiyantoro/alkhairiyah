@@ -16,7 +16,7 @@
                             </div>
                             <div class="card-body">
                                 <p class="card-title mb-3"></p>
-                                <a href="<?= base_url('materi/mapel/') . $kelas["id"] . "/" . $m["subject"] ?>" class="btn btn-info">Lihat Materi Pelajaran</a>
+                                <a href="<?= base_url('materi/mapel/') . $kelas["id"] . "/" . $m["subject"] . "/" . $date ?>" class="btn btn-info">Lihat Materi Pelajaran</a>
                             </div>
                         </div>
                     <?php endforeach; ?>

@@ -23,11 +23,11 @@ class Materi extends CI_Controller
         $this->load->view('akademik/kelas');
         $this->load->view('templates/footer');
     }
-    public function mapel($class, $subject)
+    public function mapel($class, $subject, $date)
     {
         $data["title"] = "Akademik";
         $data["kelas"] = $this->db->query("SELECT * FROM kelas WHERE id =" . $class)->row_array();
-        $data["mapel"] = $this->db->query("SELECT materi.id, mapel.nama_mapel, materi.chapter, materi.date FROM materi JOIN mapel ON materi.subject = mapel.id WHERE class_id = " . $class . " AND materi.subject = " . $subject)->result_array();
+        $data["mapel"] = $this->db->query("SELECT materi.id, mapel.nama_mapel, materi.chapter, materi.date FROM materi JOIN mapel ON materi.subject = mapel.id WHERE class_id = " . $class . " AND materi.subject = " . $subject . " AND materi.date = '" . $date . "'")->result_array();
         $data['description'] = 'Mapel of SDI Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);
         $this->load->view('akademik/mapel');

@@ -199,7 +199,7 @@ class Admin extends CI_Controller
             $this->load->view('admin/buatmateri');
             $this->load->view('admin/footer');
         } else {
-            $allowed_format = ["jpg", "jpeg", "png", "bmp", "pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "pptm"];
+            $allowed_format = ["jpg", "jpeg", "png", "bmp", "pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "pptm", "odp"];
             $counter = 0;
             foreach ($_FILES as $file) {
                 $tmp = explode('.', $file["name"]);
