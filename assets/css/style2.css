@@ -131,9 +131,9 @@ p {
 }
 
 @media(max-width:800px) {
-    .table {
+    /* .table {
         font-size: 12px !important;
-    }
+    } */
     .mobile {
         display: block;
         font-size: 17px;

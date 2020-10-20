@@ -12,7 +12,7 @@
             </div>
             <div class="row justify-content-center mb-3">
                 <div class="col-lg mt-3" style="overflow-x:auto">
-                    <table class="table table-hover">
+                    <table class="table table-hover table2">
                         <thead>
                             <tr>
                                 <th rowspan="2" scope="col">No</th>

@@ -45,4 +45,19 @@ class Akademik extends CI_Controller
         $this->load->view('akademik/materi');
         $this->load->view('templates/footer');
     }
+    public function kalender()
+    {
+        netralize();
+        $this->agenda = new Spreadsheet();
+        $agendaAkademik = './assets/sheets/kalender pendidikan sekolah.xlsx';
+        $this->agenda = \PhpOffice\PhpSpreadsheet\IOFactory::load($agendaAkademik);
+        $agenda = $this->agenda->getSheet(0)->rangeToArray('B5:C63', NULL, true, true, true);
+
+        $data['title'] = 'Akademik';
+        $data['agenda'] = $agenda;
+        $data['description'] = 'Kalender akademik SD Islam Al-Khairiyah Banyuwangi';
+        $this->load->view('templates/header', $data);
+        $this->load->view('akademik/agenda');
+        $this->load->view('templates/footer');
+    }
 }

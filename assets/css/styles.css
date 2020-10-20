@@ -205,7 +205,7 @@ div.nav-link {
     .card-3 {
         width: 102% !important;
     }
-    .table {
+    .table2 {
         font-size: 9px !important;
     }
 }
@@ -222,8 +222,5 @@ div.nav-link {
     .card-2,
     .card-3 {
         width: 102% !important;
-    }
-    .table {
-        font-size: 9px !important;
     }
 }
