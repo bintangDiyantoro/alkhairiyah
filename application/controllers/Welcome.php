@@ -32,6 +32,13 @@ class Welcome extends CI_Controller
 		$data['berita'] = $this->db->get('berita')->result_array();
 		for ($i = 0; $i < count($data['berita']); $i++) {
 			$konten = $data['berita'][$i]['content'];
+			if (strchr($konten, 'watch?v=')) {
+				$yt = explode("\">", strchr($konten, 'watch?v='));
+				$data['berita'][$i]['yt'] = explode("?v=", $yt[0])[1];
+			} elseif (strchr($konten, 'youtu.be/')) {
+				$yt = explode("\">", strchr($konten, 'youtu.be/'));
+				$data['berita'][$i]['yt'] = explode(".be/", $yt[0])[1];
+			}
 			$a = substr($konten, strpos($konten, "ckfinder"));
 			$b = substr($a, strpos($a, "g\">") + 3);
 			$c = substr($konten, strpos($konten, "<p>") + 3);
