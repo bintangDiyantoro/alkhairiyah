@@ -21,6 +21,7 @@ $(function() {
     var counter = 0
     const myalert = $('#myalert').data('alert')
     const scroll = $('.scroll').val()
+    const delbut = $('.btn-danger')
 
     if (fill.val()) {
         const len = fill.val().length
@@ -168,4 +169,26 @@ $(function() {
     if (scroll) {
         window.location.replace('#comment')
     }
+
+    delbut.on('click', function(e) {
+        e.preventDefault()
+        let id = $(this).data('id')
+        let judul = $(this).data('judul')
+
+        Swal.fire({
+            title: 'Perhatian!',
+            text: "Apakah anda yakin ingin menghapus artikel " + judul + "?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak'
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = $(this).attr('href')
+            }
+        })
+    })
+
 })

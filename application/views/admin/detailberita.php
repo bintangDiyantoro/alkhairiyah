@@ -4,9 +4,9 @@
             <small>
                 <?= $detail['date'] ?>
             </small>
-            <?php 
-                echo $detail['content'];
-                echo "<small><i>Diposting oleh: " . $detail['admin'] . "</i></small>";
+            <?php
+            echo $detail['content'];
+            echo "<small><i>Diposting oleh: " . $detail['admin'] . "</i></small>";
             ?>
 
         </div>
@@ -30,4 +30,11 @@
         </div>
     </div>
     <a href="<?= base_url('admin/berita') ?>" class="btn btn-primary">Kembali</a>
+    <a href="<?= base_url('admin/editBerita/'). $detail['id'] ?>" class="btn btn-warning">Edit</a>
+    <?php
+    $full = $detail["content"];
+    $con_length = strlen(substr($full, strpos($full, "<p>") + 3));
+    $title = strip_tags(substr($full, 0, -$con_length));
+    ?>
+    <a href="<?= base_url('admin/hapusberita/') . $detail['id'] ?>" class="btn btn-danger" data-id="<?= $detail['id'] ?>" data-judul="<?= $title ?>">Hapus</a>
 </div>
