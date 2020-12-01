@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 <div class="container py-3 d-flex justify-content-center">
     <div class="col-md-7">
         <form method="post" class="mt-3 main-form" enctype="multipart/form-data">

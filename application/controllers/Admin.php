@@ -139,6 +139,32 @@ class Admin extends CI_Controller
         $this->load->view('admin/footer');
     }
 
+    public function editDakwah($id)
+    {
+        netralize();
+        $data['title'] = 'Edit Artikel Dakwah';
+        $data['dakwah'] = $this->db->get('dakwah')->result_array();
+        $data['detail'] = $data['dakwah'][(int)$id - 1];
+        $data['csrf'] = $this->csrf;
+
+        $this->load->view('admin/header', $data);
+        $this->load->view('admin/editdakwah');
+        $this->load->view('admin/footer');
+
+        if (isset($_POST['submit'])) {
+            $content = $this->input->post('content');
+            $this->Admin->updateDakwah($content, $id);
+        }
+    }
+
+    public function hapusDakwah($id){
+        $this->db->where('id', $id);
+        $this->db->delete('dakwah');
+        if($this->db->affected_rows()>0){
+            redirect('/admin/dakwah');
+        }
+    }
+
     public function postBerita()
     {
         netralize();
@@ -176,6 +202,32 @@ class Admin extends CI_Controller
         $this->load->view('admin/detailberita');
         $this->load->view('admin/footer');
     }
+
+    public function editBerita($id){
+        $data['title'] = 'Edi Artikel Berita';
+        $data['berita'] = $this->db->get('berita')->result_array();
+        $data['detail'] = $data['berita'][(int)$id - 1];
+        $data['csrf'] = $this->csrf;
+
+        $this->load->view('admin/header', $data);
+        $this->load->view('admin/editberita');
+        $this->load->view('admin/footer');
+
+        if (isset($_POST['submit'])) {
+            $content = $this->input->post('content');
+            $this->Admin->updateBerita($content, $id);
+        }
+    }
+
+    public function hapusBerita($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('berita');
+        if($this->db->affected_rows()>0){
+            redirect('/admin/berita');
+        }
+    }
+
 
     public function buatMateri()
     {

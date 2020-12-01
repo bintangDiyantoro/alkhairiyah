@@ -29,7 +29,11 @@
                                     for ($j = 0; $j <= count($berita) - 1; $j++) : ?>
                                         <div class="carousel-item">
                                             <a href="berita/detail/<?= $berita[$j]['id'] - 1 ?>">
-                                                <img src="<?= base_url() . $berita[$j]['image'] ?>" class="d-block rounded w-100" alt="...">
+                                                <?php if ($berita[$j]['image']) : ?>
+                                                    <img src="<?= base_url() . $berita[$j]['image'] ?>" class="d-block rounded w-100" alt="...">
+                                                <?php elseif ($berita[$j]['yt']) : ?>
+                                                    <iframe class="iframe" src="https://www.youtube.com/embed/<?= $berita[$j]['yt'] ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                <?php endif; ?>
                                                 <div class="carousel-caption d-none d-md-block">
                                                     <h1 class="news-heading"><?= $berita[$j]['title'] ?></h1>
                                                     <p class="news-heading"><?= $berita[$j]['prev'] ?>...</p>
@@ -41,7 +45,11 @@
                                     for ($k = 0; $k <= 3; $k++) : ?>
                                         <div class="carousel-item">
                                             <a href="berita/detail/<?= $berita[$k]['id'] - 1 ?>">
-                                                <img src="<?= base_url() . $berita[$k]['image'] ?>" class="d-block rounded w-100" alt="...">
+                                                <?php if ($berita[$k]['image']) : ?>
+                                                    <img src="<?= base_url() . $berita[$k]['image'] ?>" class="d-block rounded w-100" alt="...">
+                                                <?php elseif ($berita[$k]['yt']) : ?>
+                                                    <iframe class="iframe" src="https://www.youtube.com/embed/<?= $berita[$k]['yt'] ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                <?php endif; ?>
                                                 <div class="carousel-caption d-none d-md-block">
                                                     <h1 class="news-heading"><?= $berita[$k]['title'] ?></h1>
                                                     <p class="news-heading"><?= $berita[$k]['prev'] ?>...</p>
