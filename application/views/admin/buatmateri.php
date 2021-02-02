@@ -2,17 +2,49 @@
     <div class="col-md-7">
         <form method="post" class="mt-3 main-form" enctype="multipart/form-data">
             <input type="hidden" name="<?= $csrf['name'] ?>" value="<?= $csrf['hash'] ?>">
-            <div class="form-group col-md-6">
-                <div class="d-flex justify-content-start align-items-baseline">
-                    <label for="class_id" style="margin-left: -12px;margin-right: 65px;">Kelas</label>
-                    <select id="class_id" class="form-control col-sm-6" name="class_id">
-                        <option selected value="">Pilih Kelas</option>
-                        <?php foreach ($kelas as $k) : ?>
-                            <option value="<?= $k['id'] ?>"><?= $k['class'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
+            <div class="form-group row">
+                <div class="col-md-6 mb-2">
+                    <div class="d-flex justify-content-start align-items-baseline">
+                        <label for="class_id" style="margin-right: 65px;">Kelas</label>
+                        <select id="class_id" class="form-control col-sm-6" name="class_id">
+                            <option selected value="">Pilih Kelas</option>
+                            <?php foreach ($kelas as $k) : ?>
+                                <option value="<?= $k['id'] ?>"><?= $k['class'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <?= form_error('class_id', '<small class="text-danger">', '</small>'); ?>
                 </div>
-                <?= form_error('class_id', '<small class="text-danger">', '</small>'); ?>
+                <div class="col-md-6">
+                    <div class="d-flex justify-content-end align-items-baseline">
+                        <label for="date" style="margin-right: 5px;">Tanggal</label>
+                        <select id="date" class="form-control col-sm-8" name="date">
+                            <?php for ($i = (int)date('d') - 10; $i < (int)date('d'); $i++) : ?>
+                                <?php if ($i !== 0 && $i > 0) : ?>
+                                    <?php if ($i < 10) : ?>
+                                        <option value="<?= date('Y-m-') . '0' . $i  ?>"><?= '0' . $i . date('-m-Y') ?></option>
+                                    <?php else : ?>
+                                        <option value="<?= date('Y-m-') . $i  ?>"><?= $i . date('-m-Y') ?></option>
+                                    <?php endif; ?>
+                                <?php else : ?>
+                                    <?php
+                                    $prevdays = 31 + $i;
+                                    $prevmonth = (int)date('m') - 1;
+                                    if ($prevmonth > 9) : ?>
+                                        <option value="<?= date('Y-') . $prevmonth . '-' . $prevdays ?>">
+                                            <?= $prevdays . '-' . $prevmonth . date('-Y') ?>
+                                        </option>
+                                    <?php else : ?>
+                                        <option value="<?= date('Y-') . '0' . $prevmonth . '-' . $prevdays ?>">
+                                            <?= $prevdays . '-' . '0' . $prevmonth . date('-Y') ?>
+                                        </option>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            <?php endfor; ?>
+                            <option selected value="<?= date("Y-m-d") ?>">Hari ini, <?= date("d-m-Y") ?></option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="form-group col-md-7">
                 <div class="d-flex justify-content-start align-items-baseline">
@@ -85,4 +117,3 @@
         });
 </script>
 <div id="myalert" data-alert="<?= $this->session->flashdata('alert') ?>"></div>
->>>>>>> najmuddin

@@ -238,7 +238,8 @@ class Admin extends CI_Controller
         $data['csrf'] = $this->csrf;
         $data['kelas'] = $this->db->get('kelas')->result_array();
         $data['mapel'] = $this->db->get('mapel')->result_array();
-
+        $data["month"] = date('Y-m');
+        
         $this->form_validation->set_rules('class_id', 'Kelas', 'required', ['required' => 'Kelas wajib dipilih']);
         $this->form_validation->set_rules('subject', 'Mata Pelajaran', 'required', ['required' => 'Mata pelajaran wajib dipilih']);
         $this->form_validation->set_rules('chapter', 'Bab / Judul Materi', 'required', ['required' => 'Bab / judul materi wajib diisi']);
@@ -261,8 +262,7 @@ class Admin extends CI_Controller
                 }
             }
             if ($counter == 0) {
-                $content = [$_FILES, $this->input->post()];
-                $content[1]['date'] = date("Y-m-d");
+                $content = [$_FILES, $this->input->post()];                
                 $this->Admin->buatMateri($content);
                 $this->session->unset_userdata('material');
             } else {
