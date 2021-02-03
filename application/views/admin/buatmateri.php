@@ -19,17 +19,17 @@
                     <div class="d-flex justify-content-end align-items-baseline">
                         <label for="date" style="margin-right: 5px;">Tanggal</label>
                         <select id="date" class="form-control col-sm-8" name="date">
-                            <?php for ($i = (int)date('d') - 10; $i < (int)date('d'); $i++) : ?>
-                                <?php if ($i !== 0 && $i > 0) : ?>
-                                    <?php if ($i < 10) : ?>
+                            <?php for ($i = (int)date('d') - 10; $i < (int)date('d'); $i++) :
+                                if ($i !== 0 && $i > 0) :
+                                    if ($i < 10) : ?>
                                         <option value="<?= date('Y-m-') . '0' . $i  ?>"><?= '0' . $i . date('-m-Y') ?></option>
                                     <?php else : ?>
                                         <option value="<?= date('Y-m-') . $i  ?>"><?= $i . date('-m-Y') ?></option>
-                                    <?php endif; ?>
-                                <?php else : ?>
-                                    <?php
+                                    <?php endif;
+                                else :
+                                    $_31 = [1, 3, 5, 7, 8, 10, 12];
                                     $prevmonth = (int)date('m') - 1;
-                                    if ($prevmonth == 1 || $prevmonth == 3 || $prevmonth == 5 || $prevmonth == 7 || $prevmonth == 8 || $prevmonth == 10 || $prevmonth == 12) {
+                                    if (in_array($prevmonth, $_31)) {
                                         $prevdays = 31 + $i;
                                     } elseif ($prevmonth == 2) {
                                         $prevdays = 29 + $i;
@@ -45,9 +45,9 @@
                                         <option value="<?= date('Y-') . '0' . $prevmonth . '-' . $prevdays ?>">
                                             <?= $prevdays . '-' . '0' . $prevmonth . date('-Y') ?>
                                         </option>
-                                    <?php endif; ?>
-                                <?php endif; ?>
-                            <?php endfor; ?>
+                                    <?php endif;
+                                endif;
+                            endfor; ?>
                             <option selected value="<?= date("Y-m-d") ?>">Hari ini, <?= date("d-m-Y") ?></option>
                         </select>
                     </div>
