@@ -28,8 +28,15 @@
                                     <?php endif; ?>
                                 <?php else : ?>
                                     <?php
-                                    $prevdays = 31 + $i;
                                     $prevmonth = (int)date('m') - 1;
+                                    if ($prevmonth == 1 || $prevmonth == 3 || $prevmonth == 5 || $prevmonth == 7 || $prevmonth == 8 || $prevmonth == 10 || $prevmonth == 12) {
+                                        $prevdays = 31 + $i;
+                                    } elseif ($prevmonth == 2) {
+                                        $prevdays = 29 + $i;
+                                    } else {
+                                        $prevdays = 30 + $i;
+                                    }
+
                                     if ($prevmonth > 9) : ?>
                                         <option value="<?= date('Y-') . $prevmonth . '-' . $prevdays ?>">
                                             <?= $prevdays . '-' . $prevmonth . date('-Y') ?>
