@@ -36,7 +36,7 @@
               <div class="col-lg">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Login Khusus Guru</h1>
+                    <h1 class="h4 text-gray-900 mb-4">Login Admin</h1>
                   </div>
                   <form class="user" method="post">
                     <input type="hidden" name="<?= $csrf['name'] ?>" value="<?= $csrf['hash'] ?>">
@@ -67,10 +67,10 @@
                     <hr>
                   </form>
                   <div class="text-center">
-                    <a class="small" href="<?= base_url('admin/register') ?>">Belum punya akun guru? Buat akun!</a>
+                    <a class="small" href="<?= base_url('admin/register') ?>">Belum punya akun admin? Buat akun!</a>
                   </div>
                   <div class="text-center">
-                    <a class="small" href="<?= base_url('/') ?>">Bukan guru? Kembali ke halaman utama!</a>
+                    <a class="small" href="<?= base_url('/') ?>">Bukan admin? Kembali ke halaman utama!</a>
                   </div>
                 </div>
               </div>
