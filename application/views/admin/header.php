@@ -115,7 +115,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Menu Materi:</h6>
                         <a class="collapse-item" href="<?= base_url('admin/buatmateri') ?>">Buat Materi Baru</a>
-                        <a class="collapse-item" href="<?= base_url('admin/materi') ?>">Lihat Semua materi</a>
+                        <a class="collapse-item" href="<?= base_url('admin/materi') ?>">Lihat Materi Terbaru</a>
                     </div>
                 </div>
             </li>

@@ -48,26 +48,17 @@
                     <div class="form-group">
                       <input type="password" name="password2" class="form-control form-control-user" placeholder="Ulangi Password">
                     </div>
-                    <div class="form-group col-md-12 d-flex justify-content-start">
-                      <label for="class" class="mr-2 col-sm-4 align-middle">Wali Kelas</label>
-                      <select id="class" class="form-control col-sm-5">
-                        <option selected>Pilih kelas</option>
-                        <option>1A</option>
-                        <option>1B</option>
-                        <option>1C</option>
-                      </select>
-                    </div>
-                    <button type="submit" name="submit" class="btn btn-primary btn-user btn-block">Buat Akun</button>
+                    <button type="submit" name="submit" class="btn btn-primary btn-user btn-block">Buat Akun Admin</button>
                   </form>
                   <hr>
                   <!-- <div class="text-center">
                     <a class="small" href="forgot-password.html">Forgot Password?</a>
                   </div> -->
                   <div class="text-center">
-                    <a class="small" href="<?= base_url('admin') ?>">Sudah punya akun guru? Masuk!</a>
+                    <a class="small" href="<?= base_url('admin') ?>">Sudah punya akun admin? Masuk!</a>
                   </div>
                   <div class="text-center">
-                    <a class="small" href="<?= base_url('/') ?>">Bukan guru? Kembali ke halaman utama</a>
+                    <a class="small" href="<?= base_url('/') ?>">Bukan admin? Kembali ke halaman utama</a>
                   </div>
                 </div>
               </div>
