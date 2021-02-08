@@ -22,6 +22,7 @@ $(function() {
     const myalert = $('#myalert').data('alert')
     const scroll = $('.scroll').val()
     const delbut = $('.btn-danger')
+    const delbadge = $('.badge-danger')
 
     if (fill.val()) {
         const len = fill.val().length
@@ -140,7 +141,20 @@ $(function() {
         $(this).next('.custom-file-label').addClass("selected").html(fileName);
     });
 
+    console.log($('.custom-file').length)
+
     $('.add-attachment').on('click', function(e) {
+        if ($('.custom-file').length == 1) {
+            counter = 0
+        } else if ($('.custom-file').length == 2) {
+            counter = 1
+        } else if ($('.custom-file').length == 3) {
+            counter = 2
+        } else if ($('.custom-file').length == 4) {
+            counter = 3
+        } else {
+            counter = 4
+        }
         e.preventDefault()
         counter += 1
         if (counter <= 4) {
@@ -178,6 +192,27 @@ $(function() {
         Swal.fire({
             title: 'Perhatian!',
             text: "Apakah anda yakin ingin menghapus artikel " + judul + "?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak'
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = $(this).attr('href')
+            }
+        })
+    })
+
+    delbadge.on('click', function(e) {
+        e.preventDefault()
+        let id = $(this).data('id')
+        let judul = $(this).data('judul')
+
+        Swal.fire({
+            title: 'Perhatian!',
+            text: "Apakah anda yakin ingin menghapus data " + judul + "?",
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

@@ -154,4 +154,30 @@ class ModelAdmin extends CI_Model
         $this->db->insert('materi', $content[1]);
         $this->session->set_flashdata('alert', 'Berhasil');
     }
+
+    public function editMateri($content, $id)
+    {
+        if ($content[0]["attachment1"]) {
+            $counter = 1;
+        } elseif ($content[0]["attachment1"] && $content[0]["attachment2"]) {
+            $counter = 2;
+        } elseif ($content[0]["attachment1"] && $content[0]["attachment2"] && $content[0]["attachment3"]) {
+            $counter = 3;
+        } elseif ($content[0]["attachment1"] && $content[0]["attachment2"] && $content[0]["attachment3"] && $content[0]["attachment4"]) {
+            $counter = 4;
+        } else {
+            $counter = 0;
+        }
+        foreach ($content[0] as $file) {
+            if ($file["name"]) {
+                $counter += 1;
+                $newname = "assets/lib/" . uniqid() . "." . pathinfo($file["name"])["extension"];
+                $content[1]["attachment_" . (string)$counter] = $newname;
+                move_uploaded_file($file["tmp_name"], $newname);
+            }
+        }
+        $this->db->where('id', $id);
+        $this->db->update('materi', $content[1]);
+        $this->session->set_flashdata('alert', 'Berhasil');
+    }
 }
