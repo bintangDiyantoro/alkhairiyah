@@ -9,6 +9,7 @@
                     <th scope="col">Bab</th>
                     <th scope="col">Materi</th>
                     <th scope="col">Tanggal</th>
+                    <th colspan="3">Tindakan</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,6 +23,17 @@
                         <td><?= $m["chapter"] ?></td>
                         <td><?= strip_tags(substr($m["material"], 0, 20)) . "..." ?></td>
                         <td><?= $m["date"] ?></td>
+                        <td>
+                            <a href="<?= base_url('admin/detailmateri/') . $m["id"] ?>" class="badge badge-info">
+                                Lihat
+                            </a>
+                            <a href="<?= base_url('admin/ubahmateri/') . $m["id"] ?>" class="badge badge-warning">
+                                Ubah
+                            </a>
+                            <a href="<?= base_url('admin/hapusmateri/') . $m["id"] ?>" class="badge badge-danger" data-id="<?= $m["id"]?>" data-judul="<?= $m["chapter"]?>">
+                                Hapus
+                            </a>
+                        </td>
                     </tr>
                 <?php $counter++;
                 endforeach; ?>

@@ -56,7 +56,8 @@ class Admin extends CI_Controller
             $this->session->unset_userdata('error');
             redirect('admin/dashboard');
         } else {
-            $this->login();
+            // redirect('admin/login');
+            redirect('admin/login');
         }
     }
 
@@ -95,7 +96,7 @@ class Admin extends CI_Controller
         netralize();
         netralize3();
         if (!$this->session->userdata('admin')) {
-            $this->login();
+            redirect('admin/login');
         } else {
             $data['title'] = 'Dashboard';
             $this->load->view('admin/header', $data);
@@ -108,7 +109,7 @@ class Admin extends CI_Controller
     {
         netralize();
         if (!$this->session->userdata('admin')) {
-            $this->login();
+            redirect('admin/login');
         } else {
             $data['title'] = 'Not Found';
             $this->load->view('admin/header', $data);
@@ -121,7 +122,7 @@ class Admin extends CI_Controller
     {
         netralize();
         if (!$this->session->userdata('admin')) {
-            $this->login();
+            redirect('admin/login');
         } else {
             $data['title'] = 'Buat Artikel Dakwah';
             $data['csrf'] = $this->csrf;
@@ -141,7 +142,7 @@ class Admin extends CI_Controller
     {
         netralize();
         if (!$this->session->userdata('admin')) {
-            $this->login();
+            redirect('admin/login');
         } else {
             $data['title'] = 'Dakwah';
             $data['dakwah'] = $this->db->get('dakwah')->result_array();
@@ -156,7 +157,7 @@ class Admin extends CI_Controller
     {
         netralize();
         if (!$this->session->userdata('admin')) {
-            $this->login();
+            redirect('admin/login');
         } else {
             $data['title'] = 'Dakwah';
             $data['dakwah'] = $this->db->get('dakwah')->result_array();
@@ -171,7 +172,7 @@ class Admin extends CI_Controller
     {
         netralize();
         if (!$this->session->userdata('admin')) {
-            $this->login();
+            redirect('admin/login');
         } else {
             $data['title'] = 'Edit Artikel Dakwah';
             $data['dakwah'] = $this->db->get('dakwah')->result_array();
@@ -192,7 +193,7 @@ class Admin extends CI_Controller
     public function hapusDakwah($id)
     {
         if (!$this->session->userdata('admin')) {
-            $this->login();
+            redirect('admin/login');
         } else {
             $this->db->where('id', $id);
             $this->db->delete('dakwah');
@@ -206,7 +207,7 @@ class Admin extends CI_Controller
     {
         netralize();
         if (!$this->session->userdata('admin')) {
-            $this->login();
+            redirect('admin/login');
         } else {
             $data['title'] = 'Buat Berita Baru';
             $data['csrf'] = $this->csrf;
@@ -226,7 +227,7 @@ class Admin extends CI_Controller
     {
         netralize();
         if (!$this->session->userdata('admin')) {
-            $this->login();
+            redirect('admin/login');
         } else {
             $data['title'] = 'Berita';
             $data['berita'] = $this->db->get('berita')->result_array();
@@ -241,7 +242,7 @@ class Admin extends CI_Controller
     {
         netralize();
         if (!$this->session->userdata('admin')) {
-            $this->login();
+            redirect('admin/login');
         } else {
             $data['title'] = 'Berita';
             $data['berita'] = $this->db->get('berita')->result_array();
@@ -255,7 +256,7 @@ class Admin extends CI_Controller
     public function editBerita($id)
     {
         if (!$this->session->userdata('admin')) {
-            $this->login();
+            redirect('admin/login');
         } else {
 
             $data['title'] = 'Edi Artikel Berita';
@@ -277,7 +278,7 @@ class Admin extends CI_Controller
     public function hapusBerita($id)
     {
         if (!$this->session->userdata('admin')) {
-            $this->login();
+            redirect('admin/login');
         } else {
             $this->db->where('id', $id);
             $this->db->delete('berita');
@@ -293,7 +294,7 @@ class Admin extends CI_Controller
         netralize();
         netralize3();
         if (!$this->session->userdata('admin')) {
-            $this->login();
+            redirect('admin/login');
         } else {
             $data['title'] = 'Buat Materi Baru';
             $data['csrf'] = $this->csrf;
@@ -343,7 +344,7 @@ class Admin extends CI_Controller
         netralize();
         netralize3();
         if (!$this->session->userdata('admin')) {
-            $this->login();
+            redirect('admin/login');
         } else {
             $data['title'] = 'Materi Terbaru';
             $data['materi'] = $this->db->query("SELECT materi.id, kelas.class, mapel.nama_mapel, materi.chapter, materi.material, materi.date FROM materi JOIN kelas ON kelas.id = materi.class_id JOIN mapel ON mapel.id = materi.subject ORDER BY materi.id DESC LIMIT 15")->result_array();
@@ -351,6 +352,105 @@ class Admin extends CI_Controller
             $this->load->view('admin/header', $data);
             $this->load->view('admin/materi');
             $this->load->view('admin/footer');
+        }
+    }
+
+    public function detailmateri($id)
+    {
+        netralize();
+        netralize3();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            $data['title'] = 'Detail Materi';
+
+            $query = 'SELECT materi.id, materi.class_id, kelas.class, materi.subject, 
+                    mapel.nama_mapel, materi.chapter, materi.material, 
+                    materi.attachment_1, materi.attachment_2, materi.attachment_3,
+                    materi.attachment_4, materi.attachment_5, materi.questions, materi.date 
+                    FROM ((materi JOIN kelas ON materi.class_id = kelas.id) 
+                    JOIN mapel ON materi.subject = mapel.id) WHERE materi.id =' . $id;
+
+            $data["materi"] = $this->db->query($query)->row_array();
+
+            $this->load->view('admin/header', $data);
+            $this->load->view('admin/detailmateri');
+            $this->load->view('admin/footer');
+        }
+    }
+
+    public function ubahmateri($id)
+    {
+        netralize();
+        netralize3();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+
+            $query = 'SELECT materi.id, materi.class_id, kelas.class, materi.subject, 
+                    mapel.nama_mapel, materi.chapter, materi.material, 
+                    materi.attachment_1, materi.attachment_2, materi.attachment_3,
+                    materi.attachment_4, materi.attachment_5, materi.questions, materi.date 
+                    FROM ((materi JOIN kelas ON materi.class_id = kelas.id) 
+                    JOIN mapel ON materi.subject = mapel.id) WHERE materi.id =' . $id;
+
+            $data["materi"] = $this->db->query($query)->row_array();
+            $data['title'] = 'Ubah Materi';
+            $data['csrf'] = $this->csrf;
+            $data['kelas'] = $this->db->get('kelas')->result_array();
+            $data['mapel'] = $this->db->get('mapel')->result_array();
+            $data["month"] = date('Y-m');
+
+            $this->form_validation->set_rules('class_id', 'Kelas', 'required', ['required' => 'Kelas wajib dipilih']);
+            $this->form_validation->set_rules('subject', 'Mata Pelajaran', 'required', ['required' => 'Mata pelajaran wajib dipilih']);
+            $this->form_validation->set_rules('chapter', 'Bab / Judul Materi', 'required', ['required' => 'Bab / judul materi wajib diisi']);
+            $this->form_validation->set_rules('material', 'Materi', 'required', ['required' => 'Materi wajib diisi']);
+
+            if ($this->form_validation->run() == FALSE) {
+                $this->session->set_flashdata('material', $this->input->post('material'));
+                $this->session->set_flashdata('questions', $this->input->post('questions'));
+                $this->load->view('admin/header', $data);
+                $this->load->view('admin/editmateri');
+                $this->load->view('admin/footer');
+            } else {
+                $allowed_format = ["jpg", "jpeg", "png", "bmp", "pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "pptm", "odp"];
+                $counter = 0;
+                foreach ($_FILES as $file) {
+                    $tmp = explode('.', $file["name"]);
+                    $format = strtolower(end($tmp));
+                    if ($file["name"] && !in_array($format, $allowed_format)) {
+                        $counter += 1;
+                    }
+                }
+                if ($counter == 0) {
+                    $content = [$_FILES, $this->input->post()];
+                    $this->Admin->editMateri($content, $id);
+                    redirect('admin/materi');
+                    $this->session->unset_userdata('material');
+                } else {
+                    $this->session->set_flashdata('material', $this->input->post('material'));
+                    $this->session->set_flashdata('questions', $this->input->post('questions'));
+                    $this->session->set_flashdata('alert', 'Gagal');
+                }
+
+                $this->load->view('admin/header', $data);
+                $this->load->view('admin/editmateri');
+                $this->load->view('admin/footer');
+            }
+        }
+    }
+
+    public function hapusmateri($id)
+    {
+        netralize();
+        netralize3();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            $data['title'] = 'Detail Materi';
+            $this->db->where('id',$id);
+            $this->db->delete('materi');
+            redirect('admin/materi');
         }
     }
 
