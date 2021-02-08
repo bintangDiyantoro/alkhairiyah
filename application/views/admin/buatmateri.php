@@ -19,7 +19,7 @@
                     <div class="d-flex justify-content-end align-items-baseline">
                         <label for="date" style="margin-right: 5px;">Tanggal</label>
                         <select id="date" class="form-control col-sm-8" name="date">
-                            <?php for ($i = (int)date('d') - 10; $i < (int)date('d'); $i++) :
+                            <?php for ($i = (int)date('d') - 20; $i < (int)date('d'); $i++) :
                                 if ($i !== 0 && $i > 0) :
                                     if ($i < 10) : ?>
                                         <option value="<?= date('Y-m-') . '0' . $i  ?>"><?= '0' . $i . date('-m-Y') ?></option>
