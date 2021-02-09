@@ -36,7 +36,7 @@ class Admin extends CI_Controller
                 if ($query['verified'] == 1) {
                     $this->session->set_userdata('admin', $this->input->post('name'));
                     $this->session->unset_userdata('error');
-                    redirect('admin/dashboard');
+                    redirect('admin');
                 } else {
                     $this->session->set_userdata('error', 'Akun belum diverifikasi, silahkan hubungi Ust. Arif Isnandi!');
                     redirect('admin');
@@ -48,18 +48,6 @@ class Admin extends CI_Controller
         }
     }
 
-    public function index()
-    {
-        netralize();
-        netralize3();
-        if ($this->session->userdata('admin')) {
-            $this->session->unset_userdata('error');
-            redirect('admin/dashboard');
-        } else {
-            // redirect('admin/login');
-            redirect('admin/login');
-        }
-    }
 
     public function register()
     {
@@ -91,17 +79,18 @@ class Admin extends CI_Controller
         }
     }
 
-    public function dashboard()
+    public function index()
     {
         netralize();
         netralize3();
-        if (!$this->session->userdata('admin')) {
-            redirect('admin/login');
-        } else {
+        if ($this->session->userdata('admin')) {
+            $this->session->unset_userdata('error');
             $data['title'] = 'Dashboard';
             $this->load->view('admin/header', $data);
             $this->load->view('admin/dashboard');
             $this->load->view('admin/footer');
+        } else {
+            redirect('admin/login');
         }
     }
 
@@ -448,7 +437,7 @@ class Admin extends CI_Controller
             redirect('admin/login');
         } else {
             $data['title'] = 'Detail Materi';
-            $this->db->where('id',$id);
+            $this->db->where('id', $id);
             $this->db->delete('materi');
             redirect('admin/materi');
         }

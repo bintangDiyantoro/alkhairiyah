@@ -20,7 +20,7 @@
                         <th scope="row"><?= $counter ?></th>
                         <td><?= $m["class"] ?></td>
                         <td><?= $m["nama_mapel"] ?></td>
-                        <td><?= $m["chapter"] ?></td>
+                        <td><?= strip_tags(substr($m["chapter"], 0, 20)) . "..." ?></td>
                         <td><?= strip_tags(substr($m["material"], 0, 20)) . "..." ?></td>
                         <td><?= $m["date"] ?></td>
                         <td>
@@ -30,7 +30,7 @@
                             <a href="<?= base_url('admin/ubahmateri/') . $m["id"] ?>" class="badge badge-warning">
                                 Ubah
                             </a>
-                            <a href="<?= base_url('admin/hapusmateri/') . $m["id"] ?>" class="badge badge-danger" data-id="<?= $m["id"]?>" data-judul="<?= $m["chapter"]?>">
+                            <a href="<?= base_url('admin/hapusmateri/') . $m["id"] ?>" class="badge badge-danger" data-id="<?= $m["id"] ?>" data-judul="<?= $m["chapter"] ?>">
                                 Hapus
                             </a>
                         </td>
