@@ -18,7 +18,7 @@ $(function() {
     const keyword = $('.mr-sm-2')
     navlink.addClass('active')
     const otherlink = $('a').not('.active')
-    var counter = 0
+    var counter = $('.custom-file').length - 1
     const myalert = $('#myalert').data('alert')
     const scroll = $('.scroll').val()
     const delbut = $('.btn-danger')
@@ -141,20 +141,7 @@ $(function() {
         $(this).next('.custom-file-label').addClass("selected").html(fileName);
     });
 
-    console.log($('.custom-file').length)
-
     $('.add-attachment').on('click', function(e) {
-        if ($('.custom-file').length == 1) {
-            counter = 0
-        } else if ($('.custom-file').length == 2) {
-            counter = 1
-        } else if ($('.custom-file').length == 3) {
-            counter = 2
-        } else if ($('.custom-file').length == 4) {
-            counter = 3
-        } else {
-            counter = 4
-        }
         e.preventDefault()
         counter += 1
         if (counter <= 4) {
