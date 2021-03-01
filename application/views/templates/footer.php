@@ -11,7 +11,7 @@
 <script src="<?= base_url() ?>assets/js/pickmeup.js"></script>
 <script src="<?= base_url() ?>assets/js/script.js"></script>
 <script>
-    const title = $('title').html().split(' ')[3]
+    const title = $('title').html().split(' ')[4]
     if (title !== 'Pendaftaran' && title !== 'Tutup' && title !== 'Materi') {
         $(window).scroll(() => {
             var scroll = $(window).scrollTop();
