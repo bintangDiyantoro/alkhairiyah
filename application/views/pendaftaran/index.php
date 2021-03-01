@@ -30,7 +30,7 @@
                         </div>
                         <div class="form-group">
                             <label for="keterangan_ayah">Keterangan</label>
-                            <input type="text" name="keterangan_ayah" class="form-control" id="keterangan_ayah" autocomplete="off" value="<?= $this->session->userdata('keterangan_ayah') ?>" placeholder="(meninggal, bercerai, di luar kota, dsb)">
+                            <input type="text" name="keterangan_ayah" class="form-control" id="keterangan_ayah" autocomplete="off" value="<?= $this->session->userdata('keterangan_ayah') ?>" placeholder="(meninggal, di luar kota/negeri, dsb)">
                             <?= form_error('keterangan_ayah', '<small class="text-danger pl-3">', '</small>') ?>
                         </div>
                         <div class="form-group">
@@ -69,7 +69,7 @@
                         </div>
                         <div class="form-group">
                             <label for="keterangan_ibu">Keterangan</label>
-                            <input type="text" name="keterangan_ibu" class="form-control" id="keterangan_ibu" autocomplete="off" value="<?= $this->session->userdata('keterangan_ibu') ?>" placeholder="(meninggal, bercerai, di luar kota, dsb)">
+                            <input type="text" name="keterangan_ibu" class="form-control" id="keterangan_ibu" autocomplete="off" value="<?= $this->session->userdata('keterangan_ibu') ?>" placeholder="(meninggal, di luar kota/negeri, dsb)">
                             <?= form_error('keterangan_ibu', '<small class="text-danger pl-3">', '</small>') ?>
                         </div>
                         <div class="form-group">

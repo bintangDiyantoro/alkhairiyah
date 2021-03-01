@@ -248,8 +248,8 @@ class Pendaftaran extends CI_Controller{
         $this->db->order_by('tgl_lahir','ASC');
         $data['calon_siswa'] = $this->db->get('calon_siswa',$config['per_page'],$data['start'])->result_array();
         $this->load->view('templates/header', $data);
-        $this->load->view('pendaftaran/sabar2');
-        // $this->load->view('pendaftaran/tersimpan');
+        // $this->load->view('pendaftaran/sabar2');
+        $this->load->view('pendaftaran/tersimpan');
         $this->load->view('templates/footer');
     }
     
