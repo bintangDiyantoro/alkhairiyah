@@ -2,7 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
-class Pendaftaran extends CI_Controller
+class Ghij extends CI_Controller
 {
 
     public function __construct()
@@ -25,30 +25,13 @@ class Pendaftaran extends CI_Controller
         }
     }
 
-    private function _fillTheForm()
-    {
-        $data['csrf'] = $this->csrf;
-        $data['title'] = 'Pendaftaran';
-        $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
-        $this->load->view('templates/header', $data);
-
-        if ((int)date('mdHi') >= 3141700 && (int)date('mdHi') < 3181700) {
-            $this->load->view('pendaftaran/index');
-        } elseif ((int)date('mdHi') < 3141700) {
-            $this->load->view('pendaftaran/sabar');
-        } else {
-            $this->load->view('pendaftaran/tutup');
-        }
-        $this->load->view('templates/footer');
-    }
-
     private function _testInput()
     {
         $data['csrf'] = $this->csrf;
         $data['title'] = 'Pendaftaran';
         $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);
-        $this->load->view('pendaftaran/sabar');
+        $this->load->view('pendaftaran/index');
         $this->load->view('templates/footer');
     }
 
@@ -135,7 +118,7 @@ class Pendaftaran extends CI_Controller
                 $this->session->set_userdata('error', 'error');
                 $this->_dataOrtu($this->security->xss_clean($this->input->post()));
             }
-            $this->_fillTheForm();
+            $this->_testInput();
         } elseif ($this->input->post('wali') == 'Ayah' || $this->input->post('wali') == 'Ibu') {
             $this->session->set_userdata('stwali', 'valid');
             $this->session->unset_userdata('error');
