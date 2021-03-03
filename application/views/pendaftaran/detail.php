@@ -54,7 +54,7 @@
                             <?= $calon_siswa['tanggal'] . ' pukul ' . $calon_siswa['jam']  ?> <br>
                         </div>
                     </div>
-                    <a href="<?= base_url('pendaftaran/tersimpan') ?>" class="btn btn-primary float-right mr-4">Kembali</a>
+                    <a href="<?= base_url('pendaftaran/cs') ?>" class="btn btn-primary float-right mr-4">Kembali</a>
                     <input type="hidden" name="tersimpan" id="tersimpan" value="ok">
                 </div>
             </div>

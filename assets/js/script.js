@@ -61,8 +61,21 @@ $(function() {
         Swal.fire({
             type: 'info',
             title: 'Selamat datang di Form Pendaftaran!',
-            html: `<h4><strong>Rincian Biaya Pendaftaran:</strong></h4>
-            <div style="text-align:left;margin-left:80px;display:flex"><br/><div style="width:50%">Infaq Pengembangan<br/>Infaq Bulanan(Juli)<br/>Seragam</div><div><strong>: Rp 2.000.000,-<br/>: Rp 200.000,- <br/> : Rp. 1.055.000,-</strong></div></div><br/><br/>Silahkan isi form dengan teliti! <br/>Setelah mengisi form silahkan tekan tombol <strong>Selanjutnya</strong> untuk melanjutkan proses pendaftaran.`,
+            html: `<br />Dimohon mengisi form dengan teliti!<br />Setelah mengisi form silahkan tekan tombol
+                    <strong>Selanjutnya</strong> untuk melanjutkan proses pendaftaran.<br/><br/>
+            Setelah melakukan pendaftaran online silahkan melengkapi persyaratan <strong>verifikasi secara offline</strong> sebagai berikut:
+            <br /><br />
+                    <div style="text-align:left;margin-left:30px;display:flex">
+                            <ul>
+                            <li>Infaq Bulanan (Juli)<strong>: Rp 200.000,-</strong></li>
+                            <li>Infaq Pemeliharaan Gedung<strong>: Rp 2.000.000,-</strong></li>
+                            <li>FC Akta Kelahiran</li>
+                            <li>FC Kartu Keluarga</li>
+                            <li>Surat keterangan dari TK/RA (jika ada)</li>
+                            <li>Pas Foto 3 x 4 background merah (3 lembar)</li>
+                        </ul>
+                    </div>
+                    <br />`,
             // footer: '<a href>Butuh dana cepat?</a>'
         })
     }

@@ -17,12 +17,29 @@ class Ghij extends CI_Controller
 
     private function _regex()
     {
-        $string = "/^" . "(0[1-9]|1[0-9]|2[0-9]|3[0-1])-(0[1-9]|1[0-2])-20[0-9][0-9]$/";
+        $string = "/^" . "((0[1-9]|[1-2][\d]|3[0-1])-(0[1-9]|1[0-2])-201[0-4]|((0[1-9]|[1-2][\d]|3[0-1])-0[1-6]|01-07)-2015)$/";
         if (preg_match($string, $this->input->post('tgl_lahir'))) {
             return 1;
         } else {
             return 0;
         }
+    }
+
+    private function _fillTheForm()
+    {
+        $data['csrf'] = $this->csrf;
+        $data['title'] = 'Pendaftaran';
+        $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
+        $this->load->view('templates/header', $data);
+
+        if ((int)date('mdHi') >= 3141700 && (int)date('mdHi') < 3181700) {
+            $this->load->view('pendaftaran/index');
+        } elseif ((int)date('mdHi') < 3141700) {
+            $this->load->view('pendaftaran/sabar');
+        } else {
+            $this->load->view('pendaftaran/tutup');
+        }
+        $this->load->view('templates/footer');
     }
 
     private function _testInput()
@@ -123,11 +140,11 @@ class Ghij extends CI_Controller
             $this->session->set_userdata('stwali', 'valid');
             $this->session->unset_userdata('error');
             $this->_dataOrtu($this->security->xss_clean($this->input->post()));
-            redirect('pendaftaran/calonsiswa');
+            redirect('ghij/calonsiswa');
         } elseif ($this->input->post('wali') == 'Lainnya') {
             $this->session->unset_userdata('error');
             $this->_dataOrtu($this->security->xss_clean($this->input->post()));
-            redirect('pendaftaran/wali');
+            redirect('ghij/wali');
         }
     }
 
@@ -150,10 +167,10 @@ class Ghij extends CI_Controller
                 $this->session->set_userdata('stwali', 'valid');
                 $this->session->unset_userdata('error');
                 $this->_dataWali($this->security->xss_clean($this->input->post()));
-                redirect('pendaftaran/calonsiswa');
+                redirect('ghij/calonsiswa');
             }
         } else {
-            redirect('pendaftaran');
+            redirect('ghij');
         }
     }
 
@@ -171,11 +188,12 @@ class Ghij extends CI_Controller
 
             $this->_validateFormCalonSiswa();
             $this->_regex();
+
             if ($this->form_validation->run() == FALSE || $this->_regex() == 0) {
                 if (isset($_POST['submit'])) {
                     $this->session->set_userdata('error', 'error');
                     $this->session->set_userdata('tgl_lahir', $this->input->post('tgl_lahir'));
-                    $this->session->set_flashdata('regex', 'input tidak valid');
+                    $this->session->set_flashdata('regex', 'Usia minimal 6 tahun per 1 Juli ' . date('Y'));
                 }
                 $data['title'] = 'Pendaftaran';
                 $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
@@ -197,10 +215,12 @@ class Ghij extends CI_Controller
                 $data_calon_siswa = $this->security->xss_clean($this->input->post());
                 $this->Pendaftaran->inputDataCalonSiswa($data_calon_siswa);
             }
-        } elseif ($this->session->userdata('wali') == 'Lainnya') {
-            redirect('pendaftaran/wali');
         } else {
-            redirect('pendaftaran');
+            if ($this->session->userdata('wali') == 'Lainnya') {
+                redirect('ghij/wali');
+            } else {
+                redirect('ghij');
+            }
         }
     }
 
@@ -217,9 +237,11 @@ class Ghij extends CI_Controller
         } else {
             $keyword = $this->session->userdata('search');
             // $this->session->unset_userdata('search');
-            $data['start'] = $this->uri->segment(3);
+            $data['start'] = (int)$this->uri->segment(3);
         }
+        $this->db->where('tahun', date('Y'));
         $this->db->like('nama', $keyword);
+        $this->db->or_like('id_cs', $keyword);
         $result = $this->db->get('calon_siswa')->num_rows();
 
         if ($result <= 120) {
@@ -228,9 +250,9 @@ class Ghij extends CI_Controller
             $res = 120;
         }
 
-        $config['base_url'] = base_url() . 'pendaftaran/tersimpan';
+        $config['base_url'] = base_url() . 'ghij/cs';
         $config['total_rows'] = $res;
-        $config['per_page'] = 10;
+        $config['per_page'] = 2;
         $config['full_tag_open'] = '<nav><ul class="pagination">';
         $config['full_tag_close'] = '</ul></nav>';
         $config['first_link'] = 'First';
@@ -247,14 +269,12 @@ class Ghij extends CI_Controller
         $config['cur_tag_close'] = '</a></li>';
         $config['attributes'] = array('class' => 'page-link');
         $this->pagination->initialize($config);
+        $this->db->where('tahun', date('Y'));
         $this->db->limit($config['per_page']);
-        $this->db->like('nama', $keyword);
-        $this->db->or_like('id_cs', $keyword);
-        $this->db->order_by('titipan', 'DESC');
-        $this->db->order_by('tgl_lahir', 'ASC');
+        // $this->db->like('nama', $keyword);
+        // $this->db->or_like('id_cs', $keyword);
         $data['calon_siswa'] = $this->db->get('calon_siswa', $config['per_page'], $data['start'])->result_array();
         $this->load->view('templates/header', $data);
-        // $this->load->view('pendaftaran/sabar2');
         $this->load->view('pendaftaran/tersimpan');
         $this->load->view('templates/footer');
     }

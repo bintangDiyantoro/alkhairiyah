@@ -42,16 +42,6 @@ class Pendaftaran extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    private function _testInput()
-    {
-        $data['csrf'] = $this->csrf;
-        $data['title'] = 'Pendaftaran';
-        $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
-        $this->load->view('templates/header', $data);
-        $this->load->view('pendaftaran/sabar');
-        $this->load->view('templates/footer');
-    }
-
     private function _validateFormOrtu()
     {
         $this->form_validation->set_rules('nama_ayah', 'nama_ayah', 'required|regex_match[/^[a-z-\s\']+$/i]|max_length[50]', ['required' => 'nama ayah wajib diisi', 'regex_match' => 'nama tidak boleh mengandung selain huruf, spasi, petik tunggal (\') dan strip (-)', 'max_length' => 'nama maksimal 50 huruf']);
