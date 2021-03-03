@@ -236,24 +236,13 @@ class Ghij extends CI_Controller
             $data['start'] = NULL;
         } else {
             $keyword = $this->session->userdata('search');
-            // $this->session->unset_userdata('search');
             $data['start'] = (int)$this->uri->segment(3);
         }
-        // $this->db->where('tahun', date('Y'));
-        // $this->db->like('nama', $keyword);
-        // $this->db->or_like('id_cs', $keyword);
-        // $result = $this->db->get('calon_siswa')->num_rows();
         $result = $this->db->query("SELECT * FROM calon_siswa WHERE nama LIKE '%" . $keyword . "%' AND tahun = " . date('Y'))->num_rows();
-        // var_dump($result); die;
-        // if ($result <= 120) {
-        //     $res = $result;
-        // } else {
-        //     $res = 120;
-        // }
 
         $config['base_url'] = base_url() . 'ghij/cs';
         $config['total_rows'] = $result;
-        $config['per_page'] = 5;
+        $config['per_page'] = 10;
         $config['full_tag_open'] = '<nav><ul class="pagination">';
         $config['full_tag_close'] = '</ul></nav>';
         $config['first_link'] = 'First';
@@ -270,22 +259,18 @@ class Ghij extends CI_Controller
         $config['cur_tag_close'] = '</a></li>';
         $config['attributes'] = array('class' => 'page-link');
         $this->pagination->initialize($config);
-        // $this->db->limit($config['per_page']);
-        $this->db->like('nama', $keyword);
-        $this->db->or_like('id_cs', $keyword);
-        $this->db->where('tahun', date('Y'));
-        // $data['calon_siswa'] = $this->db->get('calon_siswa', $config['per_page'], $data['start'])->result_array();
+        
         if ($keyword) {
             if ($data["start"]) {
-                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT 5, " . $data["start"])->result_array();
+                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . ", " . $data["start"])->result_array();
             } else {
-                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT 5")->result_array();
+                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . "")->result_array();
             }
         } else {
             if ($data["start"]) {
-                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT 5," . $data["start"])->result_array();
+                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . "," . $data["start"])->result_array();
             } else {
-                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT 5")->result_array();
+                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . "")->result_array();
             }
         }
         $this->load->view('templates/header', $data);
