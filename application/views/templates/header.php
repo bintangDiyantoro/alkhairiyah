@@ -46,7 +46,7 @@
                             </div>
                         </div>
                     </li>
-                    <?php if ((int)date('mdHi') >= 2252213 && (int)date('mdHi') <= 2252213) : ?>
+                    <?php if ((int)date('mdHi') >= 3091700 && (int)date('mdHi') <= 4301659) : ?>
                         <li class="nav-item">
                             <div class="dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -87,7 +87,7 @@ class ModelPendaftaran extends CI_Model{
             'jenis_kelamin' => $data['jenis_kelamin'],
             'tgl_lahir' => $tgl_lahir,
             'asal_tk' => $data['asal_tk'],
-            // 'titipan' => 0,
+            'tahun' => date('Y'),
             'wali' => $this->session->userdata('wali'),
             'id_wali' => $idWali,
             'id_dftr' => $idDftr,
@@ -99,7 +99,6 @@ class ModelPendaftaran extends CI_Model{
             'tanggal' => $tanggal,
             'jam' => $jam
         ];
-
         $this->db->insert('calon_siswa', $dataCalonSiswa);
         $this->db->insert('wali', $this->_datawali());
         $this->db->insert('pendaftaran', $dataDftr);

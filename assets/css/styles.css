@@ -9,6 +9,7 @@ html::-webkit-scrollbar {
 
 body {
     width: 98%!important;
+    color: rgb(0, 70, 50);
     background-color: rgba(0, 150, 0, .2);
     font-family: "corbel"!important;
 }
