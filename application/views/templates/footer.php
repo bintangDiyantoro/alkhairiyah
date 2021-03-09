@@ -12,7 +12,7 @@
 <script src="<?= base_url() ?>assets/js/script.js"></script>
 <script>
     const title = $('title').html().split(' ')[4]
-    if (title !== 'Pendaftaran' && title !== 'Tutup' && title !== 'Materi') {
+    if (title !== 'Pendaftaran' && title !== 'Tutup' && title !== 'Materi' && title !== 'Berhasil') {
         $(window).scroll(() => {
             var scroll = $(window).scrollTop();
             if (scroll > 70) {

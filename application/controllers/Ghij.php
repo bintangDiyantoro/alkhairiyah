@@ -259,7 +259,7 @@ class Ghij extends CI_Controller
         $config['cur_tag_close'] = '</a></li>';
         $config['attributes'] = array('class' => 'page-link');
         $this->pagination->initialize($config);
-        
+
         if ($keyword) {
             if ($data["start"]) {
                 $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . ", " . $data["start"])->result_array();
@@ -278,10 +278,16 @@ class Ghij extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function berhasil()
+    public function daftar($id)
     {
         netralize();
         $this->session->unset_userdata('sukses');
+        $data['title'] = 'Berhasil';
+        $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
+        $data['id'] = $id;
+        $this->load->view('templates/header', $data);
+        $this->load->view('pendaftaran/sukses');
+        $this->load->view('templates/footer');
     }
 
     public function detail($id)
@@ -297,8 +303,10 @@ class Ghij extends CI_Controller
 
     public function cetak($id)
     {
-        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [160, 137]]);
+        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [160, 157]]);
         $calon_siswa = $this->Pendaftaran->getCalonSiswa($id);
+        $tgl_lahir = explode('-', $calon_siswa['tgl_lahir']);
+        $tgl_lahir = $tgl_lahir[2] . '-' . $tgl_lahir[1] . '-' . $tgl_lahir[0];
         $html = '<div style="display:flex;justify-content:space-between">
         <div style="width:400px;float:left;line-height:0.3">
         <h1>BUKTI PENDAFTARAN</h1><h1>Calon Siswa Baru</h1> <h2>SDI AL-Khairiyah Banyuwangi</h2>
@@ -310,7 +318,7 @@ class Ghij extends CI_Controller
         <hr/>
         <div style="margin-top:20px">
         <div style="width:500px;float:left;line-height:2">
-        ID Pendaftaran<br/>
+        ID pendaftaran<br/>
         Nama<br/>
         Jenis kelamin<br/>
         Tanggal Lahir<br/>
@@ -320,20 +328,22 @@ class Ghij extends CI_Controller
         
         <div style="width:200px;float:right; margin-top:-176px;margin-right:100px;line-height:2">
         <strong>'
-            . $calon_siswa['id'] . ' <br></strong>'
-            . $calon_siswa['nama'] . ' <br>'
-            . $calon_siswa['jenis_kelamin'] . ' <br>'
-            . $calon_siswa['tgl_lahir'] . ' <br>'
-            . $calon_siswa['asal_tk'] . '<br>'
+        . $calon_siswa['id'] . ' <br></strong>'
+        . $calon_siswa['nama'] . ' <br>'
+        . $calon_siswa['jenis_kelamin'] . ' <br>'
+        . $tgl_lahir . ' <br>'
+        . $calon_siswa['asal_tk'] . '<br>'
             . $calon_siswa['namawali'] . '<br>
         </div>
         </div>
         <br/>
-        Pengumuman penerimaan siswa baru dapat dilihat melalui link: <div style="color:blue"><i>ypialkhairiyahbanyuwangi.com/pendaftaran/cs</i><br/></div>pada tanggal <strong>13 April 2020</strong>
+        Pengumuman jadwal verifikasi offline dapat dilihat melalui link: <div style="color:blue"><i>https://chat.whatsapp.com/By5MA5f5wQyL4rkD6yhjDw</i><br/></div><br>
+        atau silahkan kembali ke: <div style="color:blue"><i>' . base_url('pendaftaran/daftar/') . $id . '</i><br/></div>
         <script>
             alert(\'ok\');
         </script>';
+        $nextyear = (int)date('Y') + 1;
         $mpdf->writeHTML($html);
-        $mpdf->Output();
+        $mpdf->Output('Bukti Pendaftaran PPDB Online SD Islam Al-Khairiyah Tahun Ajaran ' . date('Y') . '-' . $nextyear . '.pdf', 'I');
     }
 }

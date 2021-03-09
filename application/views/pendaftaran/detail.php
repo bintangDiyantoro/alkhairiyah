@@ -51,7 +51,7 @@
                             Terdaftar Pada</br>
                         </div>
                         <div class="col-md-7">
-                            <?= $calon_siswa['tanggal'] . ' pukul ' . $calon_siswa['jam']  ?> <br>
+                            <?= $calon_siswa['tanggal'] . ', pukul ' . $calon_siswa['jam'].' WIB'  ?> <br>
                         </div>
                     </div>
                     <a href="<?= base_url('pendaftaran/cs') ?>" class="btn btn-primary float-right mr-4">Kembali</a>

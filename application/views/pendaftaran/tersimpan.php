@@ -2,13 +2,14 @@
     <div class="row d-flex justify-content-center">
         <div class="col-md-9">
             <h1>Daftar calon siswa</h1>
-            <form class="form-inline my-2 my-lg-0" method="post" action="">
+            <form class="form-inline my-2 my-lg-0" method="post" action="" style="display: inline;">
                 <div class="srctest">
                     <input type="hidden" class="srctoken" name="<?= $csrf['name']; ?>" value="<?= $csrf['hash']; ?>" />
                 </div>
                 <input class="form-control mr-sm-2" type="search" name="search" placeholder="cari data calon siswa" value="<?= $this->session->userdata('search') ?>" autofocus>
-                <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+                <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
+            </form>&nbsp;
+            <a class="btn btn-success" href="https://chat.whatsapp.com/By5MA5f5wQyL4rkD6yhjDw" target="_blank">Masuk grup WhatsApp</a>
             <?php if ($calon_siswa) : ?>
                 <table class="table table-hover table-success my-3">
                     <thead>
