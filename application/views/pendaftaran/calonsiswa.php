@@ -1,7 +1,7 @@
 <div class="col-lg">
     <form action="" method="post">
         <div class="row justify-content-center">
-            <div class="col-md-6 my-2">
+            <div class="col-md-6 my-2 mt-4">
                 <div class="card">
                     <div class="card-body">
                         <h3 class="tex-center">Data calon siswa</h3>

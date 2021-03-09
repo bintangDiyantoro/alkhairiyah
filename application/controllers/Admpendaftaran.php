@@ -232,22 +232,15 @@ class Admpendaftaran extends CI_Controller
             $keyword = $this->input->post('search');
             $this->session->set_userdata('search', $this->input->post('search'));
             $data['start'] = NULL;
+            $result = $this->db->query("SELECT * FROM calon_siswa WHERE nama LIKE '%" . $keyword . "%' AND tahun = " . date('Y'))->num_rows();
         } else {
             $keyword = $this->session->userdata('search');
-            // $this->session->unset_userdata('search');
-            $data['start'] = $this->uri->segment(3);
-        }
-        $this->db->like('nama', $keyword);
-        $result = $this->db->get('calon_siswa')->num_rows();
-
-        if ($result <= 120) {
-            $res = $result;
-        } else {
-            $res = 120;
+            $data['start'] = (int)$this->uri->segment(3);
+            $result = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y'))->num_rows();
         }
 
-        $config['base_url'] = base_url() . 'admpendaftaran/tersimpan';
-        $config['total_rows'] = $res;
+        $config['base_url'] = base_url() . 'pendaftaran/cs';
+        $config['total_rows'] = $result;
         $config['per_page'] = 10;
         $config['full_tag_open'] = '<nav><ul class="pagination">';
         $config['full_tag_close'] = '</ul></nav>';
@@ -265,12 +258,21 @@ class Admpendaftaran extends CI_Controller
         $config['cur_tag_close'] = '</a></li>';
         $config['attributes'] = array('class' => 'page-link');
         $this->pagination->initialize($config);
-        $this->db->limit($config['per_page']);
-        $this->db->like('nama', $keyword);
-        $this->db->or_like('id_cs', $keyword);
-        $this->db->order_by('titipan', 'DESC');
-        $this->db->order_by('tgl_lahir', 'ASC');
-        $data['calon_siswa'] = $this->db->get('calon_siswa', $config['per_page'], $data['start'])->result_array();
+
+        if ($keyword) {
+            if ($data["start"]) {
+                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . ", " . $data["start"])->result_array();
+            } else {
+                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . "")->result_array();
+            }
+        } else {
+            if ($data["start"]) {
+                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . "," . $data["start"])->result_array();
+            } else {
+                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . "")->result_array();
+            }
+        }
+
         $this->load->view('admpendaftaran/header', $data);
         $this->load->view('admpendaftaran/tersimpan');
         $this->load->view('admpendaftaran/footer');

@@ -17,7 +17,7 @@ class Pendaftaran extends CI_Controller
 
     private function _regex()
     {
-        $string = "/^" . "(0[1-9]|1[0-9]|2[0-9]|3[0-1])-(0[1-9]|1[0-2])-20[0-9][0-9]$/";
+        $string = "/^" . "((0[1-9]|[1-2][\d]|3[0-1])-(0[1-9]|1[0-2])-201[0-4]|((0[1-9]|[1-2][\d]|3[0-1])-0[1-6]|01-07)-2015)$/";
         if (preg_match($string, $this->input->post('tgl_lahir'))) {
             return 1;
         } else {
@@ -33,7 +33,7 @@ class Pendaftaran extends CI_Controller
         $this->load->view('templates/header', $data);
 
         if ((int)date('mdHi') >= 3141700 && (int)date('mdHi') < 3181700) {
-            $this->load->view('pendaftaran/index');
+        $this->load->view('pendaftaran/index');
         } elseif ((int)date('mdHi') < 3141700) {
             $this->load->view('pendaftaran/sabar');
         } else {
@@ -178,11 +178,12 @@ class Pendaftaran extends CI_Controller
 
             $this->_validateFormCalonSiswa();
             $this->_regex();
+            
             if ($this->form_validation->run() == FALSE || $this->_regex() == 0) {
                 if (isset($_POST['submit'])) {
                     $this->session->set_userdata('error', 'error');
                     $this->session->set_userdata('tgl_lahir', $this->input->post('tgl_lahir'));
-                    $this->session->set_flashdata('regex', 'input tidak valid');
+                    $this->session->set_flashdata('regex', 'Usia minimal 6 tahun per 1 Juli ' . date('Y'));
                 }
                 $data['title'] = 'Pendaftaran';
                 $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
@@ -204,10 +205,12 @@ class Pendaftaran extends CI_Controller
                 $data_calon_siswa = $this->security->xss_clean($this->input->post());
                 $this->Pendaftaran->inputDataCalonSiswa($data_calon_siswa);
             }
-        } elseif ($this->session->userdata('wali') == 'Lainnya') {
-            redirect('pendaftaran/wali');
         } else {
-            redirect('pendaftaran');
+            if ($this->session->userdata('wali') == 'Lainnya') {
+                redirect('pendaftaran/wali');
+            } else {
+                redirect('pendaftaran');
+            }
         }
     }
 
@@ -221,22 +224,15 @@ class Pendaftaran extends CI_Controller
             $keyword = $this->input->post('search');
             $this->session->set_userdata('search', $this->input->post('search'));
             $data['start'] = NULL;
+            $result = $this->db->query("SELECT * FROM calon_siswa WHERE nama LIKE '%" . $keyword . "%' AND tahun = " . date('Y'))->num_rows();
         } else {
             $keyword = $this->session->userdata('search');
-            // $this->session->unset_userdata('search');
-            $data['start'] = $this->uri->segment(3);
-        }
-        $this->db->like('nama', $keyword);
-        $result = $this->db->get('calon_siswa')->num_rows();
-
-        if ($result <= 120) {
-            $res = $result;
-        } else {
-            $res = 120;
+            $data['start'] = (int)$this->uri->segment(3);
+            $result = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y'))->num_rows();
         }
 
-        $config['base_url'] = base_url() . 'pendaftaran/tersimpan';
-        $config['total_rows'] = $res;
+        $config['base_url'] = base_url() . 'pendaftaran/cs';
+        $config['total_rows'] = $result;
         $config['per_page'] = 10;
         $config['full_tag_open'] = '<nav><ul class="pagination">';
         $config['full_tag_close'] = '</ul></nav>';
@@ -254,22 +250,36 @@ class Pendaftaran extends CI_Controller
         $config['cur_tag_close'] = '</a></li>';
         $config['attributes'] = array('class' => 'page-link');
         $this->pagination->initialize($config);
-        $this->db->limit($config['per_page']);
-        $this->db->like('nama', $keyword);
-        $this->db->or_like('id_cs', $keyword);
-        $this->db->order_by('titipan', 'DESC');
-        $this->db->order_by('tgl_lahir', 'ASC');
-        $data['calon_siswa'] = $this->db->get('calon_siswa', $config['per_page'], $data['start'])->result_array();
+
+        if ($keyword) {
+            if ($data["start"]) {
+                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . ", " . $data["start"])->result_array();
+            } else {
+                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . "")->result_array();
+            }
+        } else {
+            if ($data["start"]) {
+                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . "," . $data["start"])->result_array();
+            } else {
+                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . "")->result_array();
+            }
+        }
+
         $this->load->view('templates/header', $data);
-        // $this->load->view('pendaftaran/sabar2');
         $this->load->view('pendaftaran/tersimpan');
         $this->load->view('templates/footer');
     }
 
-    public function berhasil()
+    public function daftar($id)
     {
         netralize();
         $this->session->unset_userdata('sukses');
+        $data['title'] = 'Berhasil';
+        $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
+        $data['id'] = $id;
+        $this->load->view('templates/header', $data);
+        $this->load->view('pendaftaran/sukses');
+        $this->load->view('templates/footer');
     }
 
     public function detail($id)
@@ -285,11 +295,13 @@ class Pendaftaran extends CI_Controller
 
     public function cetak($id)
     {
-        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [160, 137]]);
+        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [160, 165]]);
         $calon_siswa = $this->Pendaftaran->getCalonSiswa($id);
+        $tgl_lahir = explode('-', $calon_siswa['tgl_lahir']);
+        $tgl_lahir = $tgl_lahir[2] . '-' . $tgl_lahir[1] . '-' . $tgl_lahir[0];
         $html = '<div style="display:flex;justify-content:space-between">
         <div style="width:400px;float:left;line-height:0.3">
-        <h1>BUKTI PENDAFTARAN</h1><h1>Calon Siswa Baru</h1> <h2>SDI AL-Khairiyah Banyuwangi</h2>
+        <h1>BUKTI PENDAFTARAN</h1><h2>PPDB Online ' . date('Y') . '</h2> <h2>SDI AL-Khairiyah Banyuwangi</h2>
         </div>
         <div style="margin-right:0px">
             <img src="' . base_url() . 'assets/img/alkhairiyah.png" width="100px" height="100px" style="margin-top:-10px"></img>
@@ -297,8 +309,8 @@ class Pendaftaran extends CI_Controller
         </div>
         <hr/>
         <div style="margin-top:20px">
-        <div style="width:500px;float:left;line-height:2">
-        ID Pendaftaran<br/>
+        <div style="width:102px;float:left;line-height:2;">
+        ID pendaftaran<br/>
         Nama<br/>
         Jenis kelamin<br/>
         Tanggal Lahir<br/>
@@ -306,22 +318,24 @@ class Pendaftaran extends CI_Controller
         Nama Wali<br/>
         </div>
         
-        <div style="width:200px;float:right; margin-top:-176px;margin-right:100px;line-height:2">
-        <strong>'
-            . $calon_siswa['id'] . ' <br></strong>'
-            . $calon_siswa['nama'] . ' <br>'
-            . $calon_siswa['jenis_kelamin'] . ' <br>'
-            . $calon_siswa['tgl_lahir'] . ' <br>'
-            . $calon_siswa['asal_tk'] . '<br>'
-            . $calon_siswa['namawali'] . '<br>
+        <div style="position:absolute;width:388px;float:right; top:-176px;right:10px;line-height:2;">
+        <strong>
+            : ' . $calon_siswa['id'] . ' <br></strong>
+            : ' . $calon_siswa['nama'] . ' <br> 
+            : ' . $calon_siswa['jenis_kelamin'] . ' <br>
+            : ' . $tgl_lahir . ' <br> 
+            : ' . $calon_siswa['asal_tk'] . '<br>
+            : ' . $calon_siswa['namawali'] . '<br>
         </div>
         </div>
         <br/>
-        Pengumuman penerimaan siswa baru dapat dilihat melalui link: <div style="color:blue"><i>ypialkhairiyahbanyuwangi.com/pendaftaran/cs</i><br/></div>pada tanggal <strong>13 April 2020</strong>
+        Pengumuman jadwal verifikasi offline dapat dilihat melalui link: <div style="color:blue"><i>https://chat.whatsapp.com/By5MA5f5wQyL4rkD6yhjDw</i><br/></div><br>
+        atau silahkan kembali ke: <div style="color:blue"><i>' . base_url('pendaftaran/daftar/') . $id . '</i><br/></div>
         <script>
             alert(\'ok\');
         </script>';
+        $nextyear = (int)date('Y') + 1;
         $mpdf->writeHTML($html);
-        $mpdf->Output();
+        $mpdf->Output('Bukti Pendaftaran PPDB Online SD Islam Al-Khairiyah Tahun Ajaran ' . date('Y') . '-' . $nextyear . '.pdf', 'I');
     }
 }

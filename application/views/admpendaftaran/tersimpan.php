@@ -23,8 +23,8 @@
                     </thead>
                     <tbody>
                         <?php foreach ($calon_siswa as $cs) :
-                            if ($cs['titipan'] == 1) {
-                                $titip = "Titipan";
+                            if ($cs['tahun'] == 1) {
+                                $titip = "Tahun";
                             } else {
                                 $titip = "-";
                             }
