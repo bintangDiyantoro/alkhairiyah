@@ -17,7 +17,8 @@ class Pendaftaran extends CI_Controller
 
     private function _regex()
     {
-        $string = "/^" . "((0[1-9]|[1-2][\d]|3[0-1])-(0[1-9]|1[0-2])-201[0-4]|((0[1-9]|[1-2][\d]|3[0-1])-0[1-6]|01-07)-2015)$/";
+        $birthyear = (int)date('Y') - 6;
+        $string = "/^" . "((0[1-9]|[1-2][\d]|3[0-1])-(0[1-9]|1[0-2])-201[0-4]|((0[1-9]|[1-2][\d]|3[0-1])-0[1-6]|01-07)-" . $birthyear . ")$/";
         if (preg_match($string, $this->input->post('tgl_lahir'))) {
             return 1;
         } else {
@@ -33,7 +34,7 @@ class Pendaftaran extends CI_Controller
         $this->load->view('templates/header', $data);
 
         if ((int)date('mdHi') >= 3141700 && (int)date('mdHi') < 3181700) {
-        $this->load->view('pendaftaran/index');
+            $this->load->view('pendaftaran/index');
         } elseif ((int)date('mdHi') < 3141700) {
             $this->load->view('pendaftaran/sabar');
         } else {
@@ -178,7 +179,7 @@ class Pendaftaran extends CI_Controller
 
             $this->_validateFormCalonSiswa();
             $this->_regex();
-            
+
             if ($this->form_validation->run() == FALSE || $this->_regex() == 0) {
                 if (isset($_POST['submit'])) {
                     $this->session->set_userdata('error', 'error');
