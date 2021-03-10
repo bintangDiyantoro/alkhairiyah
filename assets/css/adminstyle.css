@@ -1,6 +1,6 @@
-/* html::-webkit-scrollbar {
+html::-webkit-scrollbar {
     display: none;
-} */
+}
 
 @font-face {
     font-family: "corbel";
