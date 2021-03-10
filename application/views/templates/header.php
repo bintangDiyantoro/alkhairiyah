@@ -55,7 +55,7 @@
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                     <a class="dropdown-item" href="<?= base_url('pendaftaran') ?>">Daftarkan Siswa Baru</a>
-                                    <a class="dropdown-item" href="<?= base_url('pendaftaran/cs') ?>">Lihat Data Calon Siswa</a>
+                                    <a class="dropdown-item" href="<?= base_url('pendaftaran/cs') ?>">Lihat Data Pendaftar Tersimpan</a>
                                 </div>
                             </div>
                         </li>

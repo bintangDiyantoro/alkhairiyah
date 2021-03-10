@@ -239,7 +239,7 @@ class Admpendaftaran extends CI_Controller
             $result = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y'))->num_rows();
         }
 
-        $config['base_url'] = base_url() . 'pendaftaran/cs';
+        $config['base_url'] = base_url() . 'admpendaftaran/tersimpan';
         $config['total_rows'] = $result;
         $config['per_page'] = 10;
         $config['full_tag_open'] = '<nav><ul class="pagination">';
