@@ -17,7 +17,8 @@ class Ghij extends CI_Controller
 
     private function _regex()
     {
-        $string = "/^" . "((0[1-9]|[1-2][\d]|3[0-1])-(0[1-9]|1[0-2])-201[0-4]|((0[1-9]|[1-2][\d]|3[0-1])-0[1-6]|01-07)-2015)$/";
+        $birthyear = (int)date('Y') - 6;
+        $string = "/^" . "((0[1-9]|[1-2][\d]|3[0-1])-(0[1-9]|1[0-2])-201[0-4]|((0[1-9]|[1-2][\d]|3[0-1])-0[1-6]|01-07)-" . $birthyear . ")$/";
         if (preg_match($string, $this->input->post('tgl_lahir'))) {
             return 1;
         } else {
