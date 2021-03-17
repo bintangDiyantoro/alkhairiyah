@@ -9,7 +9,9 @@
                 <input class="form-control mr-sm-2" type="search" name="search" placeholder="cari data pendaftar" value="<?= $this->session->userdata('search') ?>" autofocus>
                 <button class="btn btn-info my-2 my-sm-0" type="submit">Cari</button>
             </form>&nbsp;
-            <a class="btn btn-success" href="https://chat.whatsapp.com/By5MA5f5wQyL4rkD6yhjDw" target="_blank">Masuk grup WhatsApp</a>
+            <?php if ((int)date('mdHi') >= 3141700 && (int)date('mdHi') < 3181700) : ?>
+                <a class="btn btn-success" href="https://chat.whatsapp.com/By5MA5f5wQyL4rkD6yhjDw" target="_blank">Masuk grup WhatsApp</a>
+            <?php endif; ?>
             <?php if ($calon_siswa) : ?>
                 <table class="table table-hover table-success my-3">
                     <thead>

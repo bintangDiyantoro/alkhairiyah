@@ -43,7 +43,7 @@ class Admin extends CI_Controller
                     $this->session->unset_userdata('error');
                     redirect('admin');
                 } else {
-                    $this->session->set_userdata('error', 'Akun belum diverifikasi, silahkan hubungi Ust. Arif Isnandi!');
+                    $this->session->set_userdata('error', 'Akun belum diverifikasi, silahkan hubungi Operator Yayasan!');
                     redirect('admin');
                 }
             } else {
@@ -706,13 +706,13 @@ class Admin extends CI_Controller
 
             if ($keyword) {
                 if ($data["start"]) {
-                    $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . ", " . $data["start"])->result_array();
+                    $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . " OFFSET " . $data["start"])->result_array();
                 } else {
                     $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . "")->result_array();
                 }
             } else {
                 if ($data["start"]) {
-                    $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . "," . $data["start"])->result_array();
+                    $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . " OFFSET " . $data["start"])->result_array();
                 } else {
                     $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . "")->result_array();
                 }
@@ -812,7 +812,7 @@ class Admin extends CI_Controller
         } else {
             $query = $this->db->query("SELECT calon_siswa.id_cs,calon_siswa.nama,calon_siswa.jenis_kelamin,calon_siswa.tgl_lahir,calon_siswa.asal_TK,calon_siswa.wali,wali.nama_ayah,wali.alamat_ayah,wali.pekerjaan_ayah,wali.pendterakhir_ayah,wali.keterangan_ayah,wali.nohape_ayah,wali.nama_ibu,wali.alamat_ibu,wali.pekerjaan_ibu,wali.pendterakhir_ibu,wali.keterangan_ibu,wali.nohape_ibu,wali.nama_wali,wali.alamat_wali,wali.status_wali,wali.pekerjaan_wali,wali.pendterakhir_wali,wali.nohape_wali,pendaftaran.tanggal,pendaftaran.jam FROM calon_siswa JOIN wali ON calon_siswa.id_wali = wali.id_wali JOIN pendaftaran ON calon_siswa.id_dftr = pendaftaran.id_dftr WHERE calon_siswa.tahun = '" . date('Y') . "'")->result_array();
 
-            $spreadsheet = new Spreadsheet();
+            $sheet = new Spreadsheet();
 
             $arrayData = [
                 ["No", "ID Pendaftar", "Nama Pendaftar", "Jns Kelamin", "Tgl Lahir", "Asal TK", "Wali", "Nama Ayah", "Alamat Ayah", "Pekerjaan Ayah", "Pend. Terakhir Ayah", "Ket. Ayah", "No. HP Ayah", "Nama Ibu", "Alamat Ibu", "Pekerjaan Ibu", "Pend. Terakhir Ibu", "Ket. Ibu", "No. HP Ibu", "Wali selain ayah & ibu", "Alamat Wali", "Status wali", "Pekerjaan Wali", "Pend. Terakhir Wali", "No Hp Wali", "Tanggal Pendaftaran", "Jam Pendaftaran"],
@@ -826,17 +826,56 @@ class Admin extends CI_Controller
                 $counter++;
             }
 
-            $spreadsheet->getActiveSheet()
+            $sheet->getActiveSheet()
                 ->fromArray(
                     $arrayData,  // The data to set
                     NULL,        // Array values with this value will not be set
                     'A1'         // Top left coordinate of the worksheet range where
                     //    we want to set these values (default is A1)
-                )->getStyle("A1:ZZ1")->getFont()->setBold(true);
+                )->getStyle("A1:AA1")->getFont()->setBold(true);
 
-            $writer = new Xlsx($spreadsheet);
-            $writer->save('Data PPDB Online SDI AL-Khairiyah ' . date('Y') . '.xlsx');
-            redirect('/Data PPDB Online SDI AL-Khairiyah ' . date('Y') . '.xlsx');
+            $writer = new Xlsx($sheet);
+            $writer->save('Data excel PPDB ' . date('Y') . '.xlsx');
+            redirect('/Data excel PPDB ' . date('Y') . '.xlsx');
+        }
+    }
+
+    public function registerduplication()
+    {
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            netralize();
+            $data['title'] = 'Pendaftaran';
+            $data['description'] = 'Detail calon siswa of SDI Al-Khairiyah Banyuwangi';
+            
+            $all = $this->db->query("SELECT nama FROM calon_siswa WHERE tahun=" . date('Y'))->result_array();
+            $seen = [];
+            $duplicates = [];
+            foreach ($all as $a) {
+                $lower_a = strtolower($a["nama"]);
+                $match = $this->db->query("SELECT nama FROM calon_siswa WHERE nama LIKE '" . $lower_a . "' AND tahun=" . date('Y'))->num_rows();
+                $bee = $this->db->query("SELECT nama FROM calon_siswa WHERE tahun=" . date('Y'))->result_array();
+                if ($match > 1 && !in_array($lower_a, $seen)) {
+                    $duplicates[] = $lower_a . " " . "(duplikat)";
+                    $seen[] = $lower_a;
+                } else {
+                    foreach ($bee as $b) {
+                        $lower_b = strtolower($b["nama"]);
+                        $lev = levenshtein($lower_a, $lower_b);
+                        if ($lev < 5 && $lower_a !== $lower_b && !in_array($lower_a, $seen) ) {
+                            $duplicates[] = $lower_a . " - " . $lower_b . " " . "(mirip)";
+                            $seen[] = $lower_a;
+                            $seen[] = $lower_b;
+                        }
+                    }
+                }
+            }
+
+            $data['duplikat'] = $duplicates;
+            $this->load->view('admin/header', $data);
+            $this->load->view('admin/duplikasipendaftar');
+            $this->load->view('admin/footer');
         }
     }
 

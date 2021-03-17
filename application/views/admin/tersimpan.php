@@ -9,7 +9,9 @@
                 <input class="form-control mr-sm-2" type="search" name="search" placeholder="cari data pendaftar" value="<?= $this->session->userdata('search') ?>" autofocus>
                 <button class="btn btn-info my-2 my-sm-0" type="submit">Cari</button>
             </form>&nbsp;
-            <a class="btn btn-success" href="<?= base_url('admin/cetakexcell')?>">Cetak semua</a>
+            <a class="btn btn-success" href="<?= base_url('admin/cetakexcell') ?>">Cetak semua</a>
+            &nbsp;
+            <a class="btn btn-dark" href="<?= base_url('admin/registerduplication') ?>">Lihat Duplikasi</a>
             <?php if ($calon_siswa) : ?>
                 <table class="table table-hover table-success my-3">
                     <thead>
