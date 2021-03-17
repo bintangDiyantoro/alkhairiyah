@@ -31,12 +31,17 @@ class Pendaftaran extends CI_Controller
         $data['csrf'] = $this->csrf;
         $data['title'] = 'Pendaftaran';
         $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
+        
+        $count = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y'))->num_rows();
+        
         $this->load->view('templates/header', $data);
 
-        if ((int)date('mdHi') >= 3141700 && (int)date('mdHi') < 3181700) {
-            $this->load->view('pendaftaran/index');
-        } elseif ((int)date('mdHi') < 3141700) {
-            $this->load->view('pendaftaran/sabar');
+        if ($count < 130 && (int)date('mdHi') < 3171700) {
+            if ((int)date('mdHi') >= 3141700) {
+                $this->load->view('pendaftaran/index');
+            } else {
+                $this->load->view('pendaftaran/sabar');
+            }
         } else {
             $this->load->view('pendaftaran/tutup');
         }
@@ -254,13 +259,13 @@ class Pendaftaran extends CI_Controller
 
         if ($keyword) {
             if ($data["start"]) {
-                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . ", " . $data["start"])->result_array();
+                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . " OFFSET " . $data["start"])->result_array();
             } else {
                 $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . "")->result_array();
             }
         } else {
             if ($data["start"]) {
-                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . "," . $data["start"])->result_array();
+                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . " OFFSET " . $data["start"])->result_array();
             } else {
                 $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . "")->result_array();
             }
@@ -337,6 +342,6 @@ class Pendaftaran extends CI_Controller
         </script>';
         $nextyear = (int)date('Y') + 1;
         $mpdf->writeHTML($html);
-        $mpdf->Output('Bukti Pendaftaran PPDB Online SD Islam Al-Khairiyah Tahun Ajaran ' . date('Y') . '-' . $nextyear . '.pdf', 'I');
+        $mpdf->Output('Bukti Pendaftaran PPDB Online SD Islam Al-Khairiyah Tahun Ajaran ' . date('Y') . '-' . $nextyear . '.pdf', 'D');
     }
 }
