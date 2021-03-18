@@ -848,22 +848,21 @@ class Admin extends CI_Controller
             netralize();
             $data['title'] = 'Pendaftaran';
             $data['description'] = 'Detail calon siswa of SDI Al-Khairiyah Banyuwangi';
-            
+
             $all = $this->db->query("SELECT nama FROM calon_siswa WHERE tahun=" . date('Y'))->result_array();
             $seen = [];
             $duplicates = [];
             foreach ($all as $a) {
                 $lower_a = strtolower($a["nama"]);
                 $match = $this->db->query("SELECT nama FROM calon_siswa WHERE nama LIKE '" . $lower_a . "' AND tahun=" . date('Y'))->num_rows();
-                $bee = $this->db->query("SELECT nama FROM calon_siswa WHERE tahun=" . date('Y'))->result_array();
                 if ($match > 1 && !in_array($lower_a, $seen)) {
                     $duplicates[] = $lower_a . " " . "(duplikat)";
                     $seen[] = $lower_a;
                 } else {
-                    foreach ($bee as $b) {
+                    foreach ($all as $b) {
                         $lower_b = strtolower($b["nama"]);
                         $lev = levenshtein($lower_a, $lower_b);
-                        if ($lev < 5 && $lower_a !== $lower_b && !in_array($lower_a, $seen) ) {
+                        if ($lev < 5 && $lower_a !== $lower_b && !in_array($lower_a, $seen)) {
                             $duplicates[] = $lower_a . " - " . $lower_b . " " . "(mirip)";
                             $seen[] = $lower_a;
                             $seen[] = $lower_b;

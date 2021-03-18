@@ -47,6 +47,9 @@
             <?php endif; ?>
             <?= $this->pagination->create_links() ?>
             <input type="hidden" name="tersimpan" id="tersimpan" value="ok">
+            &nbsp;
+            <a class="btn btn-dark mb-2" style="margin-left: -6px;" href="<?= base_url('jadwal verifikasi tgl 18 Maret 2021.pdf') ?>">Jadwal verifikasi 60 pendaftar pertama</a>&nbsp;
+            <a class="btn btn-dark mb-2 ml-0" href="<?= base_url('jadwal verifikasi tgl 20 Maret 2021.pdf') ?>">Jadwal verifikasi 70 pendaftar berikutnya (terakhir)</a>
         </div>
     </div>
 </div>
