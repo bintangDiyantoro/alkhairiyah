@@ -341,7 +341,7 @@ class Admin extends CI_Controller
             redirect('admin/login');
         } else {
             $data['title'] = 'Materi Terbaru';
-            $data['materi'] = $this->db->query("SELECT materi.id, kelas.class, mapel.nama_mapel, materi.chapter, materi.material, materi.date FROM materi JOIN kelas ON kelas.id = materi.class_id JOIN mapel ON mapel.id = materi.subject ORDER BY materi.id DESC LIMIT 15")->result_array();
+            $data['materi'] = $this->db->query("SELECT materi.id, kelas.class, mapel.nama_mapel, materi.chapter, materi.material, materi.date FROM materi JOIN kelas ON kelas.id = materi.class_id JOIN mapel ON mapel.id = materi.subject ORDER BY materi.id DESC LIMIT 35")->result_array();
 
             $this->load->view('admin/header', $data);
             $this->load->view('admin/materi');
