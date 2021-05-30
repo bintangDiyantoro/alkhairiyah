@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '06b89f6e605e901a5a7de4ed79688e89cf839b7a',
+    'reference' => 'a834e1447ca2404ccafb6dcb758e9f992cb77ea4',
     'name' => 'codeigniter/framework',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '06b89f6e605e901a5a7de4ed79688e89cf839b7a',
+      'reference' => 'a834e1447ca2404ccafb6dcb758e9f992cb77ea4',
     ),
     'doctrine/instantiator' => 
     array (
@@ -76,12 +76,12 @@
     ),
     'mpdf/mpdf' => 
     array (
-      'pretty_version' => 'v8.0.10',
-      'version' => '8.0.10.0',
+      'pretty_version' => 'v8.0.11',
+      'version' => '8.0.11.0',
       'aliases' => 
       array (
       ),
-      'reference' => '1333a962cd2f7ae1a127b7534b7734b58179186f',
+      'reference' => 'af17afbbfa0b6ce76defc8da5d02a73d54f94c64',
     ),
     'myclabs/deep-copy' => 
     array (
@@ -251,12 +251,12 @@
     ),
     'psr/log' => 
     array (
-      'pretty_version' => '1.1.3',
-      'version' => '1.1.3.0',
+      'pretty_version' => '1.1.4',
+      'version' => '1.1.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '0f73288fd15629204f9d42b7055f72dacbe811fc',
+      'reference' => 'd49695b909c3b7628b6289db5479a1c204601f11',
     ),
     'psr/simple-cache' => 
     array (
@@ -386,21 +386,21 @@
     ),
     'symfony/yaml' => 
     array (
-      'pretty_version' => 'v4.4.19',
-      'version' => '4.4.19.0',
+      'pretty_version' => 'v4.4.24',
+      'version' => '4.4.24.0',
       'aliases' => 
       array (
       ),
-      'reference' => '17ed9f14c1aa05b1a5cf2e2c5ef2d0be28058ef9',
+      'reference' => '8b6d1b97521e2f125039b3fcb4747584c6dfa0ef',
     ),
     'webmozart/assert' => 
     array (
-      'pretty_version' => '1.9.1',
-      'version' => '1.9.1.0',
+      'pretty_version' => '1.10.0',
+      'version' => '1.10.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'bafc69caeb4d49c39fd0779086c03a3738cbb389',
+      'reference' => '6964c76c7804814a842473e0c8fd15bab0f18e25',
     ),
   ),
 );

@@ -121,6 +121,7 @@
                 </div>
             </li>
 
+
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages4" aria-expanded="true" aria-controls="collapsePages4">
                     <i class="fas fa-clipboard"></i>
@@ -134,6 +135,14 @@
                     </div>
                 </div>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url('admin/uploadmediatk') ?>">
+                    <i class="fas fa-photo-video"></i>
+                    <span>Upload Media TK</span>
+                </a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

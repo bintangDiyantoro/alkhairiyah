@@ -162,6 +162,14 @@ $(function() {
             $('.additional-attachment-' + counter).load('/admin/newattach/' + counter)
         }
     })
+    $('.add-media').on('click', function(e) {
+        e.preventDefault()
+        counter += 1
+        if (counter <= 49) {
+            $('.additional-attachment').before(`<div class="additional-attachment-` + counter + `"></div>`)
+            $('.additional-attachment-' + counter).load('/admin/newattach/' + counter)
+        }
+    })
 
     if (myalert) {
         if (myalert == "Gagal") {
