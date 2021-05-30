@@ -180,4 +180,20 @@ class ModelAdmin extends CI_Model
         $this->db->update('materi', $content[1]);
         $this->session->set_flashdata('alert', 'Berhasil');
     }
+
+    public function uploadmediatk($content)
+    {
+        $counter = 0;
+        foreach ($content[0] as $file) {
+            if ($file["name"]) {
+                $counter += 1;
+                $newname = "assets/mediatk/" . uniqid() . "." . pathinfo($file["name"])["extension"];
+                $content[1]["file"] = $newname;
+                $data= ["id_kegiatan" => $content[1]["kegiatan"], "file" => $content[1]["file"]];
+                move_uploaded_file($file["tmp_name"], $newname);
+                $this->db->insert('mediatk', $data);
+            }
+        }
+        $this->session->set_flashdata('alert', 'Berhasil');
+    }
 }

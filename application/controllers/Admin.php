@@ -880,6 +880,50 @@ class Admin extends CI_Controller
 
     //-------------------- Akhir Pendaftaran ------------------------------
 
+    public function uploadmediatk()
+    {
+        netralize();
+        netralize3();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            $data['title'] = 'Upload Media TK';
+            $data['csrf'] = $this->csrf;
+            $data['kegiatan'] = $this->db->get('kegiatantk')->result_array();
+
+            $this->form_validation->set_rules('kegiatan', 'kegiatan', 'required', ['required' => 'Kegiatan wajib dipilih']);
+
+            if ($this->form_validation->run() == FALSE) {
+                // $this->session->set_flashdata('material', $this->input->post('material'));
+                $this->load->view('admin/header', $data);
+                $this->load->view('admin/uploadmediatk');
+                $this->load->view('admin/footer');
+            } else {
+                $allowed_format = ["jpg", "jpeg", "mp4"];
+                $counter = 0;
+                foreach ($_FILES as $file) {
+                    $tmp = explode('.', $file["name"]);
+                    $format = strtolower(end($tmp));
+                    if ($file["name"] && !in_array($format, $allowed_format)) {
+                        $counter += 1;
+                    }
+                }
+                if ($counter == 0) {
+                    $content = [$_FILES, $this->input->post()];
+                    $this->Admin->uploadmediatk($content);
+                    // $this->session->unset_userdata('material');
+                } else {
+                    // $this->session->set_flashdata('material', $this->input->post('material'));
+                    // $this->session->set_flashdata('questions', $this->input->post('questions'));
+                    $this->session->set_flashdata('alert', 'Gagal');
+                }
+                $this->load->view('admin/header', $data);
+                $this->load->view('admin/uploadmediatk');
+                $this->load->view('admin/footer');
+            }
+        }
+    }
+
     public function newattach()
     {
         $this->load->view('admin/newattach');
