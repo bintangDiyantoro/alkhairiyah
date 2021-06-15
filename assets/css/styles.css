@@ -180,6 +180,87 @@ div.nav-link {
     height: 492px;
 }
 
+.myfooter {
+    /* background-color: rgb(192, 255, 227); */
+    margin: none;
+    padding: 40px 40px 0 50px;
+    /* width: 101%; */
+}
+
+.footer-col {
+    padding: 20px;
+}
+
+
+/* .right-float {
+    position: fixed;
+    z-index: 2;
+    right: 0px;
+    top: 330px;
+    border-radius: 15px 0 0 15px;
+    overflow: hidden;
+} */
+
+.right-float-button {
+    position: fixed;
+    z-index: 2;
+    /* right: 0px; */
+    right: -230px;
+    margin-top: 387px;
+    border-radius: 15px 0 0 15px;
+    /* overflow: hidden; */
+    transition-duration: .9s;
+    /* color: rgb(210, 255, 219); */
+    color: transparent;
+    padding: 5px;
+    background-color: rgb(55, 126, 55);
+}
+
+.right-float-button2 {
+    position: fixed;
+    z-index: 2;
+    right: 125px;
+    margin-top: 442px;
+    border-radius: 15px 0 0 15px;
+    /* overflow: hidden; */
+    transition-duration: .6s;
+    margin-right: -196px;
+    /* color: rgb(210, 255, 219); */
+    color: transparent;
+    padding: 5px;
+    background-color: rgb(126, 55, 124);
+}
+
+.right-float-button3 {
+    position: fixed;
+    z-index: 4;
+    right: 136px;
+    margin-top: 494px;
+    border-radius: 15px 0 0 15px;
+    /* overflow: hidden; */
+    transition-duration: .6s;
+    margin-right: -196px;
+    /* color: rgb(210, 255, 219); */
+    color: transparent;
+    padding: 5px;
+    background-color: rgb(146, 11, 11);
+}
+
+.right-float-button:hover {
+    margin-right: 230px;
+    color: rgb(255, 255, 255);
+}
+
+.right-float-button2:hover {
+    margin-right: -125px;
+    color: rgb(255, 255, 255);
+}
+
+.right-float-button3:hover {
+    margin-right: -136px;
+    color: rgb(255, 255, 255);
+}
+
 @media(min-width:800.1px) {
     .nav-container {
         display: flex;
