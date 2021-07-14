@@ -7,10 +7,11 @@
     <meta name="description" content="<?= $description ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-site-verification" content="LzyMSEoUviQriEm565g64BuviUxFUV80ocpaDABdoBg" />
     <link rel="canonical" href="<?= base_url() ?>">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/pickmeup.css">
-    <link rel="stylesheet" href="<?= base_url() ?>assets/css/styles.css">
+    <link rel="stylesheet" href="<?= base_url() ?>assets/css/style.css">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url() ?>assets/img/alkhairiyah.png">
     <title>SDI Al-Khairiyah Banyuwangi | <?= $title; ?></title>
 </head>
@@ -100,25 +101,22 @@
             </div>
         </div>
     </nav>
-
-    <div class="right-float">
-        <a href="https://tk.ypialkhairiyahbanyuwangi.com">
-            <div class="right-float-button">
-                <img src="<?= base_url('assets/img/logotk.png') ?>" alt="" width="40px">
-                TK Islam Al-Khairiyah Banyuwangi
-            </div>
-        </a>
-        <a href="https://instagram.com/al_khairiyah_banyuwangi">
-            <div class="right-float-button2">
-                <img src="<?= base_url('assets/img/logoig.png') ?>" alt="" width="40px">
-                <b>Instagram</b>
-            </div>
-        </a>
-        <a href="https://youtube.com/channel/UCeCetMNd5sPxLJICi-R9bBw">
-            <div class="right-float-button3">
-                <img src="<?= base_url('assets/img/logoyt.png') ?>" alt="" width="40px">
-                <b>YouTube</b>
-            </div>
-        </a>
-    </div>
     <!-- <div class="container"> -->
+    <a href="https://tk.ypialkhairiyahbanyuwangi.com">
+        <div class="right-float-button">
+            <img src="<?= base_url('assets/img/logotk.png') ?>" alt="" width="40px">
+            TK Islam Al-Khairiyah Banyuwangi
+        </div>
+    </a>
+    <a href="https://instagram.com/al_khairiyah_banyuwangi">
+        <div class="right-float-button2">
+            <img src="<?= base_url('assets/img/logoig.png') ?>" alt="" width="40px">
+            <b>Instagram</b>
+        </div>
+    </a>
+    <a href="https://youtube.com/channel/UCeCetMNd5sPxLJICi-R9bBw">
+        <div class="right-float-button3">
+            <img src="<?= base_url('assets/img/logoyt.png') ?>" alt="" width="40px">
+            <b>YouTube</b>
+        </div>
+    </a>

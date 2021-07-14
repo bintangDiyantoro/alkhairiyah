@@ -55,7 +55,7 @@
             </div>
         </div>
     </div>
-    <div class="row justify-content-center my-5">
+    <div class="row justify-content-center" style="margin-bottom: 60px;">
         <small class="text-center">
             Copyright &#169; 2019 SDI Al-Khairiyah Banyuwangi
         </small>
