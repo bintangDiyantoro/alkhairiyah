@@ -101,24 +101,24 @@
         </div>
     </nav>
 
-    <!-- <div class="right-float">
-    </div> -->
-    <a href="https://tk.ypialkhairiyahbanyuwangi.com">
-        <div class="right-float-button">
-            <img src="<?= base_url('assets/img/logotk.png') ?>" alt="" width="40px">
-            TK Islam Al-Khairiyah Banyuwangi
-        </div>
-    </a>
-    <a href="https://instagram.com/al_khairiyah_banyuwangi">
-        <div class="right-float-button2">
-            <img src="<?= base_url('assets/img/logoig.png') ?>" alt="" width="40px">
-            <b>Instagram</b>
-        </div>
-    </a>
-    <a href="https://youtube.com/channel/UCeCetMNd5sPxLJICi-R9bBw">
-        <div class="right-float-button3">
-            <img src="<?= base_url('assets/img/logoyt.png') ?>" alt="" width="40px">
-            <b>YouTube</b>
-        </div>
-    </a>
+    <div class="right-float">
+        <a href="https://tk.ypialkhairiyahbanyuwangi.com">
+            <div class="right-float-button">
+                <img src="<?= base_url('assets/img/logotk.png') ?>" alt="" width="40px">
+                TK Islam Al-Khairiyah Banyuwangi
+            </div>
+        </a>
+        <a href="https://instagram.com/al_khairiyah_banyuwangi">
+            <div class="right-float-button2">
+                <img src="<?= base_url('assets/img/logoig.png') ?>" alt="" width="40px">
+                <b>Instagram</b>
+            </div>
+        </a>
+        <a href="https://youtube.com/channel/UCeCetMNd5sPxLJICi-R9bBw">
+            <div class="right-float-button3">
+                <img src="<?= base_url('assets/img/logoyt.png') ?>" alt="" width="40px">
+                <b>YouTube</b>
+            </div>
+        </a>
+    </div>
     <!-- <div class="container"> -->
