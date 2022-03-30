@@ -18,7 +18,13 @@ class Pendaftaran extends CI_Controller
     private function _regex()
     {
         $birthyear = (int)date('Y') - 6;
-        $string = "/^" . "((0[1-9]|[1-2][\d]|3[0-1])-(0[1-9]|1[0-2])-201[0-4]|((0[1-9]|[1-2][\d]|3[0-1])-0[1-6]|01-07)-" . $birthyear . ")$/";
+        $by1= $birthyear - 6;
+        $by2 = $birthyear - 5;
+        $by3 = $birthyear - 4;
+        $by4 = $birthyear - 3;
+        $by5 = $birthyear - 2;
+        $by6 = $birthyear - 1;
+        $string = "/^" . "((0[1-9]|[1-2][\d]|3[0-1])-(0[1-9]|1[0-2])-(".$by1."|".$by2."|".$by2."|".$by3."|".$by4."|".$by5."|".$by6.")|((0[1-9]|[1-2][\d]|3[0-1])-0[1-6]|01-07)-" . $birthyear . ")$/";
         if (preg_match($string, $this->input->post('tgl_lahir'))) {
             return 1;
         } else {
@@ -36,8 +42,10 @@ class Pendaftaran extends CI_Controller
         
         $this->load->view('templates/header', $data);
 
-        if ($count < 130 && (int)date('mdHi') < 3171700) {
-            if ((int)date('mdHi') >= 3141700) {
+        // echo date('mdHi');die;
+
+        if ($count < 144 && (int)date('mdHi') < 3161700) {
+            if ((int)date('mdHi') >= 3131700) {
                 $this->load->view('pendaftaran/index');
             } else {
                 $this->load->view('pendaftaran/sabar');
@@ -230,7 +238,7 @@ class Pendaftaran extends CI_Controller
             $keyword = $this->input->post('search');
             $this->session->set_userdata('search', $this->input->post('search'));
             $data['start'] = NULL;
-            $result = $this->db->query("SELECT * FROM calon_siswa WHERE nama LIKE '%" . $keyword . "%' AND tahun = " . date('Y'))->num_rows();
+            $result = $this->db->query('SELECT * FROM calon_siswa WHERE nama LIKE "%' . $keyword . '%" AND tahun = ' . date('Y'))->num_rows();
         } else {
             $keyword = $this->session->userdata('search');
             $data['start'] = (int)$this->uri->segment(3);
@@ -259,13 +267,13 @@ class Pendaftaran extends CI_Controller
 
         if ($keyword) {
             if ($data["start"]) {
-                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . " OFFSET " . $data["start"])->result_array();
+                $data['calon_siswa'] = $this->db->query('SELECT * FROM calon_siswa WHERE tahun = ' . date('Y') . ' AND nama LIKE "%' . $keyword . '%" LIMIT ' . $config["per_page"] . " OFFSET " . $data["start"])->result_array();
             } else {
-                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . "")->result_array();
+                $data['calon_siswa'] = $this->db->query('SELECT * FROM calon_siswa WHERE tahun = ' . date('Y') . ' AND nama LIKE "%' . $keyword . '%" LIMIT ' . $config["per_page"] . "")->result_array();
             }
         } else {
             if ($data["start"]) {
-                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . " OFFSET " . $data["start"])->result_array();
+                $data['calon_siswa'] = $this->db->query('SELECT * FROM calon_siswa WHERE tahun = ' . date('Y') . ' LIMIT ' . $config["per_page"] . " OFFSET " . $data["start"])->result_array();
             } else {
                 $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . "")->result_array();
             }

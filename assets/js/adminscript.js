@@ -23,6 +23,7 @@ $(function() {
     const scroll = $('.scroll').val()
     const delbut = $('.btn-danger')
     const delbadge = $('.badge-danger')
+    var admvrf = $('.admvrfchl').parent().contents()
 
     if (fill.val()) {
         const len = fill.val().length
@@ -62,20 +63,20 @@ $(function() {
             type: 'info',
             title: 'Selamat datang di Form Pendaftaran!',
             html: `<br />Dimohon mengisi form dengan teliti!<br />Setelah mengisi form silahkan tekan tombol
-                    <strong>Selanjutnya</strong> untuk melanjutkan proses pendaftaran.<br/><br/>
+            <strong>Selanjutnya</strong> untuk melanjutkan proses pendaftaran.<br/><br/>
             Setelah melakukan pendaftaran online silahkan melengkapi persyaratan <strong>verifikasi secara offline</strong> sebagai berikut:
             <br /><br />
-                    <div style="text-align:left;margin-left:30px;display:flex">
-                            <ul>
-                            <li>Infaq Bulanan (Juli)<strong>: Rp 200.000,-</strong></li>
-                            <li>Infaq Pemeliharaan Gedung<strong>: Rp 2.000.000,-</strong></li>
-                            <li>FC Akta Kelahiran</li>
-                            <li>FC Kartu Keluarga</li>
-                            <li>Surat keterangan dari TK/RA (jika ada)</li>
-                            <li>Pas Foto 3 x 4 background merah (3 lembar)</li>
-                        </ul>
-                    </div>
-                    <br />`,
+            <div style="text-align:left;margin-left:30px;display:flex">
+            <ul>
+            <li>Infaq Bulanan (Juli)<strong>: Rp 200.000,-</strong></li>
+            <li>Infaq Pemeliharaan Gedung<strong>: Rp 2.000.000,-</strong></li>
+            <li>FC Akta Kelahiran</li>
+            <li>FC Kartu Keluarga</li>
+            <li>Surat keterangan dari TK/RA (jika ada)</li>
+            <li>Pas Foto 3 x 4 background merah (3 lembar)</li>
+            </ul>
+            </div>
+            <br />`,
             // footer: '<a href>Butuh dana cepat?</a>'
         })
     }
@@ -162,6 +163,7 @@ $(function() {
             $('.additional-attachment-' + counter).load('/admin/newattach/' + counter)
         }
     })
+
     $('.add-media').on('click', function(e) {
         e.preventDefault()
         counter += 1
@@ -169,6 +171,17 @@ $(function() {
             $('.additional-attachment').before(`<div class="additional-attachment-` + counter + `"></div>`)
             $('.additional-attachment-' + counter).load('/admin/newattach/' + counter)
         }
+    })
+
+    $(document).on('click', '.adminvrf', function(e) {
+        e.preventDefault()
+        $.ajax({
+            url: '/admin/aktivasiadmin/' + $(this).data('id'),
+            method: 'get',
+            success: () => {
+                $('.ajax-adminvrf').load('/admin/ajaxadminvrf')
+            }
+        })
     })
 
     if (myalert) {

@@ -156,3 +156,12 @@ function is_image($file)
         return FALSE;
     }
 }
+
+function admvrf($vrf, $id)
+{
+    if ($vrf == "0") {
+        return "<a href=". base_url('admin/aktivasiadmin/') . $id."\" class=\"badge badge-success adminvrf\" data-id=\"".$id."\">Aktifkan</a>";
+    } elseif ($vrf == "1") {
+        return "<a href=" . base_url('admin/aktivasiadmin/') . $id . "\" class=\"badge badge-info adminvrf\" data-id=\"" . $id . "\">Non Aktifkan</a>";
+    }
+}

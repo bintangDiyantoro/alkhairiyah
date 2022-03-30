@@ -10,8 +10,8 @@
                 <a class="btn btn-success mb-2" href="https://chat.whatsapp.com/By5MA5f5wQyL4rkD6yhjDw" target="_blank">Masuk grup WhatsApp</a> &nbsp;
                 <a class="btn btn-primary mb-2" href="<?= base_url('pendaftaran/cs') ?>">Lihat semua pendaftar</a>
                 &nbsp;
-                <a class="btn btn-dark mb-2" href="<?= base_url('jadwal verifikasi tgl 18 Maret 2021.pdf') ?>">Jadwal verifikasi 60 pendaftar pertama</a>&nbsp;
-                <a class="btn btn-dark mb-2" href="<?= base_url('jadwal verifikasi tgl 20 Maret 2021.pdf') ?>">Jadwal verifikasi 70 pendaftar berikutnya (terakhir)</a>
+                <!-- <a class="btn btn-dark mb-2" href="<?= base_url('jadwal verifikasi tgl 18 Maret '.date('Y').'.pdf') ?>">Jadwal verifikasi 60 pendaftar pertama</a>&nbsp;
+                <a class="btn btn-dark mb-2" href="<?= base_url('jadwal verifikasi tgl 20 Maret '.date('Y').'.pdf') ?>">Jadwal verifikasi 70 pendaftar berikutnya (terakhir)</a> -->
             </div>
         </div>
     </div>

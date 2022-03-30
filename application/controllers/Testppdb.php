@@ -2,7 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
-class Ghij extends CI_Controller
+class Testppdb extends CI_Controller
 {
 
     public function __construct()
@@ -31,23 +31,9 @@ class Ghij extends CI_Controller
         $data['csrf'] = $this->csrf;
         $data['title'] = 'Pendaftaran';
         $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
-        $this->load->view('templates/header', $data);
 
-        if ((int)date('mdHi') >= 3141700 && (int)date('mdHi') < 3181700) {
-            $this->load->view('pendaftaran/index');
-        } elseif ((int)date('mdHi') < 3141700) {
-            $this->load->view('pendaftaran/sabar');
-        } else {
-            $this->load->view('pendaftaran/tutup');
-        }
-        $this->load->view('templates/footer');
-    }
+        $count = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y'))->num_rows();
 
-    private function _testInput()
-    {
-        $data['csrf'] = $this->csrf;
-        $data['title'] = 'Pendaftaran';
-        $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);
         $this->load->view('pendaftaran/index');
         $this->load->view('templates/footer');
@@ -136,16 +122,16 @@ class Ghij extends CI_Controller
                 $this->session->set_userdata('error', 'error');
                 $this->_dataOrtu($this->security->xss_clean($this->input->post()));
             }
-            $this->_testInput();
+            $this->_fillTheForm();
         } elseif ($this->input->post('wali') == 'Ayah' || $this->input->post('wali') == 'Ibu') {
             $this->session->set_userdata('stwali', 'valid');
             $this->session->unset_userdata('error');
             $this->_dataOrtu($this->security->xss_clean($this->input->post()));
-            redirect('ghij/calonsiswa');
+            redirect('testppdb/calonsiswa');
         } elseif ($this->input->post('wali') == 'Lainnya') {
             $this->session->unset_userdata('error');
             $this->_dataOrtu($this->security->xss_clean($this->input->post()));
-            redirect('ghij/wali');
+            redirect('testppdb/wali');
         }
     }
 
@@ -168,10 +154,10 @@ class Ghij extends CI_Controller
                 $this->session->set_userdata('stwali', 'valid');
                 $this->session->unset_userdata('error');
                 $this->_dataWali($this->security->xss_clean($this->input->post()));
-                redirect('ghij/calonsiswa');
+                redirect('testppdb/calonsiswa');
             }
         } else {
-            redirect('ghij');
+            redirect('testppdb');
         }
     }
 
@@ -218,9 +204,9 @@ class Ghij extends CI_Controller
             }
         } else {
             if ($this->session->userdata('wali') == 'Lainnya') {
-                redirect('ghij/wali');
+                redirect('testppdb/wali');
             } else {
-                redirect('ghij');
+                redirect('testppdb');
             }
         }
     }
@@ -235,13 +221,14 @@ class Ghij extends CI_Controller
             $keyword = $this->input->post('search');
             $this->session->set_userdata('search', $this->input->post('search'));
             $data['start'] = NULL;
+            $result = $this->db->query("SELECT * FROM calon_siswa WHERE nama LIKE '%" . $keyword . "%' AND tahun = " . date('Y'))->num_rows();
         } else {
             $keyword = $this->session->userdata('search');
             $data['start'] = (int)$this->uri->segment(3);
+            $result = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y'))->num_rows();
         }
-        $result = $this->db->query("SELECT * FROM calon_siswa WHERE nama LIKE '%" . $keyword . "%' AND tahun = " . date('Y'))->num_rows();
 
-        $config['base_url'] = base_url() . 'ghij/cs';
+        $config['base_url'] = base_url() . 'pendaftaran/cs';
         $config['total_rows'] = $result;
         $config['per_page'] = 10;
         $config['full_tag_open'] = '<nav><ul class="pagination">';
@@ -263,17 +250,18 @@ class Ghij extends CI_Controller
 
         if ($keyword) {
             if ($data["start"]) {
-                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . ", " . $data["start"])->result_array();
+                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . " OFFSET " . $data["start"])->result_array();
             } else {
                 $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . "")->result_array();
             }
         } else {
             if ($data["start"]) {
-                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . "," . $data["start"])->result_array();
+                $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . " OFFSET " . $data["start"])->result_array();
             } else {
                 $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . "")->result_array();
             }
         }
+
         $this->load->view('templates/header', $data);
         $this->load->view('pendaftaran/tersimpan');
         $this->load->view('templates/footer');
@@ -304,13 +292,13 @@ class Ghij extends CI_Controller
 
     public function cetak($id)
     {
-        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [160, 157]]);
+        $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [160, 165]]);
         $calon_siswa = $this->Pendaftaran->getCalonSiswa($id);
         $tgl_lahir = explode('-', $calon_siswa['tgl_lahir']);
         $tgl_lahir = $tgl_lahir[2] . '-' . $tgl_lahir[1] . '-' . $tgl_lahir[0];
         $html = '<div style="display:flex;justify-content:space-between">
         <div style="width:400px;float:left;line-height:0.3">
-        <h1>BUKTI PENDAFTARAN</h1><h1>Calon Siswa Baru</h1> <h2>SDI AL-Khairiyah Banyuwangi</h2>
+        <h1>BUKTI PENDAFTARAN</h1><h2>PPDB Online ' . date('Y') . '</h2> <h2>SDI AL-Khairiyah Banyuwangi</h2>
         </div>
         <div style="margin-right:0px">
             <img src="' . base_url() . 'assets/img/alkhairiyah.png" width="100px" height="100px" style="margin-top:-10px"></img>
@@ -318,7 +306,7 @@ class Ghij extends CI_Controller
         </div>
         <hr/>
         <div style="margin-top:20px">
-        <div style="width:500px;float:left;line-height:2">
+        <div style="width:102px;float:left;line-height:2;">
         ID pendaftaran<br/>
         Nama<br/>
         Jenis kelamin<br/>
@@ -327,14 +315,14 @@ class Ghij extends CI_Controller
         Nama Wali<br/>
         </div>
         
-        <div style="width:200px;float:right; margin-top:-176px;margin-right:100px;line-height:2">
-        <strong>'
-        . $calon_siswa['id'] . ' <br></strong>'
-        . $calon_siswa['nama'] . ' <br>'
-        . $calon_siswa['jenis_kelamin'] . ' <br>'
-        . $tgl_lahir . ' <br>'
-        . $calon_siswa['asal_tk'] . '<br>'
-            . $calon_siswa['namawali'] . '<br>
+        <div style="position:absolute;width:388px;float:right; top:-176px;right:10px;line-height:2;">
+        <strong>
+            : ' . $calon_siswa['id'] . ' <br></strong>
+            : ' . $calon_siswa['nama'] . ' <br> 
+            : ' . $calon_siswa['jenis_kelamin'] . ' <br>
+            : ' . $tgl_lahir . ' <br> 
+            : ' . $calon_siswa['asal_tk'] . '<br>
+            : ' . $calon_siswa['namawali'] . '<br>
         </div>
         </div>
         <br/>
@@ -345,6 +333,6 @@ class Ghij extends CI_Controller
         </script>';
         $nextyear = (int)date('Y') + 1;
         $mpdf->writeHTML($html);
-        $mpdf->Output('Bukti Pendaftaran PPDB Online SD Islam Al-Khairiyah Tahun Ajaran ' . date('Y') . '-' . $nextyear . '.pdf', 'I');
+        $mpdf->Output('Bukti Pendaftaran PPDB Online SD Islam Al-Khairiyah Tahun Ajaran ' . date('Y') . '-' . $nextyear . '.pdf', 'D');
     }
 }

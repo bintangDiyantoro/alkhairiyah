@@ -18,7 +18,7 @@
                 <h4>Visi:</h4>
                 <ul>
                     <li>
-                        Mewujudkan generasi Muslim yang berakhlaq mulia, mandiri, cerdas, kreatif, berdisiplin tinggi dan berprestasi.
+                        Terwujudnya generasi islami sebagai pembelajar sepanjang hayat yang berjiwa pancasila
                     </li>
                 </ul>
 
@@ -28,11 +28,12 @@
             <div>
                 <h4>Misi:</h4>
                 <ul>
-                    <li>Membiasakan perilaku islami dalam kehidupan sehari-hari.</li>
-                    <li>Menumbuhkan jiwa berdisiplin dan mandiri.</li>
-                    <li>Menumbuhkan semangat belajar dan kreatif dalam menggali potensi diri.</li>
-                    <li>Melaksanakan pembelajaran dan bimbingan secara efektif.</li>
-                    <li>Memiliki sifat amanah dan konsisten terhadap ajaran Agama Islam.</li>
+                    <li>Mengembangkan kehidupan islami yang menjunjung tinggi persaudaraan dan kebersamaan</li>
+                    <li>Menumbuhkan semangat fastabiqul khairat dalam mencapai prestasi</li>
+                    <li>Mengembangkan program sekolah yang inovatif dan cepat tanggap terhadap perubahan zaman </li>
+                    <li>Mengembangkan kemandirian, nalar kritis dan kreativitas yang memfasilitasi keragaman minat dan bakat peserta didik</li>
+                    <li>Menerapkan pembelajaran yang berpusat pada siswa dan kearifan lokal yang islami</li>
+                    <li>Menerapkan manajemen partisipatif dari semua warga sekolah</li>
                 </ul>
             </div>
         </div>

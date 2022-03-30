@@ -40,6 +40,7 @@ class Admin extends CI_Controller
             if ($query != NULL && password_verify($this->input->post('password'), $query['password']) == TRUE) {
                 if ($query['verified'] == 1) {
                     $this->session->set_userdata('admin', $this->input->post('name'));
+                    $this->session->set_userdata('role', $query['role']);
                     $this->session->unset_userdata('error');
                     redirect('admin');
                 } else {
@@ -78,7 +79,7 @@ class Admin extends CI_Controller
             ];
             $this->db->insert('admin', $data);
             if ($this->db->affected_rows() > 0) {
-                $this->session->set_flashdata('success', 'Registrasi sukses! Silahkan hubungi Ust. Arif Isnandi untuk verifikasi');
+                $this->session->set_flashdata('success', 'Registrasi sukses! Silahkan hubungi Operator Yayasan untuk verifikasi');
                 redirect('admin');
             }
         }
@@ -108,6 +109,188 @@ class Admin extends CI_Controller
             $data['title'] = 'Not Found';
             $this->load->view('admin/header', $data);
             $this->load->view('admin/404');
+            $this->load->view('admin/footer');
+        }
+    }
+
+    public function adminManagement()
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            $data["title"] = 'Admin Management';
+            $this->db->where('role !=', "9");
+            $data["admin"] = $this->db->get('admin')->result_array();
+            $this->load->view('admin/header', $data);
+            $this->load->view('admin/adminmanagementtop');
+            $this->load->view('admin/adminmanagement');
+            $this->load->view('admin/adminmanagementbtm');
+            $this->load->view('admin/footer');
+        }
+    }
+
+    public function aktivasiadmin($id)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            $this->db->where('id', $id);
+            $verified = $this->db->get('admin')->row_array()["verified"];
+            if ($verified == "0") {
+                $this->db->set('verified', "1");
+                $this->db->where('id', $id);
+                $this->db->update('admin');
+            } elseif ($verified == "1") {
+                $this->db->set('verified', "0");
+                $this->db->where('id', $id);
+                $this->db->update('admin');
+            }
+        }
+        redirect('admin/adminmanagement');
+    }
+
+    public function ubahadmin($id)
+    {
+        netralize();
+        netralize3();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            $data['csrf'] = $this->csrf;
+            $this->db->where('id', $id);
+            $data['admin'] = $this->db->get('admin')->row_array();
+            $data['title'] = 'Ubah Data Admin ' . $data['admin']['name'];
+            $slcTch = $this->db->query('SELECT id_guru from admin')->result_array();
+            $allTch = $this->db->get('guru')->result_array();
+            $stId = [];
+            $data['guru'] = [];
+
+            foreach ($slcTch as $st) {
+                $stId[] = $st["id_guru"];
+            }
+
+            foreach ($allTch as $at) {
+                if (!in_array($at['id'], $stId)) {
+                    $data['guru'][] = $at;
+                }
+            }
+
+            if ($data['admin']['id_guru']) {
+                $data['admin'] = $this->db->query("SELECT admin.id,admin.name,admin.role,admin.id_guru,guru.NIY,guru.nama FROM admin JOIN guru ON admin.id_guru = guru.id WHERE admin.id = " . $data['admin']['id'])->row_array();
+            }
+
+            if (isset($_POST["submit"]) && $this->input->post('id_guru') !== NULL) {
+                if ($this->input->post('id_guru') == "") {
+                    $this->db->set('id_guru', NULL);
+                } else {
+                    $this->db->set('id_guru', $this->input->post('id_guru'));
+                }
+
+                $this->db->where('id', $id);
+                $this->db->update('admin');
+
+                redirect('admin/adminmanagement');
+            } else {
+                $this->load->view('admin/header', $data);
+                $this->load->view('admin/editadmin');
+                $this->load->view('admin/footer');
+            }
+        }
+    }
+
+    public function hapusadmin($id)
+    {
+        netralize();
+        netralize3();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            $data['title'] = 'Detail Materi';
+            $this->db->where('id', $id);
+            $this->db->delete('admin');
+            redirect('admin/adminmanagement');
+        }
+    }
+
+    public function ajaxadminvrf()
+    {
+        $this->db->where('role !=', "9");
+        $data["admin"] = $this->db->get('admin')->result_array();
+        $this->load->view('admin/adminmanagement', $data);
+    }
+
+    public function teachersmanagement()
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            $data["title"] = 'Teachers Management';
+            $data["csrf"] = $this->csrf;
+            $data["teachers"] = $this->db->get('guru')->result_array();
+
+            if (isset($_POST['submit'])) {
+                if ($this->input->post("nama") && $this->input->post('NIY') && $this->input->post('jenis_kelamin')) {
+                    $guru = [
+                        'nama' => $this->input->post('nama'),
+                        'NIY' => $this->input->post('NIY'),
+                        'jenis_kelamin' => $this->input->post('jenis_kelamin')
+                    ];
+                    $this->db->insert('guru', $guru);
+                    if ($this->db->affected_rows() > 0) {
+                        redirect('admin/teachersmanagement');
+                    }
+                }
+            }
+
+            $this->load->view('admin/header', $data);
+            $this->load->view('admin/teachersmanagement');
+            $this->load->view('admin/footer');
+        }
+    }
+
+    public function ubahguru($id)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            $this->db->where('id', $id);
+            $data["guru"] = $this->db->get('guru')->row_array();
+            $data["title"] = "Ubah Data " . $data["guru"]["nama"];
+            $data["csrf"] = $this->csrf;
+
+            $this->load->view('admin/header', $data);
+            $this->load->view('admin/editguru');
+            $this->load->view('admin/footer');
+        }
+    }
+
+    public function hapusguru($id)
+    {
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            $this->db->where('id', $id);
+            $this->db->delete('guru');
+            if ($this->db->affected_rows() > 0) {
+                redirect('/admin/teachersmanagement');
+            }
+        }
+    }
+
+    public function bukuinduk()
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            $data["title"] = "Buku Induk Siswa";
+            $data["csrf"] = $this->csrf;
+            $this->load->view('admin/header', $data);
+            $this->load->view('admin/bukuinduk');
             $this->load->view('admin/footer');
         }
     }
