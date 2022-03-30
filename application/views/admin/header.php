@@ -47,38 +47,87 @@
                     <span>Dashboard</span></a>
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+            <?php if ($this->session->userdata('role') == "9") : ?>
+                <!-- Divider -->
+                <hr class="sidebar-divider">
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Admin
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-user-alt"></i>
-                    <span>Profil</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white collapse-inner rounded">
-                        <!-- <h6 class="collapse-header">Menu:</h6> -->
-                        <a class="collapse-item" href="#">Lihat</a>
-                        <a class="collapse-item" href="#">Edit</a>
-                    </div>
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Admin
                 </div>
+
+
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages5" aria-expanded="true" aria-controls="collapsePages5">
+                        <i class="fas fa-user-cog"></i>
+                        <span>Users Management</span>
+                    </a>
+                    <div id="collapsePages5" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Menu Manajemen:</h6>
+                            <a class="collapse-item" href="<?= base_url('admin/adminmanagement') ?>">Admins</a>
+                            <a class="collapse-item" href="<?= base_url('admin/teachersmanagement') ?>">Teachers</a>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Posts
+                </div>
+
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages3" aria-expanded="true" aria-controls="collapsePages3">
+                        <i class="fa fa-book"></i>
+                        <span>Materi</span>
+                    </a>
+                    <div id="collapsePages3" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Menu Materi:</h6>
+                            <a class="collapse-item" href="<?= base_url('admin/buatmateri') ?>">Buat Materi Baru</a>
+                            <a class="collapse-item" href="<?= base_url('admin/materi') ?>">Lihat Materi Terbaru</a>
+                        </div>
+                    </div>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages4" aria-expanded="true" aria-controls="collapsePages4">
+                        <i class="fas fa-clipboard"></i>
+                        <span>Pendaftaran</span>
+                    </a>
+                    <div id="collapsePages4" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Menu Pendaftaran:</h6>
+                            <a class="collapse-item" href="<?= base_url('admin/pendaftaran') ?>">Daftarkan Siswa Baru</a>
+                            <a class="collapse-item" href="<?= base_url('admin/pendaftartersimpan') ?>">Lihat Calon Siswa</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url('admin/uploadmediatk') ?>">
+                        <i class="fas fa-photo-video"></i>
+                        <span>Upload Media TK</span>
+                    </a>
+                </li>
+
+            <?php endif; ?>
+            <!-- Nav Item - Pages Collapse Menu -->
+
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url('admin/bukuinduk') ?>">
+                    <i class="fas fa-book-open"></i>
+                    <span>Buku Induk</span>
+                </a>
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Posts
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-star-and-crescent"></i>
@@ -105,42 +154,6 @@
                         <a class="collapse-item" href="<?= base_url('admin/berita') ?>">Lihat Semua Berita</a>
                     </div>
                 </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages3" aria-expanded="true" aria-controls="collapsePages3">
-                    <i class="fa fa-book"></i>
-                    <span>Materi</span>
-                </a>
-                <div id="collapsePages3" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Menu Materi:</h6>
-                        <a class="collapse-item" href="<?= base_url('admin/buatmateri') ?>">Buat Materi Baru</a>
-                        <a class="collapse-item" href="<?= base_url('admin/materi') ?>">Lihat Materi Terbaru</a>
-                    </div>
-                </div>
-            </li>
-
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages4" aria-expanded="true" aria-controls="collapsePages4">
-                    <i class="fas fa-clipboard"></i>
-                    <span>Pendaftaran</span>
-                </a>
-                <div id="collapsePages4" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Menu Pendaftaran:</h6>
-                        <a class="collapse-item" href="<?= base_url('admin/pendaftaran') ?>">Daftarkan Siswa Baru</a>
-                        <a class="collapse-item" href="<?= base_url('admin/pendaftartersimpan') ?>">Lihat Calon Siswa</a>
-                    </div>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="<?= base_url('admin/uploadmediatk') ?>">
-                    <i class="fas fa-photo-video"></i>
-                    <span>Upload Media TK</span>
-                </a>
             </li>
 
             <!-- Divider -->
