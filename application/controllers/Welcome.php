@@ -16,9 +16,10 @@ class Welcome extends CI_Controller
 
 	private function _validate_comments()
 	{
+		$regex = "/^[a-z\d.,!?\"'()&\/:\-\s]*$/mi";
 		$this->form_validation->set_rules('comment_name', 'comment_name', 'required|regex_match[/^[a-z-\s\']+$/i]|max_length[20]', ['required' => 'nama wajib diisi', 'regex_match' => 'nama tidak boleh mengandung selain huruf, spasi, petik tunggal (\') dan strip (-)', 'max_length' => 'nama maksimal 20 huruf']);
 		$this->form_validation->set_rules('comment_email', 'comment_email', 'regex_match[/^[a-z\d_.]+@[a-z]+.[a-z]+$/mi]', ['regex_match' => 'email tidak valid']);
-		$this->form_validation->set_rules('comment', 'comment', 'required|regex_match[/^(?!.*^or\s.+=.+$).*$/mi]', ['required' => 'Silahkan tinggalkan komentar', 'regex_match' => 'komentar tidak valid']);
+		$this->form_validation->set_rules('comment', 'comment', 'required|regex_match['.$regex.']', ['required' => 'Silahkan tinggalkan komentar', 'regex_match' => 'komentar tidak valid']);
 	}
 
 	public function index()
