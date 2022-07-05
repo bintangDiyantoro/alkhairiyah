@@ -7,17 +7,13 @@ html::-webkit-scrollbar {
     src: url('../fonts/corbel.ttf');
 }
 
-
-/* body{
-    width: 98%!important;
-    background-color: rgba(0,150,0, .2);
-    font-family: "corbel"!important;
+.dashboard {
+    position: absolute;
+    margin: auto;
+    height: 80%;
+    width: 80%;
+    background-color: aquamarine;
 }
-
-.navbar{
-    width: 102%!important;
-    text-shadow: 2px 2px 3px rgba(0,0,0, .5); 
-}*/
 
 .dropdown-menu {
     text-shadow: none !important;
@@ -44,6 +40,10 @@ html::-webkit-scrollbar {
 
 .mobile {
     display: none;
+}
+
+.pickmeup {
+    z-index: 1111!important;
 }
 
 .duanger {
@@ -130,15 +130,65 @@ p {
     background-image: linear-gradient(to right, rgba(255, 255, 255, .0), rgba(0, 0, 0, .06), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0), rgba(255, 255, 255, .0));
 }
 
+.colon-l {
+    display: none;
+}
+
+.div-colon-r {
+    padding: 0;
+    margin-right: -45px;
+}
+
+.colon-r {
+    display: inline;
+}
+
+.ubah-biodata {
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.ubah-sikap-textarea {
+    width: 150px!important;
+    height: 80px!important;
+}
+
+.form-group.ubah-sikap-textarea {
+    margin: 0 -60px 0 0!important;
+}
+
 @media(max-width:800px) {
-    /* .table {
-        font-size: 12px !important;
-    } */
     .mobile {
         display: block;
         font-size: 17px;
     }
     .desktop {
         display: none!important;
+    }
+    .colon-l {
+        display: inline;
+    }
+    .div-colon-r {
+        display: block;
+        width: 10px;
+        background-color: aqua;
+        margin-right: 10px;
+    }
+    .colon-r {
+        display: none;
+    }
+    .data-buku-induk {
+        margin-left: 17px;
+    }
+    .ubah-biodata {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .ubah-sikap-textarea {
+        width: 150px!important;
+        height: 80px!important;
+    }
+    .form-group.ubah-sikap-textarea {
+        margin: 0 0 0 0!important;
     }
 }
