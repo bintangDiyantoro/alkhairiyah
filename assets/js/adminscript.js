@@ -1,13 +1,16 @@
 $(function() {
-
-    const title = $('title').html().split(' ')[4]
-    const navlink = $('.nav-link:contains(' + title + ')')
+    let title = $('title').html().split(' ')
+    var maintitle = title[3]
+    if (title.length > 4) {
+        for (var i = 4; i < title.length; i++) {
+            maintitle += " " + title[i];
+        }
+    }
+    const navlink = $('.nav-item:contains(' + maintitle + ')')
     const fill = $('.fill')
     const success = $('.success').val()
     const postimg = $('.image-style-side').children('img')
     const postimgwide = $('.image').not('.image-style-side').children('img')
-    const carousel = document.querySelector('.carousel-item')
-    const carouselIndicator = document.querySelector('.c-ind')
     const navtersimpan = $('a:contains(Lihat Data Calon Siswa)')
     const navdaftar = $('a:contains(Daftarkan Siswa Baru)')
     const first = $('.first').val()
@@ -24,6 +27,27 @@ $(function() {
     const delbut = $('.btn-danger')
     const delbadge = $('.badge-danger')
     var admvrf = $('.admvrfchl').parent().contents()
+    const livetime = $('.live-time')
+    const addClassBtn = $('#tambahkelas')
+    const idguru = $('#tambahkelas').data('idguru')
+    const plhthncsrfname = $('#tambahkelas').data('csrfname')
+    const plhthncsrfhash = $('#tambahkelas').data('csrfhash')
+    const carisiswa = $('.ajax-cari-siswa')
+    const triggercarisiswa = $('.trigger-cari-siswa')
+    const keluarkansiswa = document.querySelectorAll('.keluarkan-siswa')
+
+    triggercarisiswa.on('click', (e) => {
+        e.preventDefault()
+        carisiswa.load('/admin/carisiswa/')
+    })
+
+    addClassBtn.on('click', () => {
+        if (addClassBtn.data('session')) {
+            $('.ajax-tambah-kelas').load('/admin/tambahkelas/' + idguru + '/' + plhthncsrfname + '/' + plhthncsrfhash)
+        } else {
+            window.location.href = '/admin/login'
+        }
+    })
 
     if (fill.val()) {
         const len = fill.val().length
@@ -51,13 +75,6 @@ $(function() {
         "width": "70%"
     })
 
-    if (carousel) {
-        if (title == 'Halaman' && $('.display-3:first').html() == 'Ahlan Wa Sahlan!') {
-            carousel.className += " active";
-            carouselIndicator.className += " active";
-        }
-    }
-
     if (first) {
         Swal.fire({
             type: 'info',
@@ -67,7 +84,7 @@ $(function() {
             Setelah melakukan pendaftaran online silahkan melengkapi persyaratan <strong>verifikasi secara offline</strong> sebagai berikut:
             <br /><br />
             <div style="text-align:left;margin-left:30px;display:flex">
-            <ul>
+            <li>
             <li>Infaq Bulanan (Juli)<strong>: Rp 200.000,-</strong></li>
             <li>Infaq Pemeliharaan Gedung<strong>: Rp 2.000.000,-</strong></li>
             <li>FC Akta Kelahiran</li>
@@ -149,6 +166,13 @@ $(function() {
     }
 
     pickmeup('#tgl_lahir')
+    if (url[3] == "admin" && url[4] == "ubahbiodata") {
+        pickmeup('#tgl_lahir_edit', {
+            default_date: false,
+            current: document.getElementById('tgl_lahir_edit').value
+        })
+    }
+
 
     $('.custom-file-input').on('change', function() {
         let fileName = $(this).val().split('\\').pop();
@@ -247,4 +271,160 @@ $(function() {
         })
     })
 
+    setInterval(() => {
+        livetime.load('http://localhost/admin/livetime')
+    }, 1000)
+
+    document.getElementById('sidebarToggleTop').addEventListener('click', () => {
+        const req = new XMLHttpRequest()
+        req.onreadystatechange = function() {
+            if (this.onreadystatechange == 4 && this.status == 200) {
+                console.log(this.status)
+            }
+        }
+        req.open("GET", "/admin/togglesidebar")
+        req.send()
+    })
+    document.getElementById('sidebarToggle').addEventListener('click', () => {
+        const req = new XMLHttpRequest()
+        req.onreadystatechange = function() {
+            if (this.onreadystatechange == 4 && this.status == 200) {
+                console.log(this.status)
+            }
+        }
+        req.open("GET", "/admin/togglesidebar")
+        req.send()
+    })
+
+
+    for (let i = 0; i < keluarkansiswa.length; i++) {
+        keluarkansiswa[i].addEventListener('click', function(event) {
+            event.preventDefault()
+            Swal.fire({
+                title: 'Perhatian!',
+                text: "Apakah anda yakin ingin mengeluarkan " + event.path[0].dataset.name + " dari kelas anda?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak'
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = event.path[0].href
+                }
+            })
+        })
+
+    }
+
+    if (url[3] == "admin" && url[4] == "biodatasiswa" || url[3] == "admin" && url[4] == "ubahbiodata") {
+        const status = document.getElementById("editBiodataAlert").dataset.alert
+        const name = document.getElementById("editBiodataAlert").dataset.name
+        if (status == "Gagal") {
+            Swal.fire({
+                type: 'warning',
+                title: status,
+                html: 'Biodata ' + name + ' Tidak Berubah',
+                // footer: '<a href>Butuh dana cepat?</a>'
+            })
+        } else if (status == "Berhasil") {
+            Swal.fire({
+                type: 'success',
+                title: status,
+                html: "Biodata " + name + " Berhasil Diubah!"
+            })
+        }
+    }
+
 })
+
+
+const url = window.$.ajaxSettings.url.split('/')
+
+function insertAfter(referenceNode, newNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
+function nilaiSikap() {
+    document.getElementById('simpanNilaiSikap').addEventListener('click', function(e) {
+        e.preventDefault()
+        let idsiswa = document.getElementById('idsiswa').value
+        let els = document.querySelectorAll('.ubah-nilai-sikap')
+        let input = []
+        let data = ""
+        let dataerror = ""
+        let pattern = /^[a-z.,()0-9-\s]+$/i
+        let error = []
+        for (let i = 0; i < els.length; i++) {
+            if (els[i].value) {
+                if (pattern.test(els[i].value) == true) {
+                    input[i] = els[i].name + '=' + els[i].value
+                    data = data + input[i] + "&"
+                } else {
+                    error[i] = els[i].name
+                    dataerror = dataerror + error[i] + "&"
+                }
+            }
+        }
+        data = data.slice(0, -1)
+        data = data + "&submit= "
+
+
+        if (dataerror == false) {
+            const xhr = new XMLHttpRequest()
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('ajax-sikap').innerHTML = this.responseText
+                    updateSikap()
+                }
+            }
+            xhr.open("POST", url[0] + "//" + url[2] + "/" + url[3] + "/simpannilaisikap/" + idsiswa)
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+            xhr.send(data)
+            document.getElementById('ajax-sikap').focus()
+        } else {
+            let parent = document.querySelectorAll('.form-group')
+            for (let k = 0; k < parent.length; k++) {
+                if (parent[k].contains(document.querySelector('small'))) {
+                    parent[k].removeChild(document.querySelector('small'))
+                }
+            }
+
+            for (let j = 0; j < error.length; j++) {
+                if (error[j]) {
+                    var el = document.createElement("small");
+                    el.setAttribute('style', 'padding:0 5px 0 5px;border-radius:5px;color:red;background-color:#F8F9FC;box-shadow: 0 0 5px #F8F9FC')
+                    el.innerHTML = "Data tidak valid";
+                    var div = document.getElementById(error[j]);
+                    insertAfter(div, el);
+                }
+            }
+        }
+    })
+}
+
+function updateSikap() {
+    if (url[3] == "admin" && url[4] == "kelolanilai") {
+
+        const triggersikap = document.getElementsByClassName('update-sikap')
+        const idsiswa = document.getElementById("ajax-sikap").dataset.idsiswa
+        const idkelas = document.getElementById("ajax-sikap").dataset.idkelas
+        const tahun = document.getElementById("ajax-sikap").dataset.tahun
+
+        triggersikap[0].addEventListener('click', function() {
+            const req = new XMLHttpRequest()
+            req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("ajax-sikap").innerHTML = this.responseText;
+                    nilaiSikap();
+                }
+            }
+            req.open("GET", "/admin/ubahnilaisikap/" + idsiswa + "/" + idkelas + "/" + tahun)
+            req.send()
+            document.getElementById("ajax-sikap").focus()
+        })
+    }
+}
+
+updateSikap()

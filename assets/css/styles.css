@@ -197,7 +197,7 @@ div.nav-link {
     position: fixed;
     z-index: 2;
     /* right: 0px; */
-    right: -230px;
+    right: -220px;
     margin-top: 387px;
     border-radius: 15px 0 0 15px;
     /* overflow: hidden; */

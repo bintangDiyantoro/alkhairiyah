@@ -19,6 +19,7 @@
     <!-- Custom styles for this template-->
     <link href="<?= base_url('assets/css/') ?>sb-admin-2.min.css" rel="stylesheet">
     <link href="<?= base_url('assets/css/') ?>adminstyle.css" rel="stylesheet">
+    <link href="<?= base_url('assets/css/') ?>pickmeup.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -27,7 +28,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav anu sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav anu sidebar sidebar-dark accordion <?= togglesidebar($this->session->userdata("toggle")) ?>" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('admin') ?>">
@@ -41,10 +42,11 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('admin') ?>">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Dashboard</span>
+                </a>
             </li>
 
             <?php if ($this->session->userdata('role') == "9") : ?>
@@ -67,8 +69,9 @@
                     <div id="collapsePages5" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Menu Manajemen:</h6>
-                            <a class="collapse-item" href="<?= base_url('admin/adminmanagement') ?>">Admins</a>
-                            <a class="collapse-item" href="<?= base_url('admin/teachersmanagement') ?>">Teachers</a>
+                            <a class="collapse-item" href="<?= base_url('admin/adminmanagement') ?>">Admins Management</a>
+                            <a class="collapse-item" href="<?= base_url('admin/staffsmanagement') ?>">Staffs Management</a>
+                            <a class="collapse-item" href="<?= base_url('admin/rolesmanagement') ?>">Roles Management</a>
                         </div>
                     </div>
                 </li>
@@ -120,13 +123,40 @@
 
             <?php endif; ?>
             <!-- Nav Item - Pages Collapse Menu -->
+            <?php if ($this->session->userdata('role') == "1") : ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url('admin/bukuinduk') ?>">
+                        <i class="fas fa-book-open"></i>
+                        <span>Buku Induk Siswa</span>
+                    </a>
+                </li>
+            <?php elseif ($this->session->userdata('role') == "9") : ?>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages6" aria-expanded="true" aria-controls="collapsePages6">
+                        <i class="fa fa-book-open"></i>
+                        <span>Buku Induk Siswa</span>
+                    </a>
+                    <div id="collapsePages6" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Menu Buku Induk:</h6>
+                            <a class="collapse-item" href="<?= base_url('admin/dftnilaisikap') ?>">Nilai Sikap</a>
+                            <a class="collapse-item" href="<?= base_url('admin/dftmuatanpelajaran') ?>">Muatan Pelajaran</a>
+                            <a class="collapse-item" href="<?= base_url('admin/dftekstrakurikuler') ?>">Ekstrakurikuler</a>
+                            <a class="collapse-item" href="<?= base_url('admin/dftketidakhadiran') ?>">Ketidakhadiran</a>
+                            <a class="collapse-item" href="<?= base_url('admin/dftketnaiklulus') ?>">Ket. Naik-Lulus</a><a class="collapse-item" href="<?= base_url('admin/dftsemester') ?>">Index Semester</a>
+                        </div>
+                    </div>
+                </li>
+            <?php endif ?>
 
-            <li class="nav-item">
-                <a class="nav-link" href="<?= base_url('admin/bukuinduk') ?>">
-                    <i class="fas fa-book-open"></i>
-                    <span>Buku Induk</span>
-                </a>
-            </li>
+            <?php if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "2") : ?>
+                <li class="nav-item">
+                    <a href="<?= base_url('admin/spp') ?>" class="nav-link">
+                        <i class="far fa-money-bill-alt"></i>
+                        <span>Data SPP</span>
+                    </a>
+                </li>
+            <?php endif ?>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
@@ -150,7 +180,7 @@
                 <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Menu Berita:</h6>
-                        <a class="collapse-item" href="<?= base_url('admin/postberita') ?>">Tulis Berita Baru</a>
+                        <a class="collapse-item" href="<?= base_url('admin/postberita') ?>">Buat Berita Baru</a>
                         <a class="collapse-item" href="<?= base_url('admin/berita') ?>">Lihat Semua Berita</a>
                     </div>
                 </div>

@@ -189,11 +189,137 @@ class ModelAdmin extends CI_Model
                 $counter += 1;
                 $newname = "assets/mediatk/" . uniqid() . "." . pathinfo($file["name"])["extension"];
                 $content[1]["file"] = $newname;
-                $data= ["id_kegiatan" => $content[1]["kegiatan"], "file" => $content[1]["file"]];
+                $data = ["id_kegiatan" => $content[1]["kegiatan"], "file" => $content[1]["file"]];
                 move_uploaded_file($file["tmp_name"], $newname);
                 $this->db->insert('mediatk', $data);
             }
         }
         $this->session->set_flashdata('alert', 'Berhasil');
+    }
+
+    public function tambahSiswa($data)
+    {
+        $mapped = [
+            'nomor_induk' => $data["nomor_induk"],
+            'nisn' => $data["nisn"],
+            'nama' => $data["nama"],
+            'ttl' => $data["ttl"],
+            'jenis_kelamin' => $data["jenis_kelamin"],
+            'agama' => $data["agama"],
+            'pendidikan_sebelumnya' => $data["pendidikan_sebelumnya"],
+            'alamat' => $data["alamat"],
+            'nama_ayah' => $data["nama_ayah"],
+            'nama_ibu' => $data["nama_ibu"],
+            'alamat_ortu' => $data["alamat_ortu"],
+            'nama_wali' => $data["nama_wali"],
+            'pekerjaan_wali' => $data["pekerjaan_wali"],
+            'alamat_wali' => $data["alamat_wali"],
+            'no_hp_ortu' => $data["no_hp_ortu"],
+            'pekerjaan_ayah' => $data["pekerjaan_ayah"],
+            'pekerjaan_ibu' => $data["pekerjaan_ibu"],
+        ];
+        $this->db->insert('siswa', $mapped);
+        if ($this->db->affected_rows() > 0) {
+            $this->session->set_flashdata('success', 'Artikel baru berhasil diposting!');
+        }
+    }
+
+    public function masukkankelas($idsiswa, $idkelas, $tahun, $th)
+    {
+        $tahunajar = $tahun . "/" . $th;
+        $mapped = [
+            "tahun" => $tahunajar,
+            "id_siswa" => $idsiswa,
+            "id_kelas" => $idkelas
+        ];
+
+        $cekKelas = $this->db->query('SELECT * FROM kelas_siswa WHERE id_siswa ="' . $idsiswa . '" AND tahun = "' . $tahunajar . '"')->result_array();
+
+        if ($cekKelas) {
+            $this->db->where("id_siswa", $idsiswa);
+            $this->db->update('kelas_siswa', $mapped);
+        } else {
+            $this->db->insert('kelas_siswa', $mapped);
+        }
+        if ($this->db->affected_rows() > 0) {
+            redirect('admin/daftarsiswa/' . $idkelas . "/" . $tahunajar);
+        }
+    }
+
+    public function keluarkansiswa($idsiswa, $idkelas, $tahun, $th)
+    {
+        $tahunajar = $tahun . "/" . $th;
+        $mapped = [
+            "tahun" => $tahunajar,
+            "id_siswa" => $idsiswa,
+            "id_kelas" => NULL
+        ];
+        $this->db->where("id_siswa", $idsiswa);
+        $this->db->update('kelas_siswa', $mapped);
+        if ($this->db->affected_rows() > 0) {
+            redirect('admin/daftarsiswa/' . $idkelas . "/" . $tahunajar);
+        }
+    }
+    public function ubahbiodata($data)
+    {
+        $mapped = [
+            "nomor_induk" => $data["nomor_induk"],
+            "nisn" => $data["nisn"],
+            "nama" => $data["nama"],
+            "ttl" => $data["ttl"],
+            "jenis_kelamin" => $data["jenis_kelamin"],
+            "agama" => $data["agama"],
+            "pendidikan_sebelumnya" => $data["pendidikan_sebelumnya"],
+            "alamat" => $data["alamat"],
+            "nama_ayah" => $data["nama_ayah"],
+            "pekerjaan_ayah" => $data["pekerjaan_ayah"],
+            "nama_ibu" => $data["nama_ibu"],
+            "pekerjaan_ibu" => $data["pekerjaan_ibu"],
+            "alamat_ortu" => $data["alamat_ortu"],
+            "nama_wali" => $data["nama_wali"],
+            "pekerjaan_wali" => $data["pekerjaan_wali"],
+            "alamat_wali" => $data["alamat_wali"],
+            "no_hp_ortu" => $data["no_hp_ortu"],
+        ];
+        $this->db->where('id', $data["id"]);
+        $this->db->update('siswa', $mapped);
+        if ($this->db->affected_rows() > 0) {
+            $this->session->set_flashdata("editBiodataAlert", "Berhasil");
+            redirect('admin/biodatasiswa/' . $data["id"]);
+        } else {
+            $this->session->set_flashdata("editBiodataAlert", "Gagal");
+        }
+    }
+
+    public function ubahNilaiSikap($data)
+    {
+        $keys = array_keys($data);
+
+        $counter = 0;
+        foreach ($data as $d) {
+            if ($keys[$counter] !== "submit") {
+                $input = explode('_', $keys[$counter]);
+
+                $checkData = $this->db->query("SELECT * FROM nilai_sikap WHERE id_siswa=" . $input[0] . " AND id_kelas_siswa=" . $input[1] . " AND id_semester=" . $input[2] . " AND id_sikap=" . $input[3])->row_array();
+                $mapped = [
+                    'id_siswa' => $input[0],
+                    'id_kelas_siswa' => $input[1],
+                    'id_semester' => $input[2],
+                    'id_sikap' => $input[3],
+                    'nilai' => $d
+                ];
+
+                if ($checkData) {
+                    $this->db->where('id_siswa', $input[0]);
+                    $this->db->where('id_kelas_siswa', $input[1]);
+                    $this->db->where('id_semester', $input[2]);
+                    $this->db->where('id_sikap', $input[3]);
+                    $this->db->update('nilai_sikap', $mapped);
+                } else {
+                    $this->db->insert('nilai_sikap', $mapped);
+                }
+                $counter++;
+            }
+        }
     }
 }

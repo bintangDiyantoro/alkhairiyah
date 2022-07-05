@@ -19,9 +19,9 @@
                             <th scope="row"><?= $i ?></th>
                             <td><?= $a["name"] ?></td>
                             <td>
-                                <?php if ($a["id_guru"]) {
-                                    $this->db->where('id', $a["id_guru"]);
-                                    echo $this->db->get('guru')->row_array()["nama"];
+                                <?php if ($a["id_staff"]) {
+                                    $this->db->where('id', $a["id_staff"]);
+                                    echo $this->db->get('staff')->row_array()["nama"];
                                 } ?>
                             </td>
                             <td>
@@ -31,7 +31,7 @@
                                     &#10060;
                                 <?php endif; ?>
                             </td>
-                            <td><?= $a["role"] ?></td>
+                            <td><?= $a["role"]?></td>
                             <td>
                                 <?= admvrf($a["verified"], $a["id"]) ?>
                                 <a href="<?= base_url('admin/ubahadmin/') . $a["id"] ?>" class="badge badge-warning">

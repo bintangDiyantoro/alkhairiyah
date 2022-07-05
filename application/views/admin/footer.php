@@ -1,13 +1,13 @@
         <div class="row justify-content-center sticky-bottom my-5">
             <small class="text-center">
-                Copyright &#169; 2019 SDI Al-Khairiyah
+                Copyright &#169; 2019 SDI Al-Khairiyah Banyuwangi
             </small>
         </div>
         <!-- Footer -->
         <footer class="fixed-bottom bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; SDI Al-Khairiyah 2019</span>
+                    <span>Copyright &copy; SDI Al-Khairiyah Banyuwangi 2019</span>
                 </div>
             </div>
         </footer>
@@ -51,6 +51,7 @@
         <script src="<?= base_url('assets/vendor/jquery-easing/') ?>jquery.easing.min.js"></script>
 
         <!-- Custom scripts for all pages-->
+        <!-- <script src="<?= base_url('assets/js/') ?>jquery-3.4.1.min.js"></script> -->
         <script src="<?= base_url('assets/js/') ?>sb-admin-2.min.js"></script>
         <script src="<?= base_url('assets/js/') ?>sweetalert2.all.min.js"></script>
         <script src="<?= base_url('assets/js/') ?>pickmeup.js"></script>

@@ -147,7 +147,12 @@ $(function() {
         keyword[0].setSelectionRange(len, len);
     }
 
-    pickmeup('#tgl_lahir')
+
+    if (title == "Pendaftaran") {
+        pickmeup('#tgl_lahir')
+    }
+
+
 
     $('.custom-file-input').on('change', function() {
         let fileName = $(this).val().split('\\').pop();
