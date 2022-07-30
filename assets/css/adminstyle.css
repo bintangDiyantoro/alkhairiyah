@@ -2,6 +2,10 @@ html::-webkit-scrollbar {
     display: none;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 @font-face {
     font-family: "corbel";
     src: url('../fonts/corbel.ttf');
@@ -154,7 +158,12 @@ p {
 }
 
 .form-group.ubah-sikap-textarea {
-    margin: 0 -60px 0 0!important;
+    margin: 0 -40px 0 0!important;
+}
+
+.tambah-ekskul {
+    cursor: pointer;
+    padding: 5px;
 }
 
 @media(max-width:800px) {

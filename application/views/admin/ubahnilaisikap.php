@@ -37,7 +37,7 @@
             </table>
         </div>
         <div class="row d-flex justify-content-end">
-            <button class="btn btn-info update-sikap ubah-nilai-sikap mr-1" type="submit" name="submit" id="simpanNilaiSikap">Simpan</button>
+            <button class="btn btn-info update-sikap ubah-nilai-sikap mr-1" type="submit" name="submit" id="simpanNilaiSikap" data-session="<?= $this->session->userdata("admin") ?>">Simpan</button>
             </form>
             <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-secondary">Kembali</a>
         </div>

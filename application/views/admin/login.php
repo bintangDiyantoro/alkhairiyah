@@ -36,6 +36,14 @@
               <div class="col-lg">
                 <div class="p-5">
                   <div class="text-center">
+                    <?php if ($this->session->flashdata('registrasisuccess')) : ?>
+                      <div class="alert alert-success alert-dismissible fade show text-left mb-4" role="alert">
+                        <strong>Registrasi Berhasil!</strong><br> <?= $this->session->flashdata('registrasisuccess') ?>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    <?php endif ?>
                     <h1 class="h4 text-gray-900 mb-4">Login Admin</h1>
                   </div>
                   <form class="user" method="post">

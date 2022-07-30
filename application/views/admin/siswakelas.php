@@ -14,6 +14,7 @@
                                 <th class="align-middle" scope="col">NISN</th>
                                 <th class="align-middle" scope="col">Nama</th>
                                 <th class="align-middle" scope="col">Jenis Kelamin</th>
+                                <th class="align-middle" scope="col">Diinput oleh</th>
                                 <th class="align-middle" scope="col">Opsi</th>
                             </tr>
                         </thead>
@@ -32,6 +33,13 @@
                                         } elseif ($ss["jenis_kelamin"] == "P") {
                                             echo "Perempuan";
                                         } ?>
+                                    </td>
+                                    <td class="align-middle">
+                                        <small>
+                                            <i class="text-monospace" style="color:limegreen;font-weight:300 ;">
+                                                <?= ($ss['insert_by'] == $this->session->userdata('id_staff')) ? 'Anda' : $ss["nama_staff"] ?>
+                                            </i>
+                                        </small>
                                     </td>
                                     <td class="align-middle">
                                         <a href="<?= base_url('admin/kelolanilai/' . $ss["id"] . "/" . $ss["id_kelas"] . "/" . $tahun) ?>" class="badge py-1 px-2 my-1 badge-primary" data-name="<?= $ss["nama"] ?>">

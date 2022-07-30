@@ -230,13 +230,15 @@ class ModelAdmin extends CI_Model
         $mapped = [
             "tahun" => $tahunajar,
             "id_siswa" => $idsiswa,
-            "id_kelas" => $idkelas
+            "id_kelas" => $idkelas,
+            "insert_by" => $this->session->userdata('id_staff')
         ];
 
-        $cekKelas = $this->db->query('SELECT * FROM kelas_siswa WHERE id_siswa ="' . $idsiswa . '" AND tahun = "' . $tahunajar . '"')->result_array();
+        $cekKelas = $this->db->query('SELECT * FROM kelas_siswa WHERE id_siswa ="' . $idsiswa . '" AND tahun = "' . $tahunajar . '"')->row_array();
 
         if ($cekKelas) {
             $this->db->where("id_siswa", $idsiswa);
+            $this->db->where("tahun", $tahunajar);
             $this->db->update('kelas_siswa', $mapped);
         } else {
             $this->db->insert('kelas_siswa', $mapped);
@@ -254,8 +256,12 @@ class ModelAdmin extends CI_Model
             "id_siswa" => $idsiswa,
             "id_kelas" => NULL
         ];
-        $this->db->where("id_siswa", $idsiswa);
-        $this->db->update('kelas_siswa', $mapped);
+        $cekKelas = $this->db->query('SELECT * FROM kelas_siswa WHERE id_siswa ="' . $idsiswa . '" AND tahun = "' . $tahunajar . '"')->row_array();
+        if($cekKelas){
+            $this->db->where("id_siswa", $idsiswa);
+            $this->db->where("tahun", $tahunajar);
+            $this->db->update('kelas_siswa', $mapped);
+        }
         if ($this->db->affected_rows() > 0) {
             redirect('admin/daftarsiswa/' . $idkelas . "/" . $tahunajar);
         }
@@ -322,4 +328,122 @@ class ModelAdmin extends CI_Model
             }
         }
     }
+
+    public function ubahNilaiPengetahuanKeterampilan($data)
+    {
+        $keys = array_keys($data);
+
+        $counter = 0;
+        foreach ($data as $d) {
+            if ($keys[$counter] !== "submit") {
+                $input = explode('_', $keys[$counter]);
+
+                if ($input[0] == 'kkm') {
+                    $checkDataKKM = $this->db->query("SELECT * FROM kkm WHERE id_siswa=" . $input[1] . " AND id_kelas_siswa=" . $input[2] . " AND id_semester=" . $input[3])->row_array();
+
+                    $mapped = [
+                        'id_siswa' => $input[1],
+                        'id_kelas_siswa' => $input[2],
+                        'id_semester' => $input[3],
+                        'kkm' => $d
+                    ];
+
+                    if ($checkDataKKM) {
+                        $this->db->where('id_siswa', $input[1]);
+                        $this->db->where('id_kelas_siswa', $input[2]);
+                        $this->db->where('id_semester', $input[3]);
+                        $this->db->update('kkm', $mapped);
+                    } else {
+                        $this->db->insert('kkm', $mapped);
+                    }
+                } else {
+                    $checkDataMapel = $this->db->query("SELECT * FROM nilai_mapel WHERE id_siswa=" . $input[0] . " AND id_kelas_siswa=" . $input[1] . " AND id_semester=" . $input[2] . " AND id_mapel_induk=" . $input[3] . " AND id_kompetensi_inti=" . $input[4])->row_array();
+
+                    $mapped = [
+                        'id_siswa' => $input[0],
+                        'id_kelas_siswa' => $input[1],
+                        'id_semester' => $input[2],
+                        'id_mapel_induk' => $input[3],
+                        'id_kompetensi_inti' => $input[4],
+                        'nilai' => $d
+                    ];
+
+                    if ($checkDataMapel) {
+                        $this->db->where('id_siswa', $input[0]);
+                        $this->db->where('id_kelas_siswa', $input[1]);
+                        $this->db->where('id_semester', $input[2]);
+                        $this->db->where('id_mapel_induk', $input[3]);
+                        $this->db->where('id_kompetensi_inti', $input[4]);
+                        $this->db->update('nilai_mapel', $mapped);
+                    } else {
+                        $this->db->insert('nilai_mapel', $mapped);
+                    }
+                }
+            }
+            $counter++;
+        }
+    }
+    public function ubahNilaiEkstrakurikuler($data)
+    {
+        $keys = array_keys($data);
+
+        $counter = 0;
+        foreach ($data as $d) {
+            if ($keys[$counter] !== "submit") {
+                $input = explode('_', $keys[$counter]);
+
+                $checkData = $this->db->query("SELECT * FROM nilai_ekskul WHERE id_siswa=" . $input[0] . " AND id_kelas_siswa=" . $input[1] . " AND id_semester=" . $input[2] . " AND id_ekskul=" . $input[3])->row_array();
+                $mapped = [
+                    'id_siswa' => $input[0],
+                    'id_kelas_siswa' => $input[1],
+                    'id_semester' => $input[2],
+                    'id_ekskul' => $input[3],
+                    'nilai' => $d
+                ];
+
+                if ($checkData) {
+                    $this->db->where('id_siswa', $input[0]);
+                    $this->db->where('id_kelas_siswa', $input[1]);
+                    $this->db->where('id_semester', $input[2]);
+                    $this->db->where('id_ekskul', $input[3]);
+                    $this->db->update('nilai_ekskul', $mapped);
+                } else {
+                    $this->db->insert('nilai_ekskul', $mapped);
+                }
+                $counter++;
+            }
+        }
+    }
+    public function ubahJumlahAbsensi($data)
+    {
+        $keys = array_keys($data);
+
+        $counter = 0;
+        foreach ($data as $d) {
+            if ($keys[$counter] !== "submit") {
+                $input = explode('_', $keys[$counter]);
+
+                $checkData = $this->db->query("SELECT * FROM jumlah_ketidakhadiran WHERE id_siswa=" . $input[0] . " AND id_kelas_siswa=" . $input[1] . " AND id_semester=" . $input[2] . " AND id_ketidakhadiran=" . $input[3])->row_array();
+                $mapped = [
+                    'id_siswa' => $input[0],
+                    'id_kelas_siswa' => $input[1],
+                    'id_semester' => $input[2],
+                    'id_ketidakhadiran' => $input[3],
+                    'jumlah' => $d
+                ];
+
+                if ($checkData) {
+                    $this->db->where('id_siswa', $input[0]);
+                    $this->db->where('id_kelas_siswa', $input[1]);
+                    $this->db->where('id_semester', $input[2]);
+                    $this->db->where('id_ketidakhadiran', $input[3]);
+                    $this->db->update('jumlah_ketidakhadiran', $mapped);
+                } else {
+                    $this->db->insert('jumlah_ketidakhadiran', $mapped);
+                }
+                $counter++;
+            }
+        }
+    }
 }
+

@@ -26,19 +26,21 @@
                   } elseif ($hour >= 18) {
                     echo " Malam ";
                   } else {
-                    echo" Beristirahat ";
+                    echo " Beristirahat ";
                   }
 
 
                   if ($staff && $staff["jenis_kelamin"]) {
                     echo ($staff["jenis_kelamin"] == "L") ? "Ustadz " : "Ustadzah ";
-                  } 
+                  }
                   echo $this->session->userdata('admin') ?>!
         </h1>
 
         <h5 class="text-center mb-5">Semoga hari ini penuh berkah</h5>
 
-        <h2 class="text-center live-time"></h2>
+        <h2 class="text-center live-time">
+          <img src="<?= base_url('assets/img/greenloading.gif') ?>" height="100">
+        </h2>
       </div>
     </div>
   </div>

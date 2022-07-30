@@ -58,7 +58,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="NIY">NIY</label>
-                                    <input type="text" class="form-control" id="NIY" name="NIY" placeholder="1234567890">
+                                    <input type="text" class="form-control" id="NIY" name="NIY" placeholder="1234567890" maxlength="14">
                                 </div>
                                 <div class="form-group">
                                     <label for="jenis_kelamin">Jenis Kelamin</label>

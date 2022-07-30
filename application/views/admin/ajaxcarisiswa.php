@@ -23,6 +23,7 @@
         e.preventDefault()
         let pattern = /^\++$/gm
         if (keyword && !pattern.test(keyword)) {
+            document.getElementsByClassName('ajax-cari-siswa')[0].innerHTML = '<div class="d-flex justify-content-center align-items-center" ><img src="/assets/img/greenloading.gif" height="70"></div>'
             $('.ajax-cari-siswa').load('/admin/carisiswa?csrf_token=' + csrf + '&keyword=' + keyword + '&submit=')
         }
     }

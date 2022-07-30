@@ -24,7 +24,7 @@
                                     echo $this->db->get('staff')->row_array()["nama"];
                                 } ?>
                             </td>
-                            <td>
+                            <td class="vrfAdm">
                                 <?php if ($a["verified"] == "1") : ?>
                                     &#9989;
                                 <?php elseif ($a["verified"] == "0") : ?>
