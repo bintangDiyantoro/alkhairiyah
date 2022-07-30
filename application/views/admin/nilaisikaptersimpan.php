@@ -34,6 +34,6 @@
     </table>
 </div>
 <div class="row d-flex justify-content-end">
-    <button class="btn btn-primary update-sikap mr-1">Ubah Data</button>
+    <button class="btn btn-primary update-sikap mr-1" data-session="<?= $this->session->userdata("admin") ?>">Ubah Data</button>
     <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success">Kembali</a>
 </div>

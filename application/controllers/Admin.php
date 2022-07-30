@@ -91,8 +91,8 @@ class Admin extends CI_Controller
             ];
             $this->db->insert('admin', $data);
             if ($this->db->affected_rows() > 0) {
-                $this->session->set_flashdata('success', 'Registrasi sukses! Silahkan hubungi Operator Yayasan untuk verifikasi');
-                redirect('admin');
+                $this->session->set_flashdata('registrasisuccess', 'Silahkan hubungi Operator Yayasan untuk verifikasi dan aktivasi akun.');
+                redirect('admin/login');
             }
         }
     }
@@ -134,9 +134,7 @@ class Admin extends CI_Controller
         } else {
             if ($this->session->userdata('role') == '9') {
                 $data["title"] = 'Admins Management';
-                // $this->db->where('role !=', "9");
-                // $data["admin"] = $this->db->get('admin')->result_array();
-                $data["admin"] = $this->db->query('SELECT admin.*, role.role FROM admin JOIN role ON admin.role = role.role_id WHERE admin.role !=9')->result_array();
+                $data["admin"] = $this->db->query('SELECT admin.id, admin.name, admin.password, admin.verified,admin.id_staff, role.role FROM admin JOIN role ON admin.role = role.role_id WHERE admin.role !=9')->result_array();
                 $this->load->view('admin/header', $data);
                 $this->load->view('admin/adminmanagementtop');
                 $this->load->view('admin/adminmanagement');
@@ -267,8 +265,7 @@ class Admin extends CI_Controller
             redirect('admin/login');
         } else {
             if ($this->session->userdata('role') == '9') {
-                $this->db->where('role !=', "9");
-                $data["admin"] = $this->db->get('admin')->result_array();
+                $data["admin"] = $this->db->query('SELECT admin.id, admin.name, admin.password, admin.verified,admin.id_staff, role.role FROM admin JOIN role ON admin.role = role.role_id WHERE admin.role !=9')->result_array();
                 $this->load->view('admin/adminmanagement', $data);
             } else {
                 redirect('admin');
@@ -488,7 +485,7 @@ class Admin extends CI_Controller
                 $data["title"] = "Buku Induk Siswa";
                 $data["kelas"] = $this->db->query("select class from kelas where id=" . $idkelas)->row_array();
                 $data["tahun"] = $tahunkelas;
-                $data["semua_siswa"] = $this->db->query("SELECT kelas_siswa.id_siswa, kelas_siswa.id_kelas, kelas_siswa.tahun,kelas.class, siswa.id, siswa.nisn, siswa.nomor_induk, siswa.nama, siswa.jenis_kelamin FROM kelas_siswa JOIN siswa ON kelas_siswa.id_siswa = siswa.id JOIN kelas ON kelas_siswa.id_kelas = kelas.id WHERE kelas_siswa.id_kelas='" . $idkelas . "' AND kelas_siswa.tahun ='" . $tahunkelas . "' ORDER BY siswa.nama")->result_array();
+                $data["semua_siswa"] = $this->db->query("SELECT kelas_siswa.id_siswa, kelas_siswa.id_kelas, kelas_siswa.tahun, kelas_siswa.insert_by, kelas.class, siswa.id, siswa.nisn, siswa.nomor_induk, siswa.nama, siswa.jenis_kelamin, staff.nama AS nama_staff FROM kelas_siswa JOIN siswa ON kelas_siswa.id_siswa = siswa.id JOIN kelas ON kelas_siswa.id_kelas = kelas.id JOIN staff ON kelas_siswa.insert_by = staff.id WHERE kelas_siswa.id_kelas='" . $idkelas . "' AND kelas_siswa.tahun ='" . $tahunkelas . "' ORDER BY siswa.nama")->result_array();
                 $this->session->set_userdata(["id_kelas" => $idkelas, "tahun" => $tahunkelas]);
 
                 $this->load->view('admin/header', $data);
@@ -575,6 +572,10 @@ class Admin extends CI_Controller
                             $checkLimaTahunsetelahnya = $this->db->query("SELECT kelas_siswa.id_kelas, kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas = kelas.id WHERE kelas_siswa.id_siswa =" . $q["id"] . " AND kelas_siswa.tahun='" . $limatahunsetelahnya . "'")->row_array();
 
                             $checkEnamTahunsetelahnya = $this->db->query("SELECT kelas_siswa.id_kelas, kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas = kelas.id WHERE kelas_siswa.id_siswa =" . $q["id"] . " AND kelas_siswa.tahun='" . $enamtahunsetelahnya . "'")->row_array();
+
+                            $checkTahunLainSetelahnya = $this->db->query("SELECT kelas_siswa.id_kelas, kelas_siswa.tahun , kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas = kelas.id WHERE kelas_siswa.id_siswa =" . $q["id"] . " ORDER BY kelas_siswa.tahun ASC")->row_array();
+
+                            $checkTahunLainSebelumnya = $this->db->query("SELECT kelas_siswa.id_kelas, kelas_siswa.tahun , kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas = kelas.id WHERE kelas_siswa.id_siswa =" . $q["id"] . " ORDER BY kelas_siswa.tahun DESC")->row_array();
 
                             $classCheck = $this->db->query("SELECT class FROM kelas JOIN kelas_siswa ON kelas.id = kelas_siswa.id_kelas WHERE kelas_siswa.id_siswa = '" . $q["id"] . "' AND kelas_siswa.tahun='" . $this->session->userdata("tahun") . "'")->row_array();
                             if ($classCheck) {
@@ -808,7 +809,7 @@ class Admin extends CI_Controller
                                                                     } else {
                                                                         $q["class"] = $checkDuaTahunsetelahnya["class"] . " - " . $duatahunsetelahnya;
                                                                     }
-                                                                } elseif ((int)$checkDuaTahunsetelahnya["id_kelas"] >= 5 && (int)$checkDuaTahunsetelahnya["id_kelas"] <= 8) {
+                                                                } elseif ((int)$checkDuaTahunsetelahnya["id_kelas"] >= 1 && (int)$checkDuaTahunsetelahnya["id_kelas"] <= 8) {
                                                                     $q["class"] = "belum daftar";
                                                                 }
                                                             } else {
@@ -831,7 +832,7 @@ class Admin extends CI_Controller
                                                                         } else {
                                                                             $q["class"] = $checkTigaTahunsetelahnya["class"] . " - " . $tigatahunsetelahnya;
                                                                         }
-                                                                    } elseif ((int)$checkTigaTahunsetelahnya["id_kelas"] >= 9 && (int)$checkTigaTahunsetelahnya["id_kelas"] <= 12) {
+                                                                    } elseif ((int)$checkTigaTahunsetelahnya["id_kelas"] >= 1 && (int)$checkTigaTahunsetelahnya["id_kelas"] <= 12) {
                                                                         $q["class"] = "belum daftar";
                                                                     }
                                                                 } else {
@@ -848,7 +849,7 @@ class Admin extends CI_Controller
                                                                             } else {
                                                                                 $q["class"] = $checkEmpatTahunsetelahnya["class"] . " - " . $empattahunsetelahnya;
                                                                             }
-                                                                        } elseif ((int)$checkEmpatTahunsetelahnya["id_kelas"] >= 13 && (int)$checkEmpatTahunsetelahnya["id_kelas"] <= 16) {
+                                                                        } elseif ((int)$checkEmpatTahunsetelahnya["id_kelas"] >= 1 && (int)$checkEmpatTahunsetelahnya["id_kelas"] <= 16) {
                                                                             $q["class"] = "belum daftar";
                                                                         }
                                                                     } else {
@@ -859,16 +860,31 @@ class Admin extends CI_Controller
                                                                                 } else {
                                                                                     $q["class"] = $checkLimaTahunsetelahnya["class"] . " - " . $limatahunsetelahnya;
                                                                                 }
-                                                                            } elseif ((int)$checkLimaTahunsetelahnya["id_kelas"] >= 17 && (int)$checkLimaTahunsetelahnya["id_kelas"] <= 20) {
+                                                                            } elseif ((int)$checkLimaTahunsetelahnya["id_kelas"] >= 1 && (int)$checkLimaTahunsetelahnya["id_kelas"] <= 20) {
                                                                                 $q["class"] = "belum daftar";
                                                                             }
                                                                         } else {
                                                                             if ($checkEnamTahunsetelahnya) {
-                                                                                if ((int)$checkEnamTahunsetelahnya["id_kelas"] >= 21 && (int)$checkEnamTahunsetelahnya["id_kelas"] <= 24) {
+                                                                                if ((int)$checkEnamTahunsetelahnya["id_kelas"] >= 1 && (int)$checkEnamTahunsetelahnya["id_kelas"] <= 24) {
                                                                                     $q["class"] = "belum daftar";
                                                                                 }
                                                                             } else {
-                                                                                $q["class"] = "-";
+                                                                                if ($checkTahunLainSetelahnya) {
+                                                                                    $tahunLainSetelahnya = explode('/', $checkTahunLainSetelahnya["tahun"])[0];
+                                                                                    if ((int)$tahunLainSetelahnya > (int)explode('/', $this->session->userdata('tahun'))[0] + 6) {
+                                                                                        $q["class"] = "belum daftar";
+                                                                                    }
+                                                                                } else {
+                                                                                    $q["class"] = "-";
+                                                                                }
+                                                                                if ($checkTahunLainSebelumnya) {
+                                                                                    $tahunLainSebelumnya = explode('/', $checkTahunLainSebelumnya["tahun"])[0];
+                                                                                    if ((int)$tahunLainSebelumnya < (int)explode('/', $this->session->userdata('tahun'))[0] - 6) {
+                                                                                        $q["class"] = "lulus";
+                                                                                    }
+                                                                                } else {
+                                                                                    $q["class"] = "-";
+                                                                                }
                                                                             }
                                                                         }
                                                                     }
@@ -962,7 +978,7 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules(
             'pendidikan_sebelumnya',
             'Pendidikan Sebelumnya',
-            'regex_match[/^[a-z0-9-\s,]+$/i]',
+            'regex_match[/^[a-z0-9-\s,\']+$/i]',
             [
                 'regex_match' => 'karakter tidak valid'
             ]
@@ -1520,6 +1536,62 @@ class Admin extends CI_Controller
         }
     }
 
+    public function dftkompetensiinti()
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "9") {
+                $data["title"] = 'Buku Induk Siswa';
+                $data["csrf"] = $this->csrf;
+                $data["kompetensi_inti"] = $this->db->get('kompetensi_inti')->result_array();
+
+                if (isset($_POST['submit'])) {
+                    $kompetensi_inti["kompetensi_inti"] =  $this->input->post('kompetensi_inti');
+                    $this->db->insert('kompetensi_inti', $kompetensi_inti);
+                    if ($this->db->affected_rows() > 0) {
+                        redirect('admin/dftkompetensiinti');
+                    }
+                }
+
+                $this->load->view('admin/header', $data);
+                $this->load->view('admin/dftkompetensiinti');
+                $this->load->view('admin/footer');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function ubahkompetensiinti($id)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "9") {
+                $this->db->where('id', $id);
+                $data["kompetensi_inti"] = $this->db->get('kompetensi_inti')->row_array();
+                $data["title"] = "Buku Induk Siswa";
+                $data["csrf"] = $this->csrf;
+
+                if (isset($_POST["submit"])) {
+                    $this->db->query("UPDATE kompetensi_inti SET kompetensi_inti='" . $this->input->post('kompetensi_inti') . "' WHERE id=" . $id);
+                    if ($this->db->affected_rows() > 0) {
+                        redirect('admin/dftkompetensiinti');
+                    }
+                }
+
+                $this->load->view('admin/header', $data);
+                $this->load->view('admin/editkompetensiinti');
+                $this->load->view('admin/footer');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
     public function biodatasiswa($id)
     {
         netralize();
@@ -1650,7 +1722,13 @@ class Admin extends CI_Controller
                     "id_kelas" => $idkelas,
                     "kelas" => $this->db->query("SELECT class FROM kelas WHERE id =" . $idkelas)->row_array(),
                     "siswa" => $this->db->query("SELECT * FROM siswa WHERE id=" . $idsiswa)->row_array(),
-                    "nilai_sikap" => $this->db->query("SELECT nilai_sikap.*,kelas_siswa.id_kelas FROM nilai_sikap JOIN kelas_siswa ON nilai_sikap.id_kelas_siswa = kelas_siswa.id WHERE nilai_sikap.id_siswa=" . $idsiswa)->result_array()
+                    "nilai_sikap" => $this->db->query("SELECT nilai_sikap.*,kelas_siswa.id_kelas FROM nilai_sikap JOIN kelas_siswa ON nilai_sikap.id_kelas_siswa = kelas_siswa.id WHERE nilai_sikap.id_siswa=" . $idsiswa)->result_array(),
+                    "kkm" => $this->db->query("SELECT kkm.*,kelas_siswa.id_kelas FROM kkm JOIN kelas_siswa ON kkm.id_kelas_siswa = kelas_siswa.id WHERE kkm.id_siswa=" . $idsiswa)->result_array(),
+                    "nilai_pengetahuan_keterampilan" => $this->db->query("SELECT nilai_mapel.*,kelas_siswa.id_kelas FROM nilai_mapel JOIN kelas_siswa ON nilai_mapel.id_kelas_siswa = kelas_siswa.id WHERE nilai_mapel.id_siswa=" . $idsiswa)->result_array(),
+                    "nilai_ekskul" => $this->db->query("SELECT nilai_ekskul.*,kelas_siswa.id_kelas, ekskul.ekskul FROM nilai_ekskul JOIN kelas_siswa ON nilai_ekskul.id_kelas_siswa = kelas_siswa.id JOIN ekskul ON nilai_ekskul.id_ekskul = ekskul.id WHERE nilai_ekskul.id_siswa=" . $idsiswa)->result_array(),
+                    "ekskul_terpilih" => $this->db->query('SELECT nilai_ekskul.id_ekskul, ekskul.ekskul FROM nilai_ekskul JOIN ekskul ON nilai_ekskul.id_ekskul = ekskul.id WHERE nilai_ekskul.id_siswa = ' . $idsiswa . ' GROUP BY nilai_ekskul.id_ekskul')->result_array(),
+                    "jumlah_ketidakhadiran" =>
+                    $this->db->query("SELECT jumlah_ketidakhadiran.*,kelas_siswa.id_kelas FROM jumlah_ketidakhadiran JOIN kelas_siswa ON jumlah_ketidakhadiran.id_kelas_siswa = kelas_siswa.id WHERE jumlah_ketidakhadiran.id_siswa=" . $idsiswa)->result_array(),
                 ];
                 $data['title'] = "Buku Induk Siswa";
                 $data["kelas_siswa"] = $this->db->query("SELECT kelas_siswa.tahun, kelas_siswa.id_kelas, kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE kelas_siswa.id_siswa=" . $idsiswa)->result_array();
@@ -1685,12 +1763,7 @@ class Admin extends CI_Controller
                     "nilai_sikap" =>
                     $this->db->query("SELECT nilai_sikap.*,kelas_siswa.id_kelas FROM nilai_sikap JOIN kelas_siswa ON nilai_sikap.id_kelas_siswa = kelas_siswa.id WHERE nilai_sikap.id_siswa=" . $idsiswa)->result_array(),
                 ];
-
-                if (isset($_POST["submit"])) {
-                    var_dump($this->input->post());
-                } else {
-                    $this->load->view('admin/ubahnilaisikap', $data);
-                }
+                $this->load->view('admin/ubahnilaisikap', $data);
             } else {
                 redirect('admin');
             }
@@ -1713,9 +1786,323 @@ class Admin extends CI_Controller
                         "nilai_sikap" =>
                         $this->db->query("SELECT nilai_sikap.*,kelas_siswa.id_kelas FROM nilai_sikap JOIN kelas_siswa ON nilai_sikap.id_kelas_siswa = kelas_siswa.id WHERE nilai_sikap.id_siswa=" . $idsiswa)->result_array(),
                     ];
-                    // if ($this->db->affected_rows() > 0)
                     $this->load->view('admin/nilaisikaptersimpan', $data);
                 }
+            }
+        }
+    }
+
+    public function ubahnilaipengetahuanketerampilan($idsiswa, $idkelas, $tahun, $th)
+    {
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1") {
+                $tahunajar = $tahun . "/" . $th;
+                $data = [
+                    "csrf" => $this->csrf,
+                    "tahun" => $tahunajar,
+                    "id_siswa" => $idsiswa,
+                    "id_kelas" => $idkelas,
+                    "kelas" => $this->db->query("SELECT class FROM kelas WHERE id =" . $idkelas)->row_array(),
+                    "siswa" => $this->db->query("SELECT * FROM siswa WHERE id=" . $idsiswa)->row_array(),
+                    "kelas_siswa" => $this->db->query("SELECT kelas_siswa.tahun, kelas_siswa.id_kelas, kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE kelas_siswa.id_siswa=" . $idsiswa)->result_array(),
+                    "akses_wali_kelas" => $this->db->query("SELECT kelas_siswa.id, kelas_siswa.id_siswa, kelas_siswa.id_kelas, kelas_siswa.tahun, wali_kelas.id_staff FROM kelas_siswa JOIN wali_kelas ON kelas_siswa.id_kelas = wali_kelas.id_kelas WHERE wali_kelas.id_staff ='" . $this->session->userdata('id_staff') . "' AND kelas_siswa.id_siswa=" . $idsiswa)->result_array(),
+                    "kkm" => $this->db->query("SELECT kkm.*,kelas_siswa.id_kelas FROM kkm JOIN kelas_siswa ON kkm.id_kelas_siswa = kelas_siswa.id WHERE kkm.id_siswa=" . $idsiswa)->result_array(),
+                    "nilai_pengetahuan_keterampilan" => $this->db->query("SELECT nilai_mapel.*,kelas_siswa.id_kelas FROM nilai_mapel JOIN kelas_siswa ON nilai_mapel.id_kelas_siswa = kelas_siswa.id WHERE nilai_mapel.id_siswa=" . $idsiswa)->result_array(),
+                    "muatanpelajaran" => $this->db->get('mapel_induk')->result_array(),
+                ];
+                $this->load->view('admin/ubahnilaipengetahuanketerampilan', $data);
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function simpannilaipengetahuanketerampilan($idsiswa)
+    {
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1") {
+                if (isset($_POST["submit"])) {
+                    $sorted = $this->input->post();
+                    ksort($sorted);
+                    $this->Admin->ubahNilaiPengetahuanKeterampilan($sorted);
+
+                    $data = [
+                        "kelas_siswa" =>
+                        $this->db->query("SELECT kelas_siswa.tahun, kelas_siswa.id_kelas, kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE kelas_siswa.id_siswa=" . $idsiswa)->result_array(),
+                        "kkm" => $this->db->query("SELECT kkm.*,kelas_siswa.id_kelas FROM kkm JOIN kelas_siswa ON kkm.id_kelas_siswa = kelas_siswa.id WHERE kkm.id_siswa=" . $idsiswa)->result_array(),
+                        "nilai_pengetahuan_keterampilan" => $this->db->query("SELECT nilai_mapel.*,kelas_siswa.id_kelas FROM nilai_mapel JOIN kelas_siswa ON nilai_mapel.id_kelas_siswa = kelas_siswa.id WHERE nilai_mapel.id_siswa=" . $idsiswa)->result_array(),
+                        "muatanpelajaran" => $this->db->get('mapel_induk')->result_array(),
+                    ];
+                    $this->load->view('admin/nilaipengetahuanketerampilantersimpan', $data);
+                }
+            }
+        }
+    }
+
+    public function ubahnilaiekstrakurikuler($idsiswa, $idkelas, $tahun, $th)
+    {
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1") {
+                $tahunajar = $tahun . "/" . $th;
+                $data = [
+                    "csrf" => $this->csrf,
+                    "tahun" => $tahunajar,
+                    "id_siswa" => $idsiswa,
+                    "id_kelas" => $idkelas,
+                    "kelas" => $this->db->query("SELECT class FROM kelas WHERE id =" . $idkelas)->row_array(),
+                    "siswa" => $this->db->query("SELECT * FROM siswa WHERE id=" . $idsiswa)->row_array(),
+                    "kelas_siswa" => $this->db->query("SELECT kelas_siswa.tahun, kelas_siswa.id_kelas, kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE kelas_siswa.id_siswa=" . $idsiswa)->result_array(),
+                    "akses_wali_kelas" => $this->db->query("SELECT kelas_siswa.id, kelas_siswa.id_siswa, kelas_siswa.id_kelas, kelas_siswa.tahun, wali_kelas.id_staff FROM kelas_siswa JOIN wali_kelas ON kelas_siswa.id_kelas = wali_kelas.id_kelas WHERE wali_kelas.id_staff ='" . $this->session->userdata('id_staff') . "' AND kelas_siswa.id_siswa=" . $idsiswa)->result_array(),
+                    "nilai_ekskul" => $this->db->query("SELECT nilai_ekskul.*,kelas_siswa.id_kelas FROM nilai_ekskul JOIN kelas_siswa ON nilai_ekskul.id_kelas_siswa = kelas_siswa.id WHERE nilai_ekskul.id_siswa=" . $idsiswa)->result_array(),
+                    "ekskul" => $this->db->get('ekskul')->result_array(),
+                    "ekskul_terpilih" => $this->db->query('SELECT nilai_ekskul.id_ekskul, ekskul.ekskul FROM nilai_ekskul JOIN ekskul ON nilai_ekskul.id_ekskul = ekskul.id WHERE nilai_ekskul.id_siswa = ' . $idsiswa . ' GROUP BY nilai_ekskul.id_ekskul')->result_array(),
+                ];
+                $this->load->view('admin/ubahnilaiekstrakurikuler', $data);
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function simpannilaiekstrakurikuler($idsiswa)
+    {
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1") {
+                if (isset($_POST["submit"])) {
+                    $sorted = $this->input->post();
+                    ksort($sorted);
+                    $this->Admin->ubahNilaiEkstrakurikuler($sorted);
+
+                    $data = [
+                        "kelas_siswa" =>
+                        $this->db->query("SELECT kelas_siswa.tahun, kelas_siswa.id_kelas, kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE kelas_siswa.id_siswa=" . $idsiswa)->result_array(),
+                        "nilai_ekskul" => $this->db->query("SELECT nilai_ekskul.*,kelas_siswa.id_kelas, ekskul.ekskul FROM nilai_ekskul JOIN kelas_siswa ON nilai_ekskul.id_kelas_siswa = kelas_siswa.id JOIN ekskul ON nilai_ekskul.id_ekskul = ekskul.id WHERE nilai_ekskul.id_siswa=" . $idsiswa)->result_array(),
+                        "ekskul_terpilih" => $this->db->query('SELECT nilai_ekskul.id_ekskul, ekskul.ekskul FROM nilai_ekskul JOIN ekskul ON nilai_ekskul.id_ekskul = ekskul.id WHERE nilai_ekskul.id_siswa = ' . $idsiswa . ' GROUP BY nilai_ekskul.id_ekskul')->result_array(),
+                    ];
+                    $this->load->view('admin/nilaiekstrakurikulertersimpan', $data);
+                }
+            }
+        }
+    }
+
+    public function tambahekstrakurikuler($id = NULL)
+    {
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1") {
+                netralize();
+                // var_dump($ekskulTerpilih);
+                if ($id) {
+                    $ekskul = [];
+                    $chosen = explode('_', $id);
+                    foreach ($this->db->get('ekskul')->result_array() as $e) {
+                        if (!in_array($e["id"], $chosen)) {
+                            $ekskul[] = $e;
+                        }
+                    }
+                    $data["ekskul"] = $ekskul;
+                } else {
+                    $data["ekskul"] = $this->db->get('ekskul')->result_array();
+                }
+                $this->load->view('admin/tambahekstrakurikuler', $data);
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function getekstrakurikulerinputtr($idekskul, $idsiswa, $x, $semester)
+    {
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1") {
+                netralize();
+                $this->db->where('id', $idekskul);
+                $data = [
+                    "x" => $x - 1,
+                    "ekskul" => $this->db->get('ekskul')->row_array(),
+                    "akses_wali_kelas" => $this->db->query("SELECT kelas_siswa.id, kelas_siswa.id_siswa, kelas_siswa.id_kelas, kelas_siswa.tahun, wali_kelas.id_staff FROM kelas_siswa JOIN wali_kelas ON kelas_siswa.id_kelas = wali_kelas.id_kelas WHERE wali_kelas.id_staff ='" . $this->session->userdata('id_staff') . "' AND kelas_siswa.id_siswa=" . $idsiswa)->result_array(),
+                    "nilai_ekskul" => $this->db->query("SELECT nilai_ekskul.*,kelas_siswa.id_kelas, ekskul.ekskul FROM nilai_ekskul JOIN kelas_siswa ON nilai_ekskul.id_kelas_siswa = kelas_siswa.id JOIN ekskul ON nilai_ekskul.id_ekskul = ekskul.id WHERE nilai_ekskul.id_siswa=" . $idsiswa)->result_array(),
+                    "ekskul_terpilih" => $this->db->query('SELECT nilai_ekskul.id_ekskul, ekskul.ekskul FROM nilai_ekskul JOIN ekskul ON nilai_ekskul.id_ekskul = ekskul.id WHERE nilai_ekskul.id_siswa = ' . $idsiswa . ' GROUP BY nilai_ekskul.id_ekskul')->result_array(),
+                    "semester" => $semester,
+                ];
+                $this->load->view("admin/ekstrakurikulerinputtr", $data);
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function checkakseswalikelasekskul($idsiswa)
+    {
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1") {
+                netralize();
+                $data["akses_wali_kelas"] = $this->db->query("SELECT kelas_siswa.id, kelas_siswa.id_siswa, kelas_siswa.id_kelas, kelas_siswa.tahun, wali_kelas.id_staff FROM kelas_siswa JOIN wali_kelas ON kelas_siswa.id_kelas = wali_kelas.id_kelas WHERE wali_kelas.id_staff ='" . $this->session->userdata('id_staff') . "' AND kelas_siswa.id_siswa=" . $idsiswa)->result_array();
+                $this->load->view('admin/checkakseswalikelasekskul', $data);
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function ubahjumlahabsensi($idsiswa, $idkelas, $tahun, $th)
+    {
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1") {
+                $tahunajar = $tahun . "/" . $th;
+                $data = [
+                    "csrf" => $this->csrf,
+                    "tahun" => $tahunajar,
+                    "id_siswa" => $idsiswa,
+                    "id_kelas" => $idkelas,
+                    "kelas" => $this->db->query("SELECT class FROM kelas WHERE id =" . $idkelas)->row_array(),
+                    "siswa" => $this->db->query("SELECT * FROM siswa WHERE id=" . $idsiswa)->row_array(),
+                    "kelas_siswa" => $this->db->query("SELECT kelas_siswa.tahun, kelas_siswa.id_kelas, kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE kelas_siswa.id_siswa=" . $idsiswa)->result_array(),
+                    "akses_wali_kelas" => $this->db->query("SELECT kelas_siswa.id, kelas_siswa.id_siswa, kelas_siswa.id_kelas, kelas_siswa.tahun, wali_kelas.id_staff FROM kelas_siswa JOIN wali_kelas ON kelas_siswa.id_kelas = wali_kelas.id_kelas WHERE wali_kelas.id_staff ='" . $this->session->userdata('id_staff') . "' AND kelas_siswa.id_siswa=" . $idsiswa)->result_array(),
+                    "ketidakhadiran" => $this->db->get('ketidakhadiran')->result_array(),
+                    "jumlah_ketidakhadiran" =>
+                    $this->db->query("SELECT jumlah_ketidakhadiran.*,kelas_siswa.id_kelas FROM jumlah_ketidakhadiran JOIN kelas_siswa ON jumlah_ketidakhadiran.id_kelas_siswa = kelas_siswa.id WHERE jumlah_ketidakhadiran.id_siswa=" . $idsiswa)->result_array(),
+                ];
+                $this->load->view('admin/ubahjumlahabsensi', $data);
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function simpanjumlahabsensi($idsiswa)
+    {
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1") {
+                if (isset($_POST["submit"])) {
+                    $sorted = $this->input->post();
+                    ksort($sorted);
+                    $this->Admin->ubahJumlahAbsensi($sorted);
+                    $data = [
+                        "kelas_siswa" =>
+                        $this->db->query("SELECT kelas_siswa.tahun, kelas_siswa.id_kelas, kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE kelas_siswa.id_siswa=" . $idsiswa)->result_array(),
+                        "ketidakhadiran" => $this->db->get('ketidakhadiran')->result_array(),
+                        "jumlah_ketidakhadiran" =>
+                        $this->db->query("SELECT jumlah_ketidakhadiran.*,kelas_siswa.id_kelas FROM jumlah_ketidakhadiran JOIN kelas_siswa ON jumlah_ketidakhadiran.id_kelas_siswa = kelas_siswa.id WHERE jumlah_ketidakhadiran.id_siswa=" . $idsiswa)->result_array(),
+                    ];
+                    $this->load->view('admin/jumlahabsensitersimpan', $data);
+                }
+            }
+        }
+    }
+
+    public function ksbukuinduk()
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "3") {
+                $data = ['bukuinduk' => $this->db->query('SELECT DISTINCT tahun FROM wali_kelas ORDER BY tahun DESC')->result_array()];
+                $this->db->where('id', $this->session->userdata("id_staff"));
+                $data["staff"] = $this->db->get('staff')->row_array();
+                $data['title'] = "Buku Induk Siswa";
+                $this->load->view('admin/header', $data);
+                $this->load->view('admin/ksbukuinduk');
+                $this->load->view('admin/footer');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function ksbikelas($tahun, $th)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "3") {
+                $tahunAjar = $tahun . '/' . $th;
+                $this->session->set_userdata('tahun', $tahunAjar);
+                $data = ['bukuinduk' => $this->db->query('SELECT wali_kelas.tahun, wali_kelas.id_staff,wali_kelas.id_kelas, staff.nama, kelas.class FROM wali_kelas JOIN staff ON wali_kelas.id_staff = staff.id JOIN kelas ON wali_kelas.id_kelas = kelas.id  WHERE wali_kelas.tahun="' . $tahunAjar . '" ORDER BY kelas.class')->result_array()];
+                $this->db->where('id', $this->session->userdata("id_staff"));
+                $data["staff"] = $this->db->get('staff')->row_array();
+                $data['title'] = "Buku Induk Siswa";
+                $this->load->view('admin/header', $data);
+                $this->load->view('admin/ksbikelas');
+                $this->load->view('admin/footer');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function ksbisiswa($idkelas, $tahun, $th)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "3") {
+                $tahunAjar = $tahun . '/' . $th;
+                $data = ['bukuinduk' => $this->db->query('SELECT kelas_siswa.*,kelas.class,siswa.nama FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas = kelas.id JOIN siswa ON kelas_siswa.id_siswa = siswa.id WHERE id_kelas = "' . $idkelas . '" AND tahun="' . $tahunAjar . '"')->result_array()];
+                $this->db->where('id', $this->session->userdata("id_staff"));
+                $data["staff"] = $this->db->get('staff')->row_array();
+                $data['title'] = "Buku Induk Siswa";
+                $this->load->view('admin/header', $data);
+                $this->load->view('admin/ksbisiswa');
+                $this->load->view('admin/footer');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function ksbinilai($idsiswa, $idkelas, $tahun, $th)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "3") {
+                $tahunajar = $tahun . "/" . $th;
+                $data = [
+                    "tahun" => $tahunajar,
+                    "id_siswa" => $idsiswa,
+                    "id_kelas" => $idkelas,
+                    "kelas" => $this->db->query("SELECT class FROM kelas WHERE id =" . $idkelas)->row_array(),
+                    "siswa" => $this->db->query("SELECT * FROM siswa WHERE id=" . $idsiswa)->row_array(),
+                    "nilai_sikap" => $this->db->query("SELECT nilai_sikap.*,kelas_siswa.id_kelas FROM nilai_sikap JOIN kelas_siswa ON nilai_sikap.id_kelas_siswa = kelas_siswa.id WHERE nilai_sikap.id_siswa=" . $idsiswa)->result_array(),
+                    "kkm" => $this->db->query("SELECT kkm.*,kelas_siswa.id_kelas FROM kkm JOIN kelas_siswa ON kkm.id_kelas_siswa = kelas_siswa.id WHERE kkm.id_siswa=" . $idsiswa)->result_array(),
+                    "nilai_pengetahuan_keterampilan" => $this->db->query("SELECT nilai_mapel.*,kelas_siswa.id_kelas FROM nilai_mapel JOIN kelas_siswa ON nilai_mapel.id_kelas_siswa = kelas_siswa.id WHERE nilai_mapel.id_siswa=" . $idsiswa)->result_array(),
+                    "nilai_ekskul" => $this->db->query("SELECT nilai_ekskul.*,kelas_siswa.id_kelas, ekskul.ekskul FROM nilai_ekskul JOIN kelas_siswa ON nilai_ekskul.id_kelas_siswa = kelas_siswa.id JOIN ekskul ON nilai_ekskul.id_ekskul = ekskul.id WHERE nilai_ekskul.id_siswa=" . $idsiswa)->result_array(),
+                    "ekskul_terpilih" => $this->db->query('SELECT nilai_ekskul.id_ekskul, ekskul.ekskul FROM nilai_ekskul JOIN ekskul ON nilai_ekskul.id_ekskul = ekskul.id WHERE nilai_ekskul.id_siswa = ' . $idsiswa . ' GROUP BY nilai_ekskul.id_ekskul')->result_array(),
+                    "jumlah_ketidakhadiran" =>
+                    $this->db->query("SELECT jumlah_ketidakhadiran.*,kelas_siswa.id_kelas FROM jumlah_ketidakhadiran JOIN kelas_siswa ON jumlah_ketidakhadiran.id_kelas_siswa = kelas_siswa.id WHERE jumlah_ketidakhadiran.id_siswa=" . $idsiswa)->result_array(),
+                ];
+                $data['title'] = "Buku Induk Siswa";
+                $data["kelas_siswa"] = $this->db->query("SELECT kelas_siswa.tahun, kelas_siswa.id_kelas, kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE kelas_siswa.id_siswa=" . $idsiswa)->result_array();
+                $data["muatanpelajaran"] = $this->db->get('mapel_induk')->result_array();
+                $data["ketidakhadiran"] = $this->db->get('ketidakhadiran')->result_array();
+
+                $this->load->view('admin/header', $data);
+                $this->load->view('admin/ksbinilai');
+                $this->load->view('admin/footer');
+            } else {
+                redirect('admin');
             }
         }
     }
@@ -1728,6 +2115,7 @@ class Admin extends CI_Controller
         } else {
             if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "2") {
                 $data['title'] = "Data SPP";
+                // $data['spp'] = $this->db->
                 $this->load->view('admin/header', $data);
                 $this->load->view('admin/spp');
                 $this->load->view('admin/footer');
@@ -2684,6 +3072,7 @@ class Admin extends CI_Controller
             }
         }
     }
+
 
     public function redirectPilihKelas()
     {

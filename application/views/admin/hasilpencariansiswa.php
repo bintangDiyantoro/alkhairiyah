@@ -1,64 +1,16 @@
 <div class="container">
-    <?php if ($query && ($query[0]["class"] !== "lulus" && $query[0]["class"] !== "belum daftar")) : ?>
-        <div class="row mt-3">
-            <h4 class="text-center">Hasil Pencarian:</h4>
-        </div>
-        <div class="row" style="overflow-x: auto!important;">
-            <table class="table table-hover my-3">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nomor Induk</th>
-                        <th scope="col">NISN</th>
-                        <th scope="col">Nama</th>
-                        <th scope="col">Jenis Kelamin</th>
-                        <th scope="col">Kelas</th>
-                        <th scope="col">Opsi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $i = 1;
-                    foreach ($query as $q) :
-                        if ($q["class"] !== "lulus" && $q["class"] !== "belum daftar") : ?>
-                            <tr>
-                                <th scope="row"><?= $i ?></th>
-                                <td><?= $q["nomor_induk"] ?></td>
-                                <td><?= $q["nisn"] ?></td>
-                                <td><?= $q["nama"] ?></td>
-                                <td>
-                                    <?php if ($q["jenis_kelamin"] == "L") {
-                                        echo "Laki-laki";
-                                    } elseif ($q["jenis_kelamin"] == "P") {
-                                        echo "Perempuan";
-                                    } ?>
-                                </td>
-                                <td><?= $q["class"] ?></td>
-                                <td>
-                                    <?php if ($q["class"] === "-") : ?>
-                                        <a href="<?= base_url('admin/masukkankelas/' . $q["id"] . "/" . $this->session->userdata("id_kelas") . "/" . $this->session->userdata("tahun")) ?>" class="badge badge-primary badge-masukkan-siswa" data-name="<?= $q["nama"] ?>">
-                                            Tambahkan Ke Kelas
-                                        </a>
-                                    <?php else : ?>
-                                        <span href="#" class="badge badge-secondary" style="cursor: pointer;">Tambahkan Ke Kelas</span>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                    <?php $i++;
-                        endif;
-                    endforeach ?>
-                </tbody>
-            </table>
-        </div>
-        <div class="row d-flex justify-content-end mt-2">
-            <button class="btn btn-success cari-lagi mr-1">Cari Siswa Lain</button>
-            <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata("id_kelas") . '/' . $this->session->userdata('tahun')) ?>" class="btn btn-secondary">Batal</a>
-        </div>
-    <?php else : ?>
-        <h4>Data tidak ditemukan</h4>
-        <p>Silahkan masukkan data siswa tersebut</p>
-        <button class="btn btn-info my-2" data-target="#FormTambahSiswa" data-toggle="modal">Tambah Siswa</button>
-        <button class="btn btn-secondary cari-lagi" style="margin-left: 1px;">Cari Siswa Lain</button>
+    <?php if ($query) :
+        $kelasChek = [];
+        foreach ($query as $q) {
+            $kelasChek[] = $q["class"];
+        }
+        if (in_array('-', $kelasChek)) : ?>
+            <?= hasilPencarianSiswa($query) ?>
+        <?php else : ?>
+            <?= hasilPencarianSiswa($query) ?>
+        <?php endif;
+    else : ?>
+        <?= siswaTidakDitemukan() ?>
     <?php endif ?>
 </div>
 <div class="modal fade" id="FormTambahSiswa" tabindex="-1" role="dialog" aria-labelledby="FormTambahSiswaTitle" aria-hidden="true">

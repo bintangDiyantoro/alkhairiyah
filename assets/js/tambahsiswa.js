@@ -1,5 +1,6 @@
 $('.cari-lagi').on('click', function(e) {
     e.preventDefault()
+    document.getElementsByClassName('ajax-cari-siswa')[0].innerHTML = '<div class="d-flex justify-content-center align-items-center" ><img src="/assets/img/greenloading.gif" height="70"></div>'
     $('.ajax-cari-siswa').load('/admin/carisiswa/')
 })
 
@@ -52,9 +53,20 @@ $('.ajax-tambah-siswa').on('click', (e) => {
             $("#no_hp_ortu").after(data.no_hp_ortu_error)
 
             if (data.status == "valid") {
+                console.log(data)
+                Swal.fire({
+                    type: 'success',
+                    title: "Data " + data.keyword + " berhasil disimpan!",
+                })
                 $(".ajax-cari-siswa").load('/admin/carisiswa?csrf_token=' + data.csrf + '&keyword=' + data.keyword + '&submit=')
                 $("#page-top").removeClass("modal-open")
                 $(".modal-backdrop").remove()
+            } else {
+                Swal.fire({
+                    type: 'warning',
+                    title: "Data gagal disimpan!",
+                    html: 'Periksa kembali data input.',
+                })
             }
         }
     })

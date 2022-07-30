@@ -9,7 +9,7 @@
         <h5>Kelas: <strong style="color:dimgray"><?= $kelas["class"] ?></strong></h5>
         <h5>Tahun Pelajaran: <strong style="color:dimgray"><?= $tahun ?></strong></h5>
     </div>
-    <div class="row mt-4 mb-2">
+    <div class="row mt-4 mb-2" id="ajax-sikap-title" style="padding-top:10px">
         <h4>A. Sikap</h4>
     </div>
     <div id="ajax-sikap" data-idsiswa="<?= $id_siswa ?>" data-idkelas="<?= $id_kelas ?>" data-tahun="<?= $tahun ?>">
@@ -49,259 +49,122 @@
             </table>
         </div>
         <div class="row d-flex justify-content-end">
-            <button class="btn btn-primary update-sikap mr-1">Ubah Data</button>
+            <button class="btn btn-primary update-sikap mr-1" data-session="<?= $this->session->userdata('admin') ?>">Ubah Data</button>
             <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success">Kembali</a>
         </div>
     </div>
-    <div class="row mt-5 mb-2">
+    <div class="row mt-5 mb-2" id="ajax-pengetahuan-keterampilan-title" style="padding-top:10px">
         <h4>B. Pengetahuan dan Keterampilan</h4>
     </div>
-    <div class="row mb-4" style="overflow-x: auto">
-        <table class="table table-bordered table-hover table-sm">
-            <thead>
-                <tr>
-                    <th class="align-middle" scope="col" colspan="2">Kelas</th>
-                    <?php headerLooper($kelas_siswa, 'class', 4) ?>
-                </tr>
-                <tr>
-                    <th class="align-middle" scope="col" colspan="2">Tahun Pelajaran</th>
-                    <?php headerLooper($kelas_siswa, 'tahun', 4) ?>
-                </tr>
-                <tr>
-                    <th class="align-middle" scope="col" colspan="2">Semester</th>
-                    <th class="align-middle" scope="col" colspan="2">S1</th>
-                    <th class="align-middle" scope="col" colspan="2">S2</th>
-                    <th class="align-middle" scope="col" colspan="2">S1</th>
-                    <th class="align-middle" scope="col" colspan="2">S2</th>
-                    <th class="align-middle" scope="col" colspan="2">S1</th>
-                    <th class="align-middle" scope="col" colspan="2">S2</th>
-                    <th class="align-middle" scope="col" colspan="2">S1</th>
-                    <th class="align-middle" scope="col" colspan="2">S2</th>
-                    <th class="align-middle" scope="col" colspan="2">S1</th>
-                    <th class="align-middle" scope="col" colspan="2">S2</th>
-                    <th class="align-middle" scope="col" colspan="2">S1</th>
-                    <th class="align-middle" scope="col" colspan="2">S2</th>
-                </tr>
-                <tr>
-                    <th class="align-middle" scope="col" colspan="2">KKM Satuan Pendidikan</th>
-                    <th class="align-middle" scope="col" colspan="2"></th>
-                    <th class="align-middle" scope="col" colspan="2"></th>
-                    <th class="align-middle" scope="col" colspan="2"></th>
-                    <th class="align-middle" scope="col" colspan="2"></th>
-                    <th class="align-middle" scope="col" colspan="2"></th>
-                    <th class="align-middle" scope="col" colspan="2"></th>
-                    <th class="align-middle" scope="col" colspan="2"></th>
-                    <th class="align-middle" scope="col" colspan="2"></th>
-                    <th class="align-middle" scope="col" colspan="2"></th>
-                    <th class="align-middle" scope="col" colspan="2"></th>
-                    <th class="align-middle" scope="col" colspan="2"></th>
-                    <th class="align-middle" scope="col" colspan="2"></th>
-                </tr>
-                <tr>
-                    <th class="align-middle" scope="col" colspan="2">Muatan Pelajaran</th>
-                    <th class="align-middle" scope="col">K13</th>
-                    <th class="align-middle" scope="col">K14</th>
-                    <th class="align-middle" scope="col">K13</th>
-                    <th class="align-middle" scope="col">K14</th>
-                    <th class="align-middle" scope="col">K13</th>
-                    <th class="align-middle" scope="col">K14</th>
-                    <th class="align-middle" scope="col">K13</th>
-                    <th class="align-middle" scope="col">K14</th>
-                    <th class="align-middle" scope="col">K13</th>
-                    <th class="align-middle" scope="col">K14</th>
-                    <th class="align-middle" scope="col">K13</th>
-                    <th class="align-middle" scope="col">K14</th>
-                    <th class="align-middle" scope="col">K13</th>
-                    <th class="align-middle" scope="col">K14</th>
-                    <th class="align-middle" scope="col">K13</th>
-                    <th class="align-middle" scope="col">K14</th>
-                    <th class="align-middle" scope="col">K13</th>
-                    <th class="align-middle" scope="col">K14</th>
-                    <th class="align-middle" scope="col">K13</th>
-                    <th class="align-middle" scope="col">K14</th>
-                    <th class="align-middle" scope="col">K13</th>
-                    <th class="align-middle" scope="col">K14</th>
-                    <th class="align-middle" scope="col">K13</th>
-                    <th class="align-middle" scope="col">K14</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $i = 1;
-                foreach ($muatanpelajaran as $mp) : ?>
+    <div id="ajax-pengetahuan-keterampilan" data-idsiswa="<?= $id_siswa ?>" data-idkelas="<?= $id_kelas ?>" data-tahun="<?= $tahun ?>">
+        <div class="row mb-4" style="overflow-x: auto">
+            <table class="table table-bordered table-hover table-sm">
+                <thead>
                     <tr>
-                        <td class="align-middle" scope="col"><?= $i ?></td>
-                        <td class="align-middle" scope="col"><?= $mp["muatan_pelajaran"] ?></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
+                        <th class="align-middle" scope="col" colspan="2">Kelas</th>
+                        <?php headerLooper($kelas_siswa, 'class', 4) ?>
                     </tr>
-                <?php $i++;
-                endforeach ?>
-            </tbody>
-        </table>
+                    <tr>
+                        <th class="align-middle" scope="col" colspan="2">Tahun Pelajaran</th>
+                        <?php headerLooper($kelas_siswa, 'tahun', 4) ?>
+                    </tr>
+                    <tr>
+                        <th class="align-middle" scope="col" colspan="2">Semester</th>
+                        <?php for ($i = 0; $i < 6; $i++) : ?>
+                            <th class="align-middle" scope="col" colspan="2">S1</th>
+                            <th class="align-middle" scope="col" colspan="2">S2</th>
+                        <?php endfor ?>
+                    </tr>
+                    <tr>
+                        <th class="align-middle" scope="col" colspan="2">KKM Satuan Pendidikan</th>
+                        <?= kkmLooper($kkm) ?>
+                    </tr>
+                    <tr>
+                        <th class="align-middle" scope="col" colspan="2">Muatan Pelajaran</th>
+                        <?php for ($i = 0; $i < 12; $i++) : ?>
+                            <th class="align-middle" scope="col">K13</th>
+                            <th class="align-middle" scope="col">K14</th>
+                        <?php endfor ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $i = 1;
+                    foreach ($muatanpelajaran as $mp) : ?>
+                        <tr>
+                            <td class="align-middle" scope="col"><?= $i ?></td>
+                            <td class="align-middle" scope="col"><?= $mp["muatan_pelajaran"] ?></td>
+                            <?= nilaiMapelLooper($nilai_pengetahuan_keterampilan, $mp["id"]) ?>
+                        </tr>
+                    <?php $i++;
+                    endforeach ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="row d-flex justify-content-end">
+            <button class="btn btn-primary update-pengetahuan-keterampilan mr-1" data-session="<?= $this->session->userdata('admin') ?>">Ubah Data</button>
+            <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success">Kembali</a>
+        </div>
     </div>
-    <div class="row d-flex justify-content-end">
-        <button class="btn btn-primary update-pengetahuan-keterampilan mr-1">Ubah Data</button>
-        <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success">Kembali</a>
-    </div>
-    <div class="row mt-5 mb-2">
+    <div class="row mt-5 mb-2" id="ajax-ekstrakurikuler-title" style="padding-top:10px">
         <h4>C. Ekstrakurikuler</h4>
     </div>
-    <div class="row mb-4" style="overflow-x: auto">
-        <table class="table table-bordered table-hover table-sm">
-            <thead>
-                <tr>
-                    <th class="align-middle" scope="col" rowspan="2">Semester</th>
-                    <th class="align-middle" scope="col" rowspan="2">Jenis Ekstrakurikuler</th>
-                    <?php headerLooper($kelas_siswa, 'class') ?>
-                </tr>
-                <tr>
-                    <?php headerLooper($kelas_siswa, 'tahun') ?>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th class="align-middle" scope="row" rowspan="3">Semester I</th>
-                    <td class="align-middle">1.</td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                </tr>
-                <tr>
-                    <td class="align-middle" scope="row">2.</td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                </tr>
-                <tr>
-                    <td class="align-middle" scope="row">3.</td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                </tr>
-                <tr>
-                    <th class="align-middle" scope="row" rowspan="3">Semester II</th>
-                    <td class="align-middle">1.</td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                </tr>
-                <tr>
-                    <td class="align-middle" scope="row">2.</td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                </tr>
-                <tr>
-                    <td class="align-middle" scope="row">3.</td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                    <td class="align-middle"></td>
-                </tr>
-            </tbody>
-        </table>
+    <div id="ajax-ekstrakurikuler" data-idsiswa="<?= $id_siswa ?>" data-idkelas="<?= $id_kelas ?>" data-tahun="<?= $tahun ?>">
+        <div class="row mb-4" style="overflow-x: auto">
+            <table class="table table-bordered table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th class="align-middle" scope="col" rowspan="2">Semester</th>
+                        <th class="align-middle" scope="col" rowspan="2">Jenis Ekstrakurikuler</th>
+                        <?php headerLooper($kelas_siswa, 'class') ?>
+                    </tr>
+                    <tr>
+                        <?php headerLooper($kelas_siswa, 'tahun') ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?= nilaiEkskulLooper($ekskul_terpilih, $nilai_ekskul, 1) ?>
+                    <?= nilaiEkskulLooper($ekskul_terpilih, $nilai_ekskul, 2) ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="row d-flex justify-content-end">
+            <button class="btn btn-primary update-ekstrakurikuler mr-1" data-session="<?= $this->session->userdata('admin') ?>">Ubah Data</button>
+            <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success">Kembali</a>
+        </div>
     </div>
-    <div class="row d-flex justify-content-end">
-        <button class="btn btn-primary update-ekstrakurikuler mr-1">Ubah Data</button>
-        <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success">Kembali</a>
-    </div>
-    <div class="row mt-5 mb-2">
+    <div class="row mt-5 mb-2" id="ajax-absensi-title" style="padding-top:10px">
         <h4>D. Ketidakhadiran</h4>
     </div>
-    <div class="row mb-4" style="overflow-x: auto">
-        <table class="table table-bordered table-hover table-sm">
-            <thead>
-                <tr>
-                    <th class="align-middle" scope="col">Kelas</th>
-                    <?php headerLooper($kelas_siswa, 'class', 2) ?>
-                </tr>
-                <tr>
-                    <th class="align-middle" scope="col">Tahun Pelajaran</th>
-                    <?php headerLooper($kelas_siswa, 'tahun', 2) ?>
-                </tr>
-                <tr>
-                    <th class="align-middle" scope="col">Semester</th>
-                    <th class="align-middle" scope="col">S1</th>
-                    <th class="align-middle" scope="col">S2</th>
-                    <th class="align-middle" scope="col">S1</th>
-                    <th class="align-middle" scope="col">S2</th>
-                    <th class="align-middle" scope="col">S1</th>
-                    <th class="align-middle" scope="col">S2</th>
-                    <th class="align-middle" scope="col">S1</th>
-                    <th class="align-middle" scope="col">S2</th>
-                    <th class="align-middle" scope="col">S1</th>
-                    <th class="align-middle" scope="col">S2</th>
-                    <th class="align-middle" scope="col">S1</th>
-                    <th class="align-middle" scope="col">S2</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $i = 1;
-                foreach ($ketidakhadiran as $k) : ?>
+    <div id="ajax-absensi" data-idsiswa="<?= $id_siswa ?>" data-idkelas="<?= $id_kelas ?>" data-tahun="<?= $tahun ?>">
+        <div class="row mb-4" style="overflow-x: auto">
+            <table class="table table-bordered table-hover table-sm">
+                <thead>
                     <tr>
-                        <td class="align-middle" scope="col"><?= $k["ketidakhadiran"] ?></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
-                        <td class="align-middle" scope="col"></td>
+                        <th class="align-middle" scope="col">Kelas</th>
+                        <?php headerLooper($kelas_siswa, 'class', 2) ?>
                     </tr>
-                <?php $i++;
-                endforeach ?>
-            </tbody>
-        </table>
-    </div>
-    <div class="row d-flex justify-content-end">
-        <button class="btn btn-primary update-ketidakhadiran mr-1">Ubah Data</button>
-        <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success">Kembali</a>
+                    <tr>
+                        <th class="align-middle" scope="col">Tahun Pelajaran</th>
+                        <?php headerLooper($kelas_siswa, 'tahun', 2) ?>
+                    </tr>
+                    <tr>
+                        <th class="align-middle" scope="col">Semester</th>
+                        <?php for ($i = 0; $i < 6; $i++) : ?>
+                            <th class="align-middle" scope="col">S1</th>
+                            <th class="align-middle" scope="col">S2</th>
+                        <?php endfor ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?= jumlahKetidakhadiranLooper($ketidakhadiran, $jumlah_ketidakhadiran) ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="row d-flex justify-content-end">
+            <button class="btn btn-primary update-absensi mr-1" data-session="<?= $this->session->userdata('admin') ?>">Ubah Data</button>
+            <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success">Kembali</a>
+        </div>
     </div>
     <div class="row mt-5 mb-2">
         <h4>E. Keterangan</h4>
@@ -319,10 +182,6 @@
             </tr>
             </thead>
         </table>
-    </div>
-    <div class="row d-flex justify-content-end">
-        <button class="btn btn-primary update-ketnaiklulus mr-1">Ubah Data</button>
-        <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success">Kembali</a>
     </div>
     <div class="row mt-5 mb-2 d-flex justify-content-between">
         <p><i>Catatan:</i></p>

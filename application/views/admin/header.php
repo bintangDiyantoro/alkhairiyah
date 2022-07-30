@@ -143,10 +143,20 @@
                             <a class="collapse-item" href="<?= base_url('admin/dftmuatanpelajaran') ?>">Muatan Pelajaran</a>
                             <a class="collapse-item" href="<?= base_url('admin/dftekstrakurikuler') ?>">Ekstrakurikuler</a>
                             <a class="collapse-item" href="<?= base_url('admin/dftketidakhadiran') ?>">Ketidakhadiran</a>
-                            <a class="collapse-item" href="<?= base_url('admin/dftketnaiklulus') ?>">Ket. Naik-Lulus</a><a class="collapse-item" href="<?= base_url('admin/dftsemester') ?>">Index Semester</a>
+                            <a class="collapse-item" href="<?= base_url('admin/dftketnaiklulus') ?>">Ket. Naik-Lulus</a>
+                            <a class="collapse-item" href="<?= base_url('admin/dftsemester') ?>">Index Semester</a>
+                            <a class="collapse-item" href="<?= base_url('admin/dftkompetensiinti') ?>">Kompetensi Inti</a>
                         </div>
                     </div>
                 </li>
+            <?php elseif ($this->session->userdata('role') == "3") : ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= base_url('admin/ksbukuinduk') ?>">
+                        <i class="fas fa-book-open"></i>
+                        <span>Buku Induk Siswa</span>
+                    </a>
+                </li>
+
             <?php endif ?>
 
             <?php if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "2") : ?>
