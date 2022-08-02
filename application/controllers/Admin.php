@@ -434,9 +434,7 @@ class Admin extends CI_Controller
             if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1") {
                 $data["csrf"] = $this->csrf;
                 $data["title"] = "Buku Induk Siswa";
-
                 $kelas = $this->db->get('kelas')->result_array();
-
                 $Kelas2terpilih = $this->db->query('SELECT id_kelas FROM wali_kelas WHERE tahun="' . $tahun . "/" . $th . '"')->result_array();
                 $idKlsBlmTrplh = [];
                 foreach ($Kelas2terpilih as $kt) {
@@ -455,19 +453,65 @@ class Admin extends CI_Controller
                     $data["kelas"] = $kelas;
                 }
 
-                if (isset($_POST["submit"])) {
+                if (isset($_POST["pilihkelas"])) {
                     $insert = [
                         "tahun" => $tahun . "/" . $th,
                         "id_staff" => $idstaff,
                         "id_kelas" => $this->input->post('pilihkelas')
                     ];
                     $this->db->insert('wali_kelas', $insert);
+                    $this->session->set_flashdata('suksestambahkelas', 'sukses');
                     redirect('admin/bukuinduk');
                 }
+                $data["tahun"] = $tahun . "/" . $th;
 
-                $this->load->view('admin/header', $data);
-                $this->load->view('admin/pilihkelas');
-                $this->load->view('admin/footer');
+                $this->load->view('admin/pilihkelas', $data);
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function pilihkelas2($idstaff, $tahun, $th)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1" || $this->session->userdata("role") == "4") {
+                $tahunajar = $tahun . '/' . $th;
+                $data["csrf"] = $this->csrf;
+                $data["tahun"] = $tahunajar;
+                $kelas = $this->db->get('kelas')->result_array();
+                $Kelas2terpilih = $this->db->query('SELECT id_kelas FROM wali_kelas WHERE tahun="' . $tahunajar . '"')->result_array();
+                $idKlsBlmTrplh = [];
+                foreach ($Kelas2terpilih as $kt) {
+                    $idKlsBlmTrplh[] = $kt["id_kelas"];
+                }
+
+                if ($Kelas2terpilih) {
+                    $kelasBelumTerpilih = [];
+                    foreach ($kelas as $k) {
+                        if (!in_array($k["id"], $idKlsBlmTrplh)) {
+                            $kelasBelumTerpilih[] = $k;
+                        }
+                    }
+                    $data["kelas"] = $kelasBelumTerpilih;
+                } else {
+                    $data["kelas"] = $kelas;
+                }
+
+                if (isset($_POST["pilihkelas"])) {
+                    $insert = [
+                        "tahun" => $tahunajar,
+                        "id_staff" => $idstaff,
+                        "id_kelas" => $this->input->post('pilihkelas')
+                    ];
+                    $this->db->insert('wali_kelas', $insert);
+                    $this->session->set_flashdata('suksestambahkelas', 'sukses');
+                    redirect('admin/bukuinduk');
+                }
+                $this->load->view('admin/pilihkelas2', $data);
             } else {
                 redirect('admin');
             }
@@ -480,9 +524,13 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1") {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1" | $this->session->userdata('role') == "4") {
                 $tahunkelas = $tahun . "/" . $th;
-                $data["title"] = "Buku Induk Siswa";
+                if ($this->session->userdata('role') == "4") {
+                    $data["title"] = "Manajemen Kelas";
+                } elseif ($this->session->userdata('role') == "1") {
+                    $data["title"] = "Buku Induk Siswa";
+                }
                 $data["kelas"] = $this->db->query("select class from kelas where id=" . $idkelas)->row_array();
                 $data["tahun"] = $tahunkelas;
                 $data["semua_siswa"] = $this->db->query("SELECT kelas_siswa.id_siswa, kelas_siswa.id_kelas, kelas_siswa.tahun, kelas_siswa.insert_by, kelas.class, siswa.id, siswa.nisn, siswa.nomor_induk, siswa.nama, siswa.jenis_kelamin, staff.nama AS nama_staff FROM kelas_siswa JOIN siswa ON kelas_siswa.id_siswa = siswa.id JOIN kelas ON kelas_siswa.id_kelas = kelas.id JOIN staff ON kelas_siswa.insert_by = staff.id WHERE kelas_siswa.id_kelas='" . $idkelas . "' AND kelas_siswa.tahun ='" . $tahunkelas . "' ORDER BY siswa.nama")->result_array();
@@ -503,7 +551,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "2" || $this->session->userdata('role') == "1") {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "2" || $this->session->userdata('role') == "1" | $this->session->userdata('role') == "4") {
                 $data["csrf"] = $this->csrf;
                 $thnsebelumnya = (int)explode('/', $this->session->userdata('tahun'))[0] - 1;
                 $thnsblmny =  (int)explode('/', $this->session->userdata('tahun'))[1] - 1;
@@ -966,7 +1014,6 @@ class Admin extends CI_Controller
             ]
         );
 
-
         $this->form_validation->set_rules(
             'agama',
             'Agama',
@@ -975,6 +1022,7 @@ class Admin extends CI_Controller
                 'required' => 'Agama wajib diisi'
             ]
         );
+
         $this->form_validation->set_rules(
             'pendidikan_sebelumnya',
             'Pendidikan Sebelumnya',
@@ -1113,7 +1161,7 @@ class Admin extends CI_Controller
             redirect('admin/login');
         } else {
             if (
-                $this->session->userdata('role') == "9" || $this->session->userdata('role') == "2" || $this->session->userdata('role') == "1"
+                $this->session->userdata('role') == "9" || $this->session->userdata('role') == "2" || $this->session->userdata('role') == "1" || $this->session->userdata('role') == "4"
             ) {
                 if (isset($_POST["submit"])) {
                     $this->_validasiTambahSiswa();
@@ -1178,7 +1226,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1") {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1" || $this->session->userdata('role') == "4") {
                 $this->Admin->masukkankelas($idsiswa, $idkelas, $tahun, $th);
             } else {
                 redirect('admin');
@@ -1192,7 +1240,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1") {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1" | $this->session->userdata("role") == "4") {
                 $this->Admin->keluarkansiswa($idsiswa, $idkelas, $tahun, $th);
             } else {
                 redirect('admin');
@@ -1598,7 +1646,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1" || $this->session->userdata('role') == "2") {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1" || $this->session->userdata('role') == "2" | $this->session->userdata('role') == "4") {
                 $data['title'] = "Buku Induk Siswa";
                 $data["biodata"] = $this->db->query("SELECT * FROM siswa WHERE id =" . $id)->row_array();
                 $this->load->view('admin/header', $data);
@@ -1670,7 +1718,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1" || $this->session->userdata('role') == "2") {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1" || $this->session->userdata('role') == "2" | $this->session->userdata('role') == "4") {
                 $data['title'] = "Buku Induk Siswa";
                 $data["biodata"] = $this->db->query("SELECT * FROM siswa WHERE id =" . $id)->row_array();
                 $data["csrf"] = $this->csrf;
@@ -2101,6 +2149,151 @@ class Admin extends CI_Controller
                 $this->load->view('admin/header', $data);
                 $this->load->view('admin/ksbinilai');
                 $this->load->view('admin/footer');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function classesmanagement()
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "4") {
+                $data["csrf"] = $this->csrf;
+                $data['kelas_siswa'] = $this->db->query('SELECT DISTINCT tahun FROM wali_kelas ORDER BY tahun DESC')->result_array();
+                // $data['kelas_siswa'] = NULL;
+                $this->db->where('id', $this->session->userdata("id_staff"));
+                $data["staff"] = $this->db->get('staff')->row_array();
+                $data['title'] = "Manajemen Kelas";
+                $this->load->view('admin/header', $data);
+                $this->load->view('admin/managementkelas');
+                $this->load->view('admin/footer');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function mktambahkelas()
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "4") {
+                $data["title"] = "Manajemen Kelas";
+                $data["csrf"] = $this->csrf;
+                $data["kelas"] = $this->db->get('kelas')->result_array();
+                if ((int)date('m') >= 7 && (int)date('m') <= 12) {
+                    $tahun = date('Y');
+                    $th = (int)date('y') + 1;
+                    $tahunajar = $tahun . '/' . (string)$th;
+                } else {
+                    $tahun = (int)date('Y') - 1;
+                    $th = date('y');
+                    $tahunajar = (string)$tahun . '/' . $th;
+                }
+                $data['tahun'] = $tahunajar;
+                $this->session->set_userdata('tahun', $tahunajar);
+                $this->load->view('admin/pilihkelas2', $data);
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function mkkelas($tahun, $th)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "4") {
+                $tahunAjar = $tahun . '/' . $th;
+                $this->session->set_userdata('tahun', $tahunAjar);
+                $data = ['kelas' => $this->db->get('kelas')->result_array()];
+                $this->db->where('id', $this->session->userdata("id_staff"));
+                $data["staff"] = $this->db->get('staff')->row_array();
+                $data['title'] = "Manajemen Kelas";
+                if (isset($_POST['pilihwalikelas'])) {
+                    $mapped = [
+                        'id_kelas' => $this->input->post('idkelas'),
+                        'tahun' => $this->input->post('tahun'),
+                        'id_staff' => $this->input->post('pilihwalikelas')
+                    ];
+                    $this->Admin->pilihWaliKelas($mapped);
+                    $this->session->set_flashdata('walibaru', 'success');
+                }
+                $this->load->view('admin/header', $data);
+                $this->load->view('admin/mkkelas');
+                $this->load->view('admin/footer');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function getwalikelas($idkelas, $tahun, $th)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "4") {
+                $newTch = [];
+                $idwkterpilih = [];
+                $wkTerpilih = $this->db->query('SELECT id_staff FROM wali_kelas WHERE tahun ="' . $tahun . '/' . $th . '"')->result_array();
+                foreach ($wkTerpilih as $wt) {
+                    $idwkterpilih[] = $wt["id_staff"];
+                }
+                $allTch = $this->db->get('staff')->result_array();
+                foreach ($allTch as $at) {
+                    if (!in_array($at["id"], $idwkterpilih)) {
+                        $newTch[] = $at;
+                    }
+                }
+                $data["newTch"] = $newTch;
+                $data["idkelas"] = $idkelas;
+                $data["csrf"] = $this->csrf;
+                $this->load->view('/admin/mknewtch', $data);
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function hapuswalikelas($idkelas, $tahun, $th, $idstaff)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "4") {
+                $checkRow = $this->db->query('SELECT * FROM wali_kelas WHERE tahun="' . $tahun . '/' . $th . '" AND id_kelas=' . $idkelas . ' AND id_staff=' . $idstaff)->row_array();
+                if ($checkRow) {
+                    $this->db->where('tahun', $tahun . '/' . $th);
+                    $this->db->where('id_kelas', $idkelas);
+                    $this->db->where('id_staff', $idstaff);
+                    $this->db->delete('wali_kelas');
+                }
+                redirect('admin/mkkelas/' . $tahun . '/' . $th);
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function mksiswa($idkelas, $tahun, $th)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "4") {
+                var_dump($idkelas, $tahun, $th);
             } else {
                 redirect('admin');
             }
@@ -3034,8 +3227,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1") {
-
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1" || $this->session->userdata('role') == "4") {
                 $tahunTerpilih = $this->db->query('SELECT tahun FROM wali_kelas WHERE id_staff ="' . $idstaff . '"')->result_array();
                 $arrayTahunTerpilih = [];
 
@@ -3079,10 +3271,11 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1") {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1" || $this->session->userdata('role') == "4") {
                 netralize();
                 if (isset($_POST["submit"])) {
-                    redirect('admin/pilihkelas/' . $this->input->post('id_staff') . '/' . $this->input->post('pilihtahun'));
+                    $this->session->set_userdata('tahun', $this->input->post('pilihtahun'));
+                    redirect('admin/pilihkelas2/' . $this->input->post('id_staff') . '/' . $this->input->post('pilihtahun'));
                 }
             } else {
                 redirect('admin');

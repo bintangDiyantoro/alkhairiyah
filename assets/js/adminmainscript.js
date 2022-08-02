@@ -29,7 +29,7 @@ $(function() {
     var admvrf = $('.admvrfchl').parent().contents()
     const livetime = $('.live-time')
     const addClassBtn = $('#tambahkelas')
-    const idguru = $('#tambahkelas').data('idguru')
+    const idstaff = $('#tambahkelas').data('idstaff')
     const plhthncsrfname = $('#tambahkelas').data('csrfname')
     const plhthncsrfhash = $('#tambahkelas').data('csrfhash')
     const carisiswa = $('.ajax-cari-siswa')
@@ -45,7 +45,7 @@ $(function() {
     addClassBtn.on('click', () => {
         if (addClassBtn.data('session')) {
             document.getElementsByClassName('ajax-tambah-kelas')[0].innerHTML = '<div class="d-flex justify-content-center align-items-center" style="height:50px"><img src="/assets/img/greenloading.gif" height="45"></div>'
-            $('.ajax-tambah-kelas').load('/admin/tambahkelas/' + idguru + '/' + plhthncsrfname + '/' + plhthncsrfhash)
+            $('.ajax-tambah-kelas').load('/admin/tambahkelas/' + idstaff + '/' + plhthncsrfname + '/' + plhthncsrfhash)
         } else {
             window.location.href = '/admin/login'
         }
@@ -305,7 +305,7 @@ $(function() {
             event.preventDefault()
             Swal.fire({
                 title: 'Perhatian!',
-                text: "Apakah anda yakin ingin mengeluarkan " + event.path[0].dataset.name + " dari kelas anda?",
+                text: "Apakah anda yakin ingin mengeluarkan " + event.path[0].dataset.name + " dari kelas ini?",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -349,6 +349,14 @@ function insertAfter(referenceNode, newNode) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
+if (document.getElementsByClassName('container')[0].dataset.tmbkls == 'sukses') {
+    Swal.fire({
+        type: 'success',
+        title: "Berhasil!",
+        html: "Kelas baru berhasil ditambahkan!"
+    })
+}
+
 if (url[3] == "admin" && url[4] == "kelolanilai") {
     var b_i_url = window.location.href
 }
@@ -358,7 +366,7 @@ var monsterBookGate = 1
 function NSupdater(e) {
     window.location.href = '#ajax-sikap-title'
     window.history.pushState({ data: 'nonfe' }, 'sdrandom', b_i_url)
-    if (document.getElementById('simpanNilaiSikap').dataset.session) {
+    if (document.getElementById('simpanNilaiSikap').dataset.session !== '') {
         e.preventDefault()
         let idsiswa = document.getElementById('idsiswa').value
         let els = document.querySelectorAll('.ubah-nilai-sikap')
@@ -458,7 +466,7 @@ function updateSikap() {
             window.location.href = '#ajax-sikap-title'
             window.history.pushState({ data: 'nonfe' }, 'sdrandom', b_i_url)
             if (monsterBookGate == 1) {
-                if (this.dataset.session) {
+                if (this.dataset.session !== '') {
                     const req = new XMLHttpRequest()
                     req.onreadystatechange = function() {
                         if (this.readyState == 4 && this.status == 200) {
@@ -493,14 +501,14 @@ updateSikap()
 function NPKupdater(e) {
     window.location.href = '#ajax-pengetahuan-keterampilan-title'
     window.history.pushState({ data: 'nonfe' }, 'sdrandom', b_i_url)
-    if (document.getElementById('simpanNilaiPengetahuanKeterampilan').dataset.session) {
+    if (document.getElementById('simpanNilaiPengetahuanKeterampilan').dataset.session !== '') {
         e.preventDefault()
         let idsiswa = document.getElementById('idsiswa').value
         let els = document.querySelectorAll('.ubah-nilai-pengetahuan-keterampilan')
         let input = []
         let data = ""
         let dataerror = ""
-        let pattern = /[1-9][0-9]/
+        let pattern = /([1-9][0-9]|[\s-])/
         let error = []
         for (let i = 0; i < els.length; i++) {
             if (els[i].value) {
@@ -597,7 +605,7 @@ function updatePengetahuanKeterampilan() {
             window.location.href = '#ajax-pengetahuan-keterampilan-title'
             window.history.pushState({ data: 'nonfe' }, 'sdrandom', b_i_url)
             if (monsterBookGate == 1) {
-                if (this.dataset.session) {
+                if (this.dataset.session !== '') {
                     const req = new XMLHttpRequest()
                     req.onreadystatechange = function() {
                         if (this.readyState == 4 && this.status == 200) {
@@ -880,14 +888,14 @@ function tambahEkstrakurikuler() {
 function NEupdater(e) {
     window.location.href = '#ajax-ekstrakurikuler-title'
     window.history.pushState({ data: 'nonfe' }, 'sdrandom', b_i_url)
-    if (document.getElementById('simpanNilaiEkstrakurikuler').dataset.session) {
+    if (document.getElementById('simpanNilaiEkstrakurikuler').dataset.session !== '') {
         e.preventDefault()
         let idsiswa = document.getElementById('idsiswa').value
         let els = document.querySelectorAll('.ubah-nilai-ekstrakurikuler')
         let input = []
         let data = ""
         let dataerror = ""
-        let pattern = /[1-9][0-9]/
+        let pattern = /([1-9][0-9]|[-\s])/
         let error = []
         for (let i = 0; i < els.length; i++) {
             if (els[i].value) {
@@ -990,7 +998,7 @@ function updateEkstrakurikuler() {
             window.location.href = '#ajax-ekstrakurikuler-title'
             window.history.pushState({ data: 'nonfe' }, 'sdrandom', b_i_url)
             if (monsterBookGate == 1) {
-                if (this.dataset.session) {
+                if (this.dataset.session !== '') {
                     const req = new XMLHttpRequest()
                     req.onreadystatechange = function() {
                         if (this.readyState == 4 && this.status == 200) {
@@ -1023,7 +1031,7 @@ function updateEkstrakurikuler() {
 updateEkstrakurikuler()
 
 function JAupdater(e) {
-    if (document.getElementById('simpanJumlahAbsensi').dataset.session) {
+    if (document.getElementById('simpanJumlahAbsensi').dataset.session !== '') {
         window.location.href = '#ajax-absensi-title'
         window.history.pushState({ data: 'nonfe' }, 'sdrandom', b_i_url)
         e.preventDefault()
@@ -1128,7 +1136,7 @@ function updateAbsensi() {
             window.location.href = '#ajax-absensi-title'
             window.history.pushState({ data: 'nonfe' }, 'sdrandom', b_i_url)
             if (monsterBookGate == 1) {
-                if (this.dataset.session) {
+                if (this.dataset.session !== '') {
                     const req = new XMLHttpRequest()
                     req.onreadystatechange = function() {
                         if (this.readyState == 4 && this.status == 200) {
@@ -1158,3 +1166,220 @@ function updateAbsensi() {
 }
 
 updateAbsensi()
+
+function pilihWaliKelas(classname = null) {
+    const pilihwalikelas = document.getElementById('submitWaliKelas')
+    const inputpilihwalikelas = document.getElementsByClassName('input-pilih-wali-kelas')
+    const opsiwalikelas = document.getElementsByClassName('opsiwalikelas')
+    var walikelas = ''
+    var idwalikelas = document.getElementById('pilihwalikelas').value
+    document.getElementById('pilihwalikelas').addEventListener('change', () => {
+        idwalikelas = document.getElementById('pilihwalikelas').value
+    })
+
+    pilihwalikelas.addEventListener('click', (event) => {
+        for (let i = 0; i < opsiwalikelas.length; i++) {
+            if (opsiwalikelas[i].value == idwalikelas) {
+                walikelas = opsiwalikelas[i].innerHTML
+            }
+        }
+        event.preventDefault()
+        if (mode !== 'newtch') {
+            Swal.fire({
+                title: 'Perhatian!',
+                text: "Apakah anda yakin memilih " + walikelas + " sebagai wali kelas " + pilihwalikelas.parentElement.parentElement.parentElement.parentElement.parentElement.children[1].innerHTML + " pada tahun ajaran " + inputpilihwalikelas[2].value + "?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak'
+            }).then((result) => {
+                if (result.value) {
+                    document.getElementById('formPilihWaliKelas').submit()
+                } else {
+                    window.location.href = '/admin/mkkelas/' + inputpilihwalikelas[2].value
+                }
+            })
+        } else {
+            Swal.fire({
+                title: 'Perhatian!',
+                text: "Apakah anda yakin memilih " + walikelas + " sebagai wali kelas " + classname + "?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak'
+            }).then((result) => {
+                if (result.value) {
+                    document.getElementById('formPilihWaliKelas').submit()
+                } else {
+                    window.location.href = '/admin/classesmanagement'
+                }
+            })
+        }
+    })
+}
+
+var twkswitch = 1
+
+function tambahWaliKelas() {
+    const waliKelasBaru = document.getElementById('mkWaliKelasBaru')
+    if (waliKelasBaru && waliKelasBaru.dataset.walibaru == 'success') {
+        Swal.fire({
+            type: 'success',
+            title: 'Berhasil! &#128522;',
+            html: 'Data wali kelas baru telah tersimpan &#128522;',
+            // footer: '<a href>Butuh dana cepat?</a>'
+        })
+    }
+    const tbwaliKelas = document.getElementsByClassName('tb-wali-kelas')
+    for (let itr = 0; itr < tbwaliKelas.length; itr++) {
+        let twk = tbwaliKelas[itr]
+        twk.addEventListener('click', (e) => {
+            twk.setAttribute('class', 'badge badge-secondary px-2 py-1')
+            e.preventDefault()
+            if (twkswitch == 1) {
+                const conn = new XMLHttpRequest()
+                conn.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        twkswitch = 0
+                        twk.parentElement.parentElement.parentElement.children[2].innerHTML = this.responseText
+                        pilihWaliKelas()
+                    } else {
+                        twk.parentElement.parentElement.parentElement.children[2].innerHTML = '<div class="d-flex justify-content-center align-items-center" style="margin:-6px"><img src="/assets/img/greenloading.gif" height="35"></div>'
+                    }
+                }
+                conn.open('get', '/admin/getwalikelas/' + twk.href.split('/')[5] + '/' + twk.href.split('/')[6] + '/' +
+                    twk.href.split('/')[7])
+                conn.send()
+            } else {
+                Swal.fire({
+                    type: 'warning',
+                    title: 'Eeeeh...!',
+                    html: 'Selesaikan dulu yang tadi &#128530;',
+                    // footer: '<a href>Butuh dana cepat?</a>'
+                })
+            }
+        })
+    }
+}
+
+tambahWaliKelas()
+
+function mkTmbKls() {
+    const mktmbkls = document.getElementById('mktambahkelas')
+    if (mktmbkls) {
+        mktmbkls.addEventListener('click', () => {
+            const ekshaer = new XMLHttpRequest()
+            ekshaer.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementsByClassName('ajax-tambah-kelas')[0].innerHTML = this.responseText
+                    mkSubmitKelas()
+                } else {
+                    document.getElementsByClassName('ajax-tambah-kelas')[0].innerHTML = '<div class="d-flex justify-content-center align-items-center" style="margin:-6px"><img src="/assets/img/greenloading.gif" height="35"></div>'
+                }
+            }
+            ekshaer.open('GET', '/admin/mktambahkelas')
+            ekshaer.send()
+        })
+    }
+}
+
+mkTmbKls()
+
+var mode = ''
+
+function mkSubmitKelas() {
+    const mksubmitkelas = document.getElementById('submitKelas')
+    const pilihkelas = document.getElementById('pilihkelas')
+    let classname = document.getElementsByClassName('classname')
+    let chosenclass = ''
+    let classid = pilihkelas.value
+
+    pilihkelas.addEventListener('change', () => {
+        classid = pilihkelas.value
+    })
+
+
+    if (mksubmitkelas) {
+        mksubmitkelas.addEventListener('click', function(e) {
+            for (let i = 0; i < classname.length; i++) {
+                if (classname[i].value == classid) {
+                    chosenclass = classname[i].innerHTML
+                }
+            }
+            e.preventDefault()
+            const req = new XMLHttpRequest()
+            req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementsByClassName('ajax-tambah-kelas')[0].innerHTML = this.responseText
+                    mode = 'newtch'
+                    pilihWaliKelas(chosenclass)
+                    document.getElementById('pilihwalikelas').parentElement.setAttribute("class", "row pilih-wali-kelas-baru")
+                } else {
+                    document.getElementsByClassName('ajax-tambah-kelas')[0].innerHTML = '<div class="d-flex justify-content-center align-items-center" style="margin:-6px"><img src="/assets/img/greenloading.gif" height="35"></div>'
+                }
+            }
+            req.open('get', '/admin/getwalikelas/' + classid + '/' + mksubmitkelas.dataset.mknewtchtahun)
+            req.send()
+        })
+    }
+}
+
+function thisYearClass() {
+    const pilihKelasTahunIni = document.getElementById('thisYearClass')
+    if (pilihKelasTahunIni) {
+        const parent = pilihKelasTahunIni.parentElement
+        pilihKelasTahunIni.addEventListener('click', (e) => {
+            e.preventDefault()
+            const xhr = new XMLHttpRequest()
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    parent.innerHTML = this.responseText
+                    confirmThisYearClass()
+                } else {
+                    parent.innerHTML = '<div class="d-flex justify-content-center align-items-center" style="margin:-6px"><img src="/assets/img/greenloading.gif" height="35"></div>'
+                }
+            }
+            xhr.open('get', pilihKelasTahunIni.href)
+            xhr.send()
+        })
+    }
+}
+
+thisYearClass()
+
+function confirmThisYearClass() {
+    var kelasthini = document.getElementById('pilihkelastahuniniselect').value
+    document.getElementById('pilihkelastahuniniselect').addEventListener('change', () => {
+        kelasthini = document.getElementById('pilihkelastahuniniselect').value
+    })
+    const ctyc = document.getElementById('confirmThisYearClass')
+    ctyc.addEventListener('click', (e) => {
+        e.preventDefault()
+        const newyearclassname = document.getElementsByClassName('newyearclassname')
+        for (let j = 0; j < newyearclassname.length; j++) {
+            if (newyearclassname[j].value == kelasthini) {
+                var chosenClass = newyearclassname[j].innerHTML
+            }
+        }
+        Swal.fire({
+            title: 'Perhatian!',
+            text: "Apakah anda benar-benar menjadi wali kelas " + chosenClass + " pada tahun ajaran ini?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak'
+        }).then((result) => {
+            if (result.value) {
+                document.getElementById('ctycForm').submit()
+            } else {
+                window.location.href = '/admin/bukuinduk'
+            }
+        })
+    })
+}

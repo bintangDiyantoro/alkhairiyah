@@ -277,19 +277,19 @@ function hasilPencarianSiswa($query)
     foreach ($query as $q) :
         if ($q["class"] !== "lulus" && $q["class"] !== "belum daftar") :
             echo '<tr>
-                                    <th scope="row">' . $i . '</th>
-                                    <td>' . $q["nomor_induk"] . '</td>
-                                    <td>' . $q["nisn"] . '</td>
-                                    <td>' . $q["nama"] . '</td>
-                                    <td>';
+                                    <th class="align-middle" scope="row">' . $i . '</th>
+                                    <td class="align-middle">' . $q["nomor_induk"] . '</td>
+                                    <td class="align-middle">' . $q["nisn"] . '</td>
+                                    <td class="align-middle">' . $q["nama"] . '</td>
+                                    <td class="align-middle">';
             if ($q["jenis_kelamin"] == "L") {
                 echo "Laki-laki";
             } elseif ($q["jenis_kelamin"] == "P") {
                 echo "Perempuan";
             }
             echo '</td>
-                                    <td>' . $q["class"] . '</td>
-                                    <td>';
+                                    <td class="align-middle">' . $q["class"] . '</td>
+                                    <td class="align-middle">';
             if ($q["class"] === "-") :
                 echo '<a href="' . base_url('admin/masukkankelas/' . $q["id"] . "/" . $CI->session->userdata("id_kelas") . "/" . $CI->session->userdata("tahun")) . '" class="badge badge-primary badge-masukkan-siswa" data-name="' . $q["nama"] . '">
                                                 Tambahkan Ke Kelas
@@ -352,8 +352,8 @@ function headerLooper($kelas_siswa, $key, $colspan = 1)
 
 function sikapTextArea($idsiswa, $idkelassiswa, $idsemester, $idsikap, $tahun, $nilai_sikap = NULL)
 {
-    $inputEl = '<td class="align-middle">
-                    <div class="form-group ubah-sikap-textarea">
+    $inputEl = '<td class="align-middle ubah-sikap-td">
+                    <div class="form-group ubah-sikap-textarea-wrapper">
                         <textarea class="form-control ubah-nilai-sikap ubah-sikap-textarea" name="' . $idsiswa . '_' . $idkelassiswa . '_' . $idsemester . '_' . $idsikap . '" id="' . $idsiswa . '_' . $idkelassiswa . '_' . $idsemester . '_' . $idsikap . '">' . $nilai_sikap . '</textarea>
                     </div>
                 </td>';
@@ -1186,5 +1186,24 @@ function jumlahKetidakhadiranLooper($ketidakhadiran, $jumlah_ketidakhadiran)
             }
         }
         echo '</tr>';
+    }
+}
+
+function cekWaliKelas($idkelas, $tahunajar)
+{
+    $thiz = get_instance();
+    $waliKelas = $thiz->db->query('SELECT wali_kelas.id_staff, wali_kelas.id_kelas, wali_kelas.tahun, staff.nama FROM wali_kelas JOIN staff ON wali_kelas.id_staff = staff.id WHERE wali_kelas.id_kelas ="' . $idkelas . '" AND wali_kelas.tahun="' . $tahunajar . '"')->row_array();
+    return ($waliKelas) ? $waliKelas["nama"] : '-';
+}
+
+function cwkAction($idkelas, $tahunajar, $k)
+{
+    $thiz = get_instance();
+    $waliKelas = $thiz->db->query('SELECT wali_kelas.id_staff, wali_kelas.id_kelas, wali_kelas.tahun, staff.nama FROM wali_kelas JOIN staff ON wali_kelas.id_staff = staff.id WHERE wali_kelas.id_kelas ="' . $idkelas . '" AND wali_kelas.tahun="' . $tahunajar . '"')->row_array();
+    echo '<a href="' . base_url('admin/daftarsiswa/' . $k["id"]) . "/" . $thiz->session->userdata('tahun') . '" class="py-1 px-2 badge badge-success mr-1">Lihat</a>';
+    if ($waliKelas) {
+        echo '<a href="' . base_url('admin/hapuswalikelas/' . $k["id"]) . "/" . $thiz->session->userdata('tahun') . '/' . $waliKelas["id_staff"] . '" class="py-1 px-2 badge badge-danger hps-wali-kelas" data-judul="' . $waliKelas["nama"] . '">Hapus Wali Kelas</a>';
+    } else {
+        echo '<a href="' . base_url('admin/mksiswa/' . $k["id"]) . "/" . $thiz->session->userdata('tahun') . '" class="py-1 px-2 badge badge-primary tb-wali-kelas">Pilih Wali Kelas</a>';
     }
 }

@@ -53,11 +53,11 @@ $('.ajax-tambah-siswa').on('click', (e) => {
             $("#no_hp_ortu").after(data.no_hp_ortu_error)
 
             if (data.status == "valid") {
-                console.log(data)
                 Swal.fire({
                     type: 'success',
                     title: "Data " + data.keyword + " berhasil disimpan!",
                 })
+                data.keyword = data.keyword.trim().replace(/\s/gm, '+')
                 $(".ajax-cari-siswa").load('/admin/carisiswa?csrf_token=' + data.csrf + '&keyword=' + data.keyword + '&submit=')
                 $("#page-top").removeClass("modal-open")
                 $(".modal-backdrop").remove()
@@ -79,7 +79,7 @@ for (let i = 0; i < document.querySelectorAll('.badge-masukkan-siswa').length; i
         e.preventDefault()
         Swal.fire({
             title: 'Perhatian!',
-            text: "Apakah anda yakin ingin memasukkan " + e.path[0].dataset.name + " ke kelas anda?",
+            text: "Apakah anda yakin ingin memasukkan " + e.path[0].dataset.name + " ke kelas ini?",
             type: 'info',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

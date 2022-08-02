@@ -18,7 +18,7 @@
 
     <!-- Custom styles for this template-->
     <link href="<?= base_url('assets/css/') ?>sb-admin-2.min.css" rel="stylesheet">
-    <link href="<?= base_url('assets/css/') ?>adminstyle.css" rel="stylesheet">
+    <link href="<?= base_url('assets/css/') ?>adminmainstyle.css" rel="stylesheet">
     <link href="<?= base_url('assets/css/') ?>pickmeup.css" rel="stylesheet">
 </head>
 
@@ -164,6 +164,15 @@
                     <a href="<?= base_url('admin/spp') ?>" class="nav-link">
                         <i class="far fa-money-bill-alt"></i>
                         <span>Data SPP</span>
+                    </a>
+                </li>
+            <?php endif ?>
+
+            <?php if ($this->session->userdata('role') == "4") : ?>
+                <li class="nav-item">
+                    <a href="<?= base_url('admin/classesmanagement') ?>" class="nav-link">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Manajemen Kelas</span>
                     </a>
                 </li>
             <?php endif ?>
