@@ -42,9 +42,11 @@
                                         </small>
                                     </td>
                                     <td class="align-middle">
-                                        <a href="<?= base_url('admin/kelolanilai/' . $ss["id"] . "/" . $ss["id_kelas"] . "/" . $tahun) ?>" class="badge py-1 px-2 my-1 badge-primary" data-name="<?= $ss["nama"] ?>">
+                                        <?php if ($this->session->userdata("role") == "1") : ?>
+                                            <a href="<?= base_url('admin/kelolanilai/' . $ss["id"] . "/" . $ss["id_kelas"] . "/" . $tahun) ?>" class="badge py-1 px-2 my-1 badge-primary" data-name="<?= $ss["nama"] ?>">
                                             Kelola Nilai
                                         </a>
+                                        <?php endif ?>
                                         <a href="<?= base_url('admin/biodatasiswa/' . $ss["id"]) ?>" class="badge py-1 px-2 my-1 badge-info">
                                             Lihat Biodata
                                         </a>
@@ -62,7 +64,11 @@
                 <div class="row d-flex justify-content-center mt-3 mb-5">
                     <div class="ajax-cari-siswa" style="overflow-x: hidden!important;">
                         <a href="" class="btn btn-info trigger-cari-siswa mb-1" data-session="<?= $this->session->userdata('admin') ?>">Tambahkan Siswa Lain</a>
-                        <a href="<?= base_url('admin/bukuinduk') ?>" class="btn btn-secondary mb-1">Kembali</a>
+                        <?php if ($this->session->userdata("role") == "1") : ?>
+                            <a href="<?= base_url('admin/bukuinduk') ?>" class="btn btn-secondary">Kembali</a>
+                        <?php elseif ($this->session->userdata('role') == "4") : ?>
+                            <a href="<?= base_url('admin/mkkelas/' . $this->session->userdata('tahun')) ?>" class="btn btn-secondary mb-1">Kembali</a>
+                        <?php endif ?>
                     </div>
                 </div>
             <?php else : ?>
@@ -72,7 +78,11 @@
                             Kelas masih kosong, silahkan memasukkan data-data para siswa ke kelas ini
                             <div class="row d-flex justify-content-center mt-5">
                                 <a href="" class="btn btn-primary trigger-cari-siswa mr-1" data-session="<?= $this->session->userdata('admin') ?>">Cari Siswa</a>
-                                <a href="<?= base_url('admin/bukuinduk') ?>" class="btn btn-secondary">Kembali</a>
+                                <?php if ($this->session->userdata("role") == "1") : ?>
+                                    <a href="<?= base_url('admin/bukuinduk') ?>" class="btn btn-secondary">Kembali</a>
+                                <?php elseif ($this->session->userdata('role') == "4") : ?>
+                                    <a href="<?= base_url('admin/mkkelas/' . $this->session->userdata('tahun')) ?>" class="btn btn-secondary">Kembali</a>
+                                <?php endif ?>
                             </div>
                         </div>
                     </div>

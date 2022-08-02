@@ -257,7 +257,7 @@ class ModelAdmin extends CI_Model
             "id_kelas" => NULL
         ];
         $cekKelas = $this->db->query('SELECT * FROM kelas_siswa WHERE id_siswa ="' . $idsiswa . '" AND tahun = "' . $tahunajar . '"')->row_array();
-        if($cekKelas){
+        if ($cekKelas) {
             $this->db->where("id_siswa", $idsiswa);
             $this->db->where("tahun", $tahunajar);
             $this->db->update('kelas_siswa', $mapped);
@@ -445,5 +445,16 @@ class ModelAdmin extends CI_Model
             }
         }
     }
-}
 
+    public function pilihWaliKelas($mapped)
+    {
+        $checkWaliKelas = $this->db->query('SELECT * FROM wali_kelas WHERE tahun ="' . $mapped["tahun"] . '" AND id_kelas ="' . $mapped["id_kelas"] . '"')->row_array();
+        if ($checkWaliKelas) {
+            $this->db->where('tahun', $mapped["tahun"]);
+            $this->db->where('id_kelas', $mapped["id_kelas"]);
+            $this->db->update('wali_kelas', $mapped);
+        } else {
+            $this->db->insert('wali_kelas', $mapped);
+        }
+    }
+}

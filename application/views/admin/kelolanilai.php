@@ -166,7 +166,7 @@
             <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success">Kembali</a>
         </div>
     </div>
-    <div class="row mt-5 mb-2">
+    <!-- <div class="row mt-5 mb-2">
         <h4>E. Keterangan</h4>
     </div>
     <div class="row mb-4" style="overflow-x: auto">
@@ -182,7 +182,7 @@
             </tr>
             </thead>
         </table>
-    </div>
+    </div> -->
     <div class="row mt-5 mb-2 d-flex justify-content-between">
         <p><i>Catatan:</i></p>
         <p><i>S1 = Semester 1</i></p>

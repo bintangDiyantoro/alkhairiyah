@@ -153,17 +153,41 @@ p {
 }
 
 .ubah-sikap-textarea {
-    width: 150px!important;
     height: 80px!important;
 }
 
-.form-group.ubah-sikap-textarea {
-    margin: 0 -40px 0 0!important;
+.ubah-sikap-td {
+    width: 190px;
+    padding: 10px!important;
+}
+
+.ubah-sikap-textarea-wrapper {
+    width: 170px;
+    margin: 0 -63px 0 0px;
+    padding: 0;
 }
 
 .tambah-ekskul {
     cursor: pointer;
     padding: 5px;
+}
+
+.pilih-wali-kelas {
+    margin: -7px -100px -6px -10px;
+    height: 35px;
+}
+
+.pilih-wali-kelas-baru {
+    margin: 0px 3px -6px -90px;
+    height: 35px;
+}
+
+.mk-wali-kelas {
+    padding-left: 80px!important;
+}
+
+.new-class-this-year {
+    width: 63px;
 }
 
 @media(max-width:800px) {
@@ -194,10 +218,25 @@ p {
         margin-right: 0;
     }
     .ubah-sikap-textarea {
-        width: 150px!important;
+        width: 105px!important;
         height: 80px!important;
+        margin-right: 30px;
     }
-    .form-group.ubah-sikap-textarea {
-        margin: 0 0 0 0!important;
+    .ubah-sikap-td {
+        padding: 10px!important;
+    }
+    .pilih-wali-kelas {
+        margin: -7px -10px -5px -10px;
+        width: 263px;
+    }
+    .pilih-wali-kelas-baru {
+        margin: 0px 3px 0px 0px;
+        width: 190px;
+    }
+    .mk-wali-kelas {
+        padding-left: 10px!important;
+    }
+    .new-class-this-year {
+        width: 100px;
     }
 }

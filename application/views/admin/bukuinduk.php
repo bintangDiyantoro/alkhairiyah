@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" data-tmbkls="<?= $this->session->flashdata('suksestambahkelas') ?>">
     <div class="row py-5">
         <div class="col d-flex justify-content-center">
             <h1>
@@ -20,7 +20,7 @@
                     $slash = (int)date('y') + 1;
                     $tahunAjar = date('Y') . "/" . (string)$slash;
                     ?>
-                    <a href="<?= base_url('admin/pilihkelas/' . $staff["id"] . "/" . $tahunAjar) ?>" class="btn btn-primary">Pilih Kelas</a>
+                    <a href="<?= base_url('admin/pilihkelas/' . $staff["id"] . "/" . $tahunAjar) ?>" class="btn btn-primary" id="thisYearClass">Pilih Kelas</a>
                 </div>
             </div>
         </div>
@@ -46,10 +46,10 @@
                     <?php $i = 0;
                     foreach ($staff["semuakelas"] as $gk) : ?>
                         <tr>
-                            <th scope="row"><?= $i += 1; ?></th>
-                            <td><?= $gk["class"] ?></td>
-                            <td><?= $gk["tahun"] ?></td>
-                            <td><a href="<?= base_url('admin/daftarsiswa/' . $gk["id_kelas"] . "/" . $gk["tahun"])  ?>" class="btn btn-info">Kelola</a></td>
+                            <th class="align-middle" scope="row"><?= $i += 1; ?></th>
+                            <td class="align-middle"><?= $gk["class"] ?></td>
+                            <td class="align-middle"><?= $gk["tahun"] ?></td>
+                            <td class="align-middle"><a href="<?= base_url('admin/daftarsiswa/' . $gk["id_kelas"] . "/" . $gk["tahun"])  ?>" class="btn btn-info">Kelola</a></td>
                         </tr>
                     <?php endforeach ?>
                 </tbody>
@@ -60,7 +60,7 @@
         <div class="row d-flex justify-content-center my-5">
             <div class="col-lg-10 d-flex justify-content-center">
                 <div class="ajax-tambah-kelas col-lg-8 d-flex justify-content-center">
-                    <button class="btn btn-success" id="tambahkelas" data-csrfname="<?= $csrf['name'] ?>" data-csrfhash="<?= $csrf['hash'] ?>" data-idguru="<?= $gk["id_staff"] ?>" data-session="<?= $this->session->userdata('admin') ?>" style="color:white">Tambahkan kelas lain</button>
+                    <button class="btn btn-success" id="tambahkelas" data-csrfname="<?= $csrf['name'] ?>" data-csrfhash="<?= $csrf['hash'] ?>" data-idstaff="<?= $gk["id_staff"] ?>" data-session="<?= $this->session->userdata('admin') ?>" style="color:white">Tambahkan kelas lain</button>
                 </div>
             </div>
         </div>
@@ -69,7 +69,7 @@
         <div class="row d-flex justify-content-center mb-5">
             <div class="col-lg-10 d-flex justify-content-center">
                 <div class="ajax-tambah-kelas col-lg-8 d-flex justify-content-center">
-                    <button class="btn btn-success" id="tambahkelas" data-csrfname="<?= $csrf['name'] ?>" data-csrfhash="<?= $csrf['hash'] ?>" data-idguru="<?= $staff["id"] ?>" data-session="<?= $this->session->userdata('admin') ?>" style="color:white">Tambahkan kelas tahun ajaran sebelumnya</button>
+                    <button class="btn btn-success" id="tambahkelas" data-csrfname="<?= $csrf['name'] ?>" data-csrfhash="<?= $csrf['hash'] ?>" data-idstaff="<?= $staff["id"] ?>" data-session="<?= $this->session->userdata('admin') ?>" style="color:white">Tambahkan kelas tahun ajaran sebelumnya</button>
                 </div>
             </div>
         </div>
