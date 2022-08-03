@@ -9,8 +9,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="canonical" href="<?= base_url() ?>">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?= base_url() ?>assets/css/pickmeup.css">
-    <link rel="stylesheet" href="<?= base_url() ?>assets/css/styles.css">
+    <link rel="stylesheet" href="<?= base_url() ?>assets/css/pickmeup1.css">
+    <link rel="stylesheet" href="<?= base_url() ?>assets/css/mainstyles.css">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url() ?>assets/img/alkhairiyah.png">
     <title>SDI Al-Khairiyah Banyuwangi | <?= $title; ?></title>
 </head>
