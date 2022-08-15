@@ -6,10 +6,10 @@
         <div class="col-lg-8 d-flex align-items-center">
             <form class="col-lg-12 d-flex align-items-center" action="" method="post" style="display: inline;">
                 <input type="hidden" name="<?= $csrf['name'] ?>" value="<?= $csrf['hash'] ?>">
-                <div class="mx-3">
+                <div class="">
                     Nama Asli:
                 </div>
-                <select class="form-control  my-5 mx-3 col-sm-4" aria-label="Default select example" name="id_staff">
+                <select class="form-control  my-5  col-sm-4" aria-label="Default select example" name="id_staff">
                     <?php if ($admin["id_staff"]) : ?>
                         <option value="<?= NULL ?>">Kosongkan</option>
                         <option value="<?= $admin["id_staff"] ?>" selected><?= $admin['nama']['nama'] ?></option>
@@ -24,7 +24,7 @@
                     endforeach; ?>
                 </select>
                 Role:
-                <select class="form-control  my-5 mx-3 col-sm-3" aria-label="Default select example" name="role">
+                <select class="form-control  my-5  col-sm-3" aria-label="Default select example" name="role">
                     <option value="<?= $admin["slctdrole"]["role_id"] ?>" selected><?= $admin["slctdrole"]["role"] ?></option>
                     <?php foreach ($admin["role"] as $ar) : ?>
                         <?php if($ar["role"] !== $admin["slctdrole"]["role"]):?>
