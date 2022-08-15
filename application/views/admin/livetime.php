@@ -9,4 +9,4 @@ if ($hour <= 16) {
     $day++;
 }
 
-echo '<div style="font-size: 70px;">'.$hour . date(':i:s')  . "</div><br><small>" . $day . date(' M Y'). "</small>";
+echo '<div style="font-size: 60px;">'.$hour . date(':i:s')  . "</div><br><small>" . $day . date(' M Y'). "</small>";

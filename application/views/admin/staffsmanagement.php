@@ -1,6 +1,6 @@
-    <div class="container d-flex justify-content-center py-5 admvrfchl">
-        <div class="row">
-            <button class="btn btn-info" data-target="#FormTambahStaff" data-toggle="modal">Tambah Staff</button>
+    <div class="container pt-5">
+        <button class="btn btn-info" data-target="#FormTambahStaff" data-toggle="modal">Tambah Staff</button>
+        <div class="row d-flex justify-content-center py-2 admvrfchl" style="overflow-x:auto">
             <table class="table table-hover my-3">
                 <thead>
                     <tr>

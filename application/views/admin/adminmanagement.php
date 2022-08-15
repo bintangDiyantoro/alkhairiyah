@@ -1,5 +1,5 @@
     <div class="container d-flex justify-content-center py-5 admvrfchl">
-        <div class="row">
+        <div class="row" style="overflow-x:auto">
             <table class="table table-hover">
                 <thead>
                     <tr>
