@@ -147,6 +147,15 @@ p {
     display: inline;
 }
 
+.div-colon-r2 {
+    padding: 0;
+    margin-right: -45px;
+}
+
+.colon-r2 {
+    display: inline;
+}
+
 .ubah-biodata {
     margin-left: 40px;
     margin-right: 40px;
@@ -190,6 +199,267 @@ p {
     width: 63px;
 }
 
+.main-spp-search {
+    width: 215px;
+}
+
+.spp-first-row {
+    margin-left: 39px;
+    margin-right: 53px;
+}
+
+.spp-tahun-ajaran-row {
+    margin-left: 52px;
+    margin-top: -20px;
+    margin-bottom: -10px;
+    width: 30%;
+}
+
+.nominal-spp-kelas-row {
+    margin-left: -28px;
+    width: 30%;
+}
+
+.spp-class-card {
+    width: 22%;
+}
+
+.nominal {
+    margin-bottom: -10px;
+}
+
+.undefined-spp-classes-cost-warning {
+    padding: 50px;
+    width: 88%;
+}
+
+.kelas-1,
+.kelas-2,
+.kelas-3,
+.kelas-4,
+.kelas-5,
+.kelas-6 {
+    font-weight: 700;
+    padding-top: 20px;
+}
+
+.kelas-1 {
+    color: #449d6f;
+    background-color: #b4ffd8;
+}
+
+.kelas-2 {
+    color: #579d44;
+    background-color: #c8ffb9;
+}
+
+.kelas-3 {
+    color: #7b9842;
+    background-color: #dfff9f;
+}
+
+.kelas-4 {
+    color: #9b9e46;
+    background-color: #fcffb0;
+}
+
+.kelas-5 {
+    color: #ac7949;
+    background-color: #ffd5af;
+}
+
+.kelas-6 {
+    color: #a64b4b;
+    background-color: #ffbbbb;
+}
+
+.btn-kelas-1,
+.btn-kelas-2,
+.btn-kelas-3,
+.btn-kelas-4,
+.btn-kelas-5,
+.btn-kelas-6 {
+    color: white;
+    border-color: transparent;
+    width: 70%;
+    margin: auto;
+}
+
+.btn-kelas-1:hover,
+.btn-kelas-2:hover,
+.btn-kelas-3:hover,
+.btn-kelas-4:hover,
+.btn-kelas-5:hover,
+.btn-kelas-6:hover {
+    background-color: white;
+    border-color: transparent;
+}
+
+.btn-kelas-1 {
+    background-color: #419c6d;
+}
+
+.btn-kelas-2 {
+    background-color: #5eab48;
+}
+
+.btn-kelas-3 {
+    background-color: #97bb4f;
+}
+
+.btn-kelas-4 {
+    background-color: #acae4a;
+}
+
+.btn-kelas-5 {
+    background-color: #b9714e;
+}
+
+.btn-kelas-6 {
+    background-color: #b34a4a;
+}
+
+.btn-kelas-1:hover {
+    color: #419c6d;
+}
+
+.btn-kelas-2:hover {
+    color: #5eab48;
+}
+
+.btn-kelas-3:hover {
+    color: #97bb4f;
+}
+
+.btn-kelas-4:hover {
+    color: #acae4a;
+}
+
+.btn-kelas-5:hover {
+    color: #b9714e;
+}
+
+.btn-kelas-6:hover {
+    color: #b34a4a;
+}
+
+.table-name-col table {
+    /* table-layout: fixed;
+    width: max-content;
+    text-align: left; */
+    text-align: center;
+}
+
+.table-spp thead tr th:first-of-type,
+.table-spp tbody tr td:first-of-type {
+    background-color: wheat;
+    padding-left: 0;
+    padding-right: 0;
+    width: 0px;
+    color: rgba(0, 0, 0, .0);
+}
+
+.table-spp thead tr th:nth-of-type(2),
+.table-spp tbody tr td:nth-of-type(2) {
+    background-color: lightcyan;
+    width: 0px;
+    padding-left: 0;
+    padding-right: 0;
+    color: rgba(0, 0, 0, .0);
+}
+
+.table-content-col {
+    text-align: middle;
+    min-width: 50%;
+}
+
+.table-spp thead tr th,
+.table-spp tbody tr td {
+    width: 75px;
+}
+
+.modal-payment-content {
+    height: 460px;
+}
+
+.student-spp-table-landscape {
+    display: block;
+}
+
+.student-spp-table-potrait {
+    display: none;
+}
+
+.metode-bayar-row {
+    margin-top: 10px;
+}
+
+.spp-label {
+    padding-right: 0px;
+    width: 108px;
+}
+
+.spp-data-payment {
+    margin-left: 50px;
+    width: 400px;
+}
+
+.spp-data-payment div label,
+.spp-data-payment div label::after {
+    margin-top: -3px;
+    padding-top: 1px;
+    height: 30px;
+    border: 3px solid lightgrey;
+}
+
+.spp-data-payment div label {
+    padding-left: 4px;
+    width: 225px;
+    overflow: hidden;
+}
+
+.spp-data-payment div label::after {
+    padding-left: 8px;
+    margin-right: -3px;
+    width: 50px;
+    content: 'Cari'!important;
+}
+
+.student-spp-detail-label {
+    width: 160px;
+}
+
+.bukti-tf-label {
+    width: 108px;
+}
+
+.bukti-tf-spp-ajax {
+    margin-top: -5px;
+}
+
+.bukti-tf-spp-img {
+    max-height: 300px;
+    max-width: 300px;
+}
+
+.spp-main-page-student-search-result {
+    display: none;
+    margin-top: 20px;
+    width: 90%;
+    padding: 0;
+}
+
+.spp-insert-student-to-class-label {
+    width: 140px;
+    height: 35px;
+}
+
+.spp-data-insert-student-to-class {
+    width: 40%;
+    height: 35px;
+    margin-left: 50px;
+}
+
 @media(max-width:800px) {
     .mobile {
         display: block;
@@ -204,11 +474,13 @@ p {
     .div-colon-r {
         display: block;
         width: 10px;
-        background-color: aqua;
         margin-right: 10px;
     }
     .colon-r {
         display: none;
+    }
+    .div-colon-r2 {
+        width: 3px;
     }
     .data-buku-induk {
         margin-left: 17px;
@@ -238,5 +510,78 @@ p {
     }
     .new-class-this-year {
         width: 100px;
+    }
+    .undefined-spp-classes-cost-warning {
+        padding: 37px;
+        width: 100%;
+    }
+    .main-spp-search-container {
+        margin-top: 50px;
+    }
+    .main-spp-search-container .row.not_toggled {
+        margin-top: 20px;
+        margin-bottom: -30px;
+        margin-right: -52px;
+    }
+    .spp-tahun-ajaran-row {
+        margin-top: -160px;
+        margin-bottom: 70px;
+    }
+    .spp-first-row {
+        margin-left: 13px;
+        margin-right: 28px;
+    }
+    .spp-tahun-ajaran-row {
+        margin-left: 25px;
+        width: 70%;
+    }
+    .main-spp-search {
+        width: 172px;
+        margin-left: auto;
+    }
+    .nominal-spp-kelas-row {
+        width: 70%;
+    }
+    .nominal {
+        margin-bottom: -5px;
+    }
+    .spp-class-card {
+        width: 90%;
+    }
+    .spp-label {
+        width: 124px;
+    }
+    .btn-kelas-1,
+    .btn-kelas-2,
+    .btn-kelas-3,
+    .btn-kelas-4,
+    .btn-kelas-5,
+    .btn-kelas-6 {
+        width: 50%;
+    }
+    .metode-bayar-row {
+        margin-top: 5px;
+    }
+    .metode-bayar-col {
+        margin-top: 0px;
+    }
+    .spp-data-payment {
+        width: 250px;
+    }
+    .bukti-tf-label {
+        width: 123px;
+    }
+    .bukti-tf-spp-img {
+        max-width: 195px;
+    }
+    .spp-main-page-student-search-result {
+        width: 83%;
+        margin-top: 90px;
+    }
+    .student-spp-table-landscape {
+        display: none;
+    }
+    .student-spp-table-potrait {
+        display: block;
     }
 }

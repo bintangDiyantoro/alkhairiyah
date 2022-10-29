@@ -238,6 +238,73 @@ function selectedOpt($value, $input)
     }
 }
 
+function guruKelas($idKelas, $waliKelas)
+{
+    $i = 1;
+    foreach ($waliKelas as $wk) {
+        if ($i == count($waliKelas)) {
+            return '-';
+        } else {
+            if ($idKelas === $wk['id_kelas']) {
+                return $wk["gurukelas"];
+                break;
+            } else {
+                $i++;
+            }
+        }
+    }
+}
+
+function classCardColor($idKelas)
+{
+    $idKelas = (int)$idKelas;
+    switch ($idKelas) {
+        case $idKelas >= 1 && $idKelas <= 4:
+            return "kelas-1";
+            break;
+        case $idKelas >= 5 && $idKelas <= 8:
+            return "kelas-2";
+            break;
+        case $idKelas >= 9 && $idKelas <= 12:
+            return "kelas-3";
+            break;
+        case $idKelas >= 12 && $idKelas <= 16:
+            return "kelas-4";
+            break;
+        case $idKelas >= 17 && $idKelas <= 20:
+            return "kelas-5";
+            break;
+        case $idKelas >= 21 && $idKelas <= 24:
+            return "kelas-6";
+            break;
+    }
+}
+
+function classBtnCardColor($idKelas)
+{
+    $idKelas = (int)$idKelas;
+    switch ($idKelas) {
+        case $idKelas >= 1 && $idKelas <= 4:
+            return "btn-kelas-1";
+            break;
+        case $idKelas >= 5 && $idKelas <= 8:
+            return "btn-kelas-2";
+            break;
+        case $idKelas >= 9 && $idKelas <= 12:
+            return "btn-kelas-3";
+            break;
+        case $idKelas >= 12 && $idKelas <= 16:
+            return "btn-kelas-4";
+            break;
+        case $idKelas >= 17 && $idKelas <= 20:
+            return "btn-kelas-5";
+            break;
+        case $idKelas >= 21 && $idKelas <= 24:
+            return "btn-kelas-6";
+            break;
+    }
+}
+
 function hasilPencarianSiswa($query)
 {
     $CI = get_instance();
@@ -251,13 +318,12 @@ function hasilPencarianSiswa($query)
                 <table class="table table-hover my-3">
                 <thead>
                 <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nomor Induk</th>
-                <th scope="col">NISN</th>
-                <th scope="col">Nama</th>
-                <th scope="col">Jenis Kelamin</th>
-                <th scope="col">Kelas</th>
-                <th scope="col">Opsi</th>
+                <th scope="col" class="align-middle text-left">Nama</th>
+                <th scope="col" class="align-middle" >Kelas</th>
+                <th scope="col" class="align-middle" >Opsi</th>
+                <th scope="col" class="align-middle" >Nomor Induk</th>
+                <th scope="col" class="align-middle" >NISN</th>
+                <th scope="col" class="align-middle" >Jenis Kelamin</th>
                 </tr>
                 </thead>
                 <tbody>';
@@ -277,29 +343,33 @@ function hasilPencarianSiswa($query)
     foreach ($query as $q) :
         if ($q["class"] !== "lulus" && $q["class"] !== "belum daftar") :
             echo '<tr>
-                                    <th class="align-middle" scope="row">' . $i . '</th>
-                                    <td class="align-middle">' . $q["nomor_induk"] . '</td>
-                                    <td class="align-middle">' . $q["nisn"] . '</td>
-                                    <td class="align-middle">' . $q["nama"] . '</td>
-                                    <td class="align-middle">';
+                    <td class="align-middle text-left">' . $q["nama"] . '</td>
+                    <td class="align-middle">' . $q["class"] . '</td>';
+            echo '<td class="align-middle">';
+            if ($q["class"] === "-") :
+                if (explode('/', $_SERVER["HTTP_REFERER"])[4] == "sppkelas") :
+                    echo '<span class="badge badge-primary badge-masukkan-siswa" data-csrf="' . $CI->csrf["hash"] . '" data-idsiswa="' . $q["id"] . '" data-idkelas="' . explode('/', $_SERVER["HTTP_REFERER"])[5] . '" data-tahun="' . explode('/', $_SERVER["HTTP_REFERER"])[6] . '/' . explode('/', $_SERVER["HTTP_REFERER"])[7] .  '" data-name="' . $q["nama"] . '" style="cursor:pointer">
+                        Tambahkan Ke Kelas
+                        </span>';
+                else :
+                    echo '<span style="cursor:pointer" class="badge badge-primary badge-masukkan-siswa" data-csrf="' . $CI->csrf["hash"] . '" data-idsiswa="' . $q["id"] . '" data-idkelas="' . $CI->session->userdata("id_kelas") . '" data-tahun="' . $CI->session->userdata("tahun") . '" data-name="' . $q["nama"] . '">
+                        Tambahkan Ke Kelas
+                        </span>';
+                endif;
+            else :
+                echo '<span href="#" class="badge badge-secondary" style="cursor: pointer;">Tambahkan Ke Kelas</span>';
+            endif;
+            echo '</td>';
+            echo '<td class="align-middle">' . $q["nomor_induk"] . '</td>
+                                <td class="align-middle">' . $q["nisn"] . '</td>
+                                <td class="align-middle">';
             if ($q["jenis_kelamin"] == "L") {
                 echo "Laki-laki";
             } elseif ($q["jenis_kelamin"] == "P") {
                 echo "Perempuan";
             }
             echo '</td>
-                                    <td class="align-middle">' . $q["class"] . '</td>
-                                    <td class="align-middle">';
-            if ($q["class"] === "-") :
-                echo '<a href="' . base_url('admin/masukkankelas/' . $q["id"] . "/" . $CI->session->userdata("id_kelas") . "/" . $CI->session->userdata("tahun")) . '" class="badge badge-primary badge-masukkan-siswa" data-name="' . $q["nama"] . '">
-                                                Tambahkan Ke Kelas
-                                            </a>';
-            else :
-                echo '<span href="#" class="badge badge-secondary" style="cursor: pointer;">Tambahkan Ke Kelas</span>';
-            endif;
-            echo '</td>
-                                </tr>';
-            $i++;
+                </tr>';
         endif;
     endforeach;
     foreach ($query as $q) {
@@ -308,9 +378,13 @@ function hasilPencarianSiswa($query)
             </table>
                 </div>
                 <div class="row d-flex justify-content-end mt-2">
-                    <button class="btn btn-success cari-lagi mr-1">Cari Siswa Lain</button>
-                    <a href="' . base_url('admin/daftarsiswa/' . $CI->session->userdata("id_kelas") . '/' . $CI->session->userdata('tahun')) . '" class="btn btn-secondary">Batal</a>
-                </div>';
+                    <button class="btn btn-success cari-lagi mr-1">Cari Siswa Lain</button>';
+            if (explode('/', $_SERVER["HTTP_REFERER"])[4] == "sppkelas") {
+                echo '<span style="height: 35px;margin-left: 3px;" class="btn btn-secondary spp-cari-siswa-batal">Batal</span>';
+            } else {
+                echo '<a href="' . base_url('admin/daftarsiswa/' . $CI->session->userdata("id_kelas") . '/' . $CI->session->userdata('tahun')) . '" class="btn btn-secondary">Batal</a>';
+            }
+            echo '</div>';
             break;
         }
     }
@@ -1206,4 +1280,161 @@ function cwkAction($idkelas, $tahunajar, $k)
     } else {
         echo '<a href="' . base_url('admin/mksiswa/' . $k["id"]) . "/" . $thiz->session->userdata('tahun') . '" class="py-1 px-2 badge badge-primary tb-wali-kelas">Pilih Wali Kelas</a>';
     }
+}
+
+function rupiah($nominal)
+{
+    if ($nominal !== "0") {
+        return "Rp" . number_format($nominal, 0, ',', '.') . ",-";
+    } else {
+        return "Gratis";
+    }
+}
+
+function selectedNominal($id, $selected)
+{
+    if ($id == $selected) {
+        return "selected";
+    }
+}
+
+function tabelSPPLooper($siswa, $kelas, $bulan_akademik, $spp)
+{
+    $thiz = get_instance();
+    $idbulanini = (int)$thiz->db->query("SELECT id FROM bulan_akademik WHERE angka_bulan=" . date('m'))->row_array()["id"];
+    $i = 1;
+    foreach ($siswa as $s) {
+        if ($s["id_detail_status_spp"]) {
+            $s["nominal"] = $thiz->db->query("SELECT nominal FROM detail_status_spp_siswa WHERE id=" . $s["id_detail_status_spp"])->row_array()["nominal"];
+        } else {
+            $s["nominal"] = null;
+        }
+        echo '<tr>';
+        echo '<td class="align-middle pl-3" scope="row">' . $i . '</td>
+                <td class="align-middle text-left pr-2" style="padding-left:10px">' . $s["nama"] . '</td>';
+        foreach ($bulan_akademik as $ba) {
+            echo '<td class="align-middle">';
+            if ((int)$ba["id"] <= $idbulanini) {
+                if ($spp) {
+                    $sppCounter = 1;
+                    foreach ($spp as $sp) {
+                        if ($sp["tahun_ajaran"] == $s["tahun"] && $sp["id_siswa"] == $s["id_siswa"] && $sp["id_kelas_siswa"] == $s["id_kelas_siswa"] && $sp["bulan"] == $ba["id"]) {
+                            echo '<a href="" class="badge badge-pill text-secondary paid-off-spp-badge" data-idtrspp="' . $sp['id'] . '" data-toggle="modal" data-target="#paidOffModal">' . rupiah($sp["nominal"]) . '</a>';
+                        } else {
+                            if ($sppCounter == count($spp)) {
+                                if ($s["nominal"] !== "1") {
+                                    echo '<a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a>';
+                                } else {
+                                    echo '<a href="" class="badge badge-pill badge-info free-charged-spp-change-status" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Ubah Status</a>';
+                                }
+                            } else {
+                                $sppCounter++;
+                            }
+                        }
+                    }
+                } else {
+                    echo '<a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a>';
+                }
+            } else {
+                echo '<strong>-</strong>';
+            }
+            echo '</td>';
+        }
+        echo '</tr>';
+        $i++;
+    }
+}
+
+function tabelSppOneStudentLooperCore($sppSiswa, $siswa, $kelas, $ba)
+{
+    if ($sppSiswa) {
+        $i = 1;
+        foreach ($sppSiswa as $s) {
+            if ($s["bulan"] == $ba["id"]) {
+                echo '<td class="text-left pl-2"><a href="" class="badge badge-pill text-secondary paid-off-spp-badge" data-idtrspp="' . $s['id'] . '" data-toggle="modal" data-target="#paidOffModal">' . rupiah($s["nominal"]) . '</a></td>';
+                break;
+            } else {
+                if (count($sppSiswa) == $i) {
+                    if ($siswa["nominal"] !== '1') {
+                        echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-primary spp-payment" style="padding-bottom:4px" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a></td>';
+                    } else {
+                        echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-info free-charged-spp-change-status" style="padding-bottom:2px" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Ubah Status</a></td>';
+                    }
+                } else {
+                    $i++;
+                }
+            }
+        }
+    } else {
+        echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a></td>';
+    }
+}
+
+function tabelSppOneStudentLooper($siswa, $kelas, $bulan_akademik, $tahun)
+{
+    $thiz = get_instance();
+    $idbulanini = (int)$thiz->db->query("SELECT id FROM bulan_akademik WHERE angka_bulan=" . date('m'))->row_array()["id"];
+    $sppSiswa = $thiz->db->query("SELECT * FROM spp WHERE id_siswa=" . $siswa["id_siswa"] . " AND tahun_ajaran='" . $tahun . "'")->result_array();
+    if ($siswa["id_detail_status_spp"]) {
+        $siswa["nominal"] = $thiz->db->query("SELECT nominal FROM detail_status_spp_siswa WHERE id=" . $siswa["id_detail_status_spp"])->row_array()["nominal"];
+    } else {
+        $siswa["nominal"] = null;
+    }
+    foreach ($bulan_akademik as $ba) {
+        echo '<tr scope="col">
+                <td class="text-right pr-4">' . $ba["nama_bulan"] . '</td>';
+        if ($tahun == $thiz->tahunAjar) {
+            if ((int)$ba["id"] <= $idbulanini) {
+                tabelSppOneStudentLooperCore($sppSiswa, $siswa, $kelas, $ba);
+            } else {
+                echo '<td class="text-left" style="padding-left:32px">-</td>';
+            }
+        } else {
+            tabelSppOneStudentLooperCore($sppSiswa, $siswa, $kelas, $ba);
+        }
+        echo '</tr>';
+    }
+}
+
+function tagihanSiswaPerbulan($idsiswa, $tagihankelas)
+{
+    $thiz = get_instance();
+    $status = $thiz->db->query("SELECT status_spp,id_detail_status_spp FROM siswa WHERE id=" . $idsiswa)->row_array()["status_spp"];
+    $nominalkelas = $thiz->db->query("SELECT nominal FROM nominal_spp WHERE id=" . $tagihankelas["id_nominal_spp"])->row_array()["nominal"];
+    if ($status == "1") {
+        return $nominalkelas;
+    } else {
+        return $thiz->db->query('SELECT siswa.id_detail_status_spp, detail_status_spp_siswa.nominal, nominal_spp.nominal as nominal_spp FROM siswa JOIN detail_status_spp_siswa ON siswa.id_detail_status_spp = detail_status_spp_siswa.id JOIN nominal_spp ON detail_status_spp_siswa.nominal = nominal_spp.id WHERE detail_status_spp_siswa.id_siswa=' . $idsiswa)->row_array()['nominal_spp'];
+    }
+}
+
+function tagihanSiswa($status_spp, $id_kelas, $tahun, $idnominal, $idDetailStatusSpp)
+{
+    $thiz = get_instance();
+    if ($status_spp == '1') {
+        $nominal = $thiz->db->query("SELECT id_nominal_spp FROM nominal_spp_per_tingkat WHERE id_kelas=" . $id_kelas . " AND tahun_ajaran='" . $tahun . "'")->row_array();
+        if ($nominal["id_nominal_spp"] == $idnominal) {
+            return 'selected';
+        }
+    } else {
+        $nominal = $thiz->db->query("SELECT nominal FROM detail_status_spp_siswa WHERE id =" . $idDetailStatusSpp)->row_array();
+        if ($nominal["nominal"] == $idnominal) {
+            return 'selected';
+        }
+    }
+}
+
+function keteranganStatusSpp($idDetailStatusSpp)
+{
+    $thiz = get_instance();
+    if ($idDetailStatusSpp) {
+        return $thiz->db->query("SELECT keterangan FROM detail_status_spp_siswa WHERE id=" . $idDetailStatusSpp)->row_array()["keterangan"];
+    }
+}
+
+function ket_status_spp_siswa_cetak($idsiswa)
+{
+    $thiz = get_instance();
+    $keterangan = $thiz->db->query("SELECT siswa.id_detail_status_spp,detail_status_spp_siswa.keterangan FROM siswa JOIN detail_status_spp_siswa ON siswa.id_detail_status_spp = detail_status_spp_siswa.id WHERE siswa.id =" . $idsiswa)->row_array();
+    return ($keterangan) ? $keterangan["keterangan"] : '';
 }

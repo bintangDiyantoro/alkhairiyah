@@ -299,7 +299,6 @@ $(function() {
         req.send()
     })
 
-
     for (let i = 0; i < keluarkansiswa.length; i++) {
         keluarkansiswa[i].addEventListener('click', function(event) {
             event.preventDefault()
@@ -1382,4 +1381,476 @@ function confirmThisYearClass() {
             }
         })
     })
+}
+
+let sppPertingkat = document.querySelector('.nominal-spp-kelas-row')
+
+if (sppPertingkat && sppPertingkat.dataset.update === "success") {
+    Swal.fire({
+        type: 'success',
+        title: 'Berhasil!',
+        html: 'Nominal SPP Tersimpan!'
+    })
+}
+
+function myAjax(method, link, el, loadingheight, fn = () => {}, data = null, fnData = null) {
+    const xhr = new XMLHttpRequest()
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            el.innerHTML = this.responseText
+            if (fnData == null) {
+                fn()
+            } else {
+                fn(fnData)
+            }
+        } else {
+            el.innerHTML = `<div class="d-flex justify-content-center align-items-center" style="margin:-6px;height:100%">
+                                <img src="/assets/img/greenloading.gif" height="${loadingheight}">
+                            </div>`
+        }
+    }
+    xhr.open(method, link)
+    if (method == "post" || method == "POST") {
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+        xhr.send(data)
+    } else {
+        xhr.send()
+    }
+}
+
+var new_spp_csrf_token = null
+var spp_csrf_token = null
+
+async function justPostSpp() {
+    if (new_spp_csrf_token == null) {
+        spp_csrf_token = document.querySelector('.bukti-tf-spp-ajax').dataset.csrf
+    } else {
+        spp_csrf_token = new_spp_csrf_token
+    }
+    const tanggal = document.querySelector('.tanggal')
+    const siswa = document.querySelector('.siswa')
+    const bulan = document.querySelector('.bulan')
+    const tahun = document.querySelector('.tahun')
+    const nominal = document.querySelector('.nominal')
+    const metodebayar = document.querySelector('.metode-bayar-options')
+    const formdata = new FormData()
+    formdata.append("csrf_token", spp_csrf_token)
+    formdata.append("tanggal", tanggal.dataset.tanggal)
+    formdata.append("id_siswa", siswa.dataset.id)
+    formdata.append("id_kelas_siswa", siswa.dataset.idkelassiswa)
+    formdata.append("id_detail_status_spp", siswa.dataset.detailstatusspp)
+    formdata.append("bulan", bulan.dataset.bulan)
+    formdata.append("tahun_ajaran", tahun.dataset.tahun)
+    formdata.append("nominal", nominal.dataset.nominal)
+    formdata.append("metode_bayar", metodebayar.value)
+    formdata.append("submit", "")
+    sppModalPaymentContent.innerHTML = `<div class="d-flex justify-content-center align-items-center" style="height:100%">
+                                <img src="/assets/img/greenloading.gif" height="100">
+                            </div>`
+    await fetch('/admin/uploadbuktitfspp', { method: 'POST', body: formdata })
+        .then(response => response.json())
+        .then(response => {
+            window.location.href = window.location.href + "/" + response.idtransaksi
+        })
+}
+
+async function postImgNewToken() {
+    if (url[4] == "sppkelas" || url[4] == "sppsiswa") {
+        if (new_spp_csrf_token == null) {
+            spp_csrf_token = document.querySelector('.bukti-tf-spp-ajax').dataset.csrf
+        } else {
+            spp_csrf_token = new_spp_csrf_token
+        }
+        const tanggal = document.querySelector('.tanggal')
+        const siswa = document.querySelector('.siswa')
+        const bulan = document.querySelector('.bulan')
+        const tahun = document.querySelector('.tahun')
+        const nominal = document.querySelector('.nominal')
+        const metodebayar = document.querySelector('.metode-bayar-options')
+        const buktitfspp = document.querySelector('#buktitf')
+        const formdata = new FormData()
+        formdata.append("csrf_token", spp_csrf_token)
+        formdata.append("tanggal", tanggal.dataset.tanggal)
+        formdata.append("id_siswa", siswa.dataset.id)
+        formdata.append("id_kelas_siswa", siswa.dataset.idkelassiswa)
+        formdata.append("id_detail_status_spp", siswa.dataset.detailstatusspp)
+        formdata.append("bulan", bulan.dataset.bulan)
+        formdata.append("tahun_ajaran", tahun.dataset.tahun)
+        formdata.append("nominal", nominal.dataset.nominal)
+        formdata.append("metode_bayar", metodebayar.value)
+        formdata.append("submit", "")
+        formdata.append("buktitf", buktitfspp.files[0])
+        const sppMpc = document.querySelector('.spp-mpc')
+
+        if (buktitfspp.files[0]) {
+            if (buktitfspp.files[0].size <= 8300000) {
+                await fetch('/admin/uploadbuktitfspp/upload', { method: 'POST', body: formdata })
+                    .then(response => response.json())
+                    .then(response => {
+                        if (response.error) {
+                            sppMpc.classList.add('modal-payment-content')
+                            const submitbtn = document.querySelector('.payment-submit')
+                            submitbtn.removeEventListener('click', postImgNewToken)
+                            new_spp_csrf_token = response.new_csrf_token.hash
+                            submitbtn.addEventListener('click', postImgNewToken)
+                            if (buktitfspp.parentElement.childNodes.length > 4) {
+                                document.querySelector('small').remove()
+                            }
+                            let newel = document.createElement('small')
+                            newel.style = "position:relative;color:red;z-index:255;line-height:0.2!important"
+                            newel.innerHTML = response.error
+                            buktitfspp.parentElement.append(newel)
+                        } else {
+                            sppModalPaymentContent.innerHTML = `<div class="d-flex justify-content-center align-items-center" style="height:100%">
+                                            <img src="/assets/img/greenloading.gif" height="100">
+                                        </div>`;
+                            window.location.href = window.location.href + "/" + response.idtransaksi
+                        }
+                    })
+            } else {
+                const submitbtn = document.querySelector('.payment-submit')
+                const randomWarning = [
+                    "buset... gede banget filenya...",
+                    "ayolah... jangan main-main...",
+                    "hayooo... becanda nih..."
+                ]
+                sppMpc.classList.add('modal-payment-content')
+                submitbtn.removeEventListener('click', postImgNewToken)
+                submitbtn.addEventListener('click', postImgNewToken)
+                if (buktitfspp.parentElement.childNodes.length > 4) {
+                    document.querySelector('small').remove()
+                }
+                let newel = document.createElement('small')
+                newel.style = "position:relative;color:red;z-index:255;line-height:0.2!important"
+                newel.innerHTML = randomWarning[Math.round(Math.random() * 2)]
+                buktitfspp.parentElement.append(newel)
+            }
+        } else {
+            const submitbtn = document.querySelector('.payment-submit')
+            sppMpc.classList.add('modal-payment-content')
+            submitbtn.removeEventListener('click', postImgNewToken)
+            submitbtn.addEventListener('click', postImgNewToken)
+            if (buktitfspp.parentElement.childNodes.length > 4) {
+                document.querySelector('small').remove()
+            }
+            let newel = document.createElement('small')
+            newel.style = "position:relative;color:red;z-index:255;line-height:0.2!important"
+            newel.innerHTML = "anda belum memilih file"
+            buktitfspp.parentElement.append(newel)
+        }
+    }
+}
+
+function attachTfSpp() {
+    var submitbtn = document.querySelector('.payment-submit')
+    submitbtn.addEventListener('click', postImgNewToken)
+    document.querySelector('.tf-spp-attachment').addEventListener('change', function() {
+        let fileName = this.value.split('\\').pop()
+        this.nextElementSibling.innerHTML = fileName
+        submitbtn.removeEventListener('click', postImgNewToken)
+        submitbtn.addEventListener('click', postImgNewToken)
+    })
+}
+
+function sppPaymentFn(idsiswa) {
+    changeSppStatus(idsiswa)
+    sppModalPaymentContent.classList.add('spp-mpc')
+    sppModalPaymentContent.classList.remove('modal-payment-content')
+    let metodeBayar = document.querySelector('.metode-bayar-options')
+    const elbuktitfspp = document.querySelector('.bukti-tf-spp-ajax')
+    const submitbtn = document.querySelector('.payment-submit')
+    submitbtn.addEventListener('click', justPostSpp)
+    metodeBayar.addEventListener('change', function() {
+        if (this.value == "2") {
+            submitbtn.removeEventListener('click', justPostSpp)
+            myAjax('get', '/admin/uploadbuktitfspp', elbuktitfspp, '40', attachTfSpp)
+        } else {
+            const sppMpc = document.querySelector('.spp-mpc')
+            sppMpc.classList.remove('modal-payment-content')
+            submitbtn.removeEventListener('click', postImgNewToken)
+            submitbtn.addEventListener('click', justPostSpp)
+            elbuktitfspp.innerHTML = ''
+        }
+    })
+}
+
+let sppPayment = document.getElementsByClassName('spp-payment')
+var sppModalPaymentContent = document.querySelector('.modal-payment-content')
+
+for (let sp of sppPayment) {
+    sp.addEventListener('click', function() {
+        myAjax('get', '/admin/modalpaymentajax/' + this.dataset.idsiswa + '/' + this.dataset.idkelas + '/' + this.dataset.idbulan + '/' + this.dataset.tahun, sppModalPaymentContent, '235', sppPaymentFn, null, [this.dataset.idsiswa, this.dataset.idkelas, this.dataset.tahun])
+    })
+}
+
+if ((url[4] == "sppkelas" && url[8]) || (url[4] == "sppsiswa" && url[9])) {
+    if (url[4] == "sppsiswa") {
+        window.history.pushState({ data: 'nonfe' }, 'sdrandom', '/' + url[3] + '/' + url[4] + '/' + url[5] + '/' + url[6] + '/' + url['7'] + '/' + url['8'])
+    } else {
+        window.history.pushState({ data: 'nonfe' }, 'sdrandom', '/' + url[3] + '/' + url[4] + '/' + url[5] + '/' + url[6] + '/' + url['7'])
+    }
+    if (document.querySelector('.idtransaksi').dataset.idtransaksi) {
+        let idtr = document.querySelector('.idtransaksi').dataset.idtransaksi
+        let pembayar = document.querySelector('.idtransaksi').dataset.pembayar
+        Swal.fire({
+            title: 'Berhasil!',
+            type: 'success',
+            html: 'Pembayaran SPP <strong>' + pembayar + '</strong> telah berhasil!',
+            showCloseButton: true,
+            showCancelButton: true,
+            // focusConfirm: true,
+            confirmButtonText: `<a href="/admin/buktipembayaranspp/${idtr}" class="text-light" target="_blank">Unduh Bukti Pembayaran &nbsp;&nbsp;<i class="fas fa-file-download"></i></a>`,
+            confirmButtonAriaLabel: 'Thumbs up, great!',
+            cancelButtonText: 'Tutup',
+            cancelButtonAriaLabel: 'Thumbs down'
+        })
+    }
+}
+
+let paidSppBadge = document.querySelectorAll('.paid-off-spp-badge')
+var sppPaidOffModalContent = document.querySelector('.paid-off-modal-content')
+
+for (const psb of paidSppBadge) {
+    psb.addEventListener('click', function() {
+        myAjax('get', '/admin/paidoffsppajax/' + this.dataset.idtrspp, sppPaidOffModalContent, '235')
+    })
+}
+
+function sppStatusChangeWarningMessage(message) {
+    let warning = document.createElement('small')
+    warning.setAttribute('style', 'color:red')
+    warning.innerHTML = message
+    keterangan.parentElement.appendChild(warning)
+}
+
+async function sppStatusChangeInput(args) {
+    const semuaNominalSPP = await fetch('/admin/getallnominalsppajax')
+        .then(response => response.json()).then(response => response)
+    const remSmall = document.getElementsByTagName('small')
+    const csrftoken = document.querySelector('.csrf-ubah-status-spp').dataset.csrf
+    const idsiswa = document.querySelector('.siswa').dataset.idsiswa
+    const statusspp = document.querySelector('.status-keringanan-spp')
+    const nominal = document.querySelector('.nominal-spp-payment-select')
+    const idnominalkelas = document.querySelector('.nominal-spp-kelas').dataset.nominalspp
+    let nominalkelas = ''
+    for (const sn of semuaNominalSPP) {
+        nominalkelas += `<option value="${sn.id}" ${(sn.id == idnominalkelas)?'selected':''}>${sn.nominal}</option>`
+    }
+    const keterangan = document.querySelector('.keterangan-keringanan-spp')
+    const submitchange = document.querySelector('.change-spp-status-submit-btn')
+    const pattern = /^[a-z\s.'\-]+$/i
+    let statussppid = statusspp.value
+    let nominalid = nominal.value
+    if (statussppid == '1') {
+        nominal.setAttribute('disabled', '')
+        keterangan.setAttribute('disabled', '')
+    } else if (statussppid == '3') {
+        nominal.setAttribute('disabled', '')
+    }
+
+    statusspp.addEventListener('change', function() {
+        statussppid = this.value
+        if (statussppid == '1') {
+            nominal.innerHTML = nominalkelas
+            keterangan.value = ''
+            keterangan.setAttribute('disabled', '')
+            nominal.setAttribute('disabled', '')
+        } else {
+            if (statussppid == '3') {
+                nominal.innerHTML = ''
+                for (const sns of semuaNominalSPP) {
+                    nominal.innerHTML += `<option value="${sns.id}" ${(sns.id == '1')?'selected':''}>${sns.nominal}</option>`
+                }
+                nominal.setAttribute('disabled', '')
+                keterangan.innerHTML = ''
+            } else {
+                nominal.removeAttribute('disabled')
+            }
+            keterangan.removeAttribute('disabled')
+        }
+    })
+
+    nominal.addEventListener('change', function() {
+        nominalid = this.value
+    })
+
+    submitchange.addEventListener('click', async() => {
+        if (remSmall.length > 2) {
+            keterangan.parentElement.removeChild(remSmall[1])
+        }
+
+        if (statussppid == '3' && keterangan.value.length == 0) {
+            sppStatusChangeWarningMessage('Maaf, keterangan harus diisi')
+        } else {
+            if (keterangan.value.length <= 200) {
+                if (keterangan.value.length == 0 || pattern.test(keterangan.value) == true) {
+                    const formdata = new FormData()
+                    formdata.append('csrf_token', csrftoken)
+                    formdata.append('id_siswa', idsiswa)
+                    formdata.append('id_status_spp', statussppid)
+                    if (statussppid == '1') {
+                        formdata.append('nominal', '')
+                        formdata.append('keterangan', '')
+                    } else {
+                        if (statussppid == '3') {
+                            formdata.append('nominal', '1')
+                        } else {
+                            formdata.append('nominal', nominalid)
+                        }
+                        formdata.append('keterangan', keterangan.value)
+                    }
+                    formdata.append('submit', '')
+                    sppModalPaymentContent.innerHTML = `<div class="d-flex justify-content-center align-items-center" style="height:100%">
+                                                            <img src="/assets/img/greenloading.gif" height="100">
+                                                        </div>`
+                    await fetch('/admin/changesppstatus/' + args[0] + '/' + args[1] + '/' + args[2], { method: 'POST', body: formdata })
+                        .then(response => response.json())
+                        .then(response => {
+                            if (response == "success")
+                                window.location.href = window.location.href
+                        })
+                } else {
+                    sppStatusChangeWarningMessage('Maaf, anda memasukkan karakter selain abjad, titik (.) dan strip (-)')
+                }
+            } else {
+                sppStatusChangeWarningMessage('Maaf, anda mengetik lebih dari 200 karakter')
+            }
+        }
+    })
+}
+
+function changeSppStatus(args) {
+    const chgsttssppbtn = document.querySelector('.change-spp-status-btn')
+    chgsttssppbtn.addEventListener('click', function loadSppStatusChangeContent() {
+        myAjax('get', '/admin/changesppstatus/' + args[0] + '/' + args[1] + '/' + args[2], sppModalPaymentContent, '235', sppStatusChangeInput, null, args)
+        sppModalPaymentContent.classList.add('change-spp-status')
+        sppModalPaymentContent.classList.remove('modal-payment-content')
+    })
+}
+
+let freeChargedSppChangeStatusBtns = document.getElementsByClassName('free-charged-spp-change-status')
+
+for (const fcscsb of freeChargedSppChangeStatusBtns) {
+    fcscsb.addEventListener('click', function() {
+        const args = [this.dataset.idsiswa, this.dataset.idkelas, this.dataset.tahun]
+        myAjax('get', '/admin/changesppstatus/' + this.dataset.idsiswa + '/' + this.dataset.idkelas + '/' + this.dataset.tahun, sppModalPaymentContent, '235', sppStatusChangeInput, null, args)
+    })
+}
+
+function checkStudentBill() {
+    const checkBtn = document.querySelectorAll('.check-student-bill')
+    const tahunajaran = document.querySelector('.spp-main-page-academic-year').value
+    sppInsertStudentToClassModal()
+    for (const cb of checkBtn) {
+        cb.addEventListener('click', function() {
+            window.location.href = `/admin/sppsiswa/${this.dataset.classid}/${tahunajaran}/${this.dataset.idsiswa}`
+        })
+    }
+}
+
+function sppFindStudentCore(el, evt) {
+    const academicYear = document.querySelector('.spp-main-page-academic-year')
+    const maincontent = document.querySelector('.spp-main-page-content-container')
+    const searchresult = document.querySelector('.spp-main-page-student-search-result')
+    const sppFindStudent = document.querySelector('.spp-find-student')
+    let selectedAcademicYear = academicYear.value
+    academicYear.addEventListener('change', function() {
+        selectedAcademicYear = this.value
+    })
+    el.addEventListener(evt, () => {
+        pattern = /(^[a-z\s]+$|^[0-9]+$)/gi
+        if (sppFindStudent.value.length > 0 && pattern.test(sppFindStudent.value)) {
+            maincontent.setAttribute('style', 'display:none')
+            searchresult.setAttribute('style', 'display:block')
+            myAjax('GET', `/admin/sppmainstudentsearch/${sppFindStudent.value}/${selectedAcademicYear}`, searchresult, '150', checkStudentBill)
+        } else {
+            maincontent.setAttribute('style', 'display:block')
+            searchresult.setAttribute('style', 'display:none')
+        }
+    })
+}
+
+function sppFindStudent() {
+    const sppFindStudent = document.querySelector('.spp-find-student')
+    const sppFindStudentBtn = document.querySelector('.spp-find-student-button')
+    if (sppFindStudent && sppFindStudentBtn) {
+        sppFindStudentCore(sppFindStudent, 'keyup')
+        sppFindStudentCore(sppFindStudentBtn, 'click')
+    }
+}
+
+function sppCustomSearchToggle() {
+    const hamburger = document.querySelector('#sidebarToggleTop')
+    hamburger.addEventListener('click', () => {
+        const customSppSearch = document.querySelector('#customSppSearchToggle')
+        if (customSppSearch.classList[1] == "not_toggled") {
+            customSppSearch.classList.add('toggled')
+            customSppSearch.classList.remove('not_toggled')
+        } else {
+            customSppSearch.classList.add('not_toggled')
+            customSppSearch.classList.remove('toggled')
+        }
+    })
+}
+
+function sppInsertStudentToClass() {
+    const insertBtn = document.querySelector('.spp-insert-student-to-class-btn')
+    const chosenClass = document.querySelector('.spp-chosen-class')
+    const classes = document.getElementsByClassName('class-option')
+    insertBtn.addEventListener('click', function() {
+        let classname = ''
+        for (const c of classes) {
+            if (c.classList[1] == chosenClass.value) {
+                classname = c.innerHTML
+            }
+        }
+        Swal.fire({
+            title: 'Perhatian!',
+            html: `Apakah anda yakin akan memasukkan <strong>${this.dataset.namasiswa}</strong> ke kelas <strong>${classname}</strong>?`,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yakin Banget!',
+            cancelButtonText: 'Tidak'
+        }).then(async result => {
+            if (result.value) {
+                console.log(`id siswa = ${this.dataset.idsiswa} - id staff= ${this.dataset.idstaff} - chosen class= ${chosenClass.value} - year= ${this.dataset.acyearsrc} csrf=${this.dataset.csrf}`)
+                let formdata = new FormData()
+                formdata.append('csrf_token', this.dataset.csrf)
+                formdata.append('id_siswa', this.dataset.idsiswa)
+                formdata.append('id_kelas', chosenClass.value)
+                formdata.append('tahun', this.dataset.acyearsrc)
+                formdata.append('submit', '')
+                let insert = await fetch(`/admin/sppinsertstudentajax`, { method: "POST", body: formdata })
+                    .then(response => response.json()).then(response => response)
+                if (insert == "success") {
+                    window.location.href = window.location.href + '/' + this.dataset.namasiswa + '/' + classname
+                }
+            }
+        })
+    })
+}
+
+function sppInsertStudentToClassModal() {
+    const insertBtn = document.querySelectorAll('.spp-insert-student-to-class')
+    const insertModal = document.querySelector('.modal-for-insert-student-content')
+    for (const ib of insertBtn) {
+        ib.addEventListener('click', function() {
+            myAjax('get', `/admin/sppinsertstudenttoclass/${this.dataset.idsiswa}/${this.dataset.tahun}`, insertModal, '150', sppInsertStudentToClass)
+        })
+    }
+}
+
+if (url[3] == "admin" && url[4] == "spp") {
+    sppFindStudent()
+    sppCustomSearchToggle()
+    if (url[5] && url[6]) {
+        Swal.fire(
+            'Berhasil!',
+            `<strong>${url[5]}</strong> telah dimasukkan ke kelas <strong>${url[6]}</strong>`,
+            'success'
+        )
+        window.history.pushState({ data: 'nonfe' }, 'sdrandom', '/' + url[3] + '/' + url[4])
+    }
 }

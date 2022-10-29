@@ -218,6 +218,9 @@
             </div>
         </div>
     </div>
+    <div class="d-flex justify-content-center mb-5">
+        <p>Diupdate oleh: <strong><?= $biodata["nama_staff"] ?></strong></p>
+    </div>
     <div class="row justify-content-end" style="margin-right: 33px;">
         <a href="<?= base_url('admin/ubahbiodata/' . $biodata["id"]) ?>" class="btn btn-info mr-1">Ubah Data</a>
         <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata("id_kelas") . "/" . $this->session->userdata("tahun")) ?>" class="btn btn-secondary">Kembali</a>

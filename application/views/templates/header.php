@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/pickmeup1.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/mainstyles.css">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url() ?>assets/img/alkhairiyah.png">
+    <link rel="manifest" href="/manifest.json">
     <title>SDI Al-Khairiyah Banyuwangi | <?= $title; ?></title>
 </head>
 
@@ -102,7 +103,7 @@
     </nav>
 
     <div class="right-float">
-        <a href="https://tk.ypialkhairiyahbanyuwangi.com">
+        <a href="https://tk.alkhairiyahbanyuwangi.sch.id">
             <div class="right-float-button">
                 <img src="<?= base_url('assets/img/logotk.png') ?>" alt="" width="40px">
                 TK Islam Al-Khairiyah Banyuwangi

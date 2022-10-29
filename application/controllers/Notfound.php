@@ -3,6 +3,6 @@
 class Notfound extends CI_Controller{
     public function index(){
         netralize();
-        redirect('/');
+        $this->load->view('admin/404');
     }
 }

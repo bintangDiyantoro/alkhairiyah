@@ -12,12 +12,22 @@
                 <button type="submit" name="submit" class="btn btn-primary form-control btn-cari-siswa" data-session="<?= $this->session->userdata('admin') ?>">Cari</button>
             </div>
         </form>
-        <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . '/' . $this->session->userdata('tahun')) ?>" style="height: 35px;margin-left: 3px;" class="btn btn-secondary">Kembali</a>
+        <?php if (explode('/', $_SERVER["HTTP_REFERER"])[4]) : ?>
+            <span style="height: 35px;margin-left: 3px;" class="btn btn-secondary spp-cari-siswa-batal">Batal</span>
+        <?php else : ?>
+            <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . '/' . $this->session->userdata('tahun')) ?>" style="height: 35px;margin-left: 3px;" class="btn btn-secondary">Kembali</a>
+        <?php endif ?>
     </div>
 </div>
 
 <script>
     var csrf = $('.ajax-text-input-cari-siswa').data('csrf')
+    if (url[4] == "sppkelas") {
+        const sppBatalCari = document.querySelector('.spp-cari-siswa-batal')
+        sppBatalCari.addEventListener('click', function(){
+            document.querySelector('.ajax-cari-siswa').innerHTML = ''
+        })
+    }
 
     function loader(keyword, e) {
         e.preventDefault()

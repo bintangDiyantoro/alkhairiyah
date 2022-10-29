@@ -156,15 +156,37 @@
                         <span>Buku Induk Siswa</span>
                     </a>
                 </li>
-
             <?php endif ?>
 
-            <?php if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "2") : ?>
+            <?php if ($this->session->userdata('role') == "2") : ?>
                 <li class="nav-item">
-                    <a href="<?= base_url('admin/spp') ?>" class="nav-link">
-                        <i class="far fa-money-bill-alt"></i>
-                        <span>Data SPP</span>
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages7" aria-expanded="true" aria-controls="collapsePages7">
+                        <i class="fa fa-money-bill-alt"></i>
+                        <span>Buku SPP</span>
                     </a>
+                    <div id="collapsePages7" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Menu Buku SPP:</h6>
+                            <a class="collapse-item" href="<?= base_url('admin/nominalspppertingkat') ?>">Nominal SPP Per Tingkat</a>
+                            <a class="collapse-item" href="<?= base_url('admin/spp') ?>">Pembayaran SPP</a>
+                        </div>
+                    </div>
+                </li>
+            <?php elseif ($this->session->userdata('role') == "9") : ?>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages7" aria-expanded="true" aria-controls="collapsePages7">
+                        <i class="fa fa-money-bill-alt"></i>
+                        <span>Buku SPP</span>
+                    </a>
+                    <div id="collapsePages7" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Menu Buku SPP:</h6>
+                            <a class="collapse-item" href="<?= base_url('admin/statusspp') ?>">Status SPP</a>
+                            <a class="collapse-item" href="<?= base_url('admin/metodebayarspp') ?>">Metode Bayar SPP</a>
+                            <a class="collapse-item" href="<?= base_url('admin/nominalspp') ?>">Nominal SPP</a>
+                            <a class="collapse-item" href="<?= base_url('admin/bulanakademik') ?>">Bulan Akademik</a>
+                        </div>
+                    </div>
                 </li>
             <?php endif ?>
 

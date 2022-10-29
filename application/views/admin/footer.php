@@ -1,4 +1,4 @@
-        <div class="row justify-content-center sticky-bottom my-5">
+        <div class="row justify-content-center sticky-bottom" style="margin-top:35px;margin-bottom: 10px;">
             <small class="text-center">
                 Copyright &#169; 2019 SDI Al-Khairiyah Banyuwangi
             </small>
@@ -56,6 +56,7 @@
         <script src="<?= base_url('assets/js/') ?>sweetalert2.all.min.js"></script>
         <script src="<?= base_url('assets/js/') ?>pickmeup1.js"></script>
         <script src="<?= base_url('assets/js/') ?>adminmainscript.js"></script>
+        <script src="<?= base_url('assets/js/') ?>app.js"></script>
         </body>
 
         </html>
