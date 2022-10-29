@@ -12,6 +12,15 @@ class Akademik extends CI_Controller
         $this->spreadsheet = new Spreadsheet();
         $akademik = './assets/sheets/profildapodik.xlsx';
         $this->spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($akademik);
+        if ((int)date('m') >= 1 && (int)date('m') <= 6) {
+            $tahun = (int)date('Y') - 1;
+            $slash = (int)date('y');
+            $this->tahunAjar = (string)$tahun . "/" . (string)$slash;
+        } else {
+            $tahun = (int)date('Y');
+            $slash = (int)date('y') + 1;
+            $this->tahunAjar = (string)$tahun . "/" . (string)$slash;
+        }
     }
     public function index()
     {
@@ -39,6 +48,7 @@ class Akademik extends CI_Controller
     {
         netralize();
         $data["kelas"] = $this->db->get('kelas')->result_array();
+        $data["wali_kelas"] = $this->db->query("SELECT wali_kelas.*,staff.nama AS 'gurukelas',kelas.class FROM wali_kelas JOIN staff ON wali_kelas.id_staff = staff.id JOIN kelas ON wali_kelas.id_kelas = kelas.id WHERE wali_kelas.tahun = '".$this->tahunAjar."' ORDER BY class ASC")->result_array();
         $data["title"] = "Akademik";
         $data['description'] = 'Daftar materi of SDI Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);

@@ -4,6 +4,15 @@ $('.cari-lagi').on('click', function(e) {
     $('.ajax-cari-siswa').load('/admin/carisiswa/')
 })
 
+if (url[4] == "sppkelas") {
+    const sppBatalCari = document.querySelector('.spp-cari-siswa-batal')
+    if (sppBatalCari) {
+        sppBatalCari.addEventListener('click', function() {
+            document.querySelector('.ajax-cari-siswa').innerHTML = ''
+        })
+    }
+}
+
 $('.ajax-tambah-siswa').on('click', (e) => {
     e.preventDefault()
     $.ajax({
@@ -75,20 +84,38 @@ $('.ajax-tambah-siswa').on('click', (e) => {
 pickmeup('#tgl_lahir')
 
 for (let i = 0; i < document.querySelectorAll('.badge-masukkan-siswa').length; i++) {
-    document.querySelectorAll('.badge-masukkan-siswa')[i].addEventListener('click', (e) => {
+    document.querySelectorAll('.badge-masukkan-siswa')[i].addEventListener('click', function(e) {
         e.preventDefault()
         Swal.fire({
             title: 'Perhatian!',
             text: "Apakah anda yakin ingin memasukkan " + e.path[0].dataset.name + " ke kelas ini?",
-            type: 'info',
+            type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Ya',
             cancelButtonText: 'Tidak'
-        }).then((result) => {
+        }).then(async result => {
             if (result.value) {
-                window.location.href = e.path[0].href
+                const formdata = new FormData()
+                formdata.append("csrf_token", this.dataset.csrf)
+                formdata.append("id_siswa", this.dataset.idsiswa)
+                formdata.append("id_kelas", this.dataset.idkelas)
+                formdata.append("tahun", this.dataset.tahun)
+                formdata.append("submit", '')
+                if (url[4] == "sppkelas") {
+                    const response = await fetch('/admin/sppkelasinsertstudent', { method: 'post', body: formdata })
+                        .then(response => response.json()).then(response => response)
+                    if (response == "success") {
+                        location.reload()
+                    }
+                } else {
+                    const response = await fetch('/admin/masukkankelas', { method: 'post', body: formdata })
+                        .then(response => response.json()).then(response => response)
+                    if (response == "success") {
+                        location.reload()
+                    }
+                }
             }
         })
     })

@@ -13,7 +13,8 @@
 	"require": {
 		"php": ">=5.3.7",
 		"phpoffice/phpspreadsheet": "^1.17",
-		"mpdf/mpdf": "^8.0"
+		"mpdf/mpdf": "^8.0",
+		"stichoza/google-translate-php": "^4.1"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
