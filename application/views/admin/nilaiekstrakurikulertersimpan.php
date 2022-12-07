@@ -17,6 +17,7 @@
     </table>
 </div>
 <div class="row d-flex justify-content-end">
-    <button class="btn btn-primary update-ekstrakurikuler mr-1" data-session="<?= $this->session->userdata('admin') ?>">Ubah Data</button>
-    <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success">Kembali</a>
+    <button class="btn btn-primary update-ekstrakurikuler mb-1" data-session="<?= $this->session->userdata('admin') ?>"><i class="fas fa-edit"></i> Ubah Data</button>
+    <a href="<?= base_url('admin/cetaknilaiki3ki4/') . $siswa["id"] ?>" class="btn btn-info ml-1 mb-1"><i class="fas fa-print"></i> Cetak Nilai Ki3-Ki4</a>
+    <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success mb-1 ml-1"><i class="fas fa-step-backward"></i>Kembali</a>
 </div>

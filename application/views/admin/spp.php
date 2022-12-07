@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row d-flex justify-content-between mt-5 mb-4 spp-first-row">
-        <div class="col mb-1">
+        <div class="col mb-1 spp-heading">
             <h2>Buku SPP SD</h2>
         </div>
         <?php if (count($nominal_per_tingkat_tahun_ini) == 24) : ?>
@@ -35,17 +35,18 @@
             </div>
         </div>
     <?php else : ?>
+        <div class="main-spp-total <?= togglesidebar($this->session->userdata("toggle")) ?>">Total SPP Masuk: <span class="total-spp-th-tsb-span" style="font-size:22px"><?= ($total_spp_masuk["total_spp"]) ? rupiah($total_spp_masuk["total_spp"]) : 'Rp0.-' ?></span></div>
         <form method="POST">
             <input type="hidden" name="<?= $csrf["name"] ?>" value="<?= $csrf["hash"] ?>">
-            <div class="row spp-tahun-ajaran-row">
+            <div class="row spp-tahun-ajaran-row <?= togglesidebar($this->session->userdata("toggle")) ?>">
                 <div class="form-group d-flex justify-content-center mr-2" style="margin-top: 7px;">
                     Tahun Ajaran:
                 </div>
                 <div class="form-group">
                     <select class="form-control spp-main-page-academic-year" name="tahunpelajaran">
-                        <?php for ($i = 0; $i < count($tahunajaran); $i++) : ?>
-                            <option value="<?= $tahunajaran[$i]["tahun_ajaran"] ?>" class="newyearclassname"><?= $tahunajaran[$i]["tahun_ajaran"] ?></option>
-                        <?php endfor ?>
+                        <?php foreach ($tahunajaran as $ta) : ?>
+                            <option value="<?= $ta ?>" class="newyearclassname"><?= $ta ?></option>
+                        <?php endforeach ?>
                     </select>
                 </div>
             </div>

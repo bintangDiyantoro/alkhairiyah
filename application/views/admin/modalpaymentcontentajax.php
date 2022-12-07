@@ -109,7 +109,7 @@
             </div>
             <div class="spp-data-payment metode-bayar-col">
                 <div class="form-group">
-                    <select class="form-control metode-bayar-options" name="tahunpelajaran" style="margin-top: -2px;padding-top: 2px;padding-left: 4px;height:30px;width:100px;border:3px solid lightgrey;">
+                    <select class="form-control metode-bayar-options" name="tahunpelajaran" style="margin-top: -2px;padding-top: 2px;padding-left: 4px;height:35px;width:100px;border:3px solid lightgrey;">
                         <?php foreach ($metode_bayar as $mb) : ?>
                             <option value="<?= $mb["id"] ?>"><?= $mb["metode"] ?></option>
                         <?php endforeach ?>

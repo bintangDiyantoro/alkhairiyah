@@ -105,8 +105,8 @@
             </div>
         </div>
         <div class="row d-flex justify-content-end idtransaksi" style="width:100%;margin-top:25px" data-idtransaksi="<?= $this->session->flashdata("idtransaksi") ?>" data-pembayar="<?= $this->session->flashdata('pembayar') ?>">
-            <a href="<?= base_url('admin/spp') ?>" class="btn btn-success px-3" style="border-radius: 15px;padding-top:2px;padding-bottom:2px;">Kembali</a>
-            <a href="<?= base_url('admin/sppkelas/' . $kelas["id_kelas"] . "/" . $kelas["tahun"]) ?>" class="btn btn-info px-3 ml-2" style="border-radius: 15px;padding-top:2px;padding-bottom:2px;margin-right:-10px">Lihat Semua Data Kelas <?= $kelas["class"] ?></a>
+            <a href="<?= base_url('admin/spp') ?>" class="btn btn-success px-3 mt-2" style="border-radius: 15px;padding-top:2px;padding-bottom:2px;">Kembali</a>
+            <a href="<?= base_url('admin/sppkelas/' . $kelas["id_kelas"] . "/" . $kelas["tahun"]) ?>" class="btn btn-info px-3 mt-2 ml-2" style="border-radius: 15px;padding-top:2px;padding-bottom:2px;margin-right:-10px">Lihat Semua Data Kelas <?= $kelas["class"] ?></a>
         </div>
     </div>
 

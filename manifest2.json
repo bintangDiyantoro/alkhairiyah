@@ -1,0 +1,31 @@
+{
+    "name": "Al-Khairiyah | Admin",
+    "short_name": "Al-Khairiyah Admin",
+    "start_url": "/admin",
+    "display": "standalone",
+    "background_color": "#cfffd3",
+    "theme_color": "#004632",
+    "orientation": "portrait-primary",
+    "icons": [{
+            "src": "/assets/img/alkhairiyah.png",
+            "type": "image/png",
+            "size": "72x72"
+        },
+        {
+            "src": "/assets/img/alkhairiyah.png",
+            "type": "image/png",
+            "size": "192x192"
+        },
+        {
+            "src": "/assets/img/alkhairiyah.png",
+            "type": "image/png",
+            "size": "266x266"
+        },
+        {
+            "src": "/assets/img/alkhairiyah.png",
+            "type": "image/png",
+            "size": "512x512"
+        }
+    ],
+    "prefer_related_applications": false
+}

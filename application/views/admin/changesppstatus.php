@@ -34,7 +34,7 @@
         </div>
         <div class="spp-data-payment">
             <div class="form-group">
-                <select class="form-control status-keringanan-spp" name="id_status_spp" style="margin-top: -2px;padding-top: 0;padding-left: 4px;height:30px;width:160px;border:3px solid lightgrey;">
+                <select class="form-control status-keringanan-spp" name="id_status_spp" style="margin-top: -2px;padding-top: 0;padding-left: 4px;height:35px;width:180px;border:3px solid lightgrey;">
                     <?php foreach ($status_spp as $st_spp) : ?>
                         <option value="<?= $st_spp["id"] ?>" <?= ($st_spp["id"] == $siswa["status_spp"]) ? 'selected' : '' ?>><?= $st_spp["status"] ?></option>
                     <?php endforeach ?>
@@ -51,7 +51,7 @@
         </div>
         <div class="spp-data-payment">
             <div class="form-group">
-                <select class="form-control nominal-spp-payment-select" name="nominal" style="margin-top: -2px;padding-top: 0;padding-left: 4px;height:30px;width:160px;border:3px solid lightgrey;">
+                <select class="form-control nominal-spp-payment-select" name="nominal" style="margin-top: -2px;padding-top: 0;padding-left: 4px;height:35px;width:180px;border:3px solid lightgrey;">
                     <?php foreach ($nominal_spp as $ns) : ?>
                         <option value="<?= $ns["id"] ?>" <?= tagihanSiswa($siswa["status_spp"], $id_kelas, $tahun, $ns["id"], $siswa["id_detail_status_spp"]) ?>><?= rupiah($ns["nominal"]) ?></option>
                     <?php endforeach ?>

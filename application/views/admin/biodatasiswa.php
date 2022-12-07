@@ -223,6 +223,7 @@
     </div>
     <div class="row justify-content-end" style="margin-right: 33px;">
         <a href="<?= base_url('admin/ubahbiodata/' . $biodata["id"]) ?>" class="btn btn-info mr-1">Ubah Data</a>
+        <a href="<?= base_url('admin/cetakbiodata/' . $biodata["id"]) ?>" class="btn btn-success mr-1">Cetak</a>
         <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata("id_kelas") . "/" . $this->session->userdata("tahun")) ?>" class="btn btn-secondary">Kembali</a>
     </div>
 </div>

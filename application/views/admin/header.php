@@ -18,8 +18,9 @@
 
     <!-- Custom styles for this template-->
     <link href="<?= base_url('assets/css/') ?>sb-admin-2.min.css" rel="stylesheet">
-    <link href="<?= base_url('assets/css/') ?>adminmainstyle.css" rel="stylesheet">
+    <link href="<?= base_url('assets/css/') ?>adminmainstyle3.css" rel="stylesheet">
     <link href="<?= base_url('assets/css/') ?>pickmeup1.css" rel="stylesheet">
+    <link rel="manifest" href="/manifest2.json">
 </head>
 
 <body id="page-top">
@@ -169,6 +170,7 @@
                             <h6 class="collapse-header">Menu Buku SPP:</h6>
                             <a class="collapse-item" href="<?= base_url('admin/nominalspppertingkat') ?>">Nominal SPP Per Tingkat</a>
                             <a class="collapse-item" href="<?= base_url('admin/spp') ?>">Pembayaran SPP</a>
+                            <a class="collapse-item" href="<?= base_url('admin/keuangan') ?>">Keuangan</a>
                         </div>
                     </div>
                 </li>
@@ -262,7 +264,7 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-light topbar mb-4 static-top shadow d-flex justify-content-center">
+                <nav class="navbar navbar-expand navbar-light bg-light topbar mb-4 static-top shadow d-flex justify-content-center <?= togglesidebar($this->session->userdata("toggle")) ?>">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -300,8 +302,7 @@
                                 </a>
                             </div>
                         </li>
-
                     </ul>
-
                 </nav>
+                <div style="background-color: red;margin-top: 100px;"></div>
                 <!-- End of Topbar -->
