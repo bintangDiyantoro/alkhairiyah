@@ -393,7 +393,7 @@ function hasilPencarianSiswa($query)
 function siswaTidakDitemukan()
 {
     return '<h4>Data tidak ditemukan</h4>
-            <p>Silahkan masukkan data siswa tersebut</p>
+            <p class="text-center">Silahkan masukkan data siswa tersebut</p>
             <button class="btn btn-info my-2" data-target="#FormTambahSiswa" data-toggle="modal">Tambah Siswa</button>
             <button class="btn btn-secondary cari-lagi" style="margin-left: 1px;">Cari Siswa Lain</button>';
 }
@@ -405,17 +405,17 @@ function headerLooper($kelas_siswa, $key, $colspan = 1)
         foreach ($kelas_siswa as $ks) :
             if ((int)$ks["id_kelas"] >= $i * 4 - 3 && (int)$ks["id_kelas"] <= $i * 4) :
                 if ($key === 'class') :
-                    echo '<th class="align-middle" scope="col" colspan="' . $colspan . '">Kelas ' . $ks[$key] . '</th>';
+                    echo '<th class="align-middle tb-hidden" scope="col" colspan="' . $colspan . '">Kelas ' . $ks[$key] . '</th>';
                 elseif ($key === 'tahun') :
-                    echo '<th class="align-middle" scope="col" colspan="' . $colspan . '">' . $ks[$key] . '</th>';
+                    echo '<th class="align-middle tb-hidden" scope="col" colspan="' . $colspan . '">' . $ks[$key] . '</th>';
                 endif;
                 break;
             else :
                 if ($j == count($kelas_siswa)) :
                     if ($key === 'class') :
-                        echo '<th class="align-middle" scope="col" colspan="' . $colspan . '">Kelas ...</th>';
+                        echo '<th class="align-middle tb-hidden" scope="col" colspan="' . $colspan . '">Kelas ...</th>';
                     elseif ($key === 'tahun') :
-                        echo '<th class="align-middle" scope="col" colspan="' . $colspan . '">.../...</th>';
+                        echo '<th class="align-middle tb-hidden" scope="col" colspan="' . $colspan . '">.../...</th>';
                     endif;
                 endif;
                 $j++;
@@ -426,7 +426,7 @@ function headerLooper($kelas_siswa, $key, $colspan = 1)
 
 function sikapTextArea($idsiswa, $idkelassiswa, $idsemester, $idsikap, $tahun, $nilai_sikap = NULL)
 {
-    $inputEl = '<td class="align-middle ubah-sikap-td">
+    $inputEl = '<td class="align-middle tb-sikap-hidden ubah-sikap-td">
                     <div class="form-group ubah-sikap-textarea-wrapper">
                         <textarea class="form-control ubah-nilai-sikap ubah-sikap-textarea" name="' . $idsiswa . '_' . $idkelassiswa . '_' . $idsemester . '_' . $idsikap . '" id="' . $idsiswa . '_' . $idkelassiswa . '_' . $idsemester . '_' . $idsikap . '">' . $nilai_sikap . '</textarea>
                     </div>
@@ -437,7 +437,7 @@ function sikapTextArea($idsiswa, $idkelassiswa, $idsemester, $idsikap, $tahun, $
     if ($tahunInput == date('Y')) {
         if ((int)date('m') >= 7 && (int)date('m') < 12) {
             if ($idsemester == '2') {
-                return '<td class="align-middle"></td>';
+                return '<td class="align-middle tb-sikap-hidden"></td>';
             } elseif ($idsemester == '1') {
                 return $inputEl;
             }
@@ -507,25 +507,25 @@ function nilaiSikapLooper($nilai_sikap, $idsemester, $idsikap)
             $j = 1;
             foreach ($nilai_sikap as $ns) {
                 if ((int)$ns["id_kelas"] >= $i * 4 - 3 && (int)$ns["id_kelas"] <= $i * 4 && $ns["id_semester"] == $idsemester && $ns["id_sikap"] == $idsikap) {
-                    echo '<td class="align-middle">' . $ns["nilai"] . '</td>';
+                    echo '<td class="align-middle tb-sikap-hidden">' . $ns["nilai"] . '</td>';
                     break;
                 } else {
                     if ($j == count($nilai_sikap)) {
-                        echo '<td class="align-middle"></td>';
+                        echo '<td class="align-middle tb-sikap-hidden"></td>';
                     } else {
                         $j++;
                     }
                 }
             }
         } else {
-            echo '<td class="align-middle"></td>';
+            echo '<td class="align-middle tb-sikap-hidden"></td>';
         }
     }
 }
 
 function kkmInput($awk, $id_semester, $nilaikkm = NULL)
 {
-    echo '<td class="align-middle" scope="col" colspan="2">
+    echo '<td class="align-middle tb-hidden" scope="col" colspan="2">
                             <div class="form-group">
                                 <input type="text" class="form-control ubah-nilai-pengetahuan-keterampilan" name="kkm_' . $awk["id_siswa"] . "_" . $awk["id"] . '_' . $id_semester . '" id="kkm_' . $awk["id_siswa"] . "_" . $awk["id"] . '_' . $id_semester . '" maxlength="2" value="' . $nilaikkm . '" style="margin-bottom:-15px">
                             </div>
@@ -570,7 +570,7 @@ function kkmInputLooper($akses_wali_kelas, $kkm)
                             } else {
                                 if ($m == count($kkm)) {
                                     if (date('Y') == explode('/', $awk["tahun"])[0] && (int)date('m') >= 7 && (int)date('m') <= 12) {
-                                        echo '<td class="align-middle" scope="col" colspan="2"></td>';
+                                        echo '<td class="align-middle tb-hidden" scope="col" colspan="2"></td>';
                                     } else {
                                         kkmInput($awk, '2');
                                     }
@@ -581,7 +581,7 @@ function kkmInputLooper($akses_wali_kelas, $kkm)
                         } else {
                             if ($m == count($kkm)) {
                                 if (date('Y') == explode('/', $awk["tahun"])[0] && (int)date('m') >= 7 && (int)date('m') <= 12) {
-                                    echo '<td class="align-middle" scope="col" colspan="2"></td>';
+                                    echo '<td class="align-middle tb-hidden" scope="col" colspan="2"></td>';
                                 } else {
                                     kkmInput($awk, '2');
                                 }
@@ -594,7 +594,7 @@ function kkmInputLooper($akses_wali_kelas, $kkm)
                 } else {
                     kkmInput($awk, '1');
                     if (date('Y') == explode('/', $awk["tahun"])[0] && (int)date('m') >= 7 && (int)date('m') <= 12) {
-                        echo '<td class="align-middle" scope="col" colspan="2"></td>';
+                        echo '<td class="align-middle tb-hidden" scope="col" colspan="2"></td>';
                     } else {
                         kkmInput($awk, '2');
                     }
@@ -608,15 +608,15 @@ function kkmInputLooper($akses_wali_kelas, $kkm)
                         foreach ($kkm as $k) {
                             if ((int)$k["id_kelas"] >= $i * 4 - 3 && (int)$k["id_kelas"] <= $i * 4) {
                                 if ($k["id_semester"] == "1") {
-                                    echo '<td class="align-middle" scope="col" colspan="2">' . $k["kkm"] . '</td>';
+                                    echo '<td class="align-middle tb-hidden" scope="col" colspan="2">' . $k["kkm"] . '</td>';
                                     break;
                                 } else {
-                                    echo '<td class="align-middle" scope="col" colspan="2"></td>';
+                                    echo '<td class="align-middle tb-hidden" scope="col" colspan="2"></td>';
                                     break;
                                 }
                             } else {
                                 if ($n == count($kkm)) {
-                                    echo '<td class="align-middle" scope="col" colspan="2"></td>';
+                                    echo '<td class="align-middle tb-hidden" scope="col" colspan="2"></td>';
                                     break;
                                 } else {
                                     $n++;
@@ -626,14 +626,14 @@ function kkmInputLooper($akses_wali_kelas, $kkm)
                         foreach ($kkm as $k) {
                             if ((int)$k["id_kelas"] >= $i * 4 - 3 && (int)$k["id_kelas"] <= $i * 4) {
                                 if ($k["id_semester"] == "2") {
-                                    echo '<td class="align-middle" scope="col" colspan="2">' . $k["kkm"] . '</td>';
+                                    echo '<td class="align-middle tb-hidden" scope="col" colspan="2">' . $k["kkm"] . '</td>';
                                     break;
                                 } else {
                                     $o++;
                                 }
                             } else {
                                 if ($o == count($kkm)) {
-                                    echo '<td class="align-middle" scope="col" colspan="2"></td>';
+                                    echo '<td class="align-middle tb-hidden" scope="col" colspan="2"></td>';
                                     break;
                                 } else {
                                     $o++;
@@ -641,8 +641,8 @@ function kkmInputLooper($akses_wali_kelas, $kkm)
                             }
                         }
                     } else {
-                        echo '<td class="align-middle" scope="col" colspan="2"></td>
-                        <td class="align-middle" scope="col" colspan="2"></td>';
+                        echo '<td class="align-middle tb-hidden" scope="col" colspan="2"></td>
+                        <td class="align-middle tb-hidden" scope="col" colspan="2"></td>';
                     }
                 } else {
                     $j++;
@@ -709,19 +709,19 @@ function nilaiMapelInput($awk, $idsemester, $idmapelinduk, $idkompetensiinti, $n
 {
     if ($idsemester == '2') {
         if (explode('/', $awk["tahun"])[0] == date("Y") && (int)date('m') >= 7 && (int)date("m") <= 12) {
-            echo '<td class="align-middle" scope="col"></td>';
+            echo '<td class="align-middle tb-hidden" scope="col"></td>';
         } else {
-            echo '<td class="align-middle" scope="col">
+            echo '<td class="align-middle tb-hidden" scope="col">
                 <div class="form-group">
                 <input type="text" class="form-control ubah-nilai-pengetahuan-keterampilan" name="' . $awk["id_siswa"] . "_" . $awk["id"] . '_' . $idsemester . '_' . $idmapelinduk . '_' . $idkompetensiinti . '" id="' . $awk["id_siswa"] . "_" . $awk["id"] . '_' . $idsemester . '_' . $idmapelinduk . '_' . $idkompetensiinti . '" style="width:30px;padding:5px;margin-bottom:-15px" maxlength="2" value="' . $nilai . '">
                 </div>
             </td>';
         }
     } else {
-        echo '<td class="align-middle" scope="col">
+        echo '<td class="align-middle tb-hidden" scope="col">
             <div class="form-group">
             <input type="text" class="form-control ubah-nilai-pengetahuan-keterampilan" name="' . $awk["id_siswa"] . "_" . $awk["id"] . '_' . $idsemester . '_' . $idmapelinduk . '_' . $idkompetensiinti . '" id="' . $awk["id_siswa"] . "_" . $awk["id"] . '_' . $idsemester . '_' . $idmapelinduk . '_' . $idkompetensiinti . '" style="width:30px;padding:5px;margin-bottom:-15px" maxlength="2" value="' . $nilai . '">
-            </div>
+            </div>  
             </td>';
     }
 }
@@ -734,32 +734,32 @@ function nilaiKILooper($nilai_pengetahuan_keterampilan, $idmapelinduk, $i, $idse
             if ((int)$npk["id_kelas"] >= $i * 4 - 3 && (int)$npk["id_kelas"] <= $i * 4) {
                 if ($npk["id_semester"] == $idsemester) {
                     if ($npk["id_kompetensi_inti"] == $idKI) {
-                        echo '<td class="align-middle" scope="col">' . $npk["nilai"] . '</td>';
+                        echo '<td class="align-middle tb-hidden" scope="col">' . $npk["nilai"] . '</td>';
                         break;
                     } else {
                         if ($x == count($nilai_pengetahuan_keterampilan)) {
-                            echo '<td class="align-middle" scope="col"></td>';
+                            echo '<td class="align-middle tb-hidden" scope="col"></td>';
                         } else {
                             $x++;
                         }
                     }
                 } else {
                     if ($x == count($nilai_pengetahuan_keterampilan)) {
-                        echo '<td class="align-middle" scope="col"></td>';
+                        echo '<td class="align-middle tb-hidden" scope="col"></td>';
                     } else {
                         $x++;
                     }
                 }
             } else {
                 if ($x == count($nilai_pengetahuan_keterampilan)) {
-                    echo '<td class="align-middle" scope="col"></td>';
+                    echo '<td class="align-middle tb-hidden" scope="col"></td>';
                 } else {
                     $x++;
                 }
             }
         } else {
             if ($x == count($nilai_pengetahuan_keterampilan)) {
-                echo '<td class="align-middle" scope="col"></td>';
+                echo '<td class="align-middle tb-hidden" scope="col"></td>';
             } else {
                 $x++;
             }
@@ -825,6 +825,7 @@ function nilaiMapelInputLooper($akses_wali_kelas, $nilai_pengetahuan_keterampila
                     nilaiMapelInput($awk, '2', $idmapelinduk, '1');
                     nilaiMapelInput($awk, '2', $idmapelinduk, '2');
                 }
+                break;
             } else {
                 if ($j == count($akses_wali_kelas)) {
                     if ($nilai_pengetahuan_keterampilan) {
@@ -834,7 +835,7 @@ function nilaiMapelInputLooper($akses_wali_kelas, $nilai_pengetahuan_keterampila
                         nilaiKILooper($nilai_pengetahuan_keterampilan, $idmapelinduk, $i, "2", "2");
                     } else {
                         for ($v = 0; $v < 4; $v++) {
-                            echo '<td class="align-middle" scope="col"></td>';
+                            echo '<td class="align-middle tb-hidden" scope="col"></td>';
                         }
                     }
                 } else {
@@ -1069,6 +1070,7 @@ function inputEkskulLooper($total_ekskul, $ekskul_terpilih, $nilai_ekskul, $akse
                                             }
                                         }
                                     }
+                                    break;
                                 } else {
                                     if ($l == count($akses_wali_kelas)) {
                                         $m = 1;
@@ -1263,6 +1265,28 @@ function jumlahKetidakhadiranLooper($ketidakhadiran, $jumlah_ketidakhadiran)
     }
 }
 
+function cekKelulusan($kelas_siswa)
+{
+    if ((int)date('m') >= 7 && (int)date('m') <= 12) {
+        $thSkrg = (int)date('Y');
+    } else {
+        $thSkrg = (int)date('Y') - 1;
+    }
+
+    $sixthGradeYr = NULL;
+    foreach ($kelas_siswa as $ks) {
+        if ((int)$ks["id_kelas"] >= 21 && (int)$ks["id_kelas"] <= 24) {
+            $sixthGradeYr = (int)explode('/', $ks["tahun"])[0];
+            break;
+        }
+    }
+    if ($sixthGradeYr !== NULL && $sixthGradeYr < $thSkrg) {
+        return "<td>Lulus/<strike>Tidak Lulus</strike></td>";
+    } else {
+        return "<td>Lulus/Tidak Lulus</td>";
+    }
+}
+
 function cekWaliKelas($idkelas, $tahunajar)
 {
     $thiz = get_instance();
@@ -1314,29 +1338,43 @@ function tabelSPPLooper($siswa, $kelas, $bulan_akademik, $spp)
                 <td class="align-middle text-left pr-2" style="padding-left:10px">' . $s["nama"] . '</td>';
         foreach ($bulan_akademik as $ba) {
             echo '<td class="align-middle">';
-            if ((int)$ba["id"] <= $idbulanini) {
-                if ($spp) {
-                    $sppCounter = 1;
-                    foreach ($spp as $sp) {
-                        if ($sp["tahun_ajaran"] == $s["tahun"] && $sp["id_siswa"] == $s["id_siswa"] && $sp["id_kelas_siswa"] == $s["id_kelas_siswa"] && $sp["bulan"] == $ba["id"]) {
-                            echo '<a href="" class="badge badge-pill text-secondary paid-off-spp-badge" data-idtrspp="' . $sp['id'] . '" data-toggle="modal" data-target="#paidOffModal">' . rupiah($sp["nominal"]) . '</a>';
-                        } else {
-                            if ($sppCounter == count($spp)) {
-                                if ($s["nominal"] !== "1") {
+            if ($spp) {
+                $sppCounter = 1;
+                foreach ($spp as $sp) {
+                    if ($sp["tahun_ajaran"] == $s["tahun"] && $sp["id_siswa"] == $s["id_siswa"] && $sp["id_kelas_siswa"] == $s["id_kelas_siswa"] && $sp["bulan"] == $ba["id"]) {
+                        echo '<a href="" class="badge badge-pill text-secondary paid-off-spp-badge" data-idtrspp="' . $sp['id'] . '" data-toggle="modal" data-target="#paidOffModal">' . rupiah($sp["nominal"]) . '</a>';
+                        break;
+                    } else {
+                        if ($sppCounter == count($spp)) {
+                            if ($s["nominal"] !== "1") {
+                                if ((int)$ba["id"] == $idbulanini) {
                                     echo '<a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a>';
+                                } elseif ((int)$ba["id"] < $idbulanini) {
+                                    echo '<a href="" class="badge badge-pill badge-warning spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a>';
                                 } else {
-                                    echo '<a href="" class="badge badge-pill badge-info free-charged-spp-change-status" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Ubah Status</a>';
+                                    // echo '<strong>-</strong>';
+                                    echo '<a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment" style="background-color:lightblue">Bayar</a>';
                                 }
                             } else {
-                                $sppCounter++;
+                                if ((int)$ba["id"] <= $idbulanini) {
+                                    echo '<a href="" class="badge badge-pill badge-info free-charged-spp-change-status" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Ubah Status</a>';
+                                } else {
+                                    echo '<strong>-</strong>';
+                                }
                             }
+                        } else {
+                            $sppCounter++;
                         }
                     }
-                } else {
-                    echo '<a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a>';
                 }
             } else {
-                echo '<strong>-</strong>';
+                if ((int)$ba["id"] == $idbulanini) {
+                    echo '<a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a>';
+                } elseif ((int)$ba["id"] < $idbulanini) {
+                    echo '<a href="" class="badge badge-pill badge-warning spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a>';
+                } else {
+                    echo '<a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment" style="background-color:lightblue">Bayar</a>';
+                }
             }
             echo '</td>';
         }
@@ -1345,7 +1383,7 @@ function tabelSPPLooper($siswa, $kelas, $bulan_akademik, $spp)
     }
 }
 
-function tabelSppOneStudentLooperCore($sppSiswa, $siswa, $kelas, $ba)
+function tabelSppOneStudentLooperCore($sppSiswa, $siswa, $kelas, $ba, $time)
 {
     if ($sppSiswa) {
         $i = 1;
@@ -1356,9 +1394,23 @@ function tabelSppOneStudentLooperCore($sppSiswa, $siswa, $kelas, $ba)
             } else {
                 if (count($sppSiswa) == $i) {
                     if ($siswa["nominal"] !== '1') {
-                        echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-primary spp-payment" style="padding-bottom:4px" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a></td>';
+                        switch ($time) {
+                            case "now":
+                                echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-primary spp-payment" style="padding-bottom:4px" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a></td>';
+                                break;
+                            case "prev":
+                                echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-warning spp-payment" style="padding-bottom:4px" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a></td>';
+                                break;
+                            case "next":
+                                echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-primary spp-payment" style="padding-bottom:4px;background-color:lightblue" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment" style="background-color:lightgreen">Bayar</a></td>';
+                                break;
+                        }
                     } else {
-                        echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-info free-charged-spp-change-status" style="padding-bottom:2px" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Ubah Status</a></td>';
+                        if ($time !== "next") {
+                            echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-info free-charged-spp-change-status" style="padding-bottom:2px" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Ubah Status</a></td>';
+                        } else {
+                            echo '<td class="text-left" style="padding-left:49px"><strong>-</strong></td>';
+                        }
                     }
                 } else {
                     $i++;
@@ -1366,7 +1418,17 @@ function tabelSppOneStudentLooperCore($sppSiswa, $siswa, $kelas, $ba)
             }
         }
     } else {
-        echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a></td>';
+        switch ($time) {
+            case "now":
+                echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-primary spp-payment" style="padding-bottom:4px" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a></td>';
+                break;
+            case "prev":
+                echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-warning spp-payment" style="padding-bottom:4px" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a></td>';
+                break;
+            case "next":
+                echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-primary spp-payment" style="padding-bottom:4px;background-color:lightblue" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment" style="background-color:lightgreen">Bayar</a></td>';
+                break;
+        }
     }
 }
 
@@ -1384,13 +1446,15 @@ function tabelSppOneStudentLooper($siswa, $kelas, $bulan_akademik, $tahun)
         echo '<tr scope="col">
                 <td class="text-right pr-4">' . $ba["nama_bulan"] . '</td>';
         if ($tahun == $thiz->tahunAjar) {
-            if ((int)$ba["id"] <= $idbulanini) {
-                tabelSppOneStudentLooperCore($sppSiswa, $siswa, $kelas, $ba);
+            if ((int)$ba["id"] == $idbulanini) {
+                tabelSppOneStudentLooperCore($sppSiswa, $siswa, $kelas, $ba, 'now');
+            } elseif ((int)$ba["id"] < $idbulanini) {
+                tabelSppOneStudentLooperCore($sppSiswa, $siswa, $kelas, $ba, 'prev');
             } else {
-                echo '<td class="text-left" style="padding-left:32px">-</td>';
+                tabelSppOneStudentLooperCore($sppSiswa, $siswa, $kelas, $ba, 'next');
             }
         } else {
-            tabelSppOneStudentLooperCore($sppSiswa, $siswa, $kelas, $ba);
+            tabelSppOneStudentLooperCore($sppSiswa, $siswa, $kelas, $ba, 'prev');
         }
         echo '</tr>';
     }
@@ -1437,4 +1501,16 @@ function ket_status_spp_siswa_cetak($idsiswa)
     $thiz = get_instance();
     $keterangan = $thiz->db->query("SELECT siswa.id_detail_status_spp,detail_status_spp_siswa.keterangan FROM siswa JOIN detail_status_spp_siswa ON siswa.id_detail_status_spp = detail_status_spp_siswa.id WHERE siswa.id =" . $idsiswa)->row_array();
     return ($keterangan) ? $keterangan["keterangan"] : '';
+}
+
+function selectedAcademicMonth($monthNumber)
+{
+    return ((int)$monthNumber == (int)date('m')) ? "selected" : '';
+}
+
+function getStudentsClass($idKS)
+{
+    $thiz = get_instance();
+    $kelas = $thiz->db->query("SELECT kelas_siswa.*, kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE kelas_siswa.id=" . $idKS)->row_array();
+    return ($kelas) ? $kelas["class"] : ' - ';
 }

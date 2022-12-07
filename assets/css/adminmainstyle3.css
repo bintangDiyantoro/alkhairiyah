@@ -11,6 +11,20 @@ html {
     src: url('../fonts/corbel.ttf');
 }
 
+nav.static-top {
+    position: fixed;
+    z-index: 2;
+    margin-bottom: 500px;
+}
+
+nav.toggled {
+    width: 92.8%;
+}
+
+nav.not_toggled {
+    width: 84.7%;
+}
+
 .dashboard {
     position: absolute;
     margin: auto;
@@ -156,9 +170,44 @@ p {
     display: inline;
 }
 
+.kelas-siswa-label-tb {
+    display: none;
+}
+
+.kelas-siswa-tb-container {
+    display: none;
+}
+
 .ubah-biodata {
     margin-left: 40px;
     margin-right: 40px;
+}
+
+#ajax-sikap,
+#ajax-pengetahuan-keterampilan {
+    margin-left: -10px;
+    margin-right: -40px;
+    width: 102%;
+}
+
+.tb-sikap-flex-container,
+.tb-pengetahuan-keterampilan-flex-container {
+    padding-left: -10px;
+    margin: 0;
+}
+
+.tb-sikap-label,
+.tb-pengetahuan-keterampilan-label {
+    display: none;
+}
+
+.tb-sikap-data,
+.tb-pengetahuan-keterampilan-data {
+    padding: 0px;
+}
+
+.tb-absensi-label {
+    display: none;
 }
 
 .ubah-sikap-textarea {
@@ -231,6 +280,28 @@ p {
 .undefined-spp-classes-cost-warning {
     padding: 50px;
     width: 88%;
+}
+
+.main-spp-total {
+    display: inline-block;
+    position: absolute;
+    /* margin-left: 778px; */
+    right: 150px;
+    margin-top: -69px;
+}
+
+.main-spp-total.not_toggled {
+    display: inline-block;
+    position: absolute;
+    /* margin-left: 778px; */
+    right: 94px;
+    margin-top: -69px;
+}
+
+.main-spp-search-container {
+    margin-top: 53px;
+    margin-bottom: -53px;
+    width: 120px;
 }
 
 .kelas-1,
@@ -343,29 +414,8 @@ p {
     color: #b34a4a;
 }
 
-.table-name-col table {
-    /* table-layout: fixed;
-    width: max-content;
-    text-align: left; */
-    text-align: center;
-}
-
-.table-spp thead tr th:first-of-type,
-.table-spp tbody tr td:first-of-type {
-    background-color: wheat;
-    padding-left: 0;
-    padding-right: 0;
-    width: 0px;
-    color: rgba(0, 0, 0, .0);
-}
-
-.table-spp thead tr th:nth-of-type(2),
-.table-spp tbody tr td:nth-of-type(2) {
-    background-color: lightcyan;
-    width: 0px;
-    padding-left: 0;
-    padding-right: 0;
-    color: rgba(0, 0, 0, .0);
+.table-spp-labels {
+    display: none;
 }
 
 .table-content-col {
@@ -461,6 +511,12 @@ p {
 }
 
 @media(max-width:800px) {
+    nav.toggled {
+        width: 99.7%;
+    }
+    nav.not_toggled {
+        width: 74.9%;
+    }
     .mobile {
         display: block;
         font-size: 17px;
@@ -482,6 +538,186 @@ p {
     .div-colon-r2 {
         width: 3px;
     }
+    /* .adm-mng-nama-asli {
+        width: 200px;
+    } */
+    .kelas-siswa-tb-container {
+        display: flex;
+    }
+    .kelas-siswa-data-tb3 {
+        display: none;
+    }
+    .kelas-siswa-label-tb,
+    .kelas-siswa-data-tb {
+        display: block;
+        padding-left: 0;
+        padding-right: 0;
+        margin: 0;
+    }
+    .kelas-siswa-label-tb table {
+        table-layout: fixed;
+    }
+    .kelas-siswa-label-tb table thead tr th:nth-of-type(3),
+    .kelas-siswa-label-tb table tbody tr td:nth-of-type(2),
+    .kelas-siswa-label-tb table thead tr th:nth-of-type(4),
+    .kelas-siswa-label-tb table tbody tr td:nth-of-type(3) {
+        /* padding-left: 0px; */
+        background-color: #b4ffd8;
+        padding-left: 0;
+        padding-right: 0;
+        width: 0;
+        color: transparent;
+    }
+    .kelas-siswa-label-tb table thead tr th:nth-of-type(5),
+    .kelas-siswa-label-tb table tbody tr td:nth-of-type(4),
+    .kelas-siswa-label-tb table thead tr th:nth-of-type(6),
+    .kelas-siswa-label-tb table tbody tr td:nth-of-type(5),
+    .kelas-siswa-label-tb table thead tr th:nth-of-type(7),
+    .kelas-siswa-label-tb table tbody tr td:nth-of-type(6) {
+        display: none;
+    }
+    .kelas-siswa-label-tb table tbody tr td:nth-of-type(2) a {
+        background-color: transparent;
+        color: transparent;
+        width: 0;
+        padding-left: 0;
+        padding-right: 0;
+        margin: 0;
+    }
+    .kelas-siswa-data-tb table {
+        /* table-layout: fixed; */
+        min-width: fit-content;
+    }
+    .kelas-siswa-data-tb table thead tr th:nth-of-type(1),
+    .kelas-siswa-data-tb table tbody tr td:nth-of-type(1) {
+        display: none;
+    }
+    .kelas-siswa-data-tb table thead tr th:nth-of-type(2),
+    .kelas-siswa-data-tb table tbody tr td:nth-of-type(2) {
+        table-layout: fixed;
+        display: block;
+        width: 0;
+        padding-left: 0;
+        padding-right: 0;
+        color: transparent;
+        background-color: wheat;
+    }
+    .tb-sikap-label {
+        display: block;
+        margin: 1.5px 0 0 0;
+        padding: 0;
+    }
+    .tb-pengetahuan-keterampilan-label {
+        display: block;
+        max-width: min-content;
+        padding: 0;
+    }
+    .tb-sikap-label table {
+        table-layout: fixed;
+        min-width: fit-content;
+    }
+    .tb-pengetahuan-keterampilan-label table {
+        max-width: min-content;
+    }
+    .tb-pengetahuan-keterampilan-label table thead tr:nth-of-type(1) {
+        white-space: nowrap;
+    }
+    .tb-pengetahuan-keterampilan-label table thead tr th.tb-hidden,
+    .tb-pengetahuan-keterampilan-label table thead tr td.tb-hidden,
+    .tb-pengetahuan-keterampilan-label table tbody tr td.tb-hidden,
+    .tb-pengetahuan-keterampilan-label table thead tr td.tb-hidden div input,
+    .tb-pengetahuan-keterampilan-label table tbody tr td.tb-hidden div input {
+        background-color: transparent;
+        border-style: solid none;
+        border-color: transparent;
+        color: transparent;
+        max-width: 0px;
+        width: 0px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .tb-sikap-label table thead tr th.tb-hidden,
+    .tb-sikap-label table tbody tr td.tb-sikap-hidden {
+        background-color: transparent;
+        color: transparent;
+        width: 0px;
+        padding: 0px;
+        margin: 0px;
+        border: none;
+    }
+    .tb-sikap-data table {
+        table-layout: fixed;
+        display: block;
+        min-width: max-content;
+        margin-left: -180px;
+    }
+    .tb-pengetahuan-keterampilan-data table {
+        table-layout: fixed;
+        display: block;
+        max-width: fit-content;
+        border-style: solid none;
+        margin-left: -143px;
+        margin-top: -1px;
+    }
+    .tb-sikap-data table thead tr th.tb-sikap-data-hidden,
+    .tb-sikap-data table tbody tr th.tb-sikap-data-hidden,
+    .tb-sikap-data table tbody tr td.tb-sikap-data-hidden {
+        background-color: turquoise;
+        color: transparent;
+        width: 0px;
+    }
+    .tb-pengetahuan-keterampilan-data table thead tr th:first-of-type,
+    .tb-pengetahuan-keterampilan-data table tbody tr td:first-of-type,
+    .tb-pengetahuan-keterampilan-data table tbody tr td:nth-of-type(2) {
+        background-color: wheat;
+        border-color: transparent;
+        color: transparent;
+        width: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        margin: 0px;
+    }
+    .tb-sikap-label table tbody tr td.tb-sikap-hidden div textarea {
+        color: transparent;
+        border: none;
+        background-color: transparent;
+    }
+    .tb-absensi-label {
+        display: block;
+        padding: 0;
+        width: 90px;
+        max-width: min-content;
+    }
+    .tb-absensi-label table {
+        table-layout: fixed;
+        max-width: fit-content;
+    }
+    .tb-absensi-label table thead tr th:nth-child(1),
+    .tb-absensi-label table tbody tr td:nth-child(1) {
+        width: 90px;
+    }
+    .tb-absensi-label table thead tr th:nth-child(1n+2),
+    .tb-absensi-label table tbody tr td:nth-child(1n+2),
+    .tb-absensi-label table tbody tr td div,
+    .tb-absensi-label table tbody tr td div input {
+        background-color: transparent;
+        color: transparent;
+        width: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        border-style: none none;
+    }
+    .tb-absensi-data {
+        padding: 0;
+        width: 50%;
+    }
+    .tb-absensi-data table {
+        margin-left: -87px;
+    }
+    .tb-absensi-data table thead tr th:nth-child(1),
+    .tb-absensi-data table tbody tr td:nth-child(1) {
+        margin-left: -100px;
+    }
     .data-buku-induk {
         margin-left: 17px;
     }
@@ -490,7 +726,7 @@ p {
         margin-right: 0;
     }
     .ubah-sikap-textarea {
-        width: 105px!important;
+        width: 170px!important;
         height: 80px!important;
         margin-right: 30px;
     }
@@ -515,29 +751,73 @@ p {
         padding: 37px;
         width: 100%;
     }
+    .spp-heading h2 {
+        white-space: nowrap;
+    }
+    .main-spp-total,
+    .main-spp-total.not_toggled {
+        display: inline-block;
+        position: absolute;
+        margin-left: 26px;
+        right: unset;
+        margin-top: -114px;
+    }
     .main-spp-search-container {
-        margin-top: 50px;
+        margin-top: 80px;
+        margin-bottom: -30px;
+        width: 120px;
     }
     .main-spp-search-container .row.not_toggled {
-        margin-top: 20px;
-        margin-bottom: -30px;
+        margin-top: 0px;
+        margin-bottom: -10px;
         margin-right: -52px;
     }
     .spp-tahun-ajaran-row {
         margin-top: -160px;
-        margin-bottom: 70px;
+        margin-bottom: 90px;
+        line-height: 1;
+        margin-left: 25px;
+        width: 500px;
+    }
+    .spp-tahun-ajaran-row.not_toggled {
+        margin-bottom: 100px;
     }
     .spp-first-row {
         margin-left: 13px;
         margin-right: 28px;
     }
-    .spp-tahun-ajaran-row {
-        margin-left: 25px;
-        width: 70%;
-    }
     .main-spp-search {
         width: 172px;
         margin-left: auto;
+    }
+    .table-spp-labels {
+        display: block;
+        max-width: max-content;
+        margin: 0;
+    }
+    .table-spp,
+    .table-spp-labels {
+        table-layout: fixed;
+    }
+    .table-spp thead tr th:first-of-type,
+    .table-spp tbody tr td:first-of-type {
+        background-color: wheat;
+        padding-left: 0;
+        padding-right: 0;
+        width: 0px;
+        color: rgba(0, 0, 0, .0);
+    }
+    .table-spp thead tr th:nth-of-type(2),
+    .table-spp tbody tr td:nth-of-type(2) {
+        background-color: lightcyan;
+        /* display must be flex */
+        display: flex;
+        width: 0px;
+        margin-top: -0.5px;
+        margin-left: -20px;
+        padding-left: 0;
+        padding-right: 0;
+        color: rgba(0, 0, 0, .0);
     }
     .nominal-spp-kelas-row {
         width: 70%;
@@ -576,7 +856,7 @@ p {
     }
     .spp-main-page-student-search-result {
         width: 83%;
-        margin-top: 90px;
+        margin-top: 125px;
     }
     .student-spp-table-landscape {
         display: none;

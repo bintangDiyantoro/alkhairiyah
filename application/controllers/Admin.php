@@ -1013,10 +1013,10 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules(
             'nama',
             'Nama',
-            'required|regex_match[/^[a-z-\s\']+$/i]|max_length[50]',
+            'required|regex_match[/^[a-z-.\s\']+$/i]|max_length[50]',
             [
                 'required' => 'Nama wajib diisi',
-                'regex_match' => 'Nama harus berupa huruf, petik atau strip',
+                'regex_match' => 'Nama harus berupa huruf, petik, titik atau strip',
                 'max_length' => 'Nama maksimal 50 karakter'
             ]
         );
@@ -1069,39 +1069,71 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules(
             'nama_ayah',
             'Nama Ayah',
-            'required|regex_match[/^[a-z-\s\']+$/i]|max_length[50]',
+            'required|regex_match[/^[a-z-.,\s\']+$/i]|max_length[50]',
             [
                 'required' => 'Nama Ayah wajib diisi',
-                'regex_match' => 'Nama Ayah harus berupa huruf, petik atau strip',
+                'regex_match' => 'Nama Ayah harus berupa huruf, petik, titik, koma atau strip',
                 'max_length' => 'Nama Ayah maksimal 50 karakter'
             ]
         );
         $this->form_validation->set_rules(
             'pekerjaan_ayah',
             'Pekerjaan Ayah',
-            'alpha|max_length[20]',
+            'regex_match[/^[a-z\s]+$/i]|max_length[20]',
             [
-                'alpha' => 'Pekerjaan Ayah harus berupa huruf',
+                'regex_match' => 'Pekerjaan Ayah harus berupa huruf atau spasi',
                 'max_length' => 'Pekerjaan Ayah maksimal 20 karakter'
             ]
         );
         $this->form_validation->set_rules(
             'nama_ibu',
             'Nama Ibu',
-            'required|regex_match[/^[a-z-\s\']+$/i]|max_length[50]',
+            'required|regex_match[/^[a-z-.,\s\']+$/i]|max_length[50]',
             [
                 'required' => 'Nama Ibu wajib diisi',
-                'regex_match' => 'Nama Ibu harus berupa huruf, petik atau strip',
+                'regex_match' => 'Nama Ibu harus berupa huruf, petik, titik, koma atau strip',
                 'max_length' => 'Nama Ibu maksimal 50 karakter'
             ]
         );
         $this->form_validation->set_rules(
             'pekerjaan_ibu',
             'Pekerjaan Ibu',
-            'alpha|max_length[20]',
+            'regex_match[/^[a-z\s]+$/i]|max_length[20]',
             [
-                'alpha' => 'Pekerjaan Ibu harus berupa huruf',
+                'regex_match' => 'Pekerjaan Ibu harus berupa huruf atau spasi',
                 'max_length' => 'Pekerjaan Ibu maksimal 20 karakter'
+            ]
+        );
+        $this->form_validation->set_rules(
+            'provinsi_ortu',
+            'Provinsi Ortu',
+            'regex_match[/^[a-z\s]+$/i]|max_length[50]',
+            [
+                'regex_match' => 'karakter tidak valid'
+            ]
+        );
+        $this->form_validation->set_rules(
+            'kabupaten_ortu',
+            'Kabupaten Ortu',
+            'regex_match[/^[a-z\s]+$/i]|max_length[50]',
+            [
+                'regex_match' => 'karakter tidak valid'
+            ]
+        );
+        $this->form_validation->set_rules(
+            'kecamatan_ortu',
+            'Kecamatan Ortu',
+            'regex_match[/^[a-z\s]+$/i]|max_length[50]',
+            [
+                'regex_match' => 'karakter tidak valid'
+            ]
+        );
+        $this->form_validation->set_rules(
+            'kelurahan_ortu',
+            'Kelurahan Ortu',
+            'regex_match[/^[a-z\s]+$/i]|max_length[50]',
+            [
+                'regex_match' => 'karakter tidak valid'
             ]
         );
         $this->form_validation->set_rules(
@@ -1115,19 +1147,51 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules(
             'nama_wali',
             'Nama Wali',
-            'regex_match[/^[a-z-\s\']+$/i]|max_length[50]',
+            'regex_match[/^[a-z-.,\s\']+$/i]|max_length[50]',
             [
-                'regex_match' => 'Nama Wali harus berupa huruf, petik atau strip',
+                'regex_match' => 'Nama Wali harus berupa huruf, petik, titik, koma atau strip',
                 'max_length' => 'Nama Wali maksimal 50 karakter'
             ]
         );
         $this->form_validation->set_rules(
             'pekerjaan_wali',
             'Pekerjaan Wali',
-            'alpha|max_length[20]',
+            'regex_match[/^[a-z\s]+$/i]|max_length[20]',
             [
-                'alpha' => 'Pekerjaan Wali harus berupa huruf',
+                'regex_match' => 'Pekerjaan Wali harus berupa huruf atau spasi',
                 'max_length' => 'Pekerjaan Wali maksimal 20 karakter'
+            ]
+        );
+        $this->form_validation->set_rules(
+            'provinsi_wali',
+            'Provinsi Wali',
+            'regex_match[/^[a-z\s]+$/i]|max_length[50]',
+            [
+                'regex_match' => 'karakter tidak valid'
+            ]
+        );
+        $this->form_validation->set_rules(
+            'kabupaten_wali',
+            'Kabupaten Wali',
+            'regex_match[/^[a-z\s]+$/i]|max_length[50]',
+            [
+                'regex_match' => 'karakter tidak valid'
+            ]
+        );
+        $this->form_validation->set_rules(
+            'kecamatan_wali',
+            'Kecamatan Wali',
+            'regex_match[/^[a-z\s]+$/i]|max_length[50]',
+            [
+                'regex_match' => 'karakter tidak valid'
+            ]
+        );
+        $this->form_validation->set_rules(
+            'kelurahan_wali',
+            'Kelurahan Wali',
+            'regex_match[/^[a-z\s]+$/i]|max_length[50]',
+            [
+                'regex_match' => 'karakter tidak valid'
             ]
         );
         $this->form_validation->set_rules(
@@ -1202,9 +1266,17 @@ class Admin extends CI_Controller
                             "pekerjaan_ayah_error" => form_error('pekerjaan_ayah', '<small class="text-danger">', '</small>'),
                             "nama_ibu_error" => form_error('nama_ibu', '<small class="text-danger">', '</small>'),
                             "pekerjaan_ibu_error" => form_error('pekerjaan_ibu', '<small class="text-danger">', '</small>'),
+                            "provinsi_ortu_error" => form_error('provinsi_ortu', '<small class="text-danger">', '</small>'),
+                            "kabupaten_ortu_error" => form_error('kabupaten_ortu', '<small class="text-danger">', '</small>'),
+                            "kecamatan_ortu_error" => form_error('kecamatan_ortu', '<small class="text-danger">', '</small>'),
+                            "kelurahan_ortu_error" => form_error('kelurahan_ortu', '<small class="text-danger">', '</small>'),
                             "alamat_ortu_error" => form_error('alamat_ortu', '<small class="text-danger">', '</small>'),
                             "nama_wali_error" => form_error('nama_wali', '<small class="text-danger">', '</small>'),
                             "pekerjaan_wali_error" => form_error('pekerjaan_wali', '<small class="text-danger">', '</small>'),
+                            "provinsi_wali_error" => form_error('provinsi_wali', '<small class="text-danger">', '</small>'),
+                            "kabupaten_wali_error" => form_error('kabupaten_wali', '<small class="text-danger">', '</small>'),
+                            "kecamatan_wali_error" => form_error('kecamatan_wali', '<small class="text-danger">', '</small>'),
+                            "kelurahan_wali_error" => form_error('kelurahan_wali', '<small class="text-danger">', '</small>'),
                             "alamat_wali_error" => form_error('alamat_wali', '<small class="text-danger">', '</small>'),
                             "no_hp_ortu_error" => form_error('no_hp_ortu', '<small class="text-danger">', '</small>'),
                             "status" => "invalid"
@@ -1787,6 +1859,48 @@ class Admin extends CI_Controller
         }
     }
 
+    public function cetakbiodatatemplate($idsiswa)
+    {
+        netralize();
+        if ($this->session->userdata('admin')) {
+            if ($this->session->userdata('role') == "1" || $this->session->userdata('role') == "4") {
+                $this->db->where('id', $idsiswa);
+                $data["biodata"] = $this->db->get('siswa')->row_array();
+                $this->load->view('admin/cetakbiodatatemplate', $data);
+            } else {
+                redirect('admin/');
+            }
+        } else {
+            redirect('admin/login');
+        }
+    }
+
+    public function cetakbiodata($idsiswa)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "1" || $this->session->userdata('role') == '4') {
+                $siswa = $this->db->query("SELECT nama FROM siswa WHERE id=" . $idsiswa)->row_array()["nama"];
+                $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [215, 330]]);
+                $mpdf->SetTitle('Biodata Siswa');
+                $stylesheet = file_get_contents(base_url('assets/css/biodatacetak.css'));
+                $opts = array('http' => array('header' => 'Cookie: ' . $_SERVER['HTTP_COOKIE'] . "\r\n"));
+                $context = stream_context_create($opts);
+                session_write_close();
+                $html = file_get_contents(base_url('admin/cetakbiodatatemplate/' . $idsiswa), false, $context);
+                session_start();
+                $mpdf->writeHTML($stylesheet, \Mpdf\HTMLParserMode::HEADER_CSS);
+                $mpdf->writeHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
+                $mpdf->Output('Biodata ' . $siswa . '.pdf', 'D');
+                // $this->load->view('admin/halamankosong');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
     public function kelolanilai($idsiswa, $idkelas, $tahun, $th)
     {
         netralize();
@@ -1864,9 +1978,53 @@ class Admin extends CI_Controller
                         $this->db->query("SELECT kelas_siswa.tahun, kelas_siswa.id_kelas, kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE kelas_siswa.id_siswa=" . $idsiswa)->result_array(),
                         "nilai_sikap" =>
                         $this->db->query("SELECT nilai_sikap.*,kelas_siswa.id_kelas FROM nilai_sikap JOIN kelas_siswa ON nilai_sikap.id_kelas_siswa = kelas_siswa.id WHERE nilai_sikap.id_siswa=" . $idsiswa)->result_array(),
+                        "siswa" =>
+                        $this->db->query('SELECT * FROM siswa WHERE id=' . $idsiswa)->row_array()
                     ];
                     $this->load->view('admin/nilaisikaptersimpan', $data);
                 }
+            }
+        }
+    }
+
+    public function cetaknilaisikaptemplate($idsiswa)
+    {
+        netralize();
+        if ($this->session->userdata('admin')) {
+            if ($this->session->userdata('role') == "1" || $this->session->userdata('role') == "4") {
+                $data["kelas_siswa"] = $this->db->query("SELECT kelas_siswa.*, kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE kelas_siswa.id_siswa=" . $idsiswa)->result_array();
+                $data["nilai_sikap"] = $this->db->query("SELECT nilai_sikap.*, kelas_siswa.id_kelas FROM nilai_sikap JOIN kelas_siswa ON nilai_sikap.id_kelas_siswa = kelas_siswa.id WHERE nilai_sikap.id_siswa=" . $idsiswa)->result_array();
+                $this->load->view('admin/cetaknilaisikap', $data);
+            } else {
+                redirect('admin/');
+            }
+        } else {
+            redirect('admin/login');
+        }
+    }
+
+    public function cetaknilaisikap($idsiswa)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "1" || $this->session->userdata('role') == '4') {
+                $siswa = $this->db->query('SELECT nama FROM siswa WHERE id=' . $idsiswa)->row_array();
+                $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [330, 215]]);
+                $mpdf->SetTitle('Nilai Sikap ' . $siswa["nama"]);
+                $stylesheet = file_get_contents(base_url('assets/css/cetaknilaisikap.css'));
+                $opts = array('http' => array('header' => 'Cookie: ' . $_SERVER['HTTP_COOKIE'] . "\r\n"));
+                $context = stream_context_create($opts);
+                session_write_close();
+                $html = file_get_contents(base_url('admin/cetaknilaisikaptemplate/' . $idsiswa), false, $context);
+                session_start();
+                $mpdf->writeHTML($stylesheet, \Mpdf\HTMLParserMode::HEADER_CSS);
+                $mpdf->writeHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
+                $mpdf->Output('Nilai Sikap ' . $siswa["nama"] . '.pdf', 'D');
+                // $this->load->view('admin/halamankosong');
+            } else {
+                redirect('admin');
             }
         }
     }
@@ -1915,6 +2073,7 @@ class Admin extends CI_Controller
                         "kkm" => $this->db->query("SELECT kkm.*,kelas_siswa.id_kelas FROM kkm JOIN kelas_siswa ON kkm.id_kelas_siswa = kelas_siswa.id WHERE kkm.id_siswa=" . $idsiswa)->result_array(),
                         "nilai_pengetahuan_keterampilan" => $this->db->query("SELECT nilai_mapel.*,kelas_siswa.id_kelas FROM nilai_mapel JOIN kelas_siswa ON nilai_mapel.id_kelas_siswa = kelas_siswa.id WHERE nilai_mapel.id_siswa=" . $idsiswa)->result_array(),
                         "muatanpelajaran" => $this->db->get('mapel_induk')->result_array(),
+                        "siswa" => $this->db->query("SELECT * FROM siswa WHERE id = " . $idsiswa)->row_array(),
                     ];
                     $this->load->view('admin/nilaipengetahuanketerampilantersimpan', $data);
                 }
@@ -1965,6 +2124,7 @@ class Admin extends CI_Controller
                         $this->db->query("SELECT kelas_siswa.tahun, kelas_siswa.id_kelas, kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE kelas_siswa.id_siswa=" . $idsiswa)->result_array(),
                         "nilai_ekskul" => $this->db->query("SELECT nilai_ekskul.*,kelas_siswa.id_kelas, ekskul.ekskul FROM nilai_ekskul JOIN kelas_siswa ON nilai_ekskul.id_kelas_siswa = kelas_siswa.id JOIN ekskul ON nilai_ekskul.id_ekskul = ekskul.id WHERE nilai_ekskul.id_siswa=" . $idsiswa)->result_array(),
                         "ekskul_terpilih" => $this->db->query('SELECT nilai_ekskul.id_ekskul, ekskul.ekskul FROM nilai_ekskul JOIN ekskul ON nilai_ekskul.id_ekskul = ekskul.id WHERE nilai_ekskul.id_siswa = ' . $idsiswa . ' GROUP BY nilai_ekskul.id_ekskul')->result_array(),
+                        "siswa" => $this->db->query("SELECT * FROM siswa WHERE id=" . $idsiswa)->row_array(),
                     ];
                     $this->load->view('admin/nilaiekstrakurikulertersimpan', $data);
                 }
@@ -2080,9 +2240,62 @@ class Admin extends CI_Controller
                         "ketidakhadiran" => $this->db->get('ketidakhadiran')->result_array(),
                         "jumlah_ketidakhadiran" =>
                         $this->db->query("SELECT jumlah_ketidakhadiran.*,kelas_siswa.id_kelas FROM jumlah_ketidakhadiran JOIN kelas_siswa ON jumlah_ketidakhadiran.id_kelas_siswa = kelas_siswa.id WHERE jumlah_ketidakhadiran.id_siswa=" . $idsiswa)->result_array(),
+                        "siswa" => $this->db->query("SELECT * FROM siswa WHERE id=" . $idsiswa)->row_array(),
                     ];
                     $this->load->view('admin/jumlahabsensitersimpan', $data);
                 }
+            }
+        }
+    }
+
+    public function cetaknilaiki3ki4template($idsiswa)
+    {
+        netralize();
+        if ($this->session->userdata('admin')) {
+            if ($this->session->userdata('role') == "1" || $this->session->userdata('role') == "4") {
+                $data = [
+                    "kelas_siswa" => $this->db->query("SELECT kelas_siswa.*, kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE kelas_siswa.id_siswa=" . $idsiswa . " ORDER BY tahun")->result_array(),
+                    "nilai_sikap" => $this->db->query("SELECT nilai_sikap.*, kelas_siswa.id_kelas FROM nilai_sikap JOIN kelas_siswa ON nilai_sikap.id_kelas_siswa = kelas_siswa.id WHERE nilai_sikap.id_siswa=" . $idsiswa)->result_array(),
+                    "muatan_pelajaran" => $this->db->get("mapel_induk")->result_array(),
+                    "kkm" => $this->db->query("SELECT kkm.*, kelas_siswa.id_kelas FROM kkm JOIN kelas_siswa ON kkm.id_kelas_siswa = kelas_siswa.id WHERE kkm.id_siswa=" . $idsiswa . " AND kelas_siswa.id_siswa=" . $idsiswa)->result_array(),
+                    "nilai_mapel" => $this->db->query("SELECT nilai_mapel.*, kelas_siswa.id_kelas FROM nilai_mapel JOIN kelas_siswa ON nilai_mapel.id_kelas_siswa=kelas_siswa.id WHERE nilai_mapel.id_siswa=" . $idsiswa . " AND kelas_siswa.id_siswa=" . $idsiswa)->result_array(),
+                    "nilai_ekskul" => $this->db->query("SELECT nilai_ekskul.*, ekskul.ekskul, kelas_siswa.id_kelas FROM nilai_ekskul JOIN ekskul ON nilai_ekskul.id_ekskul = ekskul.id JOIN kelas_siswa ON nilai_ekskul.id_kelas_siswa = kelas_siswa.id WHERE nilai_ekskul.id_siswa=" . $idsiswa . " AND kelas_siswa.id_siswa =" . $idsiswa)->result_array(),
+                    "ketidakhadiran" => $this->db->get('ketidakhadiran')->result_array(),
+                    "jumlah_absensi" => $this->db->query("SELECT jumlah_ketidakhadiran.*, kelas_siswa.id_kelas FROM jumlah_ketidakhadiran JOIN kelas_siswa ON jumlah_ketidakhadiran.id_kelas_siswa = kelas_siswa.id WHERE jumlah_ketidakhadiran.id_siswa=" . $idsiswa)->result_array(),
+                ];
+                $this->load->view('admin/cetaknilaiki3ki4', $data);
+            } else {
+                redirect('admin/');
+            }
+        } else {
+            redirect('admin/login');
+        }
+    }
+
+    public function cetaknilaiki3ki4($idsiswa)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "1" || $this->session->userdata('role') == '4') {
+                // ini_set("memory_limit","1500000M");
+                // ini_set("pcre.backtrack_limit","2000000");
+                $siswa = $this->db->query('SELECT nama FROM siswa WHERE id=' . $idsiswa)->row_array();
+                $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [330, 215]]);
+                $mpdf->SetTitle('Nilai Ki3-Ki4 ' . $siswa["nama"]);
+                $stylesheet = file_get_contents(base_url('assets/css/cetaknilaiki3ki4.css'));
+                $opts = array('http' => array('header' => 'Cookie: ' . $_SERVER['HTTP_COOKIE'] . "\r\n"));
+                $context = stream_context_create($opts);
+                session_write_close();
+                $html = file_get_contents(base_url('admin/cetaknilaiki3ki4template/' . $idsiswa), false, $context);
+                session_start();
+                $mpdf->writeHTML($stylesheet, \Mpdf\HTMLParserMode::HEADER_CSS);
+                $mpdf->writeHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
+                $mpdf->Output('Nilai KI3 KI4 ' . $siswa["nama"] . '.pdf', 'D');
+                // $this->load->view('admin/halamankosong');
+            } else {
+                redirect('admin');
             }
         }
     }
@@ -2589,6 +2802,38 @@ class Admin extends CI_Controller
         }
     }
 
+    public function gettotalsppthtsb($tahunajaran, $thajaran)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "2") {
+                $data = $this->db->query("SELECT SUM(nominal) AS total_spp FROM spp WHERE tahun_ajaran='" . $tahunajaran . "/" . $thajaran . "'")->row_array();
+                echo ($data["total_spp"]) ? rupiah($data["total_spp"]) : 'Rp0.-';
+                $this->load->view('admin/halamankosong');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function gettotalsppblntsb($idbulan, $tahunajaran, $thajaran)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "2") {
+                $data = $this->db->query("SELECT SUM(nominal) AS total_spp_bulan FROM spp WHERE tahun_ajaran='" . $tahunajaran . "/" . $thajaran . "' AND bulan=" . $idbulan)->row_array();
+                echo ($data["total_spp_bulan"]) ? rupiah($data["total_spp_bulan"]) : 'Rp0.-';
+                $this->load->view('admin/halamankosong');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
     public function spp($nama = null, $kelas = null)
     {
         netralize();
@@ -2601,16 +2846,21 @@ class Admin extends CI_Controller
                 $this->db->where('tahun_ajaran', $this->tahunAjar);
                 $data['nominal_per_tingkat_tahun_ini'] = $this->db->get('nominal_spp_per_tingkat')->result_array();
                 $data["kelas"] = $this->db->get('kelas')->result_array();
+                $data["total_spp_masuk"] = $this->db->query("SELECT SUM(nominal) AS total_spp FROM spp WHERE tahun_ajaran='" . $this->tahunAjar . "'")->row_array();
                 $tahunajaran = $this->db->query('SELECT DISTINCT tahun_ajaran FROM spp ORDER BY tahun_ajaran DESC')->result_array();
-                $data["tahunajaran"][] = ["tahun_ajaran" => $this->tahunAjar];
-
+                $allAcademicYears = [];
                 if ($tahunajaran) {
-                    for ($i = 0; $i < count($tahunajaran); $i++) {
-                        if ($tahunajaran[$i]["tahun_ajaran"] !== $this->tahunAjar) {
-                            $data["tahunajaran"][] = $tahunajaran[$i];
-                        }
+                    foreach ($tahunajaran as $ta) {
+                        $allAcademicYears[] = $ta["tahun_ajaran"];
                     }
+                } else {
+                    $allAcademicYears[] = $this->tahunAjar;
                 }
+                if (!in_array($this->tahunAjar, $allAcademicYears)) {
+                    $allAcademicYears[] = $this->tahunAjar;
+                    arsort($allAcademicYears);
+                }
+                $data["tahunajaran"] = $allAcademicYears;
 
                 $this->Admin->SppFreeCharge($this->tahunAjar);
 
@@ -2658,6 +2908,7 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('pembayar', $this->Admin->getSppPaymentDetail($idtransaksi)["nama"]);
         }
         $data["spp"] = $this->db->get('spp')->result_array();
+        $data["total_spp_kelas"] = $this->db->query("SELECT SUM(spp.nominal) AS total, kelas_siswa.id_kelas, kelas.id FROM spp JOIN kelas_siswa ON spp.id_kelas_siswa = kelas_siswa.id JOIN kelas ON kelas_siswa.id_kelas = kelas.id WHERE spp.tahun_ajaran='" . $tahunajaran . "/" . $thajaran . "' AND kelas.id = " . $idkelas)->row_array();
         $data["spp_untuk_kelas"] = $spp_untuk_kelas;
         $this->load->view('admin/header', $data);
         if ($spp_untuk_kelas == true) {
@@ -2780,7 +3031,7 @@ class Admin extends CI_Controller
                 <h2>BUKTI PEMBAYARAN SPP</h2><h3>SD Islam Al-Khairiyah Banyuwangi</h3>
                 </div>
                 <div style="margin-right:0px;">
-                <img src="' . base_url() . 'assets/img/alkhairiyah.png" width="70px" height="70px" style="margin-top:-20px"></img>
+                <img src="' . base_url('assets/img/alkhairiyah.png') . '" width="70px" height="70px" style="margin-top:-20px"></img>
                 </div>
                 </div>
                 <hr/>
@@ -2794,9 +3045,7 @@ class Admin extends CI_Controller
                 Tahun Ajaran<br/>
                 Nominal<br/>
                 </div>
-
                 <div style="position:absolute;width:362px;float:right; top:-176px;right:10px;line-height:2">
-                
                 : ' . $spp['tanggal'] . ' <br>
                 : <strong>' . $spp['nama'] . '</strong> <br> 
                 : ' . $spp['nomor_induk'] . ' <br>
@@ -2807,8 +3056,8 @@ class Admin extends CI_Controller
                 </div>
                 </div>
                 <br/><br/>
-                <div style="width:40%;padding-left:300px">
-                <div style="text-align:center">
+                <div style="width:50%;padding-left:250px;">
+                <div style="text-align:center;width:600px">
                 Admin<br/><br/>ttd.<br/><br/><u>' . $spp['nama_admin'] . '</u></div></div>';
                 $mpdf->writeHTML($html);
                 $mpdf->Output('Bukti Pembayaran SPP ' . $idtr . '.pdf', 'D');
@@ -2897,8 +3146,13 @@ class Admin extends CI_Controller
         } else {
             if ($this->session->userdata('role') == "2") {
                 $keyword = str_ireplace('%20', ' ', $keyword);
-                $data["result"]["onclass"] = $this->db->query("SELECT kelas_siswa.*, siswa.nama, siswa.nomor_induk, siswa.nisn, kelas.class AS kelas FROM kelas_siswa JOIN siswa ON kelas_siswa.id_siswa = siswa.id JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE (siswa.nama LIKE '%" . $keyword . "%' OR siswa.nomor_induk LIKE '%" . $keyword . "%' OR siswa.nisn LIKE '%" . $keyword . "%') AND kelas_siswa.tahun='" . $tahunajar . "/" . $thajaran . "' AND kelas_siswa.id_kelas != 'NULL'")->result_array();
-                $offclass = $this->db->query("SELECT * FROM siswa WHERE nama LIKE '%" . $keyword . "%' OR nomor_induk LIKE '%" . $keyword . "%' OR nisn LIKE '%" . $keyword . "%'")->result_array();
+                if ($keyword !== 'all_students') {
+                    $data["result"]["onclass"] = $this->db->query("SELECT kelas_siswa.*, siswa.nama, siswa.nomor_induk, siswa.nisn, kelas.class AS kelas FROM kelas_siswa JOIN siswa ON kelas_siswa.id_siswa = siswa.id JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE (siswa.nama LIKE '%" . $keyword . "%' OR siswa.nomor_induk LIKE '%" . $keyword . "%' OR siswa.nisn LIKE '%" . $keyword . "%') AND kelas_siswa.tahun='" . $tahunajar . "/" . $thajaran . "' AND kelas_siswa.id_kelas != 'NULL'")->result_array();
+                    $offclass = $this->db->query("SELECT * FROM siswa WHERE nama LIKE '%" . $keyword . "%' OR nomor_induk LIKE '%" . $keyword . "%' OR nisn LIKE '%" . $keyword . "%'")->result_array();
+                } else {
+                    $data["result"]["onclass"] = $this->db->query("SELECT kelas_siswa.*, siswa.nama, siswa.nomor_induk, siswa.nisn, kelas.class AS kelas FROM kelas_siswa JOIN siswa ON kelas_siswa.id_siswa = siswa.id JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE kelas_siswa.tahun='" . $tahunajar . "/" . $thajaran . "' AND kelas_siswa.id_kelas != 'NULL'")->result_array();
+                    $offclass = $this->db->get("siswa")->result_array();
+                }
                 $onIdSiswa = [];
                 foreach ($data["result"]["onclass"] as $on) {
                     $onIdSiswa[] = $on["id_siswa"];
@@ -3263,7 +3517,88 @@ class Admin extends CI_Controller
                 session_start();
                 $mpdf->writeHTML($stylesheet, \Mpdf\HTMLParserMode::HEADER_CSS);
                 $mpdf->writeHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
-                $mpdf->Output('Data SPP kelas ' . $kelas["class"] . '.pdf', 'I');
+                $mpdf->Output('Data SPP kelas ' . $kelas["class"] . '.pdf', 'D');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function keuangan()
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "2") {
+                $data["title"] = "Buku SPP";
+                $data["total_spp_masuk"] = $this->db->query("SELECT SUM(nominal) FROM spp WHERE tahun_ajaran='2022/23'")->result_array();
+                $tahunajaran = $this->db->query('SELECT DISTINCT tahun_ajaran FROM spp ORDER BY tahun_ajaran DESC')->result_array();
+                $allAcademicYears = [];
+                if ($tahunajaran) {
+                    foreach ($tahunajaran as $ta) {
+                        $allAcademicYears[] = $ta["tahun_ajaran"];
+                    }
+                } else {
+                    $allAcademicYears[] = $this->tahunAjar;
+                }
+                if (!in_array($this->tahunAjar, $allAcademicYears)) {
+                    $allAcademicYears[] = $this->tahunAjar;
+                    arsort($allAcademicYears);
+                }
+                $data["tahunajaran"] = $allAcademicYears;
+                $data["total_spp_masuk"] = $this->db->query("SELECT SUM(nominal) AS total_spp FROM spp WHERE tahun_ajaran='" . $this->tahunAjar . "'")->row_array();
+                $data["bulan"] = $this->db->get('bulan_akademik')->result_array();
+                $idBulanIni = $this->db->query("SELECT id FROM bulan_akademik WHERE angka_bulan=" . (int)date('m'))->row_array()["id"];
+                $data["total_spp_bulan"] = $this->db->query("SELECT SUM(nominal) AS total_spp_bulan FROM spp WHERE tahun_ajaran='" . $this->tahunAjar . "' AND bulan=" . $idBulanIni)->row_array();
+                $sudahbayar = $this->db->query("SELECT id_siswa FROM spp WHERE bulan =" . $idBulanIni . " AND tahun_ajaran='" . $this->tahunAjar . "'")->result_array();
+                $idsudahbayar = [];
+                foreach ($sudahbayar as $sb) {
+                    $idsudahbayar[] = $sb["id_siswa"];
+                }
+
+                $semuaSiswaAktif = $this->db->query("SELECT kelas_siswa.*, siswa.nama, siswa.no_hp_ortu FROM kelas_siswa JOIN siswa ON kelas_siswa.id_siswa=siswa.id WHERE kelas_siswa.tahun='" . $this->tahunAjar . "'")->result_array();
+                $siswaBelumBayar = [];
+                foreach ($semuaSiswaAktif as $ssa) {
+                    if (!in_array($ssa["id_siswa"], $idsudahbayar)) {
+                        $siswaBelumBayar[] = $ssa;
+                    }
+                }
+                $data["pada_belum_bayar"] = $siswaBelumBayar;
+                $this->load->view('admin/header', $data);
+                $this->load->view("admin/sppkeuangan");
+                $this->load->view('admin/footer');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function belumbayar($idbulan, $tahunajaran, $thajaran)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "2") {
+                $data["title"] = "Buku SPP";
+                $tahunAjaran = $tahunajaran . "/" . $thajaran;
+                $namaBulan = $this->db->query("SELECT nama_bulan FROM bulan_akademik WHERE id=" . $idbulan)->row_array()["nama_bulan"];
+                $sudahbayar = $this->db->query("SELECT id_siswa FROM spp WHERE bulan =" . $idbulan . " AND tahun_ajaran='" . $tahunAjaran . "'")->result_array();
+                $idsudahbayar = [];
+                foreach ($sudahbayar as $sb) {
+                    $idsudahbayar[] = $sb["id_siswa"];
+                }
+
+                $semuaSiswaAktif = $this->db->query("SELECT kelas_siswa.*, siswa.nama,siswa.no_hp_ortu FROM kelas_siswa JOIN siswa ON kelas_siswa.id_siswa=siswa.id WHERE kelas_siswa.tahun='" . $tahunAjaran . "'")->result_array();
+                $siswaBelumBayar = [];
+                foreach ($semuaSiswaAktif as $ssa) {
+                    if (!in_array($ssa["id_siswa"], $idsudahbayar)) {
+                        $siswaBelumBayar[] = $ssa;
+                    }
+                }
+                $data["pada_belum_bayar"] = $siswaBelumBayar;
+                $this->load->view("admin/sppbelumpadabayar", $data);
             } else {
                 redirect('admin');
             }
@@ -4232,6 +4567,18 @@ class Admin extends CI_Controller
             } else {
                 redirect('admin');
             }
+        }
+    }
+
+    public function fallback()
+    {
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            $data["title"] = "Internet Terputus";
+            $this->load->view('admin/header', $data);
+            $this->load->view('admin/fallback');
+            $this->load->view('admin/footer');
         }
     }
 

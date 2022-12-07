@@ -141,6 +141,6 @@
     </div>
 </div>
 <div class="modal-footer">
-    <a href="<?= base_url('admin/buktipembayaranspp/') . $strukSPP["id"] ?>" class="btn btn-info text-light" target="_blank">Unduh Bukti Pembayaran &nbsp;&nbsp;<i class="fas fa-file-download"></i></a>
+    <a href="<?= base_url('admin/buktipembayaranspp/') . $strukSPP["id"] ?>" class="btn btn-info text-light">Unduh Bukti Pembayaran &nbsp;&nbsp;<i class="fas fa-file-download"></i></a>
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
 </div>

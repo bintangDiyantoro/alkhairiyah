@@ -13,97 +13,170 @@
         <h4>A. Sikap</h4>
     </div>
     <div id="ajax-sikap" data-idsiswa="<?= $id_siswa ?>" data-idkelas="<?= $id_kelas ?>" data-tahun="<?= $tahun ?>">
-        <div class="row mb-4" style="overflow-x: auto">
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th class="align-middle" scope="col" rowspan="2">Semester</th>
-                        <th class="align-middle" scope="col">Kelas</th>
-                        <?php headerLooper($kelas_siswa, 'class') ?>
-                    </tr>
-                    <tr>
-                        <th class="align-middle" scope="col">Tahun Pelajaran</th>
-                        <?php headerLooper($kelas_siswa, 'tahun') ?>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th class="align-middle" scope="row" rowspan="2">Semester I</th>
-                        <td class="align-middle">Sikap Spiritual</td>
-                        <?= nilaiSikapLooper($nilai_sikap, '1', '1') ?>
-                    </tr>
-                    <tr>
-                        <td class="align-middle" scope="row">Sikap Sosial</td>
-                        <?= nilaiSikapLooper($nilai_sikap, '1', '2') ?>
-                    </tr>
-                    <tr>
-                        <th class="align-middle" scope="row" rowspan="2">Semester II</th>
-                        <td class="align-middle">Sikap Spiritual</td>
-                        <?= nilaiSikapLooper($nilai_sikap, '2', '1') ?>
-                    </tr>
-                    <tr>
-                        <td class="align-middle" scope="row">Sikap Sosial</td>
-                        <?= nilaiSikapLooper($nilai_sikap, '2', '2') ?>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="tb-sikap-flex-container d-flex justify-content-center">
+            <div class="col tb-sikap-label mb-4">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="align-middle" scope="col" rowspan="2">Semester</th>
+                            <th class="align-middle" scope="col">Kelas</th>
+                            <?php headerLooper($kelas_siswa, 'class') ?>
+                        </tr>
+                        <tr>
+                            <th class="align-middle" scope="col">Tahun Pelajaran</th>
+                            <?php headerLooper($kelas_siswa, 'tahun') ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th class="align-middle" scope="row" rowspan="2">Semester I</th>
+                            <td class="align-middle">Sikap Spiritual</td>
+                            <?= nilaiSikapLooper($nilai_sikap, '1', '1') ?>
+                        </tr>
+                        <tr>
+                            <td class="align-middle" scope="row">Sikap Sosial</td>
+                            <?= nilaiSikapLooper($nilai_sikap, '1', '2') ?>
+                        </tr>
+                        <tr>
+                            <th class="align-middle" scope="row" rowspan="2">Semester II</th>
+                            <td class="align-middle">Sikap Spiritual</td>
+                            <?= nilaiSikapLooper($nilai_sikap, '2', '1') ?>
+                        </tr>
+                        <tr>
+                            <td class="align-middle" scope="row">Sikap Sosial</td>
+                            <?= nilaiSikapLooper($nilai_sikap, '2', '2') ?>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col tb-sikap-data mb-4" style="overflow-x: auto">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="align-middle tb-sikap-data-hidden" scope="col" rowspan="2">Semester</th>
+                            <th class="align-middle tb-sikap-data-hidden" scope="col">Kelas</th>
+                            <?php headerLooper($kelas_siswa, 'class') ?>
+                        </tr>
+                        <tr>
+                            <th class="align-middle tb-sikap-data-hidden" scope="col">Tahun Pelajaran</th>
+                            <?php headerLooper($kelas_siswa, 'tahun') ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th class="align-middle tb-sikap-data-hidden" scope="row" rowspan="2">Semester I</th>
+                            <td class="align-middle tb-sikap-data-hidden">Sikap Spiritual</td>
+                            <?= nilaiSikapLooper($nilai_sikap, '1', '1') ?>
+                        </tr>
+                        <tr>
+                            <td class="align-middle tb-sikap-data-hidden" scope="row">Sikap Sosial</td>
+                            <?= nilaiSikapLooper($nilai_sikap, '1', '2') ?>
+                        </tr>
+                        <tr>
+                            <th class="align-middle tb-sikap-data-hidden" scope="row" rowspan="2">Semester II</th>
+                            <td class="align-middle tb-sikap-data-hidden">Sikap Spiritual</td>
+                            <?= nilaiSikapLooper($nilai_sikap, '2', '1') ?>
+                        </tr>
+                        <tr>
+                            <td class="align-middle tb-sikap-data-hidden" scope="row">Sikap Sosial</td>
+                            <?= nilaiSikapLooper($nilai_sikap, '2', '2') ?>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="row d-flex justify-content-end">
-            <button class="btn btn-primary update-sikap mr-1" data-session="<?= $this->session->userdata('admin') ?>">Ubah Data</button>
-            <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success">Kembali</a>
+        <div class="row d-flex justify-content-end" style="padding-right: 11px;">
+            <button class="btn btn-primary update-sikap mb-1" data-session="<?= $this->session->userdata('admin') ?>"><i class="fas fa-edit"></i> Ubah Data</button>
+            <a href="<?= base_url('admin/cetaknilaisikap/') . $siswa["id"] ?>" class="btn btn-info ml-1 mb-1"><i class="fas fa-print"></i> Cetak Nilai Sikap</a>
+            <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success ml-1 mb-1"><i class="fas fa-step-backward"></i>Kembali</a>
         </div>
     </div>
     <div class="row mt-5 mb-2" id="ajax-pengetahuan-keterampilan-title" style="padding-top:10px">
         <h4>B. Pengetahuan dan Keterampilan</h4>
     </div>
     <div id="ajax-pengetahuan-keterampilan" data-idsiswa="<?= $id_siswa ?>" data-idkelas="<?= $id_kelas ?>" data-tahun="<?= $tahun ?>">
-        <div class="row mb-4" style="overflow-x: auto">
-            <table class="table table-bordered table-hover table-sm">
-                <thead>
-                    <tr>
-                        <th class="align-middle" scope="col" colspan="2">Kelas</th>
-                        <?php headerLooper($kelas_siswa, 'class', 4) ?>
-                    </tr>
-                    <tr>
-                        <th class="align-middle" scope="col" colspan="2">Tahun Pelajaran</th>
-                        <?php headerLooper($kelas_siswa, 'tahun', 4) ?>
-                    </tr>
-                    <tr>
-                        <th class="align-middle" scope="col" colspan="2">Semester</th>
-                        <?php for ($i = 0; $i < 6; $i++) : ?>
-                            <th class="align-middle" scope="col" colspan="2">S1</th>
-                            <th class="align-middle" scope="col" colspan="2">S2</th>
-                        <?php endfor ?>
-                    </tr>
-                    <tr>
-                        <th class="align-middle" scope="col" colspan="2">KKM Satuan Pendidikan</th>
-                        <?= kkmLooper($kkm) ?>
-                    </tr>
-                    <tr>
-                        <th class="align-middle" scope="col" colspan="2">Muatan Pelajaran</th>
-                        <?php for ($i = 0; $i < 12; $i++) : ?>
-                            <th class="align-middle" scope="col">K13</th>
-                            <th class="align-middle" scope="col">K14</th>
-                        <?php endfor ?>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $i = 1;
-                    foreach ($muatanpelajaran as $mp) : ?>
+        <div class="row tb-pengetahuan-keterampilan-flex-container d-flex justify-content-center">
+            <div class="col tb-pengetahuan-keterampilan-label mb-4">
+                <table class="table table-bordered table-hover table-sm">
+                    <thead>
                         <tr>
-                            <td class="align-middle" scope="col"><?= $i ?></td>
-                            <td class="align-middle" scope="col"><?= $mp["muatan_pelajaran"] ?></td>
-                            <?= nilaiMapelLooper($nilai_pengetahuan_keterampilan, $mp["id"]) ?>
+                            <th class="align-middle" scope="col" colspan="2">Kelas</th>
                         </tr>
-                    <?php $i++;
-                    endforeach ?>
-                </tbody>
-            </table>
+                        <tr>
+                            <th class="align-middle" scope="col" colspan="2">Tahun Pelajaran</th>
+                        </tr>
+                        <tr>
+                            <th class="align-middle" scope="col" colspan="2">Semester</th>
+                        </tr>
+                        <tr>
+                            <th class="align-middle" scope="col" colspan="2">KKM Satuan Pendidikan</th>
+                        </tr>
+                        <tr>
+                            <th class="align-middle" scope="col" colspan="2">Muatan Pelajaran</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $i = 1;
+                        foreach ($muatanpelajaran as $mp) : ?>
+                            <tr>
+                                <td class="align-middle" scope="col"><?= $i ?></td>
+                                <td class="align-middle" scope="col"><?= $mp["muatan_pelajaran"] ?></td>
+                            </tr>
+                        <?php $i++;
+                        endforeach ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col tb-pengetahuan-keterampilan-data mb-4" style="overflow-x: auto">
+                <table class="table table-bordered table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th class="align-middle tb-pengetahuan-keterampilan-data-hidden" scope="col" colspan="2">Kelas</th>
+                            <?php headerLooper($kelas_siswa, 'class', 4) ?>
+                        </tr>
+                        <tr>
+                            <th class="align-middle tb-pengetahuan-keterampilan-data-hidden" scope="col" colspan="2">Tahun Pelajaran</th>
+                            <?php headerLooper($kelas_siswa, 'tahun', 4) ?>
+                        </tr>
+                        <tr>
+                            <th class="align-middle tb-pengetahuan-keterampilan-data-hidden" scope="col" colspan="2">Semester</th>
+                            <?php for ($i = 0; $i < 6; $i++) : ?>
+                                <th class="align-middle" scope="col" colspan="2">S1</th>
+                                <th class="align-middle" scope="col" colspan="2">S2</th>
+                            <?php endfor ?>
+                        </tr>
+                        <tr>
+                            <th class="align-middle tb-pengetahuan-keterampilan-data-hidden" scope="col" colspan="2">KKM Satuan Pendidikan</th>
+                            <?= kkmLooper($kkm) ?>
+                        </tr>
+                        <tr>
+                            <th class="align-middle tb-pengetahuan-keterampilan-data-hidden" scope="col" colspan="2">Muatan Pelajaran</th>
+                            <?php for ($i = 0; $i < 12; $i++) : ?>
+                                <th class="align-middle" scope="col">K13</th>
+                                <th class="align-middle" scope="col">K14</th>
+                            <?php endfor ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $i = 1;
+                        foreach ($muatanpelajaran as $mp) : ?>
+                            <tr>
+                                <td class="align-middle tb-pengetahuan-keterampilan-data-hidden" scope="col"><?= $i ?></td>
+                                <td class="align-middle tb-pengetahuan-keterampilan-data-hidden" scope="col"><?= $mp["muatan_pelajaran"] ?></td>
+                                <?= nilaiMapelLooper($nilai_pengetahuan_keterampilan, $mp["id"]) ?>
+                            </tr>
+                        <?php $i++;
+                        endforeach ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="row d-flex justify-content-end">
-            <button class="btn btn-primary update-pengetahuan-keterampilan mr-1" data-session="<?= $this->session->userdata('admin') ?>">Ubah Data</button>
-            <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success">Kembali</a>
+            <button class="btn btn-primary update-pengetahuan-keterampilan mb-1" data-session="<?= $this->session->userdata('admin') ?>"><i class="fas fa-edit"></i> Ubah Data</button>
+            <a href="<?= base_url('admin/cetaknilaiki3ki4/') . $siswa["id"] ?>" class="btn btn-info ml-1 mb-1"><i class="fas fa-print"></i> Cetak Nilai Ki3-Ki4</a>
+            <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success ml-1 mb-1"><i class="fas fa-step-backward"></i>Kembali</a>
         </div>
     </div>
     <div class="row mt-5 mb-2" id="ajax-ekstrakurikuler-title" style="padding-top:10px">
@@ -129,41 +202,69 @@
             </table>
         </div>
         <div class="row d-flex justify-content-end">
-            <button class="btn btn-primary update-ekstrakurikuler mr-1" data-session="<?= $this->session->userdata('admin') ?>">Ubah Data</button>
-            <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success">Kembali</a>
+            <button class="btn btn-primary update-ekstrakurikuler mb-1" data-session="<?= $this->session->userdata('admin') ?>"><i class="fas fa-edit"></i> Ubah Data</button>
+            <a href="<?= base_url('admin/cetaknilaiki3ki4/') . $siswa["id"] ?>" class="btn btn-info ml-1 mb-1"><i class="fas fa-print"></i> Cetak Nilai Ki3-Ki4</a>
+            <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success mb-1 ml-1"><i class="fas fa-step-backward"></i>Kembali</a>
         </div>
     </div>
     <div class="row mt-5 mb-2" id="ajax-absensi-title" style="padding-top:10px">
         <h4>D. Ketidakhadiran</h4>
     </div>
     <div id="ajax-absensi" data-idsiswa="<?= $id_siswa ?>" data-idkelas="<?= $id_kelas ?>" data-tahun="<?= $tahun ?>">
-        <div class="row mb-4" style="overflow-x: auto">
-            <table class="table table-bordered table-hover table-sm">
-                <thead>
-                    <tr>
-                        <th class="align-middle" scope="col">Kelas</th>
-                        <?php headerLooper($kelas_siswa, 'class', 2) ?>
-                    </tr>
-                    <tr>
-                        <th class="align-middle" scope="col">Tahun Pelajaran</th>
-                        <?php headerLooper($kelas_siswa, 'tahun', 2) ?>
-                    </tr>
-                    <tr>
-                        <th class="align-middle" scope="col">Semester</th>
-                        <?php for ($i = 0; $i < 6; $i++) : ?>
-                            <th class="align-middle" scope="col">S1</th>
-                            <th class="align-middle" scope="col">S2</th>
-                        <?php endfor ?>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?= jumlahKetidakhadiranLooper($ketidakhadiran, $jumlah_ketidakhadiran) ?>
-                </tbody>
-            </table>
+        <div class="row mb-4 tb-absensi-flex-container d-flex justify-content-center">
+            <div class="col tb-absensi-label">
+                <table class="table table-bordered table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th class="align-middle" scope="col">Kelas</th>
+                            <?php headerLooper($kelas_siswa, 'class', 2) ?>
+                        </tr>
+                        <tr>
+                            <th class="align-middle" scope="col">Tahun Pelajaran</th>
+                            <?php headerLooper($kelas_siswa, 'tahun', 2) ?>
+                        </tr>
+                        <tr>
+                            <th class="align-middle" scope="col">Semester</th>
+                            <?php for ($i = 0; $i < 6; $i++) : ?>
+                                <th class="align-middle" scope="col">S1</th>
+                                <th class="align-middle" scope="col">S2</th>
+                            <?php endfor ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?= jumlahKetidakhadiranLooper($ketidakhadiran, $jumlah_ketidakhadiran) ?>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col tb-absensi-data" style="overflow-x: auto;">
+                <table class="table table-bordered table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th class="align-middle" scope="col">Kelas</th>
+                            <?php headerLooper($kelas_siswa, 'class', 2) ?>
+                        </tr>
+                        <tr>
+                            <th class="align-middle" scope="col">Tahun Pelajaran</th>
+                            <?php headerLooper($kelas_siswa, 'tahun', 2) ?>
+                        </tr>
+                        <tr>
+                            <th class="align-middle" scope="col">Semester</th>
+                            <?php for ($i = 0; $i < 6; $i++) : ?>
+                                <th class="align-middle" scope="col">S1</th>
+                                <th class="align-middle" scope="col">S2</th>
+                            <?php endfor ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?= jumlahKetidakhadiranLooper($ketidakhadiran, $jumlah_ketidakhadiran) ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <div class="row d-flex justify-content-end">
-            <button class="btn btn-primary update-absensi mr-1" data-session="<?= $this->session->userdata('admin') ?>">Ubah Data</button>
-            <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success">Kembali</a>
+            <button class="btn btn-primary update-absensi mb-1" data-session="<?= $this->session->userdata('admin') ?>"><i class="fas fa-edit"></i> Ubah Data</button>
+            <a href="<?= base_url('admin/cetaknilaiki3ki4/') . $siswa["id"] ?>" class="btn btn-info ml-1 mb-1"><i class="fas fa-print"></i> Cetak Nilai Ki3-Ki4</a>
+            <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-success mb-1 ml-1"><i class="fas fa-step-backward"></i>Kembali</a>
         </div>
     </div>
     <!-- <div class="row mt-5 mb-2">

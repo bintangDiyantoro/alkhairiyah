@@ -32,14 +32,448 @@ $(function() {
     const idstaff = $('#tambahkelas').data('idstaff')
     const plhthncsrfname = $('#tambahkelas').data('csrfname')
     const plhthncsrfhash = $('#tambahkelas').data('csrfhash')
-    const carisiswa = $('.ajax-cari-siswa')
     const triggercarisiswa = $('.trigger-cari-siswa')
     const keluarkansiswa = document.querySelectorAll('.keluarkan-siswa')
 
+    function mainToggleControl(el) {
+        const navbar = document.querySelector('nav')
+        el.addEventListener('click', function() {
+            if (navbar.classList[10] == "toggled") {
+                navbar.classList.add("not_toggled")
+                navbar.classList.remove("toggled")
+            } else {
+                navbar.classList.add("toggled")
+                navbar.classList.remove("not_toggled")
+            }
+        })
+    }
+
+    if (url[3] == "admin") {
+        const sidebarToggle = document.querySelector('#sidebarToggle')
+        const hamburger = document.querySelector('#sidebarToggleTop')
+        mainToggleControl(sidebarToggle)
+        mainToggleControl(hamburger)
+    }
+
+    function addStudentModal() {
+        $('.cari-lagi').on('click', function(e) {
+            e.preventDefault()
+            const carisiswa = document.querySelector('.ajax-cari-siswa')
+            carisiswa.innerHTML = '<div class="d-flex justify-content-center align-items-center" ><img src="/assets/img/greenloading.gif" height="70"></div>'
+            const xhr = new XMLHttpRequest()
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    carisiswa.innerHTML = this.responseText
+                    studentSearch()
+                }
+            }
+            xhr.open('get', '/admin/carisiswa/')
+            xhr.send()
+        })
+
+        if (url[4] == "sppkelas") {
+            const sppBatalCari = document.querySelector('.spp-cari-siswa-batal')
+            if (sppBatalCari) {
+                sppBatalCari.addEventListener('click', function() {
+                    document.querySelector('.ajax-cari-siswa').innerHTML = ''
+                })
+            }
+        }
+
+        const urlAPIwilayah = 'https://bintangdiyantoro.github.io/api-wilayah-indonesia/api/'
+
+        const kelurahan_ortu = document.querySelector('#kelurahan_ortu')
+        async function getVillagesOrtu(districtId) {
+            const villages = await fetch(`${urlAPIwilayah}villages/${districtId}.json`).then(response => response.json())
+            let villages_options = ''
+            for (const village of villages) {
+                villages_options += `<option value="${village.name}">${village.name}</option>`
+            }
+            kelurahan_ortu.innerHTML = villages_options
+        }
+
+
+        const kecamatan_ortu = document.querySelector('#kecamatan_ortu')
+        async function getDistrictsOrtu(regencyId) {
+            const districts = await fetch(`${urlAPIwilayah}districts/${regencyId}.json`).then(response => response.json())
+            let districts_options = ''
+            for (const district of districts) {
+                districts_options += `<option value="${district.name}" data-district_id="${district.id}">${district.name}</option>`
+            }
+            kecamatan_ortu.innerHTML = districts_options
+            kecamatan_ortu.addEventListener('change', function() {
+                for (const district of districts) {
+                    if (district.name == this.value) {
+                        getVillagesOrtu(district.id)
+                    }
+                }
+            })
+            kecamatan_ortu.addEventListener('click', function() {
+                for (const district of districts) {
+                    if (district.name == this.value) {
+                        getVillagesOrtu(district.id)
+                    }
+                }
+            })
+        }
+
+        const kabupaten_ortu = document.querySelector('#kabupaten_ortu')
+        async function getRegenciesOrtu(provId) {
+            const regencies = await fetch(`${urlAPIwilayah}regencies/${provId}.json`).then(response => response.json())
+            let regencies_options = ''
+            for (const regency of regencies) {
+                regencies_options += `<option value="${regency.name}" data-regency_id="${regency.id}">${regency.name}</option>`
+            }
+            kabupaten_ortu.innerHTML = regencies_options
+            kabupaten_ortu.addEventListener('change', function() {
+                for (const regency of regencies) {
+                    if (regency.name == this.value) {
+                        getDistrictsOrtu(regency.id)
+                    }
+                }
+            })
+            kabupaten_ortu.addEventListener('click', function() {
+                for (const regency of regencies) {
+                    if (regency.name == this.value) {
+                        getDistrictsOrtu(regency.id)
+                    }
+                }
+            })
+        }
+
+        async function getProvincesOrtu() {
+            const provinces = await fetch(`${urlAPIwilayah}provinces.json`).then(response => response.json())
+            let provinces_options = ''
+            for (const province of provinces) {
+                provinces_options += `<option value="${province.name}" data-prov_id="${province.id}">${province.name}</option>`
+            }
+            provinsi_ortu.innerHTML = provinces_options
+            if (provinces) {
+                provinsi_ortu.parentElement.removeEventListener('click', getProvincesOrtuCaller)
+            }
+        }
+
+        function getProvincesOrtuCaller() {
+            this.children[1].innerHTML = `<option value="">Sedang memuat...</option>`
+            getProvincesOrtu()
+        }
+
+        const provinsi_ortu = document.querySelector('#provinsi_ortu')
+        let selected_parents_province = ''
+        provinsi_ortu.parentElement.addEventListener('click', getProvincesOrtuCaller)
+        provinsi_ortu.addEventListener('change', async function() {
+            selected_parents_province = this.value
+            let provinces = await fetch(`${urlAPIwilayah}provinces.json`).then(response => response.json())
+            for (const province of provinces) {
+                if (province.name == selected_parents_province) {
+                    getRegenciesOrtu(province.id)
+                }
+            }
+        })
+        provinsi_ortu.addEventListener('click', async function() {
+            selected_parents_province = this.value
+            let provinces = await fetch(`${urlAPIwilayah}provinces.json`).then(response => response.json())
+            for (const province of provinces) {
+                if (province.name == selected_parents_province) {
+                    getRegenciesOrtu(province.id)
+                }
+            }
+        })
+
+        const kelurahan_wali = document.querySelector('#kelurahan_wali')
+        async function getVillagesWali(districtId) {
+            const villages = await fetch(`${urlAPIwilayah}villages/${districtId}.json`).then(response => response.json())
+            let villages_options = ''
+            for (const village of villages) {
+                villages_options += `<option value="${village.name}">${village.name}</option>`
+            }
+            kelurahan_wali.innerHTML = villages_options
+        }
+
+
+        const kecamatan_wali = document.querySelector('#kecamatan_wali')
+        async function getDistrictsWali(regencyId) {
+            const districts = await fetch(`${urlAPIwilayah}districts/${regencyId}.json`).then(response => response.json())
+            let districts_options = ''
+            for (const district of districts) {
+                districts_options += `<option value="${district.name}" data-district_id="${district.id}">${district.name}</option>`
+            }
+            kecamatan_wali.innerHTML = districts_options
+            kecamatan_wali.addEventListener('change', function() {
+                for (const district of districts) {
+                    if (district.name == this.value) {
+                        getVillagesWali(district.id)
+                    }
+                }
+            })
+            kecamatan_wali.addEventListener('click', function() {
+                for (const district of districts) {
+                    if (district.name == this.value) {
+                        getVillagesWali(district.id)
+                    }
+                }
+            })
+        }
+
+        const kabupaten_wali = document.querySelector('#kabupaten_wali')
+        async function getRegenciesWali(provId) {
+            const regencies = await fetch(`${urlAPIwilayah}regencies/${provId}.json`).then(response => response.json())
+            let regencies_options = ''
+            for (const regency of regencies) {
+                regencies_options += `<option value="${regency.name}" data-regency_id="${regency.id}">${regency.name}</option>`
+            }
+            kabupaten_wali.innerHTML = regencies_options
+            kabupaten_wali.addEventListener('change', function() {
+                for (const regency of regencies) {
+                    if (regency.name == this.value) {
+                        getDistrictsWali(regency.id)
+                    }
+                }
+            })
+            kabupaten_wali.addEventListener('click', function() {
+                for (const regency of regencies) {
+                    if (regency.name == this.value) {
+                        getDistrictsWali(regency.id)
+                    }
+                }
+            })
+        }
+
+        async function getProvincesWali() {
+            const provinces = await fetch(`${urlAPIwilayah}provinces.json`).then(response => response.json())
+            let provinces_options = ''
+            for (const province of provinces) {
+                provinces_options += `<option value="${province.name}" data-prov_id="${province.id}">${province.name}</option>`
+            }
+            provinsi_wali.innerHTML = provinces_options
+            if (provinces) {
+                provinsi_wali.removeEventListener('click', getProvincesWaliCaller)
+            }
+            return provinces
+        }
+
+        function getProvincesWaliCaller() {
+            this.children[1].innerHTML = `<option value="">Sedang memuat...</option>`
+            getProvincesWali();
+        }
+
+        const provinsi_wali = document.querySelector('#provinsi_wali')
+        let selected_trustee_province = ''
+        provinsi_wali.parentElement.addEventListener('click', getProvincesWaliCaller)
+        provinsi_wali.addEventListener('change', async function() {
+            selected_trustee_province = this.value
+            let provinces = await fetch(`${urlAPIwilayah}provinces.json`).then(response => response.json())
+            for (const province of provinces) {
+                if (province.name == selected_trustee_province) {
+                    getRegenciesWali(province.id)
+                }
+            }
+        })
+
+        provinsi_wali.addEventListener('click', async function() {
+            selected_trustee_province = this.value
+            let provinces = await fetch(`${urlAPIwilayah}provinces.json`).then(response => response.json())
+            for (const province of provinces) {
+                if (province.name == selected_trustee_province) {
+                    getRegenciesWali(province.id)
+                }
+            }
+        })
+
+        $('.ajax-tambah-siswa').on('click', (e) => {
+            e.preventDefault()
+            $.ajax({
+                url: '/admin/tambahsiswa',
+                method: 'post',
+                data: {
+                    csrf_token: $("#csrf").val().trim(),
+                    nomor_induk: $("#nomor_induk").val().trim(),
+                    nisn: $("#nisn").val().trim(),
+                    nama: $("#nama").val().trim(),
+                    ttl: $("#tmp_lahir").val() + ", " + $("#tgl_lahir").val().trim(),
+                    jenis_kelamin: $("#jenis_kelamin").val().trim(),
+                    agama: $("#agama").val().trim(),
+                    pendidikan_sebelumnya: $("#pendidikan_sebelumnya").val().trim(),
+                    alamat: $("#alamat").val().trim(),
+                    nama_ayah: $("#nama_ayah").val().trim(),
+                    pekerjaan_ayah: $("#pekerjaan_ayah").val().trim(),
+                    nama_ibu: $("#nama_ibu").val().trim(),
+                    pekerjaan_ibu: $("#pekerjaan_ibu").val().trim(),
+                    provinsi_ortu: $("#provinsi_ortu").val().trim(),
+                    kabupaten_ortu: $("#kabupaten_ortu").val().trim(),
+                    kecamatan_ortu: $("#kecamatan_ortu").val().trim(),
+                    kelurahan_ortu: $("#kelurahan_ortu").val().trim(),
+                    alamat_ortu: $("#alamat_ortu").val().trim(),
+                    nama_wali: $("#nama_wali").val().trim(),
+                    pekerjaan_wali: $("#pekerjaan_wali").val().trim(),
+                    provinsi_wali: $("#provinsi_wali").val().trim(),
+                    kabupaten_wali: $("#kabupaten_wali").val().trim(),
+                    kecamatan_wali: $("#kecamatan_wali").val().trim(),
+                    kelurahan_wali: $("#kelurahan_wali").val().trim(),
+                    alamat_wali: $("#alamat_wali").val().trim(),
+                    no_hp_ortu: $("#no_hp_ortu").val().trim(),
+                    submit: $("#submit").val().trim(),
+                },
+                success: (data) => {
+                    data = JSON.parse(data)
+                    $("#csrf").val(data.csrf)
+                    $("small").remove()
+                    $("#nomor_induk").after(data.nomor_induk_error)
+                    $("#nisn").after(data.nisn_error)
+                    $("#nama").after(data.nama_error)
+                    $("#tgl_lahir").after(data.ttl_error)
+                    $("#jenis_kelamin").after(data.jenis_kelamin_error)
+                    $("#agama").after(data.agama_error)
+                    $("#pendidikan_sebelumnya").after(data.pendidikan_sebelumnya_error)
+                    $("#alamat").after(data.alamat_error)
+                    $("#nama_ayah").after(data.nama_ayah_error)
+                    $("#pekerjaan_ayah").after(data.pekerjaan_ayah_error)
+                    $("#nama_ibu").after(data.nama_ibu_error)
+                    $("#pekerjaan_ibu").after(data.pekerjaan_ibu_error)
+                    $("#provinsi_ortu").after(data.provinsi_ortu_error)
+                    $("#kabupaten_ortu").after(data.kabupaten_ortu_error)
+                    $("#kecamatan_ortu").after(data.kecamatan_ortu_error)
+                    $("#kelurahan_ortu").after(data.kelurahan_ortu_error)
+                    $("#alamat_ortu").after(data.alamat_ortu_error)
+                    $("#nama_wali").after(data.nama_wali_error)
+                    $("#pekerjaan_wali").after(data.pekerjaan_wali_error)
+                    $("#provinsi_wali").after(data.provinsi_wali_error)
+                    $("#kabupaten_wali").after(data.kabupaten_wali_error)
+                    $("#kecamatan_wali").after(data.kecamatan_wali_error)
+                    $("#kelurahan_wali").after(data.kelurahan_wali_error)
+                    $("#alamat_wali").after(data.alamat_wali_error)
+                    $("#no_hp_ortu").after(data.no_hp_ortu_error)
+
+                    if (data.status == "valid") {
+                        Swal.fire({
+                            type: 'success',
+                            title: "Data " + data.keyword + " berhasil disimpan!",
+                        })
+                        data.keyword = data.keyword.trim().replace(/\s/gm, '+')
+                        const xhr = new XMLHttpRequest()
+                        xhr.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                                document.querySelector('.ajax-cari-siswa').innerHTML = this.responseText
+                                addStudentModal()
+                            }
+                        }
+                        xhr.open('get', `/admin/carisiswa?keyword=${data.keyword}&submit=`)
+                        xhr.send()
+                        $("#page-top").removeClass("modal-open")
+                        $(".modal-backdrop").remove()
+                    } else {
+                        Swal.fire({
+                            type: 'warning',
+                            title: "Data gagal disimpan!",
+                            html: 'Periksa kembali data input.',
+                        })
+                    }
+                }
+            })
+        })
+
+        pickmeup('#tgl_lahir')
+
+        for (let i = 0; i < document.querySelectorAll('.badge-masukkan-siswa').length; i++) {
+            document.querySelectorAll('.badge-masukkan-siswa')[i].addEventListener('click', function(e) {
+                e.preventDefault()
+                Swal.fire({
+                    title: 'Perhatian!',
+                    text: "Apakah anda yakin ingin memasukkan " + e.path[0].dataset.name + " ke kelas ini?",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Tidak'
+                }).then(async result => {
+                    if (result.value) {
+                        const formdata = new FormData()
+                        formdata.append("csrf_token", this.dataset.csrf)
+                        formdata.append("id_siswa", this.dataset.idsiswa)
+                        formdata.append("id_kelas", this.dataset.idkelas)
+                        formdata.append("tahun", this.dataset.tahun)
+                        formdata.append("submit", '')
+                        if (url[4] == "sppkelas") {
+                            const response = await fetch('/admin/sppkelasinsertstudent', { method: 'post', body: formdata })
+                                .then(response => response.json()).then(response => response)
+                            if (response == "success") {
+                                location.reload()
+                            }
+                        } else {
+                            const response = await fetch('/admin/masukkankelas', { method: 'post', body: formdata })
+                                .then(response => response.json()).then(response => response)
+                            if (response == "success") {
+                                location.reload()
+                            }
+                        }
+                    }
+                })
+            })
+        }
+    }
+
+    function cariSiswaLoader(keyword, e) {
+        e.preventDefault()
+        let pattern = /^\++$/gm
+        if (keyword && !pattern.test(keyword)) {
+            document.getElementsByClassName('ajax-cari-siswa')[0].innerHTML = '<div class="d-flex justify-content-center align-items-center" ><img src="/assets/img/greenloading.gif" height="70"></div>'
+            const xhr = new XMLHttpRequest()
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.querySelector('.ajax-cari-siswa').innerHTML = this.responseText
+                    addStudentModal()
+                }
+            }
+            xhr.open('get', `/admin/carisiswa?keyword=${keyword}&submit=`)
+            xhr.send()
+        }
+    }
+
+    function carisiswaFn(el, even) {
+        $(el).on(even, function(e) {
+            if ($('.btn-cari-siswa').data('session')) {
+                const keyword = $('.ajax-text-input-cari-siswa').val().trim().replace(/\s/gm, '+')
+                if (even == "keypress") {
+                    if (e.key === "Enter") {
+                        cariSiswaLoader(keyword, e)
+                    }
+                } else {
+                    cariSiswaLoader(keyword, e)
+                }
+            } else {
+                e.preventDefault()
+                window.location.href = '/admin/login'
+            }
+        })
+    }
+
+    function studentSearch() {
+        var csrf = $('.ajax-text-input-cari-siswa').data('csrf')
+        if (url[4] == "sppkelas") {
+            const sppBatalCari = document.querySelector('.spp-cari-siswa-batal')
+            sppBatalCari.addEventListener('click', function() {
+                document.querySelector('.ajax-cari-siswa').innerHTML = ''
+            })
+        }
+        carisiswaFn('.ajax-text-input-cari-siswa', 'keypress')
+        carisiswaFn('.btn-cari-siswa', 'click')
+    }
+
+
     triggercarisiswa.on('click', (e) => {
         e.preventDefault()
-        document.getElementsByClassName('ajax-cari-siswa')[0].innerHTML = '<div class="d-flex justify-content-center align-items-center" ><img src="/assets/img/greenloading.gif" height="70"></div>'
-        carisiswa.load('/admin/carisiswa/')
+        const carisiswa = document.querySelector('.ajax-cari-siswa')
+        carisiswa.innerHTML = '<div class="d-flex justify-content-center align-items-center" ><img src="/assets/img/greenloading.gif" height="70"></div>'
+        const xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                carisiswa.innerHTML = this.responseText
+                studentSearch()
+            }
+        }
+        xhr.open('get', '/admin/carisiswa/')
+        xhr.send()
     })
 
     addClassBtn.on('click', () => {
@@ -372,7 +806,7 @@ function NSupdater(e) {
         let input = []
         let data = ""
         let dataerror = ""
-        let pattern = /^[a-z.,()0-9-\s]+$/i
+        let pattern = /^[a-z.,'()0-9-\s]+$/i
         let error = []
         for (let i = 0; i < els.length; i++) {
             if (els[i].value) {
@@ -636,7 +1070,6 @@ function updatePengetahuanKeterampilan() {
 
 updatePengetahuanKeterampilan()
 
-
 function cekAksesWaliKelas(el) {
     let idsiswa = document.getElementById('idsiswa').value
     const cawkXHR = new XMLHttpRequest()
@@ -774,6 +1207,7 @@ function tbeks1function(ekskulId) {
             }
         }
     }
+
     let newtr = document.createElement('tr')
     let newth = document.createElement('th')
     newth.innerHTML = "Semester I"
@@ -784,13 +1218,14 @@ function tbeks1function(ekskulId) {
     newtd2 = document.createElement('td')
     newtd2.colSpan = 6
 
+    console.log(`${x1}`)
     if (ekskulAdds1 < ekskulCount.value) {
         if (x1 == 1) {
-            let semester1 = document.getElementsByTagName('tbody')[2].children[0].children[0]
-            document.getElementsByTagName('tbody')[2].children[0].removeChild(semester1)
+            let semester1 = document.getElementsByTagName('tbody')[4].children[0].children[0]
+            document.getElementsByTagName('tbody')[4].children[0].removeChild(semester1)
             newtr.append(newth)
         } else {
-            let newsmt1 = document.getElementsByTagName('tbody')[2].children[0].children[0]
+            let newsmt1 = document.getElementsByTagName('tbody')[4].children[0].children[0]
             newsmt1.rowSpan = x1 + 1
         }
         newtr.append(newtd1)
@@ -988,12 +1423,12 @@ function nilaiEkstrakurikuler() {
 
 function updateEkstrakurikuler() {
     if (url[3] == "admin" && url[4] == "kelolanilai") {
-        const triggerekstrakurikuler = document.getElementsByClassName('update-ekstrakurikuler')
+        const triggerekstrakurikuler = document.querySelector('.update-ekstrakurikuler')
         const idsiswa = document.getElementById("ajax-ekstrakurikuler").dataset.idsiswa
         const idkelas = document.getElementById("ajax-ekstrakurikuler").dataset.idkelas
         const tahun = document.getElementById("ajax-ekstrakurikuler").dataset.tahun
-        var ekskulCount = 0
-        triggerekstrakurikuler[0].addEventListener('click', function() {
+        let ekskulCount = 0
+        triggerekstrakurikuler.addEventListener('click', function() {
             window.location.href = '#ajax-ekstrakurikuler-title'
             window.history.pushState({ data: 'nonfe' }, 'sdrandom', b_i_url)
             if (monsterBookGate == 1) {
@@ -1748,6 +2183,11 @@ function checkStudentBill() {
     }
 }
 
+function fetchTotalSppMasukTahunTsb(tahunAjaran) {
+    const totalSpp = document.querySelector('.total-spp-th-tsb-span')
+    myAjax('get', `/admin/gettotalsppthtsb/${tahunAjaran}`, totalSpp, '0')
+}
+
 function sppFindStudentCore(el, evt) {
     const academicYear = document.querySelector('.spp-main-page-academic-year')
     const maincontent = document.querySelector('.spp-main-page-content-container')
@@ -1756,13 +2196,14 @@ function sppFindStudentCore(el, evt) {
     let selectedAcademicYear = academicYear.value
     academicYear.addEventListener('change', function() {
         selectedAcademicYear = this.value
+        fetchTotalSppMasukTahunTsb(this.value)
     })
     el.addEventListener(evt, () => {
-        pattern = /(^[a-z\s]+$|^[0-9]+$)/gi
+        pattern = /(^[a-z*\s]+$|^[0-9]+$)/gi
         if (sppFindStudent.value.length > 0 && pattern.test(sppFindStudent.value)) {
             maincontent.setAttribute('style', 'display:none')
             searchresult.setAttribute('style', 'display:block')
-            myAjax('GET', `/admin/sppmainstudentsearch/${sppFindStudent.value}/${selectedAcademicYear}`, searchresult, '150', checkStudentBill)
+            myAjax('GET', `/admin/sppmainstudentsearch/${(sppFindStudent.value!=='*')?sppFindStudent.value:'all_students'}/${selectedAcademicYear}`, searchresult, '150', checkStudentBill)
         } else {
             maincontent.setAttribute('style', 'display:block')
             searchresult.setAttribute('style', 'display:none')
@@ -1779,17 +2220,42 @@ function sppFindStudent() {
     }
 }
 
+function sppCustomSearchToggleCore() {
+    const mainspptotal = document.querySelector('.main-spp-total')
+    const tahunAjaranRow = document.querySelector('.spp-tahun-ajaran-row')
+    const customSppSearch = document.querySelector('#customSppSearchToggle')
+    if (customSppSearch.classList[1] == "not_toggled") {
+        customSppSearch.classList.add('toggled')
+        customSppSearch.classList.remove('not_toggled')
+    } else {
+        customSppSearch.classList.add('not_toggled')
+        customSppSearch.classList.remove('toggled')
+    }
+    if (tahunAjaranRow.classList[2] == "not_toggled") {
+        tahunAjaranRow.classList.add('toggled')
+        tahunAjaranRow.classList.remove('not_toggled')
+    } else {
+        tahunAjaranRow.classList.add('not_toggled')
+        tahunAjaranRow.classList.remove('toggled')
+    }
+    if (mainspptotal.classList[1] == "not_toggled") {
+        mainspptotal.classList.add('toggled')
+        mainspptotal.classList.remove('not_toggled')
+    } else {
+        mainspptotal.classList.add('not_toggled')
+        mainspptotal.classList.remove('toggled')
+    }
+}
+
 function sppCustomSearchToggle() {
     const hamburger = document.querySelector('#sidebarToggleTop')
+    const bottomSidebarToggle = document.querySelector('#sidebarToggle')
+
     hamburger.addEventListener('click', () => {
-        const customSppSearch = document.querySelector('#customSppSearchToggle')
-        if (customSppSearch.classList[1] == "not_toggled") {
-            customSppSearch.classList.add('toggled')
-            customSppSearch.classList.remove('not_toggled')
-        } else {
-            customSppSearch.classList.add('not_toggled')
-            customSppSearch.classList.remove('toggled')
-        }
+        sppCustomSearchToggleCore()
+    })
+    bottomSidebarToggle.addEventListener('click', () => {
+        sppCustomSearchToggleCore()
     })
 }
 
@@ -1853,4 +2319,24 @@ if (url[3] == "admin" && url[4] == "spp") {
         )
         window.history.pushState({ data: 'nonfe' }, 'sdrandom', '/' + url[3] + '/' + url[4])
     }
+}
+
+if (url[4] == "keuangan") {
+    const academicYear = document.querySelector('.spp-keuangan-academic-year')
+    const academicMonth = document.querySelector('.spp-keuangan-academic-month')
+    const belumbayarcontainer = document.querySelector('.spp-keuangan-belum-pada-bayar')
+    const totalSppBlnTsb = document.querySelector('.total-spp-bulan-tsb')
+    let year = academicYear.value
+    let month = academicMonth.value
+    academicYear.addEventListener('change', function() {
+        fetchTotalSppMasukTahunTsb(this.value)
+        year = academicYear.value
+        myAjax('get', `/admin/belumbayar/${month}/${year}`, belumbayarcontainer, '250')
+        myAjax('get', `/admin/gettotalsppblntsb/${month}/${year}`, totalSppBlnTsb, '30')
+    })
+    academicMonth.addEventListener('change', function() {
+        month = academicMonth.value
+        myAjax('get', `/admin/belumbayar/${month}/${year}`, belumbayarcontainer, '250')
+        myAjax('get', `/admin/gettotalsppblntsb/${month}/${year}`, totalSppBlnTsb, '30')
+    })
 }

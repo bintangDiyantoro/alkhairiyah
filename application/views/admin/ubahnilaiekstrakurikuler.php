@@ -21,7 +21,7 @@
     </table>
 </div>
 <div class="row d-flex justify-content-end">
-    <button class="btn btn-info update-ekstrakurikuler ubah-nilai-ekstrakurikuler mr-1" id="simpanNilaiEkstrakurikuler" data-session="<?= $this->session->userdata("admin") ?>">Simpan</button>
+    <button class="btn btn-info update-ekstrakurikuler ubah-nilai-ekstrakurikuler mr-1" id="simpanNilaiEkstrakurikuler" data-session="<?= $this->session->userdata("admin") ?>"><i class="fas fa-save"></i> Simpan</button>
     </form>
-    <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-secondary">Kembali</a>
+    <a href="<?= base_url('admin/daftarsiswa/' . $this->session->userdata('id_kelas') . "/" . $this->session->userdata('tahun')) ?>" class="btn btn-secondary"><i class="fas fa-step-backward"></i> Kembali</a>
 </div>

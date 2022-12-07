@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<script>
+<!-- <script>
     var csrf = $('.ajax-text-input-cari-siswa').data('csrf')
     if (url[4] == "sppkelas") {
         const sppBatalCari = document.querySelector('.spp-cari-siswa-batal')
@@ -58,4 +58,4 @@
 
     carisiswa('.ajax-text-input-cari-siswa', 'keypress')
     carisiswa('.btn-cari-siswa', 'click')
-</script>
+</script> -->

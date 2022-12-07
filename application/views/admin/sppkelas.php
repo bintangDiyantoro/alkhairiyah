@@ -1,25 +1,71 @@
 <div class="container">
-    <div class="row d-flex justify-content-start ml-2 mt-5 mb-4">
-        <div style="width: 115px;padding-right:0;">
-            <h5>Kelas</h5>
-            <h5>Tahun Ajaran</h5>
-            <h5>Wali Kelas</h5>
-            <h5>Nominal SPP</h5>
+    <div class="d-flex justify-content-start">
+        <div class="student-spp-detail-label" style="margin-left: 7px;margin-right:1px">
+            <h6>Kelas</h6>
         </div>
-        <div class="col nominal-spp-kelas" <?= ($nominal_spp) ? 'data-nominalspp="' . $nominal_spp["id_nominal_spp"] . '"' : '' ?>>
-            <h5>: <strong><?= $kelas["class"] ?></strong></h5>
-            <h5>: <strong><?= $kelas["tahun"] ?></strong></h5>
-            <h5>: <?= $kelas["nama"] ?></h5>
-            <h5>: <?= ($nominal_spp) ? rupiah($nominal_spp["nominal"]) . ' <small>/bulan</small>' : 'Nominal Belum Ditentukan' ?></h5>
+        <div class="div-colon-r2" style="margin-top: -4px;">
+            <p class="colon-r2">: </p>
+        </div>
+        <div class="spp-data-payment">
+            <h6>
+                <strong>
+                    <?= $kelas["class"] ?>
+                </strong>
+            </h6>
+        </div>
+    </div>
+    <div class="d-flex justify-content-start">
+        <div class="student-spp-detail-label" style="margin-left: 7px;margin-right:1px">
+            <h6>Tahun Ajaran</h6>
+        </div>
+        <div class="div-colon-r2" style="margin-top: -4px;">
+            <p class="colon-r2">: </p>
+        </div>
+        <div class="spp-data-payment">
+            <h6>
+                <strong>
+                    <?= $kelas["tahun"] ?>
+                </strong>
+            </h6>
+        </div>
+    </div>
+    <div class="d-flex justify-content-start">
+        <div class="student-spp-detail-label" style="margin-left: 7px;margin-right:1px">
+            <h6>Wali Kelas</h6>
+        </div>
+        <div class="div-colon-r2" style="margin-top: -4px;">
+            <p class="colon-r2">: </p>
+        </div>
+        <div class="spp-data-payment">
+            <h6>
+                <strong>
+                    <?= $kelas["nama"] ?>
+                </strong>
+            </h6>
+        </div>
+    </div>
+    <div class="d-flex justify-content-start">
+        <div class="student-spp-detail-label" style="margin-left: 7px;margin-right:1px">
+            <h6 class="nominal-spp-kelas" data-nominalspp="<?= $nominal_spp["id_nominal_spp"] ?>">Nominal SPP</h6>
+        </div>
+        <div class="div-colon-r2" style="margin-top: -4px;">
+            <p class="colon-r2">: </p>
+        </div>
+        <div class="spp-data-payment">
+            <h6>
+                <strong>
+                    <?= ($nominal_spp) ? rupiah($nominal_spp["nominal"]) . ' <small>/bulan</small>' : 'Nominal Belum Ditentukan' ?>
+                </strong>
+            </h6>
         </div>
     </div>
     <?php if ($siswa) : ?>
         <div class="d-flex justify-content-center" style="width: 100%;">
-            <div class="table-name-col">
-                <table class="table table-sm table-hover">
+            <!-- <div class="spp-labels-container"> -->
+                <table class="table table-sm table-hover table-spp-labels">
                     <thead>
                         <tr>
-                            <th class="align-middle pl-3" scope="col">#</th>
+                            <th class="align-middle" scope="col">#</th>
                             <th class="align-middle text-left pr-2" style="padding-left:10px" scope="col">Nama</th>
                         </tr>
                     </thead>
@@ -28,7 +74,7 @@
                         $i = 1;
                         foreach ($siswa as $s) : ?>
                             <tr>
-                                <th class="align-middle pl-3" scope="row"><?= $i ?></th>
+                                <th class="align-middle" scope="col"><?= $i ?></th>
                                 <td class="align-middle text-left pr-2" style="padding-left:10px"><?= $s["nama"] ?></td>
                             </tr>
                         <?php
@@ -36,33 +82,36 @@
                         endforeach ?>
                     </tbody>
                 </table>
-            </div>
-            <div class="table-content-col">
-                <div style="overflow-x: auto;margin-top: 0;">
-                    <table class="table table-sm table-hover table-spp" style="table-layout: fixed;">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nama</th>
-                                <?php foreach ($bulan_akademik as $ba) : ?>
-                                    <th scope="col"><?= $ba["nama_bulan"] ?></th>
-                                <?php endforeach ?>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php tabelSPPLooper($siswa, $kelas, $bulan_akademik, $spp) ?>
-                        </tbody>
-                    </table>
-                </div>
+            <!-- </div> -->
+            <div style="overflow-x: auto;margin-top: 0;">
+                <table class="table table-sm table-hover table-spp">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nama</th>
+                            <?php foreach ($bulan_akademik as $ba) : ?>
+                                <th scope="col" style="width: 80px;"><?= $ba["nama_bulan"] ?></th>
+                            <?php endforeach ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php tabelSPPLooper($siswa, $kelas, $bulan_akademik, $spp) ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     <?php else : ?>
         <h3 class="text-center my-5">Kelas Masih Kosong</h3>
     <?php endif ?>
+    <?php if ($total_spp_kelas["total"]) : ?>
+        <p class="text-center mt-5">Total SPP masuk di kelas ini:
+            <strong style="font-size: 26px;"><?= rupiah($total_spp_kelas["total"]) ?></strong>
+        </p>
+    <?php endif ?>
     <div class="row d-flex justify-content-end idtransaksi" style="width:100%;margin-top:35px" data-idtransaksi="<?= $this->session->flashdata("idtransaksi") ?>" data-pembayar="<?= $this->session->flashdata('pembayar') ?>">
-        <a href="<?= base_url('admin/spp') ?>" class="btn btn-secondary px-3" style="border-radius: 20px;">Kembali</a>
-        <span class="btn btn-info px-3 ml-2 trigger-cari-siswa" style="border-radius: 20px;">Tambahkan Siswa</span>
-        <a href="<?= base_url('admin/cetaksppkelas/' . $kelas["id_kelas"] . '/' . $kelas["tahun"]) ?>" class="btn btn-primary px-3 ml-2" style="border-radius: 20px;" target="_blank" >Cetak</a>
+        <a href="<?= base_url('admin/spp') ?>" class="btn btn-secondary px-3 mt-2" style="border-radius: 20px;">Kembali</a>
+        <span class="btn btn-info px-3 ml-2 trigger-cari-siswa mt-2" style="border-radius: 20px;">Tambahkan Siswa</span>
+        <a href="<?= base_url('admin/cetaksppkelas/' . $kelas["id_kelas"] . '/' . $kelas["tahun"]) ?>" class="btn btn-primary px-3 ml-2 mt-2" style="border-radius: 20px;">Cetak</a>
     </div>
 </div>
 <div class="ajax-cari-siswa" style="margin-left: 8%;margin-right:8%;margin-top:40px"></div>

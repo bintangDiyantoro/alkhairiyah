@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container text-center">
     <?php if ($query) :
         $kelasChek = [];
         foreach ($query as $q) {
@@ -85,9 +85,34 @@
                         <label for="pekerjaan_ibu">Pekerjaan Ibu</label>
                         <input type="text" class="form-control" id="pekerjaan_ibu" name="pekerjaan_ibu" placeholder="Pramugari">
                     </div>
+                    <h6 class="mt-4"><strong>Alamat Orang Tua</strong></h6>
                     <div class="form-group">
-                        <label for="alamat_ortu">Alamat Orang Tua</label>
-                        <textarea class="form-control" id="alamat_ortu" name="alamat_ortu" rows="3" placeholder="Alamat Lengkap"></textarea>
+                        <label for="provinsi_ortu">Provinsi</label>
+                        <select id="provinsi_ortu" class="form-control" name="provinsi_ortu">
+                            <option value="">-- Pilih Provinsi --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="kabupaten_ortu">Kabupaten/Kota</label>
+                        <select id="kabupaten_ortu" class="form-control" name="kabupaten_ortu">
+                            <option value="">-- Pilih Kabupaten/Kota --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="kecamatan_ortu">Kecamatan</label>
+                        <select id="kecamatan_ortu" class="form-control" name="kecamatan_ortu">
+                            <option value="">-- Pilih Kecamatan --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="kelurahan_ortu">Kelurahan/Desa</label>
+                        <select id="kelurahan_ortu" class="form-control" name="kelurahan_ortu">
+                            <option value="">-- Pilih Kelurahan/Desa --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="alamat_ortu">Jalan</label>
+                        <textarea class="form-control" id="alamat_ortu" name="alamat_ortu" rows="2" placeholder="Jalan, RT/RW, Gang"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="nama_wali">Nama Wali</label>
@@ -97,9 +122,34 @@
                         <label for="pekerjaan_wali">Pekerjaan Wali</label>
                         <input type="text" class="form-control" id="pekerjaan_wali" name="pekerjaan_wali" placeholder="Wali Kota">
                     </div>
+                    <h6 class="mt-4"><strong>Alamat Wali</strong></h6>
                     <div class="form-group">
-                        <label for="alamat_wali">Alamat Wali</label>
-                        <textarea class="form-control" id="alamat_wali" name="alamat_wali" rows="3" placeholder="Alamat Lengkap"></textarea>
+                        <label for="provinsi_wali">Provinsi</label>
+                        <select id="provinsi_wali" class="form-control" name="provinsi_wali">
+                            <option value="">-- Pilih Provinsi --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="kabupaten_wali">Kabupaten/Kota</label>
+                        <select id="kabupaten_wali" class="form-control" name="kabupaten_wali">
+                            <option value="">-- Pilih Kabupaten/Kota --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="kecamatan_wali">Kecamatan</label>
+                        <select id="kecamatan_wali" class="form-control" name="kecamatan_wali">
+                            <option value="">-- Pilih Kecamatan --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="kelurahan_wali">Kelurahan/Desa</label>
+                        <select id="kelurahan_wali" class="form-control" name="kelurahan_wali">
+                            <option value="">-- Pilih Kelurahan/Desa --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="alamat_wali">Jalan</label>
+                        <textarea class="form-control" id="alamat_wali" name="alamat_wali" rows="2" placeholder="Jalan, RT/RW, Gang"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="no_hp_ortu">No Hp Ortu/Wali</label>
@@ -114,4 +164,4 @@
 
         </div>
     </div>
-    <script src="<?= base_url('assets/js/tambahsiswa.js') ?>"></script>
+    <!-- <script src="<?= base_url('assets/js/tambahsiswa1.js') ?>"></script> -->

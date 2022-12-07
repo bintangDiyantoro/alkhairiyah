@@ -52,11 +52,11 @@
 
         <!-- Custom scripts for all pages-->
         <!-- <script src="<?= base_url('assets/js/') ?>jquery-3.4.1.min.js"></script> -->
-        <script src="<?= base_url('assets/js/') ?>sb-admin-2.min.js"></script>
+        <script src="<?= base_url('assets/js/') ?>sb-admin-2-2.js"></script>
         <script src="<?= base_url('assets/js/') ?>sweetalert2.all.min.js"></script>
         <script src="<?= base_url('assets/js/') ?>pickmeup1.js"></script>
-        <script src="<?= base_url('assets/js/') ?>adminmainscript.js"></script>
-        <script src="<?= base_url('assets/js/') ?>app.js"></script>
+        <script src="<?= base_url('assets/js/') ?>adminmainscript3.js"></script>
+        <script src="<?= base_url('assets/js/') ?>app2.js"></script>
         </body>
 
         </html>
