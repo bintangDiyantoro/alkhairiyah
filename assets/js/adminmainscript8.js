@@ -48,37 +48,7 @@ $(function() {
         })
     }
 
-    if (url[3] == "admin") {
-        const sidebarToggle = document.querySelector('#sidebarToggle')
-        const hamburger = document.querySelector('#sidebarToggleTop')
-        mainToggleControl(sidebarToggle)
-        mainToggleControl(hamburger)
-    }
-
-    function addStudentModal() {
-        $('.cari-lagi').on('click', function(e) {
-            e.preventDefault()
-            const carisiswa = document.querySelector('.ajax-cari-siswa')
-            carisiswa.innerHTML = '<div class="d-flex justify-content-center align-items-center" ><img src="/assets/img/greenloading.gif" height="70"></div>'
-            const xhr = new XMLHttpRequest()
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    carisiswa.innerHTML = this.responseText
-                    studentSearch()
-                }
-            }
-            xhr.open('get', '/admin/carisiswa/')
-            xhr.send()
-        })
-
-        if (url[4] == "sppkelas") {
-            const sppBatalCari = document.querySelector('.spp-cari-siswa-batal')
-            if (sppBatalCari) {
-                sppBatalCari.addEventListener('click', function() {
-                    document.querySelector('.ajax-cari-siswa').innerHTML = ''
-                })
-            }
-        }
+    function completeParentAddressCaller() {
 
         const urlAPIwilayah = 'https://bintangdiyantoro.github.io/api-wilayah-indonesia/api/'
 
@@ -279,6 +249,45 @@ $(function() {
                 }
             }
         })
+    }
+
+    if (url[3] == "admin") {
+        const sidebarToggle = document.querySelector('#sidebarToggle')
+        const hamburger = document.querySelector('#sidebarToggleTop')
+        mainToggleControl(sidebarToggle)
+        mainToggleControl(hamburger)
+    }
+
+    if (url[3] == "admin" && url[4] == "ubahbiodata") {
+        completeParentAddressCaller()
+    }
+
+    function addStudentModal() {
+        $('.cari-lagi').on('click', function(e) {
+            e.preventDefault()
+            const carisiswa = document.querySelector('.ajax-cari-siswa')
+            carisiswa.innerHTML = '<div class="d-flex justify-content-center align-items-center" ><img src="/assets/img/greenloading.gif" height="70"></div>'
+            const xhr = new XMLHttpRequest()
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    carisiswa.innerHTML = this.responseText
+                    studentSearch()
+                }
+            }
+            xhr.open('get', '/admin/carisiswa/')
+            xhr.send()
+        })
+
+        if (url[4] == "sppkelas") {
+            const sppBatalCari = document.querySelector('.spp-cari-siswa-batal')
+            if (sppBatalCari) {
+                sppBatalCari.addEventListener('click', function() {
+                    document.querySelector('.ajax-cari-siswa').innerHTML = ''
+                })
+            }
+        }
+
+        completeParentAddressCaller()
 
         $('.ajax-tambah-siswa').on('click', (e) => {
             e.preventDefault()
@@ -771,6 +780,14 @@ $(function() {
                 html: "Biodata " + name + " Berhasil Diubah!"
             })
         }
+        const xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // console.log("erased")
+            }
+        }
+        xhr.open('get', '/admin/cleareditbiodataflasdatasession')
+        xhr.send()
     }
 
 })
@@ -783,11 +800,18 @@ function insertAfter(referenceNode, newNode) {
 }
 
 if (document.getElementsByClassName('container')[0].dataset.tmbkls == 'sukses') {
-    Swal.fire({
-        type: 'success',
-        title: "Berhasil!",
-        html: "Kelas baru berhasil ditambahkan!"
-    })
+    const xhr = new XMLHttpRequest()
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            Swal.fire({
+                type: 'success',
+                title: "Berhasil!",
+                html: "Kelas baru berhasil ditambahkan!"
+            })
+        }
+    }
+    xhr.open('get', '/admin/cleareditbiodataflasdatasession')
+    xhr.send()
 }
 
 if (url[3] == "admin" && url[4] == "kelolanilai") {

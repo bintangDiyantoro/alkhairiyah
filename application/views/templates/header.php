@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/pickmeup1.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/mainstyles.css">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url() ?>assets/img/alkhairiyah.png">
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="<?= base_url()?>manifest.json">
     <title>SDI Al-Khairiyah Banyuwangi | <?= $title; ?></title>
 </head>
 

@@ -85,8 +85,33 @@
                 <input type="text" class="form-control" id="pekerjaan_ibu" name="pekerjaan_ibu" value="<?= $biodata["pekerjaan_ibu"] ?>" placeholder="Pramugari">
                 <?= form_error('pekerjaan_ibu', '<small class="text-danger pl-3">', '</small>') ?>
             </div>
+            <h5>Alamat Ortu</h5>
             <div class="form-group">
-                <label for="alamat_ortu">Alamat Orang Tua</label>
+                <label for="provinsi_ortu">Provinsi</label>
+                <select id="provinsi_ortu" class="form-control" name="provinsi_ortu">
+                    <?= ($biodata["provinsi_ortu"]) ? '<option value="' . $biodata["provinsi_ortu"] . '">' . $biodata["provinsi_ortu"] . '</option>' : '<option value="">-- Pilih Provinsi --</option>' ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="kabupaten_ortu">Kabupaten/Kota</label>
+                <select id="kabupaten_ortu" class="form-control" name="kabupaten_ortu">
+                    <?= ($biodata["kabupaten_ortu"]) ? '<option value="' . $biodata["kabupaten_ortu"] . '">' . $biodata["kabupaten_ortu"] . '</option>' : '<option value="">-- Pilih Kabupaten/Kota --</option>' ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="kecamatan_ortu">Kecamatan</label>
+                <select id="kecamatan_ortu" class="form-control" name="kecamatan_ortu">
+                    <?= ($biodata["kecamatan_ortu"]) ? '<option value="' . $biodata["kecamatan_ortu"] . '">' . $biodata["kecamatan_ortu"] . '</option>' : '<option value="">-- Pilih Kecamatan --</option>' ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="kelurahan_ortu">Kelurahan/Desa</label>
+                <select id="kelurahan_ortu" class="form-control" name="kelurahan_ortu">
+                    <?= ($biodata["kelurahan_ortu"]) ? '<option value="' . $biodata["kelurahan_ortu"] . '">' . $biodata["kelurahan_ortu"] . '</option>' : '<option value="">-- Pilih Kelurahan/Desa --</option>' ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="alamat_ortu">Jalan, Blok, RT/RW</label>
                 <textarea class="form-control" id="alamat_ortu" name="alamat_ortu" rows="3" placeholder="Alamat Lengkap"><?= $biodata["alamat_ortu"] ?></textarea>
                 <?= form_error('alamat_ortu', '<small class="text-danger pl-3">', '</small>') ?>
             </div>
@@ -100,8 +125,33 @@
                 <input type="text" class="form-control" id="pekerjaan_wali" name="pekerjaan_wali" value="<?= $biodata["pekerjaan_wali"] ?>" placeholder="Wali Kota">
                 <?= form_error('pekerjaan_wali', '<small class="text-danger pl-3">', '</small>') ?>
             </div>
+            <h5>Alamat Wali</h5>
             <div class="form-group">
-                <label for="alamat_wali">Alamat Wali</label>
+                <label for="provinsi_wali">Provinsi</label>
+                <select id="provinsi_wali" class="form-control" name="provinsi_wali">
+                    <?= ($biodata["provinsi_wali"]) ? '<option value="' . $biodata["provinsi_wali"] . '">' . $biodata["provinsi_wali"] . '</option>' : '<option value="">-- Pilih Provinsi --</option>' ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="kabupaten_wali">Kabupaten/Kota</label>
+                <select id="kabupaten_wali" class="form-control" name="kabupaten_wali">
+                    <?= ($biodata["kabupaten_wali"]) ? '<option value="' . $biodata["kabupaten_wali"] . '">' . $biodata["kabupaten_wali"] . '</option>' : '<option value="">-- Pilih Kabupaten/Kota --</option>' ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="kecamatan_wali">Kecamatan</label>
+                <select id="kecamatan_wali" class="form-control" name="kecamatan_wali">
+                    <?= ($biodata["kecamatan_wali"]) ? '<option value="' . $biodata["kecamatan_wali"] . '">' . $biodata["kecamatan_wali"] . '</option>' : '<option value="">-- Pilih Kecamatan --</option>' ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="kelurahan_wali">Kelurahan/Desa</label>
+                <select id="kelurahan_wali" class="form-control" name="kelurahan_wali">
+                    <?= ($biodata["kelurahan_wali"]) ? '<option value="' . $biodata["kelurahan_wali"] . '">' . $biodata["kelurahan_wali"] . '</option>' : '<option value="">-- Pilih Kelurahan/Desa --</option>' ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="alamat_wali">Jalan, Blok, RT/RW</label>
                 <textarea class="form-control" id="alamat_wali" name="alamat_wali" rows="3" placeholder="Alamat Lengkap"><?= $biodata["alamat_wali"] ?></textarea>
                 <?= form_error('alamat_wali', '<small class="text-danger pl-3">', '</small>') ?>
             </div>

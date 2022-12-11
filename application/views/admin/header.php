@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
     <title>SDI Al-Khairiyah | <?= $title ?></title>
 
@@ -18,9 +20,9 @@
 
     <!-- Custom styles for this template-->
     <link href="<?= base_url('assets/css/') ?>sb-admin-2.min.css" rel="stylesheet">
-    <link href="<?= base_url('assets/css/') ?>adminmainstyle3.css" rel="stylesheet">
+    <link href="<?= base_url('assets/css/') ?>adminmainstyle8.css" rel="stylesheet">
     <link href="<?= base_url('assets/css/') ?>pickmeup1.css" rel="stylesheet">
-    <link rel="manifest" href="/manifest2.json">
+    <link rel="manifest" href="<?= base_url() ?>manifest.json">
 </head>
 
 <body id="page-top">

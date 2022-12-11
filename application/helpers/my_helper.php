@@ -435,7 +435,7 @@ function sikapTextArea($idsiswa, $idkelassiswa, $idsemester, $idsikap, $tahun, $
     $tahunInput = explode('/', $tahun)[0];
 
     if ($tahunInput == date('Y')) {
-        if ((int)date('m') >= 7 && (int)date('m') < 12) {
+        if ((int)date('m') >= 7 && (int)date('m') <= 12) {
             if ($idsemester == '2') {
                 return '<td class="align-middle tb-sikap-hidden"></td>';
             } elseif ($idsemester == '1') {

@@ -50,7 +50,7 @@
                                         </td>
                                         <td class="align-middle">
                                             <small>
-                                                <i class="text-monospace" style="color:limegreen;font-weight:300 ;">
+                                                <i class="text-monospace">
                                                     <?= ($ss['insert_by'] == $this->session->userdata('id_staff')) ? 'Anda' : $ss["nama_staff"] ?>
                                                 </i>
                                             </small>
