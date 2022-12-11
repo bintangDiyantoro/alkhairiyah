@@ -9,22 +9,32 @@
     "icons": [{
             "src": "/assets/img/alkhairiyah.png",
             "type": "image/png",
-            "size": "72x72"
+            "sizes": "72x72 144x144 192x192 266x266 512x512",
+            "purpose": "any"
+        },
+        {
+            "src": "/assets/img/alkhairiyah144.png",
+            "type": "image/png",
+            "size": "144x144",
+            "purpose": "any"
+        },
+        {
+            "src": "/assets/img/alkhairiyah192.png",
+            "type": "image/png",
+            "size": "192x192",
+            "purpose": "any"
         },
         {
             "src": "/assets/img/alkhairiyah.png",
             "type": "image/png",
-            "size": "192x192"
+            "size": "266x266",
+            "purpose": "any"
         },
         {
-            "src": "/assets/img/alkhairiyah.png",
+            "src": "/assets/img/alkhairiyah512.png",
             "type": "image/png",
-            "size": "266x266"
-        },
-        {
-            "src": "/assets/img/alkhairiyah.png",
-            "type": "image/png",
-            "size": "512x512"
+            "size": "512x512",
+            "purpose": "any"
         }
     ],
     "prefer_related_applications": false

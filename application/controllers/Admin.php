@@ -1778,9 +1778,17 @@ class Admin extends CI_Controller
         $this->session->set_userdata('pekerjaan_ayah', $data["pekerjaan_ayah"]);
         $this->session->set_userdata('nama_ibu', $data["nama_ibu"]);
         $this->session->set_userdata('pekerjaan_ibu', $data["pekerjaan_ibu"]);
+        $this->session->set_userdata('provinsi_ortu', $data["provinsi_ortu"]);
+        $this->session->set_userdata('kabupaten_ortu', $data["kabupaten_ortu"]);
+        $this->session->set_userdata('kecamatan_ortu', $data["kecamatan_ortu"]);
+        $this->session->set_userdata('kelurahan_ortu', $data["kelurahan_ortu"]);
         $this->session->set_userdata('alamat_ortu', $data["alamat_ortu"]);
         $this->session->set_userdata('nama_wali', $data["nama_wali"]);
         $this->session->set_userdata('pekerjaan_wali', $data["pekerjaan_wali"]);
+        $this->session->set_userdata('provinsi_wali', $data["provinsi_wali"]);
+        $this->session->set_userdata('kabupaten_wali', $data["kabupaten_wali"]);
+        $this->session->set_userdata('kecamatan_wali', $data["kecamatan_wali"]);
+        $this->session->set_userdata('kelurahan_wali', $data["kelurahan_wali"]);
         $this->session->set_userdata('alamat_wali', $data["alamat_wali"]);
         $this->session->set_userdata('no_hp_ortu', $data["no_hp_ortu"]);
     }
@@ -4568,6 +4576,12 @@ class Admin extends CI_Controller
                 redirect('admin');
             }
         }
+    }
+
+    public function cleareditbiodataflasdatasession()
+    {
+        $this->session->unset_userdata('editBiodataAlert');
+        $this->session->unset_userdata('suksestambahkelas');
     }
 
     public function fallback()

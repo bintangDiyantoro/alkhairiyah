@@ -161,7 +161,7 @@
                 </div>
                 <div class="col-md-5 data-buku-induk">
                     <?php if ($biodata["alamat_ortu"]) {
-                        echo $biodata["alamat_ortu"];
+                        echo $biodata["alamat_ortu"] . ", " . $biodata["kelurahan_ortu"] . ", KEC." . $biodata["kecamatan_ortu"] . ", " . $biodata["kabupaten_ortu"] . ", " . $biodata["provinsi_ortu"];
                     } else {
                         echo "-";
                     } ?>
@@ -193,7 +193,7 @@
                 </div>
                 <div class="col-md-5 data-buku-induk">
                     <?php if ($biodata["alamat_wali"]) {
-                        echo $biodata["alamat_wali"];
+                        echo $biodata["alamat_wali"] . ", " . $biodata["kelurahan_wali"] . ", KEC." . $biodata["kecamatan_wali"] . ", " . $biodata["kabupaten_wali"] . ", " . $biodata["provinsi_wali"];
                     } else {
                         echo "-";
                     } ?>

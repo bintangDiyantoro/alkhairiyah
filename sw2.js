@@ -1,18 +1,21 @@
-const staticCacheName = 'static-site-v1'
-    // const dynamicCacheName = 'dynamic-site-v1'
-const assets = [
+const staticCacheName = 'static-site-v2'
+const dynamicCacheName = 'dynamic-site-v1'
+const cacheAssets = [
         '/',
-        // '/admin',
         '/admin/fallback',
+        '/assets/img/alkhairiyah.png',
+        '/assets/img/alkhairiyah144b.png',
         '/assets/vendor/fontawesome-free/css/all.min.css',
+        '/assets/img/alkhairiyah144.png',
+        '/assets/img/alkhairiyah192.png',
+        '/assets/img/alkhairiyah512.png',
         'https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i',
         'https://fonts.gstatic.com/s/nunito/v25/XRXX3I6Li01BKofIMNaORs7nczIHNHI.woff2',
         'https://fonts.gstatic.com/s/nunito/v25/XRXX3I6Li01BKofIMNaDRs7nczIH.woff2',
         'https://fonts.gstatic.com/s/nunito/v25/XRXV3I6Li01BKofIOOaBTMnFcQIG.woff2',
         // 'https://fonts.gstatic.com/s/nunito/v25/XRXV3I6Li01BKofINeaBTMnFcQ.woff',
-        '/assets/img/alkhairiyah.png',
         '/assets/css/sb-admin-2.min.css',
-        '/assets/adminmainstyle3.css',
+        '/assets/adminmainstyle8.css',
         '/assets/css/pickmeup1.css',
         '/manifest.json',
         '/assets/vendor/jquery/jquery.min.js',
@@ -21,14 +24,16 @@ const assets = [
         '/assets/js/sb-admin-2-2.js',
         '/assets/js/sweetalert2.all.min.js',
         '/assets/js/pickmeup1.js',
-        '/assets/js/adminmainscript3.js',
+        '/assets/js/adminmainscript8.js',
         '/assets/js/app2.js',
+        '/assets/img/8760e27774fcb938c34348dca87ddb79.svg'
     ]
+    // '/admin',
     // install event
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(staticCacheName).then(cache => {
-            cache.addAll(assets)
+            cache.addAll(cacheAssets)
         })
     )
 })
@@ -56,6 +61,6 @@ self.addEventListener('fetch', event => {
                 //         return fetchRes
                 //     })
                 // })
-        })
+        }).catch(() => caches.match('/admin/fallback'))
     )
 });

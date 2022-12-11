@@ -11,7 +11,7 @@
                 </div>
                 <form class="d-flex justify-content-center align-items-center" action="<?= base_url('admin/pilihkelas2/' . $this->session->userdata('id_staff') . '/' . $this->session->userdata('tahun')) ?>" method="post" id="formPilihKelas" name="formPilihKelas">
                     <input type="hidden" name="<?= $csrf['name'] ?>" value="<?= $csrf['hash'] ?>">
-                    <div class="form-group" style="width: 63px;">
+                    <div class="form-group" style="width: 68px;">
                         <select class="form-control" aria-label="Default select example" name="pilihkelas" id="pilihkelas">
                             <?php foreach ($kelas as $k) : ?>
                                 <option class="classname" value="<?= $k["id"] ?>"><?= $k["class"] ?></option>

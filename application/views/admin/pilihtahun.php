@@ -6,7 +6,7 @@
         <form class="d-flex align-items-center" action="<?= base_url('admin/redirectPilihKelas') ?>" method="post" style="display: inline;">
             <input class="input-pilih-tahun" type="hidden" name="<?= $csrfname ?>" value="<?= $csrfhash ?>">
             <input class="input-pilih-tahun" type="hidden" name="id_staff" value="<?= $idstaff ?>">
-            <select class="form-control mr-1" aria-label="Default select example" name="pilihtahun" id="pilihtahun" style="width: 102px;">
+            <select class="form-control mr-1" aria-label="Default select example" name="pilihtahun" id="pilihtahun" style="width: 107px;">
                 <?php foreach ($tahun as $t) : ?>
                     <option value="<?= $t ?>"><?= $t ?></option>
                 <?php endforeach ?>
