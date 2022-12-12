@@ -1,4 +1,4 @@
-const staticCacheName = 'static-site-v2'
+const staticCacheName = 'static-site-v1'
 const dynamicCacheName = 'dynamic-site-v1'
 const cacheAssets = [
         '/',
@@ -25,7 +25,7 @@ const cacheAssets = [
         '/assets/js/sweetalert2.all.min.js',
         '/assets/js/pickmeup1.js',
         '/assets/js/adminmainscript8.js',
-        '/assets/js/app2.js',
+        '/assets/js/app3.js',
         '/assets/img/8760e27774fcb938c34348dca87ddb79.svg'
     ]
     // '/admin',
@@ -61,6 +61,11 @@ self.addEventListener('fetch', event => {
                 //         return fetchRes
                 //     })
                 // })
-        }).catch(() => caches.match('/admin/fallback'))
+        }).catch(() => {
+            const reqURI = event.request.url.split('/')
+            if (reqURI[4] !== "livetime") {
+                return caches.match('/admin/fallback')
+            }
+        })
     )
 });
