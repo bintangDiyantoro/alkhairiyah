@@ -457,21 +457,38 @@ $(function() {
         })
     }
 
+    function cancelStudentSearch() {
+        const container = document.querySelector('.ajax-cari-siswa')
+        const xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                container.innerHTML = this.responseText
+                const triggercs = document.querySelector('.trigger-cari-siswa')
+                triggercs.addEventListener('click', (e) => {
+                    e.preventDefault()
+                    startSearchingStudent()
+                })
+            }
+        }
+        xhr.open('get', '/admin/startsearchingstudent')
+        xhr.send()
+    }
+
     function studentSearch() {
         var csrf = $('.ajax-text-input-cari-siswa').data('csrf')
-        if (url[4] == "sppkelas") {
-            const sppBatalCari = document.querySelector('.spp-cari-siswa-batal')
-            sppBatalCari.addEventListener('click', function() {
+        const batalCari = document.querySelector('.cari-siswa-batal')
+        batalCari.addEventListener('click', function() {
+            if (url[4] !== 'sppkelas') {
+                cancelStudentSearch()
+            } else {
                 document.querySelector('.ajax-cari-siswa').innerHTML = ''
-            })
-        }
+            }
+        })
         carisiswaFn('.ajax-text-input-cari-siswa', 'keypress')
         carisiswaFn('.btn-cari-siswa', 'click')
     }
 
-
-    triggercarisiswa.on('click', (e) => {
-        e.preventDefault()
+    function startSearchingStudent() {
         const carisiswa = document.querySelector('.ajax-cari-siswa')
         carisiswa.innerHTML = '<div class="d-flex justify-content-center align-items-center" ><img src="/assets/img/greenloading.gif" height="70"></div>'
         const xhr = new XMLHttpRequest()
@@ -483,7 +500,12 @@ $(function() {
         }
         xhr.open('get', '/admin/carisiswa/')
         xhr.send()
+    }
+    triggercarisiswa.on('click', (e) => {
+        e.preventDefault()
+        startSearchingStudent()
     })
+
 
     addClassBtn.on('click', () => {
         if (addClassBtn.data('session')) {

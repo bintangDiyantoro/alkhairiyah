@@ -706,4 +706,38 @@ class ModelAdmin extends CI_Model
             return null;
         }
     }
+
+    public function insertFetchedStudentData($data)
+    {
+        $studentIsExist = $this->db->query("SELECT * FROM siswa WHERE nomor_induk=" . $data[2] . " AND nisn = " . $data[4])->row_array();
+        $rt_rw = ($data[10] && $data[11]) ? ", RT/RW: " . $data[10] . "/" . $data[11] : '';
+        $dusun = ($data[12]) ? ", Dusun: " . myStr($data[12]) : '';
+        $nama_wali = ($data[36]) ? $data[36] : '';
+        $nohpOrtu = ($data[19]) ? $data[19] : '';
+        $mapped = [
+            "nomor_induk" => $data[2],
+            "nisn" => $data[4],
+            "nama" => myStr($data[1]),
+            "ttl" => myStr($data[5]) . ', ' . explode('-', $data[6])[2] . '-' . explode('-', $data[6])[1] . '-' . explode('-', $data[6])[0],
+            "jenis_kelamin" => $data[3],
+            "alamat" => myStr($data[9]) . $rt_rw . $dusun . ', Kel. ' . myStr($data[13]) . ', ' . myStr($data[14]),
+            "nama_ayah" => myStr($data[24]),
+            "nama_ibu" => myStr($data[30]),
+            "alamat_ortu" => myStr($data[9]) . $rt_rw . $dusun,
+            "nama_wali" => $nama_wali,
+            "no_hp_ortu" => $nohpOrtu,
+            "pekerjaan_ayah" => $data[27],
+            "pekerjaan_ibu" => $data[33],
+            "kelurahan_ortu" => ', Kel. ' . myStr($data[13]),
+            "kecamatan_ortu" => myStr($data[14]),
+            "updated_by" => $this->session->userdata("id_staff")
+        ];
+        if ($studentIsExist) {
+            $this->db->where('nomor_induk', $data[2]);
+            $this->db->where('nisn', $data[4]);
+            $this->db->update('siswa', $mapped);
+        } else {
+            $this->db->insert('siswa', $mapped);
+        }
+    }
 }

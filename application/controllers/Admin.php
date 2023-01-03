@@ -557,10 +557,59 @@ class Admin extends CI_Controller
                 } elseif ($this->session->userdata('role') == "1") {
                     $data["title"] = "Buku Induk Siswa";
                 }
+                $data["csrf"] = $this->csrf;
                 $data["kelas"] = $this->db->query("select class from kelas where id=" . $idkelas)->row_array();
                 $data["tahun"] = $tahunkelas;
                 $data["semua_siswa"] = $this->db->query("SELECT kelas_siswa.id_siswa, kelas_siswa.id_kelas, kelas_siswa.tahun, kelas_siswa.insert_by, kelas.class, siswa.id, siswa.nisn, siswa.nomor_induk, siswa.nama, siswa.jenis_kelamin, staff.nama AS nama_staff FROM kelas_siswa JOIN siswa ON kelas_siswa.id_siswa = siswa.id JOIN kelas ON kelas_siswa.id_kelas = kelas.id JOIN staff ON kelas_siswa.insert_by = staff.id WHERE kelas_siswa.id_kelas='" . $idkelas . "' AND kelas_siswa.tahun ='" . $tahunkelas . "' ORDER BY siswa.nama")->result_array();
                 $this->session->set_userdata(["id_kelas" => $idkelas, "tahun" => $tahunkelas]);
+                $data["error"] = NULL;
+                if (isset($_POST["submit"])) {
+                    $tr = new GoogleTranslate();
+                    $tr->setSource('en');
+                    $tr->setTarget('id');
+                    $config['upload_path'] = 'assets/sheets/';
+                    $config['allowed_types'] = 'xls|xlsx';
+                    $config['max_size']     = '1000'; //kb
+                    $config["overwrite"] = true;
+                    $this->load->library('upload', $config);
+                    if (!$this->upload->do_upload('fileexcel')) {
+                        $data["error"] = $tr->translate(strip_tags($this->upload->display_errors()));
+                    } else {
+                        $data = array('upload_data' => $this->upload->data());
+                        $refName = './assets/sheets/' . $this->upload->data()["file_name"];
+                        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                        $spreadsheet = $reader->load($refName);
+                        $worksheet = $spreadsheet->getActiveSheet();
+                        $rowItterator = $worksheet->getRowIterator();
+
+                        $dataCol = [];
+                        $i = 1;
+                        foreach ($rowItterator as $row) {
+                            $cellIterator = $row->getCellIterator();
+                            $cellIterator->setIterateOnlyExistingCells(TRUE);
+                            $dataRow = [];
+                            if ($i > 6) {
+                                foreach ($cellIterator as $cell) {
+                                    $dataRow[] = $cell->getValue();
+                                }
+                                $dataCol[] = $dataRow;
+                            }
+                            $i++;
+                        }
+
+
+                        foreach ($dataCol as $dc) {
+                            // var_dump($dc);
+                            $this->Admin->insertFetchedStudentData($dc);
+                            $idsiswa = $this->db->query("SELECT id FROM siswa WHERE nomor_induk=" . $dc[2] . " AND nisn=" . $dc[4])->row_array()["id"];
+                            $this->Admin->masukkankelasCore($idsiswa, $idkelas, $tahunkelas);
+                            // var_dump($this->_sppStudentSearch($idsiswa, $tahun, $th)["reason"]);
+                            // echo '<hr>';
+                        }
+
+                        redirect('admin/daftarsiswa/' . $idkelas . '/' . $tahun . '/' . $th);
+                    }
+                }
 
                 $this->load->view('admin/header', $data);
                 $this->load->view('admin/siswakelas');
@@ -568,6 +617,16 @@ class Admin extends CI_Controller
             } else {
                 redirect('admin');
             }
+        }
+    }
+
+    public function startsearchingstudent()
+    {
+        netralize();
+        if ($this->session->userdata('admin')) {
+            $this->load->view('admin/startsearchingstudent');
+        } else {
+            redirect('admin/login');
         }
     }
 
@@ -579,44 +638,44 @@ class Admin extends CI_Controller
         } else {
             if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "2" || $this->session->userdata('role') == "1" || $this->session->userdata('role') == "4") {
                 $data["csrf"] = $this->csrf;
-                $thnsebelumnya = (int)explode('/', $this->session->userdata('tahun'))[0] - 1;
-                $thnsblmny =  (int)explode('/', $this->session->userdata('tahun'))[1] - 1;
-                $tahunsebelumnya = (string)$thnsebelumnya . "/" . (string)$thnsblmny;
-                $duathnsebelumnya = (int)explode('/', $this->session->userdata('tahun'))[0] - 2;
-                $duathnsblmny =  (int)explode('/', $this->session->userdata('tahun'))[1] - 2;
-                $duatahunsebelumnya = (string)$duathnsebelumnya . "/" . (string)$duathnsblmny;
-                $tigathnsebelumnya = (int)explode('/', $this->session->userdata('tahun'))[0] - 3;
-                $tigathnsblmny =  (int)explode('/', $this->session->userdata('tahun'))[1] - 3;
-                $tigatahunsebelumnya = (string)$tigathnsebelumnya . "/" . (string)$tigathnsblmny;
-                $empatthnsebelumnya = (int)explode('/', $this->session->userdata('tahun'))[0] - 4;
-                $empatthnsblmny =  (int)explode('/', $this->session->userdata('tahun'))[1] - 4;
-                $empattahunsebelumnya = (string)$empatthnsebelumnya . "/" . (string)$empatthnsblmny;
-                $limathnsebelumnya = (int)explode('/', $this->session->userdata('tahun'))[0] - 5;
-                $limathnsblmny =  (int)explode('/', $this->session->userdata('tahun'))[1] - 5;
-                $limatahunsebelumnya = (string)$limathnsebelumnya . "/" . (string)$limathnsblmny;
-                $enamthnsebelumnya = (int)explode('/', $this->session->userdata('tahun'))[0] - 6;
-                $enamthnsblmny =  (int)explode('/', $this->session->userdata('tahun'))[1] - 6;
-                $enamtahunsebelumnya = (string)$enamthnsebelumnya . "/" . (string)$enamthnsblmny;
-                $thnsetelahnya = (int)explode('/', $this->session->userdata('tahun'))[0] + 1;
-                $thnstlhny =  (int)explode('/', $this->session->userdata('tahun'))[1] + 1;
-                $tahunsetelahnya = (string)$thnsetelahnya . "/" . (string)$thnstlhny;
-                $duathnsetelahnya = (int)explode('/', $this->session->userdata('tahun'))[0] + 2;
-                $duathnstlhny =  (int)explode('/', $this->session->userdata('tahun'))[1] + 2;
-                $duatahunsetelahnya = (string)$duathnsetelahnya . "/" . (string)$duathnstlhny;
-                $tigathnsetelahnya = (int)explode('/', $this->session->userdata('tahun'))[0] + 3;
-                $tigathnstlhny =  (int)explode('/', $this->session->userdata('tahun'))[1] + 3;
-                $tigatahunsetelahnya = (string)$tigathnsetelahnya . "/" . (string)$tigathnstlhny;
-                $empatthnsetelahnya = (int)explode('/', $this->session->userdata('tahun'))[0] + 4;
-                $empatthnstlhny =  (int)explode('/', $this->session->userdata('tahun'))[1] + 4;
-                $empattahunsetelahnya = (string)$empatthnsetelahnya . "/" . (string)$empatthnstlhny;
-                $limathnsetelahnya = (int)explode('/', $this->session->userdata('tahun'))[0] + 5;
-                $limathnstlhny =  (int)explode('/', $this->session->userdata('tahun'))[1] + 5;
-                $limatahunsetelahnya = (string)$limathnsetelahnya . "/" . (string)$limathnstlhny;
-                $enamthnsetelahnya = (int)explode('/', $this->session->userdata('tahun'))[0] + 6;
-                $enamthnstlhny =  (int)explode('/', $this->session->userdata('tahun'))[1] + 6;
-                $enamtahunsetelahnya = (string)$enamthnsetelahnya . "/" . (string)$enamthnstlhny;
-
                 if (isset($_GET["submit"])) {
+                    $thnsebelumnya = (int)explode('/', $this->session->userdata('tahun'))[0] - 1;
+                    $thnsblmny =  (int)explode('/', $this->session->userdata('tahun'))[1] - 1;
+                    $tahunsebelumnya = (string)$thnsebelumnya . "/" . (string)$thnsblmny;
+                    $duathnsebelumnya = (int)explode('/', $this->session->userdata('tahun'))[0] - 2;
+                    $duathnsblmny =  (int)explode('/', $this->session->userdata('tahun'))[1] - 2;
+                    $duatahunsebelumnya = (string)$duathnsebelumnya . "/" . (string)$duathnsblmny;
+                    $tigathnsebelumnya = (int)explode('/', $this->session->userdata('tahun'))[0] - 3;
+                    $tigathnsblmny =  (int)explode('/', $this->session->userdata('tahun'))[1] - 3;
+                    $tigatahunsebelumnya = (string)$tigathnsebelumnya . "/" . (string)$tigathnsblmny;
+                    $empatthnsebelumnya = (int)explode('/', $this->session->userdata('tahun'))[0] - 4;
+                    $empatthnsblmny =  (int)explode('/', $this->session->userdata('tahun'))[1] - 4;
+                    $empattahunsebelumnya = (string)$empatthnsebelumnya . "/" . (string)$empatthnsblmny;
+                    $limathnsebelumnya = (int)explode('/', $this->session->userdata('tahun'))[0] - 5;
+                    $limathnsblmny =  (int)explode('/', $this->session->userdata('tahun'))[1] - 5;
+                    $limatahunsebelumnya = (string)$limathnsebelumnya . "/" . (string)$limathnsblmny;
+                    $enamthnsebelumnya = (int)explode('/', $this->session->userdata('tahun'))[0] - 6;
+                    $enamthnsblmny =  (int)explode('/', $this->session->userdata('tahun'))[1] - 6;
+                    $enamtahunsebelumnya = (string)$enamthnsebelumnya . "/" . (string)$enamthnsblmny;
+                    $thnsetelahnya = (int)explode('/', $this->session->userdata('tahun'))[0] + 1;
+                    $thnstlhny =  (int)explode('/', $this->session->userdata('tahun'))[1] + 1;
+                    $tahunsetelahnya = (string)$thnsetelahnya . "/" . (string)$thnstlhny;
+                    $duathnsetelahnya = (int)explode('/', $this->session->userdata('tahun'))[0] + 2;
+                    $duathnstlhny =  (int)explode('/', $this->session->userdata('tahun'))[1] + 2;
+                    $duatahunsetelahnya = (string)$duathnsetelahnya . "/" . (string)$duathnstlhny;
+                    $tigathnsetelahnya = (int)explode('/', $this->session->userdata('tahun'))[0] + 3;
+                    $tigathnstlhny =  (int)explode('/', $this->session->userdata('tahun'))[1] + 3;
+                    $tigatahunsetelahnya = (string)$tigathnsetelahnya . "/" . (string)$tigathnstlhny;
+                    $empatthnsetelahnya = (int)explode('/', $this->session->userdata('tahun'))[0] + 4;
+                    $empatthnstlhny =  (int)explode('/', $this->session->userdata('tahun'))[1] + 4;
+                    $empattahunsetelahnya = (string)$empatthnsetelahnya . "/" . (string)$empatthnstlhny;
+                    $limathnsetelahnya = (int)explode('/', $this->session->userdata('tahun'))[0] + 5;
+                    $limathnstlhny =  (int)explode('/', $this->session->userdata('tahun'))[1] + 5;
+                    $limatahunsetelahnya = (string)$limathnsetelahnya . "/" . (string)$limathnstlhny;
+                    $enamthnsetelahnya = (int)explode('/', $this->session->userdata('tahun'))[0] + 6;
+                    $enamthnstlhny =  (int)explode('/', $this->session->userdata('tahun'))[1] + 6;
+                    $enamtahunsetelahnya = (string)$enamthnsetelahnya . "/" . (string)$enamthnstlhny;
+
                     $query = $this->db->query("SELECT * FROM siswa WHERE nama LIKE '%" . $this->input->get('keyword') . "%' OR nisn LIKE '%" . $this->input->get('keyword') . "%' OR nomor_induk LIKE '%" . $this->input->get('keyword') . "%'")->result_array();
 
                     if ($query) {

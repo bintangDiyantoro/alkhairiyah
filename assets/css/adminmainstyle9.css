@@ -170,6 +170,20 @@ p {
     display: inline;
 }
 
+.fetch-student-from-excel-input-group {
+    margin-left: 10px;
+}
+
+.fetch-student-from-excel-label {
+    white-space: nowrap;
+    overflow: hidden;
+    padding-left: 7px;
+}
+
+.fetch-student-from-excel-label::after {
+    content: 'Cari'!important;
+}
+
 .kelas-siswa-label-tb {
     display: none;
 }
@@ -449,6 +463,10 @@ p {
     width: 108px;
 }
 
+.spp-labels-container {
+    display: none;
+}
+
 .spp-data-payment {
     margin-left: 50px;
     width: 400px;
@@ -541,6 +559,10 @@ p {
     /* .adm-mng-nama-asli {
         width: 200px;
     } */
+    .fetch-student-from-excel-input-group {
+        margin-left: 0;
+        margin-top: 10px;
+    }
     .kelas-siswa-tb-container {
         display: flex;
     }
@@ -551,12 +573,14 @@ p {
         width: 30px!important;
         overflow: hidden;
         padding-right: 0px;
+        /* background-color: #449d6f; */
     }
     .kelas-siswa-label-tb,
     .kelas-siswa-data-tb {
         display: block;
         padding-left: 0;
         padding-right: 0;
+        padding-top: 0;
         margin: 0;
     }
     .kelas-siswa-label-tb table {
@@ -580,7 +604,8 @@ p {
     .kelas-siswa-label-tb table thead tr th:nth-of-type(1),
     .kelas-siswa-label-tb table tbody tr th {
         /* background-color: wheat; */
-        width: 50%;
+        width: 15%;
+        padding-left: 0px;
     }
     .kelas-siswa-label-tb table thead tr th:nth-of-type(2),
     .kelas-siswa-label-tb table tbody tr td:nth-of-type(1) {
@@ -589,12 +614,13 @@ p {
     }
     .kelas-siswa-label-tb table thead tr th:nth-of-type(7),
     .kelas-siswa-label-tb table tbody tr td:nth-of-type(6) {
-        table-layout: fixed;
+        /* table-layout: fixed;
         color: transparent;
         width: 0px;
         padding-left: 0px;
         padding-right: 0px;
-        background-color: wheat;
+        background-color: wheat; */
+        display: none;
     }
     .kelas-siswa-label-tb table tbody tr td:nth-of-type(2) a {
         background-color: transparent;
@@ -614,12 +640,16 @@ p {
     }
     .kelas-siswa-data-tb table thead tr th:nth-of-type(2),
     .kelas-siswa-data-tb table tbody tr td:nth-of-type(2) {
-        table-layout: fixed;
+        /* table-layout: fixed;
         display: block;
         width: 0;
         padding-left: 0;
         padding-right: 0;
-        color: transparent;
+        color: transparent; */
+        display: none;
+    }
+    .kelas-siswa-data-tb table tbody tr td:nth-of-type(7) {
+        white-space: nowrap;
     }
     .kelas-siswa-data-tb table thead tr th:nth-of-type(3) {
         text-align: left;
@@ -824,18 +854,31 @@ p {
         width: 172px;
         margin-left: auto;
     }
+    .spp-labels-container {
+        display: block;
+        padding: 0;
+        flex-grow: 4;
+    }
     .table-spp-labels {
         display: block;
         max-width: max-content;
         margin: 0;
     }
+    .table-spp-labels tbody tr td {
+        width: 100%;
+    }
     .table-spp,
     .table-spp-labels {
         table-layout: fixed;
     }
+    .table-spp-data-col {
+        flex-grow: 3;
+        padding: 0;
+    }
     .table-spp thead tr th:first-of-type,
     .table-spp tbody tr td:first-of-type {
         background-color: wheat;
+        display: none;
         padding-left: 0;
         padding-right: 0;
         width: 0px;
@@ -845,12 +888,13 @@ p {
     .table-spp tbody tr td:nth-of-type(2) {
         background-color: lightcyan;
         /* display must be flex */
-        display: flex;
+        display: none;
         width: 0px;
         margin-top: -0.5px;
         margin-left: -20px;
-        padding-left: 0;
-        padding-right: 0;
+        margin-right: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
         color: rgba(0, 0, 0, .0);
     }
     .nominal-spp-kelas-row {
