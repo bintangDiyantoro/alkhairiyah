@@ -60,8 +60,8 @@
         </div>
     </div>
     <?php if ($siswa) : ?>
-        <div class="d-flex justify-content-center" style="width: 100%;">
-            <!-- <div class="spp-labels-container"> -->
+        <div class="d-flex justify-content-center row" style="width: 100%;">
+            <div class="spp-labels-container col">
                 <table class="table table-sm table-hover table-spp-labels">
                     <thead>
                         <tr>
@@ -75,20 +75,24 @@
                         foreach ($siswa as $s) : ?>
                             <tr>
                                 <th class="align-middle" scope="col"><?= $i ?></th>
-                                <td class="align-middle text-left pr-2" style="padding-left:10px"><?= $s["nama"] ?></td>
+                                <td class="align-middle text-left pr-2" style="padding-left:10px">
+                                    <div style="width: 100%;height:60px;display:flex;align-items:center">
+                                        <?= $s["nama"] ?>
+                                    </div>
+                                </td>
                             </tr>
                         <?php
                             $i++;
                         endforeach ?>
                     </tbody>
                 </table>
-            <!-- </div> -->
-            <div style="overflow-x: auto;margin-top: 0;">
+            </div>
+            <div style="overflow-x: auto;margin-top: 0;" class="table-spp-data-col col">
                 <table class="table table-sm table-hover table-spp">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nama</th>
+                            <th scope="col" class="pl-3">#</th>
+                            <th scope="col" class="text-left pl-2">Nama</th>
                             <?php foreach ($bulan_akademik as $ba) : ?>
                                 <th scope="col" style="width: 80px;"><?= $ba["nama_bulan"] ?></th>
                             <?php endforeach ?>

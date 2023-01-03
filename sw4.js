@@ -15,7 +15,7 @@ const cacheAssets = [
         'https://fonts.gstatic.com/s/nunito/v25/XRXV3I6Li01BKofIOOaBTMnFcQIG.woff2',
         // 'https://fonts.gstatic.com/s/nunito/v25/XRXV3I6Li01BKofINeaBTMnFcQ.woff',
         '/assets/css/sb-admin-2.min.css',
-        '/assets/adminmainstyle8.css',
+        // '/assets/adminmainstyle9.css',
         '/assets/css/pickmeup1.css',
         '/manifest.json',
         '/assets/vendor/jquery/jquery.min.js',
@@ -24,12 +24,24 @@ const cacheAssets = [
         '/assets/js/sb-admin-2-2.js',
         '/assets/js/sweetalert2.all.min.js',
         '/assets/js/pickmeup1.js',
-        '/assets/js/adminmainscript8.js',
-        '/assets/js/app3.js',
+        // '/assets/js/adminmainscript8.js',
+        '/assets/js/app4.js',
         '/assets/img/8760e27774fcb938c34348dca87ddb79.svg'
     ]
     // '/admin',
-    // install event
+
+// cache size limit function
+const limitCacheSize = (name, size) => {
+    caches.open(name).then(cache => {
+        cache.keys().then(keys => {
+            if (keys.length > size) {
+                cache.delete(keys[0]).then(limitCacheSize(name, size))
+            }
+        })
+    })
+}
+
+// install event
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(staticCacheName).then(cache => {
@@ -57,7 +69,11 @@ self.addEventListener('fetch', event => {
             return cacheRes || fetch(event.request)
                 // .then(fetchRes => {
                 //     return caches.open(dynamicCacheName).then(cache => {
-                //         cache.put(event.request.url, fetchRes.clone())
+                //         const reqURI = event.request.url.split('/')
+                //         if (reqURI[4] !== "livetime" && reqURI.length > 4) {
+                //             cache.put(event.request.url, fetchRes.clone())
+                //             limitCacheSize(dynamicCacheName, 3)
+                //         }
                 //         return fetchRes
                 //     })
                 // })

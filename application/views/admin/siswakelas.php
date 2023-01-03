@@ -6,7 +6,7 @@
             </div>
             <?php if ($semua_siswa) : ?>
                 <div class="kelas-siswa-tb-container d-flex-justify-content-center row">
-                    <div class="kelas-siswa-label-tb col">
+                    <div class="kelas-siswa-label-tb col" style="flex-grow: 3;">
                         <table class="table table-hover my-3">
                             <thead>
                                 <tr>
@@ -61,7 +61,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div style="overflow-x: auto;" class="col kelas-siswa-data-tb">
+                    <div style="overflow-x: auto;flex-grow: 2;" class="col kelas-siswa-data-tb">
                         <table class="table table-hover my-3">
                             <thead>
                                 <tr>
@@ -182,6 +182,23 @@
                             <a href="<?= base_url('admin/mkkelas/' . $this->session->userdata('tahun')) ?>" class="btn btn-secondary mb-1">Kembali</a>
                         <?php endif ?>
                     </div>
+                    <?php if ($this->session->userdata("role") == "4") : ?>
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="<?= $csrf["name"] ?>" value="<?= $csrf["hash"] ?>">
+                            <div class="input-group fetch-student-from-excel-input-group" style="width: 260px;">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="inputExcelStudentClassLabel" aria-describedby="inputExcellStudentFile" name="fileexcel">
+                                    <label class="custom-file-label fetch-student-from-excel-label" for="inputExcelStudentClassLabel">Ambil Excel</label>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" name="submit" type="submit" id="inputExcellStudentFile" style="height: 36px;border-radius:0 5px 5px 0">Upload</button>
+                                </div>
+                                <div style="color:red;margin-left:5px">
+                                    <small><?= ($error) ? $error : '' ?></small>
+                                </div>
+                            </div>
+                        </form>
+                    <?php endif ?>
                 </div>
             <?php else : ?>
                 <div class="row d-flex justify-content-center mt-3 mb-5">
@@ -189,13 +206,32 @@
                         <div class="alert alert-warning p-5" role="alert">
                             Kelas masih kosong, silahkan memasukkan data-data para siswa ke kelas ini
                             <div class="row d-flex justify-content-center mt-5">
-                                <a href="" class="btn btn-primary trigger-cari-siswa mr-1" data-session="<?= $this->session->userdata('admin') ?>">Cari Siswa</a>
+                                <a href="" class="btn btn-info trigger-cari-siswa mr-1" data-session="<?= $this->session->userdata('admin') ?>">Cari Siswa</a>
                                 <?php if ($this->session->userdata("role") == "1") : ?>
                                     <a href="<?= base_url('admin/bukuinduk') ?>" class="btn btn-secondary">Kembali</a>
                                 <?php elseif ($this->session->userdata('role') == "4") : ?>
                                     <a href="<?= base_url('admin/mkkelas/' . $this->session->userdata('tahun')) ?>" class="btn btn-secondary">Kembali</a>
                                 <?php endif ?>
                             </div>
+                            <?php if ($this->session->userdata("role") == "4") : ?>
+                                <div class="row d-flex justify-content-center pt-3">
+                                    <form action="" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="<?= $csrf["name"] ?>" value="<?= $csrf["hash"] ?>">
+                                        <div class="input-group fetch-student-from-excel-input-group" style="width: 260px;">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="inputExcelStudentClassLabel" aria-describedby="inputExcellStudentFile" name="fileexcel">
+                                                <label class="custom-file-label fetch-student-from-excel-label" for="inputExcelStudentClassLabel">Ambil Excel</label>
+                                            </div>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" name="submit" type="submit" id="inputExcellStudentFile" style="height: 36px;border-radius:0 5px 5px 0">Upload</button>
+                                            </div>
+                                            <div style="color:red;margin-left:5px">
+                                                <small><?= ($error) ? $error : '' ?></small>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            <?php endif ?>
                         </div>
                     </div>
                 </div>

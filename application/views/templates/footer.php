@@ -69,7 +69,7 @@
 <script src="<?= base_url() ?>assets/js/scrolltotop.js"></script>
 <script src="<?= base_url() ?>assets/js/pickmeup1.js"></script>
 <script src="<?= base_url() ?>assets/js/mainscript.js"></script>
-<script src="<?= base_url() ?>assets/js/app3.js"></script>
+<script src="<?= base_url() ?>assets/js/app4.js"></script>
 <script>
     const title = $('title').html().split(' ')[4]
     if (title !== 'Pendaftaran' && title !== 'Tutup' && title !== 'Materi' && title !== 'Berhasil') {

@@ -10,7 +10,7 @@
             "src": "/assets/img/alkhairiyah.png",
             "type": "image/png",
             "sizes": "72x72 144x144 192x192 266x266 512x512",
-            "purpose": "any"
+            "purpose": "any maskable"
         },
         {
             "src": "/assets/img/alkhairiyah144.png",

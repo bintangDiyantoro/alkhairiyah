@@ -1337,7 +1337,7 @@ function tabelSPPLooper($siswa, $kelas, $bulan_akademik, $spp)
         echo '<td class="align-middle pl-3" scope="row">' . $i . '</td>
                 <td class="align-middle text-left pr-2" style="padding-left:10px">' . $s["nama"] . '</td>';
         foreach ($bulan_akademik as $ba) {
-            echo '<td class="align-middle">';
+            echo '<td class="align-middle"><div style="width: 100%;height:60px;display:flex;align-items:center;justify-content:center">';
             if ($spp) {
                 $sppCounter = 1;
                 foreach ($spp as $sp) {
@@ -1376,7 +1376,7 @@ function tabelSPPLooper($siswa, $kelas, $bulan_akademik, $spp)
                     echo '<a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment" style="background-color:lightblue">Bayar</a>';
                 }
             }
-            echo '</td>';
+            echo '</div></td>';
         }
         echo '</tr>';
         $i++;
@@ -1513,4 +1513,8 @@ function getStudentsClass($idKS)
     $thiz = get_instance();
     $kelas = $thiz->db->query("SELECT kelas_siswa.*, kelas.class FROM kelas_siswa JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE kelas_siswa.id=" . $idKS)->row_array();
     return ($kelas) ? $kelas["class"] : ' - ';
+}
+function myStr($str)
+{
+    return ucwords(strtolower($str));
 }
