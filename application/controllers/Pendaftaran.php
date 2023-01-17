@@ -43,9 +43,12 @@ class Pendaftaran extends CI_Controller
         $this->load->view('templates/header', $data);
 
         // echo date('mdHi');die;
+        $kuota = 144;
+        $waktubuka = 3090100; // int bulan-tanggaltanggal-jamjam(-7)-menitmenit
+        $waktututup = 3090300;
 
-        if ($count < 144 && (int)date('mdHi') < 3161700) {
-            if ((int)date('mdHi') >= 3131700) {
+        if ($count < $kuota && (int)date('mdHi') < $waktututup) {
+            if ((int)date('mdHi') >= $waktubuka) {
                 $this->load->view('pendaftaran/index');
             } else {
                 $this->load->view('pendaftaran/sabar');

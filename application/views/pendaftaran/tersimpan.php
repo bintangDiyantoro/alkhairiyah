@@ -10,7 +10,7 @@
                 <button class="btn btn-info my-2 my-sm-0" type="submit">Cari</button>
             </form>&nbsp;
             <?php if ((int)date('mdHi') >= 3141700 && (int)date('mdHi') < 3181700) : ?>
-                <a class="btn btn-success" href="https://chat.whatsapp.com/By5MA5f5wQyL4rkD6yhjDw" target="_blank">Masuk grup WhatsApp</a>
+                <a class="btn btn-success" href="https://chat.whatsapp.com/G3sn2t1ji2d0FcfcHRtdNv" target="_blank">Masuk grup WhatsApp</a>
             <?php endif; ?>
             <?php if ($calon_siswa) : ?>
                 <table class="table table-hover table-success my-3">
@@ -48,8 +48,8 @@
             <?= $this->pagination->create_links() ?>
             <input type="hidden" name="tersimpan" id="tersimpan" value="ok">
             &nbsp;
-            <!-- <a class="btn btn-dark mb-2" style="margin-left: -6px;" href="<?= base_url('jadwal verifikasi tgl 18 Maret '.date('Y').'.pdf') ?>">Jadwal verifikasi 60 pendaftar pertama</a>&nbsp;
-            <a class="btn btn-dark mb-2 ml-0" href="<?= base_url('jadwal verifikasi tgl 20 Maret '.date('Y').'.pdf') ?>">Jadwal verifikasi 70 pendaftar berikutnya (terakhir)</a> -->
+            <!-- <a class="btn btn-dark mb-2" style="margin-left: -6px;" href="<?= base_url('jadwal verifikasi tgl 18 Maret ' . date('Y') . '.pdf') ?>">Jadwal verifikasi 60 pendaftar pertama</a>&nbsp;
+            <a class="btn btn-dark mb-2 ml-0" href="<?= base_url('jadwal verifikasi tgl 20 Maret ' . date('Y') . '.pdf') ?>">Jadwal verifikasi 70 pendaftar berikutnya (terakhir)</a> -->
         </div>
     </div>
 </div>
