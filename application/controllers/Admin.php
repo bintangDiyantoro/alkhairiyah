@@ -586,7 +586,7 @@ class Admin extends CI_Controller
                         $i = 1;
                         foreach ($rowItterator as $row) {
                             $cellIterator = $row->getCellIterator();
-                            $cellIterator->setIterateOnlyExistingCells(TRUE);
+                            $cellIterator->setIterateOnlyExistingCells(FALSE);
                             $dataRow = [];
                             if ($i > 6) {
                                 foreach ($cellIterator as $cell) {
@@ -601,7 +601,7 @@ class Admin extends CI_Controller
                         foreach ($dataCol as $dc) {
                             // var_dump($dc);
                             $this->Admin->insertFetchedStudentData($dc);
-                            $idsiswa = $this->db->query("SELECT id FROM siswa WHERE nomor_induk=" . $dc[2] . " AND nisn=" . $dc[4])->row_array()["id"];
+                            $idsiswa = $this->db->query("SELECT id FROM siswa WHERE nomor_induk=" . $dc[2])->row_array()["id"];
                             $this->Admin->masukkankelasCore($idsiswa, $idkelas, $tahunkelas);
                             // var_dump($this->_sppStudentSearch($idsiswa, $tahun, $th)["reason"]);
                             // echo '<hr>';

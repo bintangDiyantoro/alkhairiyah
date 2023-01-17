@@ -709,10 +709,10 @@ class ModelAdmin extends CI_Model
 
     public function insertFetchedStudentData($data)
     {
-        $studentIsExist = $this->db->query("SELECT * FROM siswa WHERE nomor_induk=" . $data[2] . " AND nisn = " . $data[4])->row_array();
+        $studentIsExist = $this->db->query("SELECT * FROM siswa WHERE nomor_induk=" . $data[2])->row_array();
         $rt_rw = ($data[10] && $data[11]) ? ", RT/RW: " . $data[10] . "/" . $data[11] : '';
         $dusun = ($data[12]) ? ", Dusun: " . myStr($data[12]) : '';
-        $nama_wali = ($data[36]) ? $data[36] : '';
+        $nama_wali = (isset($data[36])) ? $data[36] : '';
         $nohpOrtu = ($data[19]) ? $data[19] : '';
         $mapped = [
             "nomor_induk" => $data[2],
@@ -721,8 +721,8 @@ class ModelAdmin extends CI_Model
             "ttl" => myStr($data[5]) . ', ' . explode('-', $data[6])[2] . '-' . explode('-', $data[6])[1] . '-' . explode('-', $data[6])[0],
             "jenis_kelamin" => $data[3],
             "alamat" => myStr($data[9]) . $rt_rw . $dusun . ', Kel. ' . myStr($data[13]) . ', ' . myStr($data[14]),
-            "nama_ayah" => myStr($data[24]),
-            "nama_ibu" => myStr($data[30]),
+            "nama_ayah" => (isset($data[24])) ? myStr($data[24]) : '',
+            "nama_ibu" => (isset($data[30])) ? myStr($data[30]) : '',
             "alamat_ortu" => myStr($data[9]) . $rt_rw . $dusun,
             "nama_wali" => $nama_wali,
             "no_hp_ortu" => $nohpOrtu,

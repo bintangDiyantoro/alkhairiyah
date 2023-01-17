@@ -35,9 +35,11 @@
                                             <a href="<?= base_url('admin/biodatasiswa/' . $ss["id"]) ?>" class="badge py-1 px-2 my-1 badge-info">
                                                 Lihat Biodata
                                             </a>
-                                            <a href="<?= base_url('admin/keluarkansiswa/' . $ss["id"] . "/" . $ss["id_kelas"] . "/" . $tahun) ?>" class="badge py-1 px-2 my-1 badge-danger keluarkan-siswa" data-name="<?= $ss["nama"] ?>">
-                                                Keluarkan Dari Kelas
-                                            </a>
+                                            <?php if ($this->session->userdata("role") == "4") : ?>
+                                                <a href="<?= base_url('admin/keluarkansiswa/' . $ss["id"] . "/" . $ss["id_kelas"] . "/" . $tahun) ?>" class="badge py-1 px-2 my-1 badge-danger keluarkan-siswa" data-name="<?= $ss["nama"] ?>">
+                                                    Keluarkan Dari Kelas
+                                                </a>
+                                            <?php endif ?>
                                         </td>
                                         <td class="align-middle"><?= $ss["nomor_induk"] ?></td>
                                         <td class="align-middle"><?= $ss["nisn"] ?></td>
@@ -90,9 +92,11 @@
                                             <a href="<?= base_url('admin/biodatasiswa/' . $ss["id"]) ?>" class="badge py-1 px-2 my-1 badge-info">
                                                 Lihat Biodata
                                             </a>
-                                            <a href="<?= base_url('admin/keluarkansiswa/' . $ss["id"] . "/" . $ss["id_kelas"] . "/" . $tahun) ?>" class="badge py-1 px-2 my-1 badge-danger keluarkan-siswa" data-name="<?= $ss["nama"] ?>">
-                                                Keluarkan Dari Kelas
-                                            </a>
+                                            <?php if ($this->session->userdata("role") == "4") : ?>
+                                                <a href="<?= base_url('admin/keluarkansiswa/' . $ss["id"] . "/" . $ss["id_kelas"] . "/" . $tahun) ?>" class="badge py-1 px-2 my-1 badge-danger keluarkan-siswa" data-name="<?= $ss["nama"] ?>">
+                                                    Keluarkan Dari Kelas
+                                                </a>
+                                            <?php endif ?>
                                         </td>
                                         <td class="align-middle"><?= $ss["nomor_induk"] ?></td>
                                         <td class="align-middle"><?= $ss["nisn"] ?></td>

@@ -4,4 +4,5 @@
         <a href="<?= base_url() ?>" class="btn btn-primary mb-1">Kembali ke Halaman Utama</a>&nbsp;
         <a href="<?= base_url('pendaftaran/cs') ?>" class="btn btn-info">Lihat data pendaftar tersimpan</a>
     </div>
+    <input type="hidden" name="none" id="tersimpan" value="ok">
 </div>
