@@ -2875,7 +2875,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "2") {
+            if ($this->session->userdata('role') =="2" || $this->session->userdata('role') == "5") {
                 $data = $this->db->query("SELECT SUM(nominal) AS total_spp FROM spp WHERE tahun_ajaran='" . $tahunajaran . "/" . $thajaran . "'")->row_array();
                 echo ($data["total_spp"]) ? rupiah($data["total_spp"]) : 'Rp0.-';
                 $this->load->view('admin/halamankosong');
@@ -2891,7 +2891,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "2") {
+            if ($this->session->userdata('role') =="2" || $this->session->userdata('role') == "5") {
                 $data = $this->db->query("SELECT SUM(nominal) AS total_spp_bulan FROM spp WHERE tahun_ajaran='" . $tahunajaran . "/" . $thajaran . "' AND bulan=" . $idbulan)->row_array();
                 echo ($data["total_spp_bulan"]) ? rupiah($data["total_spp_bulan"]) : 'Rp0.-';
                 $this->load->view('admin/halamankosong');
@@ -2907,7 +2907,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "2") {
+            if ($this->session->userdata('role') == "2" || $this->session->userdata("role") == "5") {
                 $data['title'] = "Buku SPP";
                 $data['csrf'] = $this->csrf;
                 $this->db->where('tahun_ajaran', $this->tahunAjar);
@@ -2993,7 +2993,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "2") {
+            if ($this->session->userdata('role') == "2" || $this->session->userdata("role") == "5") {
                 $this->session->set_userdata('tahun', $tahunajaran . '/' . $thajaran);
                 $this->_sppPerTahun($idkelas, $tahunajaran, $thajaran, $idtransaksi, idsiswa: null, spp_untuk_kelas: true);
             } else {
@@ -3089,7 +3089,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "2") {
+            if ($this->session->userdata('role') == "2" || $this->session->userdata('role') == "5") {
                 $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [150, 150]]);
                 $mpdf->SetTitle('Bukti Pembayaran SPP');
                 $spp = $this->Admin->getSppPaymentDetail($idtr);
@@ -3141,7 +3141,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "2") {
+            if ($this->session->userdata('role') =="2" || $this->session->userdata('role') == "5") {
                 $checkDetailStatus = $this->db->query("SELECT id_detail_status_spp FROM spp WHERE id=" . $idtr)->row_array();
                 if ($checkDetailStatus["id_detail_status_spp"]) {
                     $data["strukSPP"] = $this->db->query("SELECT spp.id, detail_status_spp_siswa.id_status_spp, spp_status.status, detail_status_spp_siswa.keterangan, siswa.nama, siswa.nomor_induk, kelas_siswa.id_kelas, kelas.class, bulan_akademik.nama_bulan, spp.tahun_ajaran, spp.nominal, spp.tanggal, metode_bayar_spp.metode, spp.bukti_transfer, staff.nama AS nama_staff FROM spp JOIN detail_status_spp_siswa ON spp.id_detail_status_spp=detail_status_spp_siswa.id JOIN spp_status ON detail_status_spp_siswa.id_status_spp=spp_status.id JOIN siswa ON spp.id_siswa = siswa.id JOIN kelas_siswa ON spp.id_kelas_siswa = kelas_siswa.id JOIN kelas ON kelas_siswa.id_kelas = kelas.id JOIN bulan_akademik ON spp.bulan = bulan_akademik.id JOIN metode_bayar_spp ON spp.metode_bayar = metode_bayar_spp.id JOIN staff ON spp.id_staff = staff.id WHERE spp.id=" . $idtr)->row_array();
@@ -3211,7 +3211,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "2") {
+            if ($this->session->userdata('role') == "2" || $this->session->userdata('role') == "5") {
                 $keyword = str_ireplace('%20', ' ', $keyword);
                 if ($keyword !== 'all_students') {
                     $data["result"]["onclass"] = $this->db->query("SELECT kelas_siswa.*, siswa.nama, siswa.nomor_induk, siswa.nisn, kelas.class AS kelas FROM kelas_siswa JOIN siswa ON kelas_siswa.id_siswa = siswa.id JOIN kelas ON kelas_siswa.id_kelas=kelas.id WHERE (siswa.nama LIKE '%" . $keyword . "%' OR siswa.nomor_induk LIKE '%" . $keyword . "%' OR siswa.nisn LIKE '%" . $keyword . "%') AND kelas_siswa.tahun='" . $tahunajar . "/" . $thajaran . "' AND kelas_siswa.id_kelas != 'NULL'")->result_array();
@@ -3251,7 +3251,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "2") {
+            if ($this->session->userdata('role') =="2" || $this->session->userdata('role') == "5") {
                 $this->_sppPerTahun($idkelas, $tahunajaran, $thajaran, idtransaksi: $idtransaksi, idsiswa: $idsiswa, spp_untuk_kelas: false);
             } else {
                 redirect('admin');
@@ -3597,7 +3597,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "2") {
+            if ($this->session->userdata('role') == "2"|| $this->session->userdata('role') == "5") {
                 $data["title"] = "Buku SPP";
                 $data["total_spp_masuk"] = $this->db->query("SELECT SUM(nominal) FROM spp WHERE tahun_ajaran='2022/23'")->result_array();
                 $tahunajaran = $this->db->query('SELECT DISTINCT tahun_ajaran FROM spp ORDER BY tahun_ajaran DESC')->result_array();
@@ -3647,7 +3647,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "2") {
+            if ($this->session->userdata('role') == "2"|| $this->session->userdata('role') == "5") {
                 $data["title"] = "Buku SPP";
                 $tahunAjaran = $tahunajaran . "/" . $thajaran;
                 $namaBulan = $this->db->query("SELECT nama_bulan FROM bulan_akademik WHERE id=" . $idbulan)->row_array()["nama_bulan"];

@@ -114,8 +114,10 @@
     <?php endif ?>
     <div class="row d-flex justify-content-end idtransaksi" style="width:100%;margin-top:35px" data-idtransaksi="<?= $this->session->flashdata("idtransaksi") ?>" data-pembayar="<?= $this->session->flashdata('pembayar') ?>">
         <a href="<?= base_url('admin/spp') ?>" class="btn btn-secondary px-3 mt-2" style="border-radius: 20px;">Kembali</a>
-        <span class="btn btn-info px-3 ml-2 trigger-cari-siswa mt-2" style="border-radius: 20px;">Tambahkan Siswa</span>
-        <a href="<?= base_url('admin/cetaksppkelas/' . $kelas["id_kelas"] . '/' . $kelas["tahun"]) ?>" class="btn btn-primary px-3 ml-2 mt-2" style="border-radius: 20px;">Cetak</a>
+        <?php if ($this->session->userdata("role") == "2") : ?>
+            <span class="btn btn-info px-3 ml-2 trigger-cari-siswa mt-2" style="border-radius: 20px;">Tambahkan Siswa</span>
+            <a href="<?= base_url('admin/cetaksppkelas/' . $kelas["id_kelas"] . '/' . $kelas["tahun"]) ?>" class="btn btn-primary px-3 ml-2 mt-2" style="border-radius: 20px;">Cetak</a>
+        <?php endif ?>
     </div>
 </div>
 <div class="ajax-cari-siswa" style="margin-left: 8%;margin-right:8%;margin-top:40px"></div>

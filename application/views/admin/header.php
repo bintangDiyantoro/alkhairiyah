@@ -162,7 +162,7 @@
                 </li>
             <?php endif ?>
 
-            <?php if ($this->session->userdata('role') == "2") : ?>
+            <?php if ($this->session->userdata('role') == "2" || $this->session->userdata('role') == "5") : ?>
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages7" aria-expanded="true" aria-controls="collapsePages7">
                         <i class="fa fa-money-bill-alt"></i>
@@ -171,7 +171,9 @@
                     <div id="collapsePages7" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Menu Buku SPP:</h6>
-                            <a class="collapse-item" href="<?= base_url('admin/nominalspppertingkat') ?>">Nominal SPP Per Tingkat</a>
+                            <?php if ($this->session->userdata("role") == "2") : ?>
+                                <a class="collapse-item" href="<?= base_url('admin/nominalspppertingkat') ?>">Nominal SPP Per Tingkat</a>
+                            <?php endif ?>
                             <a class="collapse-item" href="<?= base_url('admin/spp') ?>">Pembayaran SPP</a>
                             <a class="collapse-item" href="<?= base_url('admin/keuangan') ?>">Keuangan</a>
                         </div>
