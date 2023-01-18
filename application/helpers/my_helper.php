@@ -1348,16 +1348,16 @@ function tabelSPPLooper($siswa, $kelas, $bulan_akademik, $spp)
                         if ($sppCounter == count($spp)) {
                             if ($s["nominal"] !== "1") {
                                 if ((int)$ba["id"] == $idbulanini) {
-                                    echo '<a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a>';
+                                    echo ($thiz->session->userdata("role") == "2") ? '<a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a>':'-';
                                 } elseif ((int)$ba["id"] < $idbulanini) {
-                                    echo '<a href="" class="badge badge-pill badge-warning spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a>';
+                                    echo ($thiz->session->userdata("role") == "2") ? '<a href="" class="badge badge-pill badge-warning spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a>':'-';
                                 } else {
                                     // echo '<strong>-</strong>';
-                                    echo '<a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment" style="background-color:lightblue">Bayar</a>';
+                                    echo ($thiz->session->userdata("role") == "2") ? '<a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment" style="background-color:lightblue">Bayar</a>':'-';
                                 }
                             } else {
                                 if ((int)$ba["id"] <= $idbulanini) {
-                                    echo '<a href="" class="badge badge-pill badge-info free-charged-spp-change-status" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Ubah Status</a>';
+                                    echo ($thiz->session->userdata("role") == "2") ? '<a href="" class="badge badge-pill badge-info free-charged-spp-change-status" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Ubah Status</a>':'-';
                                 } else {
                                     echo '<strong>-</strong>';
                                 }
@@ -1369,11 +1369,11 @@ function tabelSPPLooper($siswa, $kelas, $bulan_akademik, $spp)
                 }
             } else {
                 if ((int)$ba["id"] == $idbulanini) {
-                    echo '<a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a>';
+                    echo ($thiz->session->userdata("role") == "2") ? '<a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a>':'-';
                 } elseif ((int)$ba["id"] < $idbulanini) {
-                    echo '<a href="" class="badge badge-pill badge-warning spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a>';
+                    echo ($thiz->session->userdata("role") == "2") ? '<a href="" class="badge badge-pill badge-warning spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a>':'-';
                 } else {
-                    echo '<a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment" style="background-color:lightblue">Bayar</a>';
+                    echo ($thiz->session->userdata("role") == "2") ? '<a href="" class="badge badge-pill badge-primary spp-payment" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment" style="background-color:lightblue">Bayar</a>':'-';
                 }
             }
             echo '</div></td>';
@@ -1385,6 +1385,7 @@ function tabelSPPLooper($siswa, $kelas, $bulan_akademik, $spp)
 
 function tabelSppOneStudentLooperCore($sppSiswa, $siswa, $kelas, $ba, $time)
 {
+    $thiz = get_instance();
     if ($sppSiswa) {
         $i = 1;
         foreach ($sppSiswa as $s) {
@@ -1396,18 +1397,18 @@ function tabelSppOneStudentLooperCore($sppSiswa, $siswa, $kelas, $ba, $time)
                     if ($siswa["nominal"] !== '1') {
                         switch ($time) {
                             case "now":
-                                echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-primary spp-payment" style="padding-bottom:4px" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a></td>';
+                                echo ($thiz->session->userdata("role") == "2")?'<td class="text-left pl-3"><a href="" class="badge badge-pill badge-primary spp-payment" style="padding-bottom:4px" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a></td>':'<td class="text-left" style="padding-left:50px">-</td>';
                                 break;
                             case "prev":
-                                echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-warning spp-payment" style="padding-bottom:4px" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a></td>';
+                                echo ($thiz->session->userdata("role") == "2")?'<td class="text-left pl-3"><a href="" class="badge badge-pill badge-warning spp-payment" style="padding-bottom:4px" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a></td>':'<td class="text-left" style="padding-left:50px">-</td>';
                                 break;
                             case "next":
-                                echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-primary spp-payment" style="padding-bottom:4px;background-color:lightblue" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment" style="background-color:lightgreen">Bayar</a></td>';
+                                echo ($thiz->session->userdata("role") == "2")?'<td class="text-left pl-3"><a href="" class="badge badge-pill badge-primary spp-payment" style="padding-bottom:4px;background-color:lightblue" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment" style="background-color:lightgreen">Bayar</a></td>':'<td class="text-left" style="padding-left:50px">-</td>';
                                 break;
                         }
                     } else {
                         if ($time !== "next") {
-                            echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-info free-charged-spp-change-status" style="padding-bottom:2px" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Ubah Status</a></td>';
+                            echo ($thiz->session->userdata("role")=="2")?'<td class="text-left pl-3"><a href="" class="badge badge-pill badge-info free-charged-spp-change-status" style="padding-bottom:2px" data-idsiswa="' . $s['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Ubah Status</a></td>':'<td class="text-left" style="padding-left:50px">-</td>';
                         } else {
                             echo '<td class="text-left" style="padding-left:49px"><strong>-</strong></td>';
                         }
@@ -1420,13 +1421,13 @@ function tabelSppOneStudentLooperCore($sppSiswa, $siswa, $kelas, $ba, $time)
     } else {
         switch ($time) {
             case "now":
-                echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-primary spp-payment" style="padding-bottom:4px" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a></td>';
+                echo ($thiz->session->userdata("role")=="2")?'<td class="text-left pl-3"><a href="" class="badge badge-pill badge-primary spp-payment" style="padding-bottom:4px" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a></td>':'<td class="text-left" style="padding-left:50px">-</td>';
                 break;
             case "prev":
-                echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-warning spp-payment" style="padding-bottom:4px" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a></td>';
+                echo ($thiz->session->userdata("role")=="2")?'<td class="text-left pl-3"><a href="" class="badge badge-pill badge-warning spp-payment" style="padding-bottom:4px" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment">Bayar</a></td>':'<td class="text-left" style="padding-left:50px">-</td>';
                 break;
             case "next":
-                echo '<td class="text-left pl-3"><a href="" class="badge badge-pill badge-primary spp-payment" style="padding-bottom:4px;background-color:lightblue" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment" style="background-color:lightgreen">Bayar</a></td>';
+                echo ($thiz->session->userdata("role")=="2")?'<td class="text-left pl-3"><a href="" class="badge badge-pill badge-primary spp-payment" style="padding-bottom:4px;background-color:lightblue" data-idsiswa="' . $siswa['id_siswa'] . '" data-idbulan="' . $ba["id"] . '" data-idkelas="' . $kelas["id_kelas"] . '" data-tahun="' . $kelas["tahun"] . '" data-toggle="modal" data-target="#ModalForPayment" style="background-color:lightgreen">Bayar</a></td>':'<td class="text-left" style="padding-left:50px">-</td>';
                 break;
         }
     }
