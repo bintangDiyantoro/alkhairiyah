@@ -31,38 +31,87 @@ class Admin extends CI_Controller
     public function login()
     {
         netralize();
-
-        $this->form_validation->set_rules('name', 'Name', 'required|regex_match[/^[a-z-\s\']+$/i]|max_length[50]', ['required' => 'Nama admin wajib diisi', 'regex_match' => 'Nama tidak boleh mengandung selain huruf, spasi, petik tunggal (\') dan strip (-)', 'max_length' => 'Nama maksimal 50 huruf']);
-        $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[3]', [
-            'required' => 'Password wajib diisi',
-            'min_length' => 'Password minimal 3 karakter!'
-        ]);
-
         $data['csrf'] = $this->csrf;
-        if ($this->form_validation->run() == FALSE) {
+        
+        if ($this->session->userdata("suspend_end") && (int)date("YmdHis") < (int)$this->session->userdata("suspend_end")) {
+            // $this->session->unset_userdata("suspend_end");
             $data['title'] = 'Login';
             $this->load->view('admin/login', $data);
-            $this->session->unset_userdata('error');
         } else {
-            $this->db->where('name', $this->input->post('name'));
-            $this->db->from('admin');
-            $query = $this->db->get()->row_array();
-            if ($query != NULL && password_verify($this->input->post('password'), $query['password']) == TRUE) {
-                if ($query['verified'] == 1) {
-                    $this->session->set_userdata('admin', $this->input->post('name'));
-                    $this->session->set_userdata('role', $query['role']);
-                    if ($query["id_staff"]) {
-                        $this->session->set_userdata('id_staff', $query["id_staff"]);
-                    }
-                    $this->session->unset_userdata('error');
-                    redirect('admin');
-                } else {
-                    $this->session->set_userdata('error', 'Akun belum diverifikasi, silahkan hubungi Operator Yayasan!');
-                    redirect('admin');
-                }
+            $this->form_validation->set_rules('name', 'Name', 'required|regex_match[/^[a-z-\s\']+$/i]|max_length[50]', ['required' => 'Nama admin wajib diisi', 'regex_match' => 'Nama tidak boleh mengandung selain huruf, spasi, petik tunggal (\') dan strip (-)', 'max_length' => 'Nama maksimal 50 huruf']);
+            $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[3]', [
+                'required' => 'Password wajib diisi',
+                'min_length' => 'Password minimal 3 karakter!'
+            ]);
+
+            if ($this->form_validation->run() == FALSE) {
+                $data['title'] = 'Login';
+                $this->load->view('admin/login', $data);
+                $this->session->unset_userdata('error');
             } else {
-                $this->session->set_userdata('error', 'Nama atau kata sandi salah!');
-                redirect('admin');
+                $this->db->where('name', $this->input->post('name'));
+                $this->db->from('admin');
+                $query = $this->db->get()->row_array();
+                if ($query != NULL && password_verify($this->input->post('password'), $query['password']) == TRUE) {
+                    if ($query['verified'] == 1) {
+                        $this->session->set_userdata('admin', $this->input->post('name'));
+                        $this->session->set_userdata('role', $query['role']);
+                        if ($query["id_staff"]) {
+                            $this->session->set_userdata('id_staff', $query["id_staff"]);
+                        }
+                        $this->session->unset_userdata('error');
+                        $this->session->unset_userdata("login_attempts");
+                        redirect('admin');
+                    } else {
+                        $this->session->set_userdata('error', 'Akun belum diverifikasi, silahkan hubungi Operator Yayasan!');
+                        redirect('admin');
+                    }
+                } else {
+                    $this->session->set_userdata('error', 'Nama atau kata sandi salah!');
+                    if ($this->session->userdata("login_attempts") >= 2) {
+                        $suspendLength = 30; //minute(s)
+                        $sixtyMinutesDecreasedBySuspendLength = 60 - $suspendLength;
+                        $suspendMinuteStart = (int)date("i");
+                        if ($suspendMinuteStart < $sixtyMinutesDecreasedBySuspendLength) {
+                            if ($suspendMinuteStart + $suspendLength < 10) {
+                                $this->session->set_userdata("suspend_end", date("YmdH") . "0" . (string)($suspendMinuteStart + $suspendLength) . date("s"));
+                                $this->session->set_userdata("suspend_end_formatted", date("H:") . "0" . (string)($suspendMinuteStart + $suspendLength) . date(":s"));
+                            } else {
+                                $this->session->set_userdata("suspend_end", date("YmdH") . (string)($suspendMinuteStart + $suspendLength) . date("s"));
+                                $this->session->set_userdata("suspend_end_formatted", date("H:") .  (string)($suspendMinuteStart + $suspendLength) . date(":s"));
+                            }
+                        } else {
+                            if ($suspendMinuteStart - $sixtyMinutesDecreasedBySuspendLength < 10) {
+                                if ((int)date("H") + 1 < 10) {
+                                    $this->session->set_userdata("suspend_end", date("Ymd") . "0" . (string)((int)date("H") + 1) . "0" . (string)($suspendMinuteStart - $sixtyMinutesDecreasedBySuspendLength) . date("s"));
+                                    $this->session->set_userdata("suspend_end_formatted", "0" . (string)((int)date("H") + 1) . ":0" . (string)($suspendMinuteStart - $sixtyMinutesDecreasedBySuspendLength) . date(":s"));
+                                } else {
+                                    $this->session->set_userdata("suspend_end", date("Ymd") . (string)((int)date("H") + 1) . "0" . (string)($suspendMinuteStart - $sixtyMinutesDecreasedBySuspendLength) . date("s"));
+                                    $this->session->set_userdata("suspend_end_formatted", (string)((int)date("H") + 1) . ":0" . (string)($suspendMinuteStart - $sixtyMinutesDecreasedBySuspendLength) . date(":s"));
+                                }
+                            } else {
+                                if ((int)date("H") + 1 < 10) {
+                                    $this->session->set_userdata("suspend_end", date("Ymd") . "0" . (string)((int)date("H") + 1) . (string)($suspendMinuteStart - $sixtyMinutesDecreasedBySuspendLength) . date("s"));
+                                    $this->session->set_userdata("suspend_end_formatted", "0" . (string)((int)date("H") + 1) . ":" . (string)($suspendMinuteStart - $sixtyMinutesDecreasedBySuspendLength) . date(":s"));
+                                } else {
+                                    $this->session->set_userdata("suspend_end", date("Ymd") . (string)((int)date("H") + 1) . (string)($suspendMinuteStart - $sixtyMinutesDecreasedBySuspendLength) . date("s"));
+                                    $this->session->set_userdata("suspend_end_formatted", (string)((int)date("H") + 1) . ":" . (string)($suspendMinuteStart - $sixtyMinutesDecreasedBySuspendLength) . date(":s"));
+                                }
+                            }
+                        }
+                        // $this->session->set_userdata('error', "Input salah 3 kali berturut-turut, silahkan coba lagi setelah " . (string)$suspendLength . " menit.");
+                        $this->session->set_userdata('error', "Input salah 3 kali berturut-turut, silahkan coba lagi pada " . $this->session->userdata("suspend_end_formatted"));
+                    } else {
+                        if ($this->session->userdata("login_attempts")) {
+                            $temp = (int)$this->session->userdata("login_attempts");
+                            $this->session->unset_userdata("login_attempts");
+                            $this->session->set_userdata("login_attempts", ($temp + 1));
+                        } else {
+                            $this->session->set_userdata('login_attempts', 1);
+                        }
+                    }
+                    redirect('admin/login');
+                }
             }
         }
     }
@@ -2875,7 +2924,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') =="2" || $this->session->userdata('role') == "5") {
+            if ($this->session->userdata('role') == "2" || $this->session->userdata('role') == "5") {
                 $data = $this->db->query("SELECT SUM(nominal) AS total_spp FROM spp WHERE tahun_ajaran='" . $tahunajaran . "/" . $thajaran . "'")->row_array();
                 echo ($data["total_spp"]) ? rupiah($data["total_spp"]) : 'Rp0.-';
                 $this->load->view('admin/halamankosong');
@@ -2891,7 +2940,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') =="2" || $this->session->userdata('role') == "5") {
+            if ($this->session->userdata('role') == "2" || $this->session->userdata('role') == "5") {
                 $data = $this->db->query("SELECT SUM(nominal) AS total_spp_bulan FROM spp WHERE tahun_ajaran='" . $tahunajaran . "/" . $thajaran . "' AND bulan=" . $idbulan)->row_array();
                 echo ($data["total_spp_bulan"]) ? rupiah($data["total_spp_bulan"]) : 'Rp0.-';
                 $this->load->view('admin/halamankosong');
@@ -3141,7 +3190,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') =="2" || $this->session->userdata('role') == "5") {
+            if ($this->session->userdata('role') == "2" || $this->session->userdata('role') == "5") {
                 $checkDetailStatus = $this->db->query("SELECT id_detail_status_spp FROM spp WHERE id=" . $idtr)->row_array();
                 if ($checkDetailStatus["id_detail_status_spp"]) {
                     $data["strukSPP"] = $this->db->query("SELECT spp.id, detail_status_spp_siswa.id_status_spp, spp_status.status, detail_status_spp_siswa.keterangan, siswa.nama, siswa.nomor_induk, kelas_siswa.id_kelas, kelas.class, bulan_akademik.nama_bulan, spp.tahun_ajaran, spp.nominal, spp.tanggal, metode_bayar_spp.metode, spp.bukti_transfer, staff.nama AS nama_staff FROM spp JOIN detail_status_spp_siswa ON spp.id_detail_status_spp=detail_status_spp_siswa.id JOIN spp_status ON detail_status_spp_siswa.id_status_spp=spp_status.id JOIN siswa ON spp.id_siswa = siswa.id JOIN kelas_siswa ON spp.id_kelas_siswa = kelas_siswa.id JOIN kelas ON kelas_siswa.id_kelas = kelas.id JOIN bulan_akademik ON spp.bulan = bulan_akademik.id JOIN metode_bayar_spp ON spp.metode_bayar = metode_bayar_spp.id JOIN staff ON spp.id_staff = staff.id WHERE spp.id=" . $idtr)->row_array();
@@ -3251,7 +3300,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') =="2" || $this->session->userdata('role') == "5") {
+            if ($this->session->userdata('role') == "2" || $this->session->userdata('role') == "5") {
                 $this->_sppPerTahun($idkelas, $tahunajaran, $thajaran, idtransaksi: $idtransaksi, idsiswa: $idsiswa, spp_untuk_kelas: false);
             } else {
                 redirect('admin');
@@ -3597,7 +3646,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "2"|| $this->session->userdata('role') == "5") {
+            if ($this->session->userdata('role') == "2" || $this->session->userdata('role') == "5") {
                 $data["title"] = "Buku SPP";
                 $data["total_spp_masuk"] = $this->db->query("SELECT SUM(nominal) FROM spp WHERE tahun_ajaran='2022/23'")->result_array();
                 $tahunajaran = $this->db->query('SELECT DISTINCT tahun_ajaran FROM spp ORDER BY tahun_ajaran DESC')->result_array();
@@ -3647,7 +3696,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "2"|| $this->session->userdata('role') == "5") {
+            if ($this->session->userdata('role') == "2" || $this->session->userdata('role') == "5") {
                 $data["title"] = "Buku SPP";
                 $tahunAjaran = $tahunajaran . "/" . $thajaran;
                 $namaBulan = $this->db->query("SELECT nama_bulan FROM bulan_akademik WHERE id=" . $idbulan)->row_array()["nama_bulan"];

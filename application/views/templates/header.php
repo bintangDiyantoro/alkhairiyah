@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/pickmeup1.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/mainstyles.css">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url() ?>assets/img/alkhairiyah.png">
-    <link rel="manifest" href="<?= base_url()?>manifest.json">
+    <link rel="manifest" href="<?= base_url() ?>manifest.json">
     <title>SDI Al-Khairiyah Banyuwangi | <?= $title; ?></title>
 </head>
 
@@ -95,7 +95,7 @@
                         <a class="nav-link" href="<?= base_url('kontak') ?>"><strong>Hubungi Kami</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= base_url('admin') ?>"><strong>Login</strong></a>
+                        <a class="nav-link" href="<?= base_url('admin') ?>"><strong><?= ($this->session->userdata('admin')) ? "Dashboard" : "Login" ?></strong></a>
                     </li>
                 </ul>
             </div>

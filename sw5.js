@@ -1,7 +1,6 @@
-const staticCacheName = 'static-site-v1'
+const staticCacheName = 'static-site-v2'
 const dynamicCacheName = 'dynamic-site-v1'
 const cacheAssets = [
-        '/',
         '/admin/fallback',
         '/assets/img/alkhairiyah.png',
         '/assets/img/alkhairiyah144b.png',
