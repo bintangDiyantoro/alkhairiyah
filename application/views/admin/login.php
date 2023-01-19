@@ -60,8 +60,10 @@
                     <?php endif; ?>
                     <div class="form-group mt-3">
                       <input type="password" name="password" class="form-control form-control-user" placeholder="Kata sandi">
-                      <?= form_error('password', '<small class="text-danger pl-3">', '</small>'); ?>
-                      <?= '<small class="text-danger pl-3">' . $this->session->userdata('error') . '</small>' ?>
+                      <div class="pl-3">
+                        <?= form_error('password', '<small class="text-danger">', '</small>'); ?>
+                        <?= '<small class="text-danger text-center">' . $this->session->userdata('error') . '</small>' ?>
+                      </div>
                       <!-- <input type="hidden" id='error' value="<?= $this->session->userdata('error') ?>"> -->
                     </div>
                     <!-- <div class="form-group">
