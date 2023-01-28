@@ -19,7 +19,7 @@ class Welcome extends CI_Controller
 		$regex = "/^[a-z\d.,!?\"'()&\/:\-\s]*$/mi";
 		$this->form_validation->set_rules('comment_name', 'comment_name', 'required|regex_match[/^[a-z-\s\']+$/i]|max_length[20]', ['required' => 'nama wajib diisi', 'regex_match' => 'nama tidak boleh mengandung selain huruf, spasi, petik tunggal (\') dan strip (-)', 'max_length' => 'nama maksimal 20 huruf']);
 		$this->form_validation->set_rules('comment_email', 'comment_email', 'regex_match[/^[a-z\d_.]+@[a-z]+.[a-z]+$/mi]', ['regex_match' => 'email tidak valid']);
-		$this->form_validation->set_rules('comment', 'comment', 'required|regex_match['.$regex.']', ['required' => 'Silahkan tinggalkan komentar', 'regex_match' => 'komentar tidak valid']);
+		$this->form_validation->set_rules('comment', 'comment', 'required|regex_match[' . $regex . ']', ['required' => 'Silahkan tinggalkan komentar', 'regex_match' => 'komentar tidak valid']);
 	}
 
 	public function index()
@@ -28,7 +28,8 @@ class Welcome extends CI_Controller
 		$data["csrf"] = $this->csrf;
 		date_default_timezone_set("Asia/Jakarta");
 		$data['title'] = 'Halaman Utama';
-		$data['description'] = 'SD Islam Al-Khairiyah adalah sekolah yang melayani pengajaran jenjang pendidikan dasar di Kabupaten Banyuwangi yang mengajarkan semua mata pelajaran wajib sesuai kurikulum yang berlaku disertai tambahan nilai-nilai agama Islam.';
+		$data['canonical'] = base_url();
+		$data['description'] = 'SD Islam Al-Khairiyah adalah sekolah yang melayani pengajaran jenjang pendidikan dasar di Kabupaten Banyuwangi yang mengajarkan semua mata pelajaran wajib sesuai kurikulum yang berlaku disertai tambahan nilai-nilai ajaran Agama Islam.';
 		$this->db->order_by('id', 'DESC');
 		$data['berita'] = $this->db->get('berita')->result_array();
 		for ($i = 0; $i < count($data['berita']); $i++) {

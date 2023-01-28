@@ -5,6 +5,7 @@ html::-webkit-scrollbar {
 @font-face {
     font-family: "corbel";
     src: url('../fonts/corbel.ttf');
+    font-display: swap;
 }
 
 body {
@@ -80,7 +81,7 @@ body {
 }
 
 .jbtr {
-    background-image: url("/assets/img/sdi al-khairiyah banyuwangi.png");
+    background-image: url("/assets/img/sdi al-khairiyah banyuwangi.webp");
     height: 450px;
     padding-top: 140px;
     width: 102.05%!important;
@@ -253,6 +254,17 @@ div.nav-link {
     color: rgb(255, 255, 255);
 }
 
+.right-float-button img {
+    width: 40px;
+    height: 42px;
+}
+
+.right-float-button2 img,
+.right-float-button3 img {
+    width: 40px;
+    height: 40px;
+}
+
 @media(min-width:800.1px) {
     .nav-container {
         display: flex;
@@ -338,7 +350,8 @@ div.nav-link {
     .right-float-button img,
     .right-float-button2 img,
     .right-float-button3 img {
-        width: 24px;
+        width: 25px;
+        height: 25px;
     }
     .right-float-button:hover,
     .right-float-button2:hover,

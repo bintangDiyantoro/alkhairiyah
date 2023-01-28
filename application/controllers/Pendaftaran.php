@@ -18,13 +18,13 @@ class Pendaftaran extends CI_Controller
     private function _regex()
     {
         $birthyear = (int)date('Y') - 6;
-        $by1= $birthyear - 6;
+        $by1 = $birthyear - 6;
         $by2 = $birthyear - 5;
         $by3 = $birthyear - 4;
         $by4 = $birthyear - 3;
         $by5 = $birthyear - 2;
         $by6 = $birthyear - 1;
-        $string = "/^" . "((0[1-9]|[1-2][\d]|3[0-1])-(0[1-9]|1[0-2])-(".$by1."|".$by2."|".$by2."|".$by3."|".$by4."|".$by5."|".$by6.")|((0[1-9]|[1-2][\d]|3[0-1])-0[1-6]|01-07)-" . $birthyear . ")$/";
+        $string = "/^" . "((0[1-9]|[1-2][\d]|3[0-1])-(0[1-9]|1[0-2])-(" . $by1 . "|" . $by2 . "|" . $by2 . "|" . $by3 . "|" . $by4 . "|" . $by5 . "|" . $by6 . ")|((0[1-9]|[1-2][\d]|3[0-1])-0[1-6]|01-07)-" . $birthyear . ")$/";
         if (preg_match($string, $this->input->post('tgl_lahir'))) {
             return 1;
         } else {
@@ -36,10 +36,11 @@ class Pendaftaran extends CI_Controller
     {
         $data['csrf'] = $this->csrf;
         $data['title'] = 'Pendaftaran';
+        $data["canonical"] = base_url('pendaftaran');
         $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
-        
+
         $count = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y'))->num_rows();
-        
+
         $this->load->view('templates/header', $data);
 
         // echo date('mdHi');die;
@@ -165,6 +166,7 @@ class Pendaftaran extends CI_Controller
                     $this->_dataWali($this->security->xss_clean($this->input->post()));
                 }
                 $data['title'] = 'Pendaftaran';
+                $data['canonical'] = base_url('pendaftaran/wali');
                 $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
                 $data['csrf'] = $this->csrf;
                 $this->load->view('templates/header', $data);
@@ -203,6 +205,7 @@ class Pendaftaran extends CI_Controller
                     $this->session->set_flashdata('regex', 'Usia minimal 6 tahun per 1 Juli ' . date('Y'));
                 }
                 $data['title'] = 'Pendaftaran';
+                $data['canonical'] = base_url('pendaftaran/calonsiswa');
                 $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
                 $data['csrf'] = $this->csrf;
                 $this->load->view('templates/header', $data);
@@ -235,6 +238,7 @@ class Pendaftaran extends CI_Controller
     {
         netralize2();
         $data['title'] = 'Pendaftaran';
+        $data['canonical'] = base_url('pendaftaran/cs');
         $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
         $data['csrf'] = $this->csrf;
         if ($this->input->post('search') || isset($_POST['search'])) {
@@ -292,6 +296,7 @@ class Pendaftaran extends CI_Controller
         netralize();
         $this->session->unset_userdata('sukses');
         $data['title'] = 'Berhasil';
+        $data['canonical'] = base_url('pendaftaran/daftar/' . $id);
         $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
         $data['id'] = $id;
         $this->load->view('templates/header', $data);
@@ -304,6 +309,7 @@ class Pendaftaran extends CI_Controller
         netralize();
         $data['calon_siswa'] = $this->Pendaftaran->detail($id);
         $data['title'] = 'Pendaftaran';
+        $data['canonical'] = base_url('pendaftaran/detail/' . $id);
         $data['description'] = 'Detail calon siswa of SDI Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);
         $this->load->view('pendaftaran/detail');

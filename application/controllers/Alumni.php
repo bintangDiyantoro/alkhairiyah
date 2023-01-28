@@ -22,6 +22,7 @@ class Alumni extends CI_Controller{
         netralize();
         $alumni2018 = $this->spreadsheet18->getSheet(0)->rangeToArray('B2:K138', NULL, true, true, true);
         $data['title'] = 'Alumni';
+        $data['canonical'] = base_url('alumni/th2018');
         $data['tahun'] = 2018;
         $data['description'] = 'Alumni 2018 of SDI Al-Khairiyah Banyuwangi';
         $data["alumni"] = $alumni2018;
@@ -33,6 +34,7 @@ class Alumni extends CI_Controller{
         netralize();
         $alumni2019 = $this->spreadsheet19->getSheet(0)->rangeToArray('B5:J173', NULL, true, true, true);
         $data['title'] = 'Alumni';
+        $data['canonical'] = base_url('alumni/th2019');
         $data['tahun'] = 2019;
         $data['description'] = 'Alumni 2019 of SDI Al-Khairiyah Banyuwangi';
         $data["alumni"] = $alumni2019;

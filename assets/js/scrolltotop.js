@@ -5,7 +5,7 @@ var scrolltotop = {
         scrollduration: 1e3,
         fadeduration: [500, 100]
     },
-    controlHTML: '<img src="/assets/img/ScrlTop.png" />',
+    controlHTML: '<img src="/assets/img/ScrlTop.png" width="48px" height="48px" alt="scrollTop" />',
     controlattrs: {
         offsetx: 5,
         offsety: 5

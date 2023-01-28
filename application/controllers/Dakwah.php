@@ -1,9 +1,12 @@
 <?php
 
-class Dakwah extends CI_Controller{
-    public function index(){
+class Dakwah extends CI_Controller
+{
+    public function index()
+    {
         netralize();
         $data['title'] = 'Dakwah';
+        $data['canonical'] = base_url('dakwah');
         $data['dakwah'] = $this->db->get('dakwah')->result_array();
         $data['description'] = 'Dakwah SDI Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);
@@ -14,6 +17,7 @@ class Dakwah extends CI_Controller{
     {
         netralize();
         $data['title'] = 'Dakwah';
+        $data['canonical'] = base_url('dakwah/detail/' . $index);
         $data['dakwah'] = $this->db->get('dakwah')->result_array();
         $data['detail'] = $data['dakwah'][$index];
         $data['description'] = 'Dakwah by SDI Al-Khairiyah Banyuwangi';

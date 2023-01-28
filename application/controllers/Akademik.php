@@ -27,6 +27,7 @@ class Akademik extends CI_Controller
         netralize();
         $jadwal = $this->spreadsheet->getSheet(7)->rangeToArray('A8:J199', NULL, true, true, true);
         $data['title'] = 'Akademik';
+        $data['canonical'] = base_url('akademik');
         $data['jadwal'] = $jadwal;
         $data['description'] = 'Data akademik of SDI Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);
@@ -38,6 +39,7 @@ class Akademik extends CI_Controller
         netralize();
         $rombonganBelajar = $this->spreadsheet->getSheet(3)->rangeToArray('A6:I29', NULL, true, true, true);
         $data['title'] = 'Akademik';
+        $data['canonical'] = base_url('akademik/rombonganbelajar');
         $data['rombongan'] = $rombonganBelajar;
         $data['description'] = 'Rombongan belajar of SDI Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);
@@ -50,6 +52,7 @@ class Akademik extends CI_Controller
         $data["kelas"] = $this->db->get('kelas')->result_array();
         $data["wali_kelas"] = $this->db->query("SELECT wali_kelas.*,staff.nama AS 'gurukelas',kelas.class FROM wali_kelas JOIN staff ON wali_kelas.id_staff = staff.id JOIN kelas ON wali_kelas.id_kelas = kelas.id WHERE wali_kelas.tahun = '".$this->tahunAjar."' ORDER BY class ASC")->result_array();
         $data["title"] = "Akademik";
+        $data['canonical'] = base_url('akademik/materi');
         $data['description'] = 'Daftar materi of SDI Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);
         $this->load->view('akademik/materi');
@@ -64,6 +67,7 @@ class Akademik extends CI_Controller
         $agenda = $this->agenda->getSheet(0)->rangeToArray('B5:C63', NULL, true, true, true);
 
         $data['title'] = 'Akademik';
+        $data['canonical'] = base_url('akademik/kalender');
         $data['agenda'] = $agenda;
         $data['description'] = 'Kalender akademik SD Islam Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);

@@ -32,7 +32,7 @@ class Admin extends CI_Controller
     {
         netralize();
         $data['csrf'] = $this->csrf;
-        
+
         if ($this->session->userdata("suspend_end") && (int)date("YmdHis") < (int)$this->session->userdata("suspend_end")) {
             // $this->session->unset_userdata("suspend_end");
             $data['title'] = 'Login';
@@ -75,10 +75,10 @@ class Admin extends CI_Controller
                         if ($suspendMinuteStart < $sixtyMinutesDecreasedBySuspendLength) {
                             if ($suspendMinuteStart + $suspendLength < 10) {
                                 $this->session->set_userdata("suspend_end", date("YmdH") . "0" . (string)($suspendMinuteStart + $suspendLength) . date("s"));
-                                $this->session->set_userdata("suspend_end_formatted", date("H:") . "0" . (string)($suspendMinuteStart + $suspendLength) . date(":s"));
+                                $this->session->set_userdata("suspend_end_formatted", (int)date("H") . ":0" . (string)($suspendMinuteStart + $suspendLength) . date(":s"));
                             } else {
                                 $this->session->set_userdata("suspend_end", date("YmdH") . (string)($suspendMinuteStart + $suspendLength) . date("s"));
-                                $this->session->set_userdata("suspend_end_formatted", date("H:") .  (string)($suspendMinuteStart + $suspendLength) . date(":s"));
+                                $this->session->set_userdata("suspend_end_formatted", (int)date("H") . ":" .  (string)($suspendMinuteStart + $suspendLength) . date(":s"));
                             }
                         } else {
                             if ($suspendMinuteStart - $sixtyMinutesDecreasedBySuspendLength < 10) {
@@ -100,7 +100,20 @@ class Admin extends CI_Controller
                             }
                         }
                         // $this->session->set_userdata('error', "Input salah 3 kali berturut-turut, silahkan coba lagi setelah " . (string)$suspendLength . " menit.");
-                        $this->session->set_userdata('error', "Input salah 3 kali berturut-turut, silahkan coba lagi pada " . $this->session->userdata("suspend_end_formatted"));
+                        $H = (int)explode(":", $this->session->userdata("suspend_end_formatted"))[0];
+                        if ($H < 17) {
+                            $H += 7;
+                        } else {
+                            $H -= 17;
+                        }
+                        if ($H < 10) {
+                            $H = "0" . (string)$H;
+                        } else {
+                            $H = (string)$H;
+                        }
+                        $i = explode(":", $this->session->userdata("suspend_end_formatted"))[1];
+                        $s = explode(":", $this->session->userdata("suspend_end_formatted"))[2];
+                        $this->session->set_userdata('error', "Input salah 3 kali berturut-turut, silahkan coba lagi pada " . $H . ":" . $i . ":" . $s);
                     } else {
                         if ($this->session->userdata("login_attempts")) {
                             $temp = (int)$this->session->userdata("login_attempts");
