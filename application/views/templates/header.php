@@ -3,14 +3,21 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="all">
+    <meta name="theme-color" content="#004632">
+    <meta name="keywords" content="SDI, Al-Khairiyah, Banyuwangi, SD Islam, Sekolah Dasar, Sekolah, SD">
+    <meta name="author" content="Al-Khairiyah">
     <meta name="description" content="<?= $description ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="canonical" href="<?= base_url() ?>">
+    <link rel="apple-touch-icon" href="<?= base_url('assets/img/') ?>alkhairiyah192b.png">
+    <link rel="canonical" href="<?= $canonical ?>">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://youtube.com">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/css/pickmeup1.css">
-    <link rel="stylesheet" href="<?= base_url() ?>assets/css/mainstyles.css">
+    <link rel="stylesheet" href="<?= base_url() ?>assets/css/lite-yt-embed.css">
+    <link rel="stylesheet" href="<?= base_url() ?>assets/css/mainstyles2.css">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url() ?>assets/img/alkhairiyah.png">
     <link rel="manifest" href="<?= base_url() ?>manifest.json">
     <title>SDI Al-Khairiyah Banyuwangi | <?= $title; ?></title>
@@ -105,19 +112,19 @@
     <div class="right-float">
         <a href="https://tk.alkhairiyahbanyuwangi.sch.id">
             <div class="right-float-button">
-                <img src="<?= base_url('assets/img/logotk.png') ?>" alt="" width="40px">
+                <img src="<?= base_url('assets/img/logotk2.png') ?>" alt="logo tk islam al-khairiyah banyuwangi">
                 TK Islam Al-Khairiyah Banyuwangi
             </div>
         </a>
         <a href="https://instagram.com/al_khairiyah_banyuwangi">
             <div class="right-float-button2">
-                <img src="<?= base_url('assets/img/logoig.png') ?>" alt="" width="40px">
+                <img src="<?= base_url('assets/img/logoig.png') ?>" alt="logo instagram">
                 <b>Instagram</b>
             </div>
         </a>
         <a href="https://youtube.com/channel/UCeCetMNd5sPxLJICi-R9bBw">
             <div class="right-float-button3">
-                <img src="<?= base_url('assets/img/logoyt.png') ?>" alt="" width="40px">
+                <img src="<?= base_url('assets/img/logoyt.png') ?>" alt="logo youtube">
                 <b>YouTube</b>
             </div>
         </a>

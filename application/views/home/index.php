@@ -1,4 +1,4 @@
-<div class="jbtr">
+<div class="jbtr lazyload">
     <div class="container">
         <h1 class="display-3">Ahlan Wa Sahlan!</h1>
         <p class="lead">Selamat datang di laman SD Islam Al-Khairiyah Banyuwangi &#128591;</p>
@@ -32,7 +32,9 @@
                                                 <?php if ($berita[$j]['image']) : ?>
                                                     <img src="<?= base_url() . $berita[$j]['image'] ?>" class="d-block rounded w-100" alt="...">
                                                 <?php elseif ($berita[$j]['yt']) : ?>
-                                                    <iframe class="iframe" src="https://www.youtube.com/embed/<?= $berita[$j]['yt'] ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                    <lite-youtube videoid="<?= $berita[$j]['yt'] ?>">
+                                                        <!-- <iframe class="iframe" src="https://www.youtube.com/embed/<?= $berita[$j]['yt'] ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" loading="lazy" allowfullscreen></iframe> -->
+                                                    </lite-youtube>
                                                 <?php endif; ?>
                                                 <div class="carousel-caption d-none d-md-block">
                                                     <h1 class="news-heading"><?= $berita[$j]['title'] ?></h1>
@@ -48,7 +50,9 @@
                                                 <?php if ($berita[$k]['image']) : ?>
                                                     <img src="<?= base_url() . $berita[$k]['image'] ?>" class="d-block rounded w-100" alt="...">
                                                 <?php elseif ($berita[$k]['yt']) : ?>
-                                                    <iframe class="iframe" src="https://www.youtube.com/embed/<?= $berita[$k]['yt'] ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                    <lite-youtube videoid="<?= $berita[$k]['yt'] ?>">
+                                                        <!-- <iframe class="iframe" src="https://www.youtube.com/embed/<?= $berita[$k]['yt'] ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+                                                    </lite-youtube>
                                                 <?php endif; ?>
                                                 <div class="carousel-caption d-none d-md-block">
                                                     <h1 class="news-heading"><?= $berita[$k]['title'] ?></h1>

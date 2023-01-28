@@ -23,6 +23,7 @@ class Profil extends CI_Controller{
         $data['periodik'] = $dataPeriodik;
         $data['sanitasi'] = $dataSanitasi;
         $data['title'] = 'Profil';
+        $data['canonical'] = base_url('profil');
         $data['description'] = 'Profile page of SDI Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);
         $this->load->view('profil/index');
@@ -33,6 +34,7 @@ class Profil extends CI_Controller{
         $tngPengajarKependidikan = $this->spreadsheet->getSheet(1)->rangeToArray('A5:Q40', NULL, true, true, true);
 
         $data['title'] = 'Profil';
+        $data['canonical'] = base_url('profil/ptk');
         $data['description'] = 'Profile of ptk of SDI Al-Khairiyah Banyuwangi';
         $data['tpk'] = $tngPengajarKependidikan;
         $this->load->view('templates/header', $data);
@@ -48,6 +50,7 @@ class Profil extends CI_Controller{
         $pdTP = $this->spreadsheet->getSheet(2)->rangeToArray('L6:O12', NULL, true, true, true);
 
         $data['title'] = 'Profil';
+        $data['canonical'] = base_url('profil/pesertadidik');
         $data['description'] = 'Profile of peserta didik of SDI Al-Khairiyah Banyuwangi';
         $data['pdJK'] = $pdJK;
         $data['pdUsia'] = $pdUsia;
@@ -63,6 +66,7 @@ class Profil extends CI_Controller{
         netralize();
         $sarana = $this->spreadsheet->getSheet(5)->rangeToArray('A7:G183', NULL, true, true, true);
         $data['title'] = 'Profil';
+        $data['canonical'] = base_url('profil/sarana');
         $data['description'] = 'Profil sarana of SDI Al-Khairiyah Banyuwangi';
         $data['sarana'] = $sarana;
         $this->load->view('templates/header', $data);
@@ -73,6 +77,7 @@ class Profil extends CI_Controller{
         netralize();
         $blockgrant = $this->spreadsheet->getSheet(6)->rangeToArray('A7:G183', NULL, true, true, true);
         $data['title'] = 'Profil';
+        $data['canonical'] = base_url('profil/blockgrant');
         $data['description'] = 'Profil blockgrant of SDI Al-Khairiyah Banyuwangi';
         $data['blockgrant'] = $blockgrant;
         $this->load->view('templates/header', $data);
