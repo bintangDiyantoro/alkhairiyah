@@ -6,7 +6,7 @@
         <?php if (count($nominal_per_tingkat_tahun_ini) == 24) : ?>
             <div class="col d-flex justify-content-end main-spp-search-container">
                 <div class="row <?= togglesidebar($this->session->userdata("toggle")) ?>" id="customSppSearchToggle">
-                    <div class="align-bottom mx-3 mb-2" style="margin-top: 6px;width:75px;">
+                    <div class="align-bottom mx-3 mb-2 spp-cari-siswa-label" style="margin-top: 6px;width:75px;" >
                         Cari Siswa:
                     </div>
                     <div class="d-flex align-items-center">

@@ -21,7 +21,7 @@
     <link rel="apple-touch-icon" href="<?= base_url('assets/img/') ?>alkhairiyah192b.png">
     <!-- Custom styles for this template-->
     <link href="<?= base_url('assets/css/') ?>sb-admin-2.min.css" rel="stylesheet">
-    <link href="<?= base_url('assets/css/') ?>adminmainstyle9.css" rel="stylesheet">
+    <link href="<?= base_url('assets/css/') ?>adminmainstyle2.css" rel="stylesheet">
     <link href="<?= base_url('assets/css/') ?>pickmeup1.css" rel="stylesheet">
     <link rel="manifest" href="<?= base_url() ?>manifest.json">
 </head>
