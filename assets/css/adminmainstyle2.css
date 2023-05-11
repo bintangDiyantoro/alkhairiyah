@@ -909,6 +909,11 @@ p {
     .spp-label {
         width: 124px;
     }
+    .spp-cari-siswa-label {
+        width: 100px!important;
+        height: 25px!important;
+        word-wrap: none;
+    }
     .btn-kelas-1,
     .btn-kelas-2,
     .btn-kelas-3,
@@ -943,3 +948,10 @@ p {
         display: block;
     }
 }
+
+/* @media(min-width:400px) {
+    .spp-tahun-ajaran-row {
+        margin-top: 30px;
+        margin-bottom: -30px;
+    }
+} */
