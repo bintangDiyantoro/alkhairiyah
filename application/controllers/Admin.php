@@ -2591,6 +2591,132 @@ class Admin extends CI_Controller
                 $this->db->where('id', $this->session->userdata("id_staff"));
                 $data["staff"] = $this->db->get('staff')->row_array();
                 $data['title'] = "Manajemen Kelas";
+                $data["csrf"] = $this->csrf;
+                $data["error"] = NULL;
+
+                if (isset($_POST["submit"])) {
+                    $tr = new GoogleTranslate();
+                    $tr->setSource('en');
+                    $tr->setTarget('id');
+                    $config['upload_path'] = 'assets/sheets/';
+                    $config['allowed_types'] = 'xls|xlsx';
+                    $config['max_size']     = '1000'; //kb
+                    $config["overwrite"] = true;
+                    $this->load->library('upload', $config);
+                    if (!$this->upload->do_upload('fileexcel')) {
+                        $data["error"] = $tr->translate(strip_tags($this->upload->display_errors()));
+                    } else {
+                        $data = ['upload_data' => $this->upload->data()];
+                        $refName = './assets/sheets/' . $this->upload->data()["file_name"];
+                        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                        $spreadsheet = $reader->load($refName);
+                        $worksheet = $spreadsheet->getActiveSheet();
+                        $rowItterator = $worksheet->getRowIterator();
+
+                        $dataCol = [];
+                        $i = 1;
+                        foreach ($rowItterator as $row) {
+                            $cellIterator = $row->getCellIterator();
+                            $cellIterator->setIterateOnlyExistingCells(FALSE);
+                            $dataRow = [];
+                            if ($i > 6) {
+                                foreach ($cellIterator as $cell) {
+                                    $dataRow[] = $cell->getValue();
+                                }
+                                $dataCol[] = $dataRow;
+                            }
+                            $i++;
+                        }
+
+
+                        foreach ($dataCol as $dc) {
+
+                            $this->Admin->insertFetchedStudentData($dc);
+                            $idsiswa = $this->db->query("SELECT id FROM siswa WHERE nisn=" . $dc[4])->row_array()["id"];
+                            $rombel = strtolower($dc[42]);
+
+                            switch ($rombel) {
+                                case 'kelas 1a':
+                                    $idkelas = "1";
+                                    break;
+                                case 'kelas 1b':
+                                    $idkelas = "2";
+                                    break;
+                                case 'kelas 1c':
+                                    $idkelas = "3";
+                                    break;
+                                case 'kelas 1d':
+                                    $idkelas = "4";
+                                    break;
+                                case 'kelas 2a':
+                                    $idkelas = "5";
+                                    break;
+                                case 'kelas 2b':
+                                    $idkelas = "6";
+                                    break;
+                                case 'kelas 2c':
+                                    $idkelas = "7";
+                                    break;
+                                case 'kelas 2d':
+                                    $idkelas = "8";
+                                    break;
+                                case 'kelas 3a':
+                                    $idkelas = "9";
+                                    break;
+                                case 'kelas 3b':
+                                    $idkelas = "10";
+                                    break;
+                                case 'kelas 3c':
+                                    $idkelas = "11";
+                                    break;
+                                case 'kelas 3d':
+                                    $idkelas = "12";
+                                    break;
+                                case 'kelas 4a':
+                                    $idkelas = "13";
+                                    break;
+                                case 'kelas 4b':
+                                    $idkelas = "14";
+                                    break;
+                                case 'kelas 4c':
+                                    $idkelas = "15";
+                                    break;
+                                case 'kelas 4d':
+                                    $idkelas = "16";
+                                    break;
+                                case 'kelas 5a':
+                                    $idkelas = "17";
+                                    break;
+                                case 'kelas 5b':
+                                    $idkelas = "18";
+                                    break;
+                                case 'kelas 5c':
+                                    $idkelas = "19";
+                                    break;
+                                case 'kelas 5d':
+                                    $idkelas = "20";
+                                    break;
+                                case 'kelas 6a':
+                                    $idkelas = "21";
+                                    break;
+                                case 'kelas 6b':
+                                    $idkelas = "22";
+                                    break;
+                                case 'kelas 6c':
+                                    $idkelas = "23";
+                                    break;
+                                case 'kelas 6d':
+                                    $idkelas = "24";
+                                    break;
+                            }
+
+                            $this->Admin->masukkankelasCore($idsiswa, $idkelas, $tahunAjar);
+                        }
+                        var_dump($refName);
+                        redirect('admin/mkkelas/' . $tahun . '/' . $th);
+                    }
+                }
+
                 if (isset($_POST['pilihwalikelas'])) {
                     $mapped = [
                         'id_kelas' => $this->input->post('idkelas'),
