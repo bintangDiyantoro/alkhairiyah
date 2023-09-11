@@ -2538,6 +2538,12 @@ class Admin extends CI_Controller
                 $data["csrf"] = $this->csrf;
                 $data['kelas_siswa'] = $this->db->query('SELECT DISTINCT tahun FROM wali_kelas ORDER BY tahun DESC')->result_array();
                 // $data['kelas_siswa'] = NULL;
+                $tahunIni = ['tahun' => $this->tahunAjar];
+
+                if (!in_array($tahunIni, $data['kelas_siswa'])) {
+                    $data['kelas_siswa'][] = $tahunIni;
+                    arsort($data['kelas_siswa']);
+                }
                 $this->db->where('id', $this->session->userdata("id_staff"));
                 $data["staff"] = $this->db->get('staff')->row_array();
                 $data['title'] = "Manajemen Kelas";
@@ -2632,8 +2638,11 @@ class Admin extends CI_Controller
                         foreach ($dataCol as $dc) {
 
                             $this->Admin->insertFetchedStudentData($dc);
-                            $idsiswa = $this->db->query("SELECT id FROM siswa WHERE nisn=" . $dc[4])->row_array()["id"];
+                            $idsiswa = $this->db->query('SELECT id FROM siswa WHERE nama="' . myStr($dc[1]) . '" AND nama_ibu="' . myStr($dc[30]) . '"')->row_array();
                             $rombel = strtolower($dc[42]);
+                            if ($idsiswa) {
+                                $idsiswa = $idsiswa["id"];
+                            }
 
                             switch ($rombel) {
                                 case 'kelas 1a':
@@ -2709,8 +2718,9 @@ class Admin extends CI_Controller
                                     $idkelas = "24";
                                     break;
                             }
-
-                            $this->Admin->masukkankelasCore($idsiswa, $idkelas, $tahunAjar);
+                            if ($idsiswa) {
+                                $this->Admin->masukkankelasCore($idsiswa, $idkelas, $tahunAjar);
+                            }
                         }
                         var_dump($refName);
                         redirect('admin/mkkelas/' . $tahun . '/' . $th);
@@ -3228,7 +3238,7 @@ class Admin extends CI_Controller
             if ($this->session->userdata('role') == "2") {
                 if (isset($_POST["submit"])) {
                     if ($upload == "upload") {
-                        $config["file_name"] = 'bukti-tf-spp-';
+                        $config["file_name"] = 'bukti-transfer-spp-';
                         $config['upload_path'] = 'assets/spptf/';
                         $config['allowed_types'] = 'jpeg|jpg|png|pdf';
                         $config['max_size']     = '2000'; //kb
@@ -3854,6 +3864,47 @@ class Admin extends CI_Controller
                 }
                 $data["pada_belum_bayar"] = $siswaBelumBayar;
                 $this->load->view("admin/sppbelumpadabayar", $data);
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function editsppdata()
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "9") {
+                $data["title"] = 'Buku SPP';
+                $data["csrf"] = $this->csrf;
+                $this->load->view('admin/header', $data);
+                $this->load->view('admin/editsppdata');
+                $this->load->view('admin/footer');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
+    public function caridataspp()
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "9") {
+                $data["title"] = 'Buku SPP';
+                $data["csrf"] = $this->csrf;
+
+                if (isset($_POST["submit"])) {
+
+                    $dataList = $this->db->query("SELECT spp.*, siswa.nama, bulan_akademik.nama_bulan FROM spp JOIN siswa ON spp.id_siswa = siswa.id JOIN bulan_akademik ON spp.bulan = bulan_akademik.id WHERE siswa.nomor_induk = " . $this->input->post('no_induk'))->result_array();
+
+                    echo json_encode([$dataList, 'newtoken' => $this->csrf['hash']]);
+                }
+                $this->load->view('admin/halamankosong');
             } else {
                 redirect('admin');
             }

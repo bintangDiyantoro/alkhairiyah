@@ -192,6 +192,7 @@
                             <a class="collapse-item" href="<?= base_url('admin/metodebayarspp') ?>">Metode Bayar SPP</a>
                             <a class="collapse-item" href="<?= base_url('admin/nominalspp') ?>">Nominal SPP</a>
                             <a class="collapse-item" href="<?= base_url('admin/bulanakademik') ?>">Bulan Akademik</a>
+                            <a class="collapse-item" href="<?= base_url('admin/editsppdata')?>">Edit Data</a>
                         </div>
                     </div>
                 </li>

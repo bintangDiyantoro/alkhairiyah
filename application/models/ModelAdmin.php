@@ -1,4 +1,5 @@
 <?php
+#[\AllowDynamicProperties]
 
 class ModelAdmin extends CI_Model
 {
@@ -709,14 +710,15 @@ class ModelAdmin extends CI_Model
 
     public function insertFetchedStudentData($data)
     {
-        $studentIsExist = $this->db->query("SELECT * FROM siswa WHERE nisn=" . $data[4])->row_array();
+        $studentIsExist = $this->db->query('SELECT * FROM siswa WHERE (nama="' . myStr($data[1]) . '" AND nama_ibu="' . myStr($data[30]) . '")' . ((isset($data[2])) ? ' OR nomor_induk=' . $data[2] : NULL))->row_array();
+
         $rt_rw = ($data[10] && $data[11]) ? ", RT/RW: " . $data[10] . "/" . $data[11] : '';
         $dusun = ($data[12]) ? ", Dusun: " . myStr($data[12]) : '';
         $nama_wali = (isset($data[36])) ? $data[36] : '';
         $nohpOrtu = ($data[19]) ? $data[19] : '';
         $mapped = [
-            "nomor_induk" => $data[2],
-            "nisn" => $data[4],
+            // "nomor_induk" => (isset($data[2])) ? $data[2] : '',
+            // "nisn" => (isset($data[4])) ? $data[4] : '',
             "nama" => myStr($data[1]),
             "ttl" => myStr($data[5]) . ', ' . explode('-', $data[6])[2] . '-' . explode('-', $data[6])[1] . '-' . explode('-', $data[6])[0],
             "jenis_kelamin" => $data[3],
@@ -732,8 +734,15 @@ class ModelAdmin extends CI_Model
             "kecamatan_ortu" => myStr($data[14]),
             "updated_by" => $this->session->userdata("id_staff")
         ];
+        if (isset($data[2])) {
+            $mapped["nomor_induk"] = $data[2];
+        }
+        if (isset($data[2])) {
+            $mapped["nisn"] = $data[4];
+        }
         if ($studentIsExist) {
-            $this->db->where('nisn', $data[4]);
+            $this->db->where('nama', myStr($data[1]));
+            $this->db->where('nama_ibu', myStr($data[30]));
             $this->db->update('siswa', $mapped);
         } else {
             $this->db->insert('siswa', $mapped);
