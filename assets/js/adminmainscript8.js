@@ -2386,3 +2386,56 @@ if (url[4] == "keuangan") {
         myAjax('get', `/admin/gettotalsppblntsb/${month}/${year}`, totalSppBlnTsb, '30')
     })
 }
+
+if(url[4] = "editsppdata"){
+    const csrf_token = document.querySelector('.csrf-token').value
+    const no_induk = document.querySelector('.no-induk')
+    const regex = /^[1-9]\d\d\d$/
+    const dataList = document.querySelector('hasil-pencarian-spp')
+    no_induk.addEventListener('keyup',function(){
+        let string = this.value
+        if(regex.test(string)){
+            let formdata = new FormData
+
+            formdata.append('csrf_token', csrf_token)
+            formdata.append('no_induk', no_induk.value)
+            formdata.append('submit', '')
+            fetch('/admin/caridataspp', {method:"POST", body: formdata})
+            .then(response => response.json()).then((response) => {
+                console.log(response[0])
+
+                const field = `<table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">No Induk</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Bulan</th>
+                                    <th scope="col">Nominal</th>
+                                    <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                    </tr>
+                                    <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                    </tr>
+                                    <tr>
+                                    <th scope="row">3</th>
+                                    <td colspan="2">Larry the Bird</td>
+                                    <td>@twitter</td>
+                                    </tr>
+                                </tbody>
+                            </table>`
+            })
+        }
+    })
+}
