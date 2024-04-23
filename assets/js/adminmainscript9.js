@@ -251,14 +251,14 @@ $(function() {
         })
     }
 
-    if (url[3] == "admin") {
+    if (window.location.href.split('/')[3] == "admin") {
         const sidebarToggle = document.querySelector('#sidebarToggle')
         const hamburger = document.querySelector('#sidebarToggleTop')
         mainToggleControl(sidebarToggle)
         mainToggleControl(hamburger)
     }
 
-    if (url[3] == "admin" && url[4] == "ubahbiodata") {
+    if (window.location.href.split('/')[3] == "admin" && window.location.href.split('/')[4] == "ubahbiodata") {
         completeParentAddressCaller()
     }
 
@@ -278,7 +278,7 @@ $(function() {
             xhr.send()
         })
 
-        if (url[4] == "sppkelas") {
+        if (window.location.href.split('/')[4] == "sppkelas") {
             const sppBatalCari = document.querySelector('.spp-cari-siswa-batal')
             if (sppBatalCari) {
                 sppBatalCari.addEventListener('click', function() {
@@ -403,7 +403,7 @@ $(function() {
                         formdata.append("id_kelas", this.dataset.idkelas)
                         formdata.append("tahun", this.dataset.tahun)
                         formdata.append("submit", '')
-                        if (url[4] == "sppkelas") {
+                        if (window.location.href.split('/')[4] == "sppkelas") {
                             const response = await fetch('/admin/sppkelasinsertstudent', { method: 'post', body: formdata })
                                 .then(response => response.json()).then(response => response)
                             if (response == "success") {
@@ -478,7 +478,7 @@ $(function() {
         var csrf = $('.ajax-text-input-cari-siswa').data('csrf')
         const batalCari = document.querySelector('.cari-siswa-batal')
         batalCari.addEventListener('click', function() {
-            if (url[4] !== 'sppkelas') {
+            if (window.location.href.split('/')[4] !== 'sppkelas') {
                 cancelStudentSearch()
             } else {
                 document.querySelector('.ajax-cari-siswa').innerHTML = ''
@@ -633,7 +633,7 @@ $(function() {
     }
 
     pickmeup('#tgl_lahir')
-    if (url[3] == "admin" && url[4] == "ubahbiodata") {
+    if (window.location.href.split('/')[3] == "admin" && window.location.href.split('/')[4] == "ubahbiodata") {
         pickmeup('#tgl_lahir_edit', {
             default_date: false,
             current: document.getElementById('tgl_lahir_edit').value
@@ -785,7 +785,7 @@ $(function() {
 
     }
 
-    if (url[3] == "admin" && url[4] == "biodatasiswa" || url[3] == "admin" && url[4] == "ubahbiodata") {
+    if (window.location.href.split('/')[3] == "admin" && window.location.href.split('/')[4] == "biodatasiswa" || window.location.href.split('/')[3] == "admin" && window.location.href.split('/')[4] == "ubahbiodata") {
         const status = document.getElementById("editBiodataAlert").dataset.alert
         const name = document.getElementById("editBiodataAlert").dataset.name
         if (status == "Gagal") {
@@ -836,7 +836,7 @@ if (document.getElementsByClassName('container')[0].dataset.tmbkls == 'sukses') 
     xhr.send()
 }
 
-if (url[3] == "admin" && url[4] == "kelolanilai") {
+if (window.location.href.split('/')[3] == "admin" && window.location.href.split('/')[4] == "kelolanilai") {
     var b_i_url = window.location.href
 }
 
@@ -886,7 +886,7 @@ function NSupdater(e) {
                     document.getElementById("ajax-sikap").innerHTML = '<div class="d-flex justify-content-center align-items-center" style="height:500px"><img src="/assets/img/greenloading.gif" height="100"></div>'
                 }
             }
-            xhr.open("POST", url[0] + "//" + url[2] + "/" + url[3] + "/simpannilaisikap/" + idsiswa)
+            xhr.open("POST", window.location.href.split('/')[0] + "//" + window.location.href.split('/')[2] + "/" + window.location.href.split('/')[3] + "/simpannilaisikap/" + idsiswa)
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
             xhr.send(data)
         } else {
@@ -935,7 +935,7 @@ function nilaiSikap() {
 
 
 function updateSikap() {
-    if (url[3] == "admin" && url[4] == "kelolanilai") {
+    if (window.location.href.split('/')[3] == "admin" && window.location.href.split('/')[4] == "kelolanilai") {
 
         const triggersikap = document.getElementsByClassName('update-sikap')
         const idsiswa = document.getElementById("ajax-sikap").dataset.idsiswa
@@ -1026,7 +1026,7 @@ function NPKupdater(e) {
                     document.getElementById("ajax-pengetahuan-keterampilan").innerHTML = '<div class="d-flex justify-content-center align-items-center" style="height:500px"><img src="/assets/img/greenloading.gif" height="100"></div>'
                 }
             }
-            xhr.open("POST", url[0] + "//" + url[2] + "/" + url[3] + "/simpannilaipengetahuanketerampilan/" + idsiswa)
+            xhr.open("POST", window.location.href.split('/')[0] + "//" + window.location.href.split('/')[2] + "/" + window.location.href.split('/')[3] + "/simpannilaipengetahuanketerampilan/" + idsiswa)
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
             xhr.send(data)
         } else {
@@ -1074,7 +1074,7 @@ function nilaiPengetahuanKeterampilan() {
 
 
 function updatePengetahuanKeterampilan() {
-    if (url[3] == "admin" && url[4] == "kelolanilai") {
+    if (window.location.href.split('/')[3] == "admin" && window.location.href.split('/')[4] == "kelolanilai") {
 
         const triggerpengetahuanketerampilan = document.getElementsByClassName('update-pengetahuan-keterampilan')
         const idsiswa = document.getElementById("ajax-pengetahuan-keterampilan").dataset.idsiswa
@@ -1419,7 +1419,7 @@ function NEupdater(e) {
                     document.getElementById("ajax-ekstrakurikuler").innerHTML = '<div class="d-flex justify-content-center align-items-center" style="height:500px"><img src="/assets/img/greenloading.gif" height="100"></div>'
                 }
             }
-            xhr.open("POST", url[0] + "//" + url[2] + "/" + url[3] + "/simpannilaiekstrakurikuler/" + idsiswa)
+            xhr.open("POST", window.location.href.split('/')[0] + "//" + window.location.href.split('/')[2] + "/" + window.location.href.split('/')[3] + "/simpannilaiekstrakurikuler/" + idsiswa)
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
             xhr.send(data)
             document.getElementById('ajax-ekstrakurikuler').focus()
@@ -1468,7 +1468,7 @@ function nilaiEkstrakurikuler() {
 
 
 function updateEkstrakurikuler() {
-    if (url[3] == "admin" && url[4] == "kelolanilai") {
+    if (window.location.href.split('/')[3] == "admin" && window.location.href.split('/')[4] == "kelolanilai") {
         const triggerekstrakurikuler = document.querySelector('.update-ekstrakurikuler')
         const idsiswa = document.getElementById("ajax-ekstrakurikuler").dataset.idsiswa
         const idkelas = document.getElementById("ajax-ekstrakurikuler").dataset.idkelas
@@ -1558,7 +1558,7 @@ function JAupdater(e) {
                     document.getElementById("ajax-absensi").innerHTML = '<div class="d-flex justify-content-center align-items-center" style="height:300px"><img src="/assets/img/greenloading.gif" height="100"></div>'
                 }
             }
-            xhr.open("POST", url[0] + "//" + url[2] + "/" + url[3] + "/simpanjumlahabsensi/" + idsiswa)
+            xhr.open("POST", window.location.href.split('/')[0] + "//" + window.location.href.split('/')[2] + "/" + window.location.href.split('/')[3] + "/simpanjumlahabsensi/" + idsiswa)
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
             xhr.send(data)
             document.getElementById('ajax-absensi').focus()
@@ -1606,7 +1606,7 @@ function jumlahAbsensi() {
 }
 
 function updateAbsensi() {
-    if (url[3] == "admin" && url[4] == "kelolanilai") {
+    if (window.location.href.split('/')[3] == "admin" && window.location.href.split('/')[4] == "kelolanilai") {
 
         const triggerabsensi = document.getElementsByClassName('update-absensi')
         const idsiswa = document.getElementById("ajax-absensi").dataset.idsiswa
@@ -1936,7 +1936,7 @@ async function justPostSpp() {
 }
 
 async function postImgNewToken() {
-    if (url[4] == "sppkelas" || url[4] == "sppsiswa") {
+    if (window.location.href.split('/')[4] == "sppkelas" || window.location.href.split('/')[4] == "sppsiswa") {
         if (new_spp_csrf_token == null) {
             spp_csrf_token = document.querySelector('.bukti-tf-spp-ajax').dataset.csrf
         } else {
@@ -2064,11 +2064,11 @@ for (let sp of sppPayment) {
     })
 }
 
-if ((url[4] == "sppkelas" && url[8]) || (url[4] == "sppsiswa" && url[9])) {
-    if (url[4] == "sppsiswa") {
-        window.history.pushState({ data: 'nonfe' }, 'sdrandom', '/' + url[3] + '/' + url[4] + '/' + url[5] + '/' + url[6] + '/' + url['7'] + '/' + url['8'])
+if ((window.location.href.split('/')[4] == "sppkelas" && window.location.href.split('/')[8]) || (window.location.href.split('/')[4] == "sppsiswa" && window.location.href.split('/')[9])) {
+    if (window.location.href.split('/')[4] == "sppsiswa") {
+        window.history.pushState({ data: 'nonfe' }, 'sdrandom', '/' + window.location.href.split('/')[3] + '/' + window.location.href.split('/')[4] + '/' + window.location.href.split('/')[5] + '/' + window.location.href.split('/')[6] + '/' + window.location.href.split('/')['7'] + '/' + window.location.href.split('/')['8'])
     } else {
-        window.history.pushState({ data: 'nonfe' }, 'sdrandom', '/' + url[3] + '/' + url[4] + '/' + url[5] + '/' + url[6] + '/' + url['7'])
+        window.history.pushState({ data: 'nonfe' }, 'sdrandom', '/' + window.location.href.split('/')[3] + '/' + window.location.href.split('/')[4] + '/' + window.location.href.split('/')[5] + '/' + window.location.href.split('/')[6] + '/' + window.location.href.split('/')['7'])
     }
     if (document.querySelector('.idtransaksi').dataset.idtransaksi) {
         let idtr = document.querySelector('.idtransaksi').dataset.idtransaksi
@@ -2354,20 +2354,20 @@ function sppInsertStudentToClassModal() {
     }
 }
 
-if (url[3] == "admin" && url[4] == "spp") {
+if (window.location.href.split('/')[3] == "admin" && window.location.href.split('/')[4] == "spp") {
     sppFindStudent()
     sppCustomSearchToggle()
-    if (url[5] && url[6]) {
+    if (window.location.href.split('/')[5] && window.location.href.split('/')[6]) {
         Swal.fire(
             'Berhasil!',
-            `<strong>${url[5]}</strong> telah dimasukkan ke kelas <strong>${url[6]}</strong>`,
+            `<strong>${window.location.href.split('/')[5]}</strong> telah dimasukkan ke kelas <strong>${window.location.href.split('/')[6]}</strong>`,
             'success'
         )
-        window.history.pushState({ data: 'nonfe' }, 'sdrandom', '/' + url[3] + '/' + url[4])
+        window.history.pushState({ data: 'nonfe' }, 'sdrandom', '/' + window.location.href.split('/')[3] + '/' + window.location.href.split('/')[4])
     }
 }
 
-if (url[4] == "keuangan") {
+if (window.location.href.split('/')[4] == "keuangan") {
     const academicYear = document.querySelector('.spp-keuangan-academic-year')
     const academicMonth = document.querySelector('.spp-keuangan-academic-month')
     const belumbayarcontainer = document.querySelector('.spp-keuangan-belum-pada-bayar')
@@ -2387,7 +2387,7 @@ if (url[4] == "keuangan") {
     })
 }
 
-if(url[4] = "editsppdata"){
+if(window.location.href.split('/')[4] == "editsppdata"){
     const csrf_token = document.querySelector('.csrf-token').value
     const no_induk = document.querySelector('.no-induk')
     const regex = /^[1-9]\d\d\d$/

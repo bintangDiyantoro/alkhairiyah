@@ -26,7 +26,7 @@
                             <!-- <input type="date" name="tgl_lahir" id="tgl_lahir" class="form-control" value="<?= set_value('tgl_lahir') ?>" placeholder="dd-mm-yyyy" autocomplete="off"> -->
                             <input type="text" name="tgl_lahir" id="tgl_lahir" class="form-control" value="<?= $this->session->userdata('tgl_lahir') ?>" placeholder="dd-mm-yyyy" autocomplete="off">
                             <?= form_error('tgl_lahir', '<small class="text-danger pl-3">', '</small>') ?>
-                            <?= '<small class="text-danger pl-3">'.$this->session->flashdata('regex').'</small>'?>
+                            <?= '<small class="text-danger pl-3">' . $this->session->flashdata('regex') . '</small>' ?>
                         </div>
                         <div class="form-group">
                             <label for="asal_tk">Asal TK</label>
@@ -35,6 +35,14 @@
                             <input type="hidden" class="error" value="<?= $this->session->userdata('error') ?>">
                             <input type="hidden" class="wali" value="<?= $this->session->userdata('wali') ?>">
                         </div>
+
+                        <div class="input-group mb-3">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="inputGroupFile01" accept=".pdf" aria-describedby="inputGroupFileAddon01">
+                                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                            </div>
+                        </div>
+
                         <div class="form-group float-md-right">
                             <button class="btn btn-info stuback">Kembali</button>
                             <button type="submit" class="btn btn-primary" name="submit">Daftar</button>

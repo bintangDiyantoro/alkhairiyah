@@ -1,11 +1,11 @@
 <div class="jbtr lazyload">
     <div class="container">
-        <h1 class="display-3">Ahlan Wa Sahlan!</h1>
+        <h2 class="display-3">Ahlan Wa Sahlan!</h2>
         <p class="lead">Selamat datang di laman SD Islam Al-Khairiyah Banyuwangi &#128591;</p>
     </div>
 </div>
 <div class="container-fluid">
-    <?php if ($berita) : ?>
+    <?php if (count($berita) > 100) : ?>
         <div class="card card-2 card-3" style="margin-top: -70px">
             <div class="container">
                 <div class="row">
@@ -37,7 +37,7 @@
                                                     </lite-youtube>
                                                 <?php endif; ?>
                                                 <div class="carousel-caption d-none d-md-block">
-                                                    <h1 class="news-heading"><?= $berita[$j]['title'] ?></h1>
+                                                    <h2 class="news-heading"><?= $berita[$j]['title'] ?></h2>
                                                     <p class="news-heading"><?= $berita[$j]['prev'] ?>...</p>
                                                 </div>
                                             </a>
@@ -55,7 +55,7 @@
                                                     </lite-youtube>
                                                 <?php endif; ?>
                                                 <div class="carousel-caption d-none d-md-block">
-                                                    <h1 class="news-heading"><?= $berita[$k]['title'] ?></h1>
+                                                    <h2 class="news-heading"><?= $berita[$k]['title'] ?></h2>
                                                     <p class="news-heading"><?= $berita[$k]['prev'] ?>...</p>
                                                 </div>
                                             </a>
@@ -120,7 +120,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-9">
-                    <h1 class="text-center mb-3 main-section"><strong>Buletin Dakwah Terbaru</strong></h1>
+                    <h2 class="text-center mb-3 main-section"><strong>Buletin Dakwah</strong></h2>
 
                     <?php
                     if ($dakwah) {
@@ -156,7 +156,7 @@
         <div class="container">
             <div class="row d-flex justify-content-between">
                 <div style="width: 100%;">
-                    <h1 class="text-center mb-3 main-section"><strong>Komentar</strong></h1>
+                    <h2 class="text-center mb-3 main-section"><strong>Komentar</strong></h2>
                 </div>
                 <div class="col-lg-5 mb-3">
                     <form method="post">

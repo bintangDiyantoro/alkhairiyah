@@ -7,8 +7,8 @@
                     <li><a href="<?= base_url() ?>">Halaman Utama</a></li>
                     <li><a href="<?= base_url('profil') ?>">Profil</a></li>
                     <li><a href="<?= base_url('dakwah') ?>">Dakwah</a></li>
-                    <li><a href="<?= base_url('akademik/kalender') ?>">Kalender Akademik</a></li>
-                    <li><a href="<?= base_url('akademik/materi') ?>">Materi</a></li>
+                    <!-- <li><a href="<?= base_url('akademik/kalender') ?>">Kalender Akademik</a></li>
+                    <li><a href="<?= base_url('akademik/materi') ?>">Materi</a></li> -->
                     <li><a href="<?= base_url('kontak') ?>">Hubungi Kami</a></li>
                 </ul>
             </div>

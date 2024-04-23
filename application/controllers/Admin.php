@@ -3238,7 +3238,7 @@ class Admin extends CI_Controller
             if ($this->session->userdata('role') == "2") {
                 if (isset($_POST["submit"])) {
                     if ($upload == "upload") {
-                        $config["file_name"] = 'bukti-transfer-spp-';
+                        $config["file_name"] = 'bukti-transfer-spp-sdi-al-khairiyah-'.date('Y-m-');
                         $config['upload_path'] = 'assets/spptf/';
                         $config['allowed_types'] = 'jpeg|jpg|png|pdf';
                         $config['max_size']     = '2000'; //kb

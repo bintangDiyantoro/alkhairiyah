@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /application/
+Disallow: /ckfinder/
+Disallow: /node_modules/
+Disallow: /system/
+Disallow: /user_guide/
+Disallow: /vanillajs-datepicker-master/
+Disallow: /vendor/
+Allow: /assets/
+
+Sitemap: https://sdi.alkhairiyahbanyuwangi.sch.id/sitemap.xml

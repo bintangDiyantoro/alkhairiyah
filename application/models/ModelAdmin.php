@@ -710,7 +710,15 @@ class ModelAdmin extends CI_Model
 
     public function insertFetchedStudentData($data)
     {
-        $studentIsExist = $this->db->query('SELECT * FROM siswa WHERE (nama="' . myStr($data[1]) . '" AND nama_ibu="' . myStr($data[30]) . '")' . ((isset($data[2])) ? ' OR nomor_induk=' . $data[2] : NULL))->row_array();
+        if (isset($data[2])) {
+            $studentIsExist = $this->db->query("SELECT * FROM siswa WHERE nomor_induk=" . $data[2])->row_array();
+        } else {
+            if (isset($data[4])) {
+                $studentIsExist = $this->db->query("SELECT * FROM siswa WHERE nisn=" . $data[4])->row_array();
+            } else {
+                $studentIsExist = $this->db->query('SELECT * FROM siswa WHERE nama="' . myStr($data[1]) . '" AND nama_ibu="' . myStr($data[30]) . '"')->row_array();
+            }
+        }
 
         $rt_rw = ($data[10] && $data[11]) ? ", RT/RW: " . $data[10] . "/" . $data[11] : '';
         $dusun = ($data[12]) ? ", Dusun: " . myStr($data[12]) : '';
@@ -737,15 +745,15 @@ class ModelAdmin extends CI_Model
         if (isset($data[2])) {
             $mapped["nomor_induk"] = $data[2];
         }
-        if (isset($data[2])) {
+        if (isset($data[4])) {
             $mapped["nisn"] = $data[4];
         }
-        if ($studentIsExist) {
+        if (!$studentIsExist) {
+            $this->db->insert('siswa', $mapped);
+        } else {
             $this->db->where('nama', myStr($data[1]));
             $this->db->where('nama_ibu', myStr($data[30]));
             $this->db->update('siswa', $mapped);
-        } else {
-            $this->db->insert('siswa', $mapped);
         }
     }
 }

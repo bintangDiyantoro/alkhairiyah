@@ -119,14 +119,14 @@ $(function() {
     }
     waliback.on('click', (e) => {
         e.preventDefault()
-        window.location.href = '/pendaftaran'
+        window.location.href = '/ppdb'
     })
     stuback.on('click', function(e) {
         e.preventDefault()
         if (wali == 'Ayah' || wali == 'Ibu') {
-            window.location.href = '/pendaftaran'
+            window.location.href = '/ppdb'
         } else if (wali == 'Lainnya') {
-            window.location.href = '/pendaftaran/wali'
+            window.location.href = '/ppdb/wali'
         }
     })
 
@@ -136,7 +136,7 @@ $(function() {
 
     $('#modal-close').on('click', function() {
         $.ajax({
-            url: '/pendaftaran/daftar',
+            url: '/ppdb/daftar',
             method: 'get'
         })
     })

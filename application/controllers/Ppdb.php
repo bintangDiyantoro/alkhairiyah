@@ -2,7 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
-class Pendaftaran extends CI_Controller
+class Ppdb extends CI_Controller
 {
 
     public function __construct()
@@ -24,8 +24,9 @@ class Pendaftaran extends CI_Controller
         $by4 = $birthyear - 3;
         $by5 = $birthyear - 2;
         $by6 = $birthyear - 1;
-        $string = "/^" . "((0[1-9]|[1-2][\d]|3[0-1])-(0[1-9]|1[0-2])-(" . $by1 . "|" . $by2 . "|" . $by2 . "|" . $by3 . "|" . $by4 . "|" . $by5 . "|" . $by6 . ")|((0[1-9]|[1-2][\d]|3[0-1])-0[1-6]|01-07)-" . $birthyear . ")$/";
-        if (preg_match($string, $this->input->post('tgl_lahir'))) {
+        $pattern = "/^" . "((0[1-9]|[1-2][\d]|3[0-1])-(0[1-9]|1[0-2])-(" . $by1 . "|" . $by2 . "|" . $by2 . "|" . $by3 . "|" . $by4 . "|" . $by5 . "|" . $by6 . ")|((0[1-9]|[1-2][\d]|3[0-1])-0[1-6]|01-07)-" . $birthyear . ")$/";
+        $string = ($this->input->post('tgl_lahir'))? $this->input->post('tgl_lahir'): date('d-m-Y');
+        if (preg_match($pattern, $string)) {
             return 1;
         } else {
             return 0;
@@ -45,8 +46,8 @@ class Pendaftaran extends CI_Controller
 
         // echo date('mdHi');die;
         $kuota = 144;
-        $waktubuka = 3090100; // int bulan-tanggaltanggal-jamjam(-7)-menitmenit
-        $waktututup = 3090300;
+        $waktubuka = 4250100; // int bulan-tanggaltanggal-jamjam(-7)-menitmenit
+        $waktututup = 4260100;
 
         if ($count < $kuota && (int)date('mdHi') < $waktututup) {
             if ((int)date('mdHi') >= $waktubuka) {
@@ -54,6 +55,7 @@ class Pendaftaran extends CI_Controller
             } else {
                 $this->load->view('pendaftaran/sabar');
             }
+            // $this->load->view('pendaftaran/index');
         } else {
             $this->load->view('pendaftaran/tutup');
         }
@@ -89,7 +91,7 @@ class Pendaftaran extends CI_Controller
 
     private function _validateFormCalonSiswa()
     {
-        $this->form_validation->set_rules('nama_calon_siswa', 'nama_calon_siswa', 'required|regex_match[/^[a-z-\s\']+$/i]|max_length[50]', ['required' => 'nama wali wajib diisi', 'regex_match' => 'nama tidak boleh mengandung selain huruf, spasi, petik tunggal (\') dan strip (-)', 'max_length' => 'nama maksimal 50 huruf']);
+        $this->form_validation->set_rules('nama_calon_siswa', 'nama_calon_siswa', 'required|regex_match[/^[a-z-\s\']+$/i]|max_length[50]', ['required' => 'nama calon siswa wajib diisi', 'regex_match' => 'nama tidak boleh mengandung selain huruf, spasi, petik tunggal (\') dan strip (-)', 'max_length' => 'nama maksimal 50 huruf']);
         $this->form_validation->set_rules('jenis_kelamin', 'jenis_kelamin', 'required|in_list[L,P]', ['required' => 'jenis kelamin wajib dipilih']);
         $this->form_validation->set_rules('tgl_lahir2', 'tgl_lahir2', 'require', ['require' => 'tanggal lahir wajib diisi']);
         $this->form_validation->set_rules('asal_tk', 'asal_tk', 'regex_match[/^[a-z0-9,.\/\-()\s]+$/i]|max_length[50]', ['regex_match' => 'karakter inputan tidak valid', 'max_length' => 'asal tk tidak boleh lebih dari 50 karakter']);
@@ -148,11 +150,11 @@ class Pendaftaran extends CI_Controller
             $this->session->set_userdata('stwali', 'valid');
             $this->session->unset_userdata('error');
             $this->_dataOrtu($this->security->xss_clean($this->input->post()));
-            redirect('pendaftaran/calonsiswa');
+            redirect('ppdb/calonsiswa');
         } elseif ($this->input->post('wali') == 'Lainnya') {
             $this->session->unset_userdata('error');
             $this->_dataOrtu($this->security->xss_clean($this->input->post()));
-            redirect('pendaftaran/wali');
+            redirect('ppdb/wali');
         }
     }
 
@@ -176,16 +178,19 @@ class Pendaftaran extends CI_Controller
                 $this->session->set_userdata('stwali', 'valid');
                 $this->session->unset_userdata('error');
                 $this->_dataWali($this->security->xss_clean($this->input->post()));
-                redirect('pendaftaran/calonsiswa');
+                redirect('ppdb/calonsiswa');
             }
         } else {
-            redirect('pendaftaran');
+            redirect('ppdb');
         }
     }
 
     public function calonsiswa()
     {
         if ($this->session->userdata('stwali') == 'valid' && $this->csrf['name'] == $this->security->get_csrf_token_name() && $this->csrf['hash'] == $this->security->get_csrf_hash()) {
+            
+            $this->_validateFormCalonSiswa();
+            $this->_regex();
 
             if ($this->input->post('jenis_kelamin') == 'L') {
                 $this->session->set_userdata('jenis_kelamin', 'L');
@@ -195,8 +200,6 @@ class Pendaftaran extends CI_Controller
                 $this->session->set_userdata('jenis_kelamin', null);
             }
 
-            $this->_validateFormCalonSiswa();
-            $this->_regex();
 
             if ($this->form_validation->run() == FALSE || $this->_regex() == 0) {
                 if (isset($_POST['submit'])) {
@@ -224,12 +227,14 @@ class Pendaftaran extends CI_Controller
                 $this->session->unset_userdata('tgl_lahir');
                 $data_calon_siswa = $this->security->xss_clean($this->input->post());
                 $this->Pendaftaran->inputDataCalonSiswa($data_calon_siswa);
+                // var_dump($data_calon_siswa);
+                // $this->load->view('templates/blank');
             }
         } else {
             if ($this->session->userdata('wali') == 'Lainnya') {
-                redirect('pendaftaran/wali');
+                redirect('ppdb/wali');
             } else {
-                redirect('pendaftaran');
+                redirect('ppdb');
             }
         }
     }

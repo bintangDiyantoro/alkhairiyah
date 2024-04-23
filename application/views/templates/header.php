@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html amp lang="id">
 
 <head>
     <meta charset="UTF-8">
@@ -48,13 +48,13 @@
 
                             <div class="dropdown-menu" aria-labelledby="profil">
                                 <a class="dropdown-item" href="<?= base_url('profil') ?>">Sekolah</a>
-                                <a class="dropdown-item" href="<?= base_url('profil/ptk') ?>">Tenaga Kependidikan</a>
-                                <a class="dropdown-item" href="<?= base_url('profil/pesertadidik') ?>">Peserta Didik</a>
+                                <!-- <a class="dropdown-item" href="<?= base_url('profil/ptk') ?>">Tenaga Kependidikan</a>
+                                <a class="dropdown-item" href="<?= base_url('profil/pesertadidik') ?>">Peserta Didik</a> -->
                                 <a class="dropdown-item" href="<?= base_url('profil/sarana') ?>">Sarana</a>
                             </div>
                         </div>
                     </li>
-                    <?php if ((int)date('mdHi') >= 3091700 && (int)date('mdHi') <= 4301659) : ?>
+                    <?php if ((int)date('mdHi') >= 4011700 && (int)date('mdHi') <= 4301659) : ?>
                         <li class="nav-item">
                             <div class="dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -62,8 +62,8 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="<?= base_url('pendaftaran') ?>">Daftarkan Siswa Baru</a>
-                                    <a class="dropdown-item" href="<?= base_url('pendaftaran/cs') ?>">Lihat Data Pendaftar Tersimpan</a>
+                                    <a class="dropdown-item" href="<?= base_url('ppdb') ?>">Daftarkan Siswa Baru</a>
+                                    <a class="dropdown-item" href="<?= base_url('ppdb/cs') ?>">Lihat Data Pendaftar Tersimpan</a>
                                 </div>
                             </div>
                         </li>
@@ -71,7 +71,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="<?= base_url('dakwah') ?>"><strong>Dakwah</strong></a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <div class="dropdown">
                             <div class="nav-link dropdown-toggle" href="#" role="button" id="akademik" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <strong>Akademik</strong>
@@ -83,7 +83,7 @@
                                 <a class="dropdown-item" href="<?= base_url('akademik/kalender') ?>">Kalender Akademik</a>
                             </div>
                         </div>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" href="<?= base_url('lembaga') ?>"><strong>Lembaga</strong></a>
                     </li>
