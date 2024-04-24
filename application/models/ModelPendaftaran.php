@@ -161,16 +161,16 @@ class ModelPendaftaran extends CI_Model
                 $id = $this->db->get('calon_siswa')->row_array()['id'];
                 $this->session->set_userdata('id_calon_siswa', $id);
                 $this->session->set_userdata('sukses', 'ok');
-                redirect('pendaftaran/daftar/' . $idDftr);
+                redirect('ppdb/daftar/' . $idDftr);
             } else {
                 echo $this->db->error();
             }
         } else {
             echo "<script>
                 if(confirm('Data " . $data['nama_calon_siswa'] . " sudah terdaftar!') == true){
-                    window.location='".base_url('pendaftaran/cs'). "'
+                    window.location='".base_url('ppdb/cs'). "'
                 } else {
-                    window.location='" . base_url('pendaftaran/calonsiswa') . "'
+                    window.location='" . base_url('ppdb/calonsiswa') . "'
                 }
             </script>";
         }

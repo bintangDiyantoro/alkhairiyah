@@ -57,28 +57,28 @@ $(function() {
         }
     }
 
-    if (first) {
-        Swal.fire({
-            type: 'info',
-            title: 'Selamat datang di Form Pendaftaran!',
-            html: `<br />Dimohon mengisi form dengan teliti!<br />Setelah mengisi form silahkan tekan tombol
-                    <strong>Selanjutnya</strong> untuk melanjutkan proses pendaftaran.<br/><br/>
-            Setelah melakukan pendaftaran online silahkan melengkapi persyaratan <strong>verifikasi secara offline</strong> sebagai berikut:
-            <br /><br />
-                    <div style="text-align:left;margin-left:30px;display:flex">
-                            <ul>
-                            <li>Infaq Bulanan (Juli)<strong>: Rp 200.000,-</strong></li>
-                            <li>Infaq Pemeliharaan Gedung<strong>: Rp 2.000.000,-</strong></li>
-                            <li>FC Akta Kelahiran</li>
-                            <li>FC Kartu Keluarga</li>
-                            <li>Surat keterangan dari TK/RA (jika ada)</li>
-                            <li>Pas Foto 3 x 4 background merah (3 lembar)</li>
-                        </ul>
-                    </div>
-                    <br />`,
-            // footer: '<a href>Butuh dana cepat?</a>'
-        })
-    }
+    // if (first) {
+    //     Swal.fire({
+    //         type: 'info',
+    //         title: 'Selamat datang di Form Pendaftaran!',
+    //         html: `<br />Dimohon mengisi form dengan teliti!<br />Setelah mengisi form silahkan tekan tombol
+    //                 <strong>Selanjutnya</strong> untuk melanjutkan proses pendaftaran.<br/><br/>
+    //         Setelah melakukan pendaftaran online silahkan melengkapi persyaratan <strong>verifikasi secara offline</strong> sebagai berikut:
+    //         <br /><br />
+    //                 <div style="text-align:left;margin-left:30px;display:flex">
+    //                         <ul>
+    //                         <li>Infaq Bulanan (Juli)<strong>: Rp 200.000,-</strong></li>
+    //                         <li>Infaq Pemeliharaan Gedung<strong>: Rp 2.000.000,-</strong></li>
+    //                         <li>FC Akta Kelahiran</li>
+    //                         <li>FC Kartu Keluarga</li>
+    //                         <li>Surat keterangan dari TK/RA (jika ada)</li>
+    //                         <li>Pas Foto 3 x 4 background merah (3 lembar)</li>
+    //                     </ul>
+    //                 </div>
+    //                 <br />`,
+    //         // footer: '<a href>Butuh dana cepat?</a>'
+    //     })
+    // }
 
     if (title !== 'Pendaftaran' && title !== 'Profil' && title !== 'Akademik' && title !== 'Alumni' && $('.display-3:first').html() == 'Ahlan Wa Sahlan!') {
         navlink.on('click', () => {

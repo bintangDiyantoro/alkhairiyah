@@ -36,12 +36,12 @@
                             <input type="hidden" class="wali" value="<?= $this->session->userdata('wali') ?>">
                         </div>
 
-                        <div class="input-group mb-3">
+                        <!-- <div class="input-group mb-3">
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="inputGroupFile01" accept=".pdf" aria-describedby="inputGroupFileAddon01">
                                 <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group float-md-right">
                             <button class="btn btn-info stuback">Kembali</button>

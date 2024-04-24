@@ -36,7 +36,7 @@
                                 </td>
                                 <td><?= $cs['nama'] ?></td>
                                 <td class="text-center">
-                                    <a href="<?= base_url('pendaftaran/detail/' . $cs['id']) ?>" class="badge badge-primary badge-pill detail">Detail</a>
+                                    <a href="<?= base_url('ppdb/detail/' . $cs['id']) ?>" class="badge badge-primary badge-pill detail">Detail</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

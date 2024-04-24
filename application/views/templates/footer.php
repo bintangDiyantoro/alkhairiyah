@@ -70,7 +70,7 @@
 <script src="<?= base_url() ?>assets/js/sweetalert2.all.min.js"></script>
 <script src="<?= base_url() ?>assets/js/scrolltotop.js"></script>
 <script src="<?= base_url() ?>assets/js/pickmeup1.js"></script>
-<script src="<?= base_url() ?>assets/js/mainscript.js"></script>
+<script src="<?= base_url() ?>assets/js/mainscript1.js"></script>
 <script src="<?= base_url() ?>assets/js/app5.js"></script>
 <script>
     const title = $('title').html().split(' ')[4]
