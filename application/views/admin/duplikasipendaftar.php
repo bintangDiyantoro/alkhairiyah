@@ -29,5 +29,8 @@
                 <h5 class="my-5">Maaf data tidak ditemukan</h5>
             <?php endif; ?>
         </div>
+        <div class="col-md-9">
+            <a href="<?= base_url('admin/pendaftartersimpan') ?>" class="btn btn-primary">Kembali</a>
+        </div>
     </div>
 </div>
