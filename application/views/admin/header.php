@@ -103,7 +103,8 @@
                     </div>
                 </li>
 
-
+            <?php endif; ?>
+            <?php if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "4") : ?>
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages4" aria-expanded="true" aria-controls="collapsePages4">
                         <i class="fas fa-clipboard"></i>
@@ -112,12 +113,13 @@
                     <div id="collapsePages4" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Menu Pendaftaran:</h6>
-                            <a class="collapse-item" href="<?= base_url('admin/pendaftaran') ?>">Daftarkan Siswa Baru</a>
+                            <!-- <a class="collapse-item" href="<?= base_url('admin/pendaftaran') ?>">Daftarkan Siswa Baru</a> -->
                             <a class="collapse-item" href="<?= base_url('admin/pendaftartersimpan') ?>">Lihat Calon Siswa</a>
                         </div>
                     </div>
                 </li>
-
+            <?php endif; ?>
+            <?php if ($this->session->userdata('role') == "9") : ?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?= base_url('admin/uploadmediatk') ?>">
                         <i class="fas fa-photo-video"></i>
@@ -192,7 +194,7 @@
                             <a class="collapse-item" href="<?= base_url('admin/metodebayarspp') ?>">Metode Bayar SPP</a>
                             <a class="collapse-item" href="<?= base_url('admin/nominalspp') ?>">Nominal SPP</a>
                             <a class="collapse-item" href="<?= base_url('admin/bulanakademik') ?>">Bulan Akademik</a>
-                            <a class="collapse-item" href="<?= base_url('admin/editsppdata')?>">Edit Data</a>
+                            <a class="collapse-item" href="<?= base_url('admin/editsppdata') ?>">Edit Data</a>
                         </div>
                     </div>
                 </li>

@@ -3238,7 +3238,7 @@ class Admin extends CI_Controller
             if ($this->session->userdata('role') == "2") {
                 if (isset($_POST["submit"])) {
                     if ($upload == "upload") {
-                        $config["file_name"] = 'bukti-transfer-spp-sdi-al-khairiyah-'.date('Y-m-');
+                        $config["file_name"] = 'bukti-transfer-spp-sdi-al-khairiyah-' . date('Y-m-');
                         $config['upload_path'] = 'assets/spptf/';
                         $config['allowed_types'] = 'jpeg|jpg|png|pdf';
                         $config['max_size']     = '2000'; //kb
@@ -4495,7 +4495,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "1") {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "4") {
                 netralize2();
                 $data['title'] = 'Pendaftaran';
                 $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
@@ -4579,7 +4579,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "9") {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "4") {
                 netralize();
                 $data['calon_siswa'] = $this->Pendaftaran->detail($id);
                 $data['title'] = 'Pendaftaran';
@@ -4652,7 +4652,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "9") {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "4") {
                 $query = $this->db->query("SELECT calon_siswa.id_cs,calon_siswa.nama,calon_siswa.jenis_kelamin,calon_siswa.tgl_lahir,calon_siswa.asal_TK,calon_siswa.wali,wali.nama_ayah,wali.alamat_ayah,wali.pekerjaan_ayah,wali.pendterakhir_ayah,wali.keterangan_ayah,wali.nohape_ayah,wali.nama_ibu,wali.alamat_ibu,wali.pekerjaan_ibu,wali.pendterakhir_ibu,wali.keterangan_ibu,wali.nohape_ibu,wali.nama_wali,wali.alamat_wali,wali.status_wali,wali.pekerjaan_wali,wali.pendterakhir_wali,wali.nohape_wali,pendaftaran.tanggal,pendaftaran.jam FROM calon_siswa JOIN wali ON calon_siswa.id_wali = wali.id_wali JOIN pendaftaran ON calon_siswa.id_dftr = pendaftaran.id_dftr WHERE calon_siswa.tahun = '" . date('Y') . "'")->result_array();
 
                 $sheet = new Spreadsheet();
@@ -4691,7 +4691,7 @@ class Admin extends CI_Controller
         if (!$this->session->userdata('admin')) {
             redirect('admin/login');
         } else {
-            if ($this->session->userdata('role') == "9") {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "4") {
                 netralize();
                 $data['title'] = 'Pendaftaran';
                 $data['description'] = 'Detail calon siswa of SDI Al-Khairiyah Banyuwangi';
