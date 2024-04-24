@@ -2,7 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
-class Ppdb extends CI_Controller
+class Ppdb2 extends CI_Controller
 {
 
     public function __construct()
@@ -37,7 +37,7 @@ class Ppdb extends CI_Controller
     {
         $data['csrf'] = $this->csrf;
         $data['title'] = 'Pendaftaran';
-        $data["canonical"] = base_url('ppdb');
+        $data["canonical"] = base_url('ppdb2');
         $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
 
         $count = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y'))->num_rows();
@@ -46,8 +46,8 @@ class Ppdb extends CI_Controller
 
         // echo date('mdHi');die;
         $kuota = 170;
-        $waktubuka1 = 4250000; // int bulan-tanggaltanggal-jamjam(-7)-menitmenit
-        $waktututup1 = 4251400;
+        $waktubuka1 = 4240000; // int bulan-tanggaltanggal-jamjam(-7)-menitmenit
+        $waktututup1 = 4241400;
         $waktubuka2 = 4260000;
         $waktututup2 = 4261400;
 
@@ -152,11 +152,11 @@ class Ppdb extends CI_Controller
             $this->session->set_userdata('stwali', 'valid');
             $this->session->unset_userdata('error');
             $this->_dataOrtu($this->security->xss_clean($this->input->post()));
-            redirect('ppdb/calonsiswa');
+            redirect('ppdb2/calonsiswa');
         } elseif ($this->input->post('wali') == 'Lainnya') {
             $this->session->unset_userdata('error');
             $this->_dataOrtu($this->security->xss_clean($this->input->post()));
-            redirect('ppdb/wali');
+            redirect('ppdb2/wali');
         }
     }
 
@@ -170,7 +170,7 @@ class Ppdb extends CI_Controller
                     $this->_dataWali($this->security->xss_clean($this->input->post()));
                 }
                 $data['title'] = 'Pendaftaran';
-                $data['canonical'] = base_url('ppdb/wali');
+                $data['canonical'] = base_url('ppdb2/wali');
                 $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
                 $data['csrf'] = $this->csrf;
                 $this->load->view('templates/header', $data);
@@ -180,10 +180,10 @@ class Ppdb extends CI_Controller
                 $this->session->set_userdata('stwali', 'valid');
                 $this->session->unset_userdata('error');
                 $this->_dataWali($this->security->xss_clean($this->input->post()));
-                redirect('ppdb/calonsiswa');
+                redirect('ppdb2/calonsiswa');
             }
         } else {
-            redirect('ppdb');
+            redirect('ppdb2');
         }
     }
 
@@ -210,7 +210,7 @@ class Ppdb extends CI_Controller
                     $this->session->set_flashdata('regex', 'Usia minimal 6 tahun per 1 Juli ' . date('Y'));
                 }
                 $data['title'] = 'Pendaftaran';
-                $data['canonical'] = base_url('ppdb/calonsiswa');
+                $data['canonical'] = base_url('ppdb2/calonsiswa');
                 $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
                 $data['csrf'] = $this->csrf;
                 $this->load->view('templates/header', $data);
@@ -234,9 +234,9 @@ class Ppdb extends CI_Controller
             }
         } else {
             if ($this->session->userdata('wali') == 'Lainnya') {
-                redirect('ppdb/wali');
+                redirect('ppdb2/wali');
             } else {
-                redirect('ppdb');
+                redirect('ppdb2');
             }
         }
     }
@@ -245,7 +245,7 @@ class Ppdb extends CI_Controller
     {
         netralize2();
         $data['title'] = 'Pendaftaran';
-        $data['canonical'] = base_url('ppdb/cs');
+        $data['canonical'] = base_url('ppdb2/cs');
         $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
         $data['csrf'] = $this->csrf;
         if ($this->input->post('search') || isset($_POST['search'])) {
@@ -259,7 +259,7 @@ class Ppdb extends CI_Controller
             $result = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y'))->num_rows();
         }
 
-        $config['base_url'] = base_url() . 'ppdb/cs';
+        $config['base_url'] = base_url() . 'ppdb2/cs';
         $config['total_rows'] = $result;
         $config['per_page'] = 10;
         $config['full_tag_open'] = '<nav><ul class="pagination">';
@@ -303,7 +303,7 @@ class Ppdb extends CI_Controller
         netralize();
         $this->session->unset_userdata('sukses');
         $data['title'] = 'Berhasil';
-        $data['canonical'] = base_url('ppdb/daftar/' . $id);
+        $data['canonical'] = base_url('ppdb2/daftar/' . $id);
         $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
         $data['id'] = $id;
         $this->load->view('templates/header', $data);
@@ -316,7 +316,7 @@ class Ppdb extends CI_Controller
         netralize();
         $data['calon_siswa'] = $this->Pendaftaran->detail($id);
         $data['title'] = 'Pendaftaran';
-        $data['canonical'] = base_url('ppdb/detail/' . $id);
+        $data['canonical'] = base_url('ppdb2/detail/' . $id);
         $data['description'] = 'Detail calon siswa of SDI Al-Khairiyah Banyuwangi';
         $this->load->view('templates/header', $data);
         $this->load->view('pendaftaran/detail');
@@ -360,7 +360,7 @@ class Ppdb extends CI_Controller
         </div>
         <br/>
         Pengumuman jadwal verifikasi offline dapat dilihat melalui link: <div style="color:blue"><i>https://chat.whatsapp.com/By5MA5f5wQyL4rkD6yhjDw</i><br/></div><br>
-        atau silahkan kembali ke: <div style="color:blue"><i>' . base_url('ppdb/daftar/') . $id . '</i><br/></div>
+        atau silahkan kembali ke: <div style="color:blue"><i>' . base_url('ppdb2/daftar/') . $id . '</i><br/></div>
         <script>
             alert(\'ok\');
         </script>';
