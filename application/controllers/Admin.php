@@ -3177,6 +3177,7 @@ class Admin extends CI_Controller
         $data["spp_untuk_kelas"] = $spp_untuk_kelas;
         $this->load->view('admin/header', $data);
         if ($spp_untuk_kelas == true) {
+            // echo potensiMaksSPPkelasPerBulan($idkelas,$tahunajaran,$thajaran);
             $this->load->view('admin/sppkelas');
         } else {
             $data["tahun"] = $tahunajaran . '/' . $thajaran;
@@ -3238,7 +3239,7 @@ class Admin extends CI_Controller
             if ($this->session->userdata('role') == "2") {
                 if (isset($_POST["submit"])) {
                     if ($upload == "upload") {
-                        $config["file_name"] = 'bukti-transfer-spp-sdi-al-khairiyah-' . date('Y-m-');
+                        $config["file_name"] = 'bukti-transfer-spp-sdi-al-khairiyah-' . date('Y-m-d H:i:s');
                         $config['upload_path'] = 'assets/spptf/';
                         $config['allowed_types'] = 'jpeg|jpg|png|pdf';
                         $config['max_size']     = '2000'; //kb
@@ -4701,7 +4702,7 @@ class Admin extends CI_Controller
                 $duplicates = [];
                 foreach ($all as $a) {
                     $lower_a = strtolower($a["nama"]);
-                    $match = $this->db->query("SELECT nama FROM calon_siswa WHERE nama LIKE '" . $lower_a . "' AND tahun=" . date('Y'))->num_rows();
+                    $match = $this->db->query('SELECT nama FROM calon_siswa WHERE nama LIKE "' . $lower_a . '" AND tahun=' . date('Y'))->num_rows();
                     if ($match > 1 && !in_array($lower_a, $seen)) {
                         $duplicates[] = $lower_a . " " . "(duplikat)";
                         $seen[] = $lower_a;

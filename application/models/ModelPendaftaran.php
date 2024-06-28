@@ -149,7 +149,7 @@ class ModelPendaftaran extends CI_Model
             'jam' => $jam
         ];
 
-        $count = $this->db->query('SELECT calon_siswa.nama,calon_siswa.tgl_lahir,wali.nama_ayah FROM calon_siswa JOIN wali ON calon_siswa.id_wali = wali.id_wali WHERE calon_siswa.nama LIKE "%' . $data['nama_calon_siswa'] . '%" AND calon_siswa.tgl_lahir = "' . $tgl_lahir . '" AND wali.nama_ayah = "' . $this->_datawali()['nama_ayah'] . '"')->num_rows();
+        $count = $this->db->query('SELECT calon_siswa.nama,calon_siswa.tgl_lahir,wali.nama_ayah FROM calon_siswa JOIN wali ON calon_siswa.id_wali = wali.id_wali WHERE calon_siswa.nama LIKE "%' . $data['nama_calon_siswa'] . '%" AND calon_siswa.tgl_lahir = "' . $tgl_lahir . '" AND wali.nama_ayah LIKE "%' . $this->_datawali()['nama_ayah'] . '%"')->num_rows();
 
         if ($count == 0) {
             $this->db->insert('calon_siswa', $dataCalonSiswa);
