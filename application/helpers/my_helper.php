@@ -1,5 +1,7 @@
 <?php
 
+use function JmesPath\search;
+
 function isActive()
 {
     //get instance to call CI Libraries within this function
@@ -1518,4 +1520,26 @@ function getStudentsClass($idKS)
 function myStr($str)
 {
     return ucwords(strtolower($str));
+}
+
+function potensiMaksSPPkelasPerBulan($idkelas, $tahunAjaran, $thajar)
+{
+    $thiz = get_instance();
+    $nominal_spp = $thiz->db->query("SELECT nominal_spp_per_tingkat.id_nominal_spp, nominal_spp.nominal FROM nominal_spp_per_tingkat JOIN nominal_spp ON nominal_spp_per_tingkat.id_nominal_spp= nominal_spp.id WHERE nominal_spp_per_tingkat.tahun_ajaran='" . $tahunAjaran . "/" . $thajar . "' AND nominal_spp_per_tingkat.id_kelas=" . $idkelas)->row_array()["nominal"];
+    $populasiSiswa = $thiz->db->query("SELECT siswa.id AS id_siswa, siswa.nomor_induk, siswa.status_spp, siswa.id_detail_status_spp FROM kelas_siswa JOIN siswa ON kelas_siswa.id_siswa = siswa.id WHERE kelas_siswa.id_kelas=" . $idkelas . " AND kelas_siswa.tahun='" . $tahunAjaran . "/" . $thajar . "'")->result_array();
+    $allRegular = [];
+    $irreggularSumNominals = 0;
+    foreach ($populasiSiswa as $ps) {
+        if ($ps["status_spp"] == 1 && $ps["id_detail_status_spp"] == NULL) {
+            $allRegular[] = $ps;
+        } else {
+            $nominal = $thiz->db->query("SELECT nominal_spp.nominal FROM nominal_spp JOIN detail_status_spp_siswa ON detail_status_spp_siswa.nominal = nominal_spp.id WHERE detail_status_spp_siswa.id_siswa=" . $ps["id_siswa"])->row_array()["nominal"];
+            $irreggularSumNominals += (int)$nominal;
+        }
+    }
+    $regularCount = count($allRegular);
+    $regularSumNominals = (int)$regularCount * (int)$nominal_spp;
+    $total = $irreggularSumNominals + $regularSumNominals;
+
+    return $total;
 }

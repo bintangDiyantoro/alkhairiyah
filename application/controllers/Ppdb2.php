@@ -8,7 +8,7 @@ class Ppdb2 extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('ModelPendaftaran', 'Pendaftaran');
+        $this->load->model('ModelPendaftaran2', 'Pendaftaran');
         $this->csrf = array(
             'name' => $this->security->get_csrf_token_name(),
             'hash' => $this->security->get_csrf_hash()
@@ -46,8 +46,8 @@ class Ppdb2 extends CI_Controller
 
         // echo date('mdHi');die;
         $kuota = 170;
-        $waktubuka1 = 4240000; // int bulan-tanggaltanggal-jamjam(-7)-menitmenit
-        $waktututup1 = 4241400;
+        $waktubuka1 = 4250000; // int bulan-tanggaltanggal-jamjam(-7)-menitmenit
+        $waktututup1 = 4251400;
         $waktubuka2 = 4260000;
         $waktututup2 = 4261400;
 
