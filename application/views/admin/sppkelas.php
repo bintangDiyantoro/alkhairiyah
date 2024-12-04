@@ -84,6 +84,14 @@
                         <?php
                             $i++;
                         endforeach ?>
+                        <tr>
+                            <td class="align-middle text-left pl-2" style="font-size:12px;color: darkgreen;" scope="row"></td>
+                            <td class="align-middle text-left pl-2" style="font-size:12px;color: darkgreen;" scope="row">Total</td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle text-left pl-2" style="font-size:12px;color: darkred ;" scope="row"></td>
+                            <td class="align-middle text-left pl-2" style="font-size:12px;color: darkred ;" scope="row">Kekurangan</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -100,6 +108,20 @@
                     </thead>
                     <tbody>
                         <?php tabelSPPLooper($siswa, $kelas, $bulan_akademik, $spp) ?>
+                        <tr style="font-weight: bold;color: darkgreen;">
+                            <td class="align-middle pl-3" scope="row"></td>
+                            <td class="align-middle pl-3" scope="row">Total</td>
+                            <?php for ($i = 1; $i <= 12; $i++) : ?>
+                                <td class="align-middle pl-3" style="font-size: 12px;" scope="row"><?= (totalSppKelasPerbulan($this->uri->segment(4), $this->uri->segment(5), $this->uri->segment(3), $i)) ? rupiah(totalSppKelasPerbulan($this->uri->segment(4), $this->uri->segment(5), $this->uri->segment(3), $i)) : "-" ?></td>
+                            <?php endfor ?>
+                        </tr>
+                        <tr style="color:brown;font-weight:bold;">
+                            <td class="align-middle pl-3" scope="row"></td>
+                            <td class="align-middle pl-3" scope="row">Kekurangan</td>
+                            <?php for ($i = 1; $i <= 12; $i++) : ?>
+                                <td class="align-middle pl-3" style="font-size: 12px;" scope="row"><?= ($i <= (int)idBulanIni()) ? rupiah($potMaksPerBln - totalSppKelasPerbulan($this->uri->segment(4), $this->uri->segment(5), $this->uri->segment(3), $i)) : "-" ?></td>
+                            <?php endfor ?>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -107,11 +129,50 @@
     <?php else : ?>
         <h3 class="text-center my-5">Kelas Masih Kosong</h3>
     <?php endif ?>
-    <?php if ($total_spp_kelas["total"]) : ?>
-        <p class="text-center mt-5">Total SPP masuk di kelas ini:
-            <strong style="font-size: 26px;"><?= rupiah($total_spp_kelas["total"]) ?></strong>
-        </p>
-    <?php endif ?>
+    <div class="row" style="margin-top:40px;">
+        <div class="" style="display: flex;width: 200px;padding-right: 0;align-items: center;">
+            <p style="display: block; text-align: center;">Total SPP masuk</p>
+        </div>
+        <div class="" style="margin-left: -10px;">
+            <?php if ($total_spp_kelas["total"]) : ?>
+                <p style="">: <strong style="font-size: 22px; color:darkgreen"><?= rupiah($total_spp_kelas["total"]) ?></strong></p>
+            <?php else : ?>
+                <p style="">: <strong style="font-size: 22px;"><?= rupiah(0) ?></strong></p>
+            <?php endif ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="" style="display: block;width: 200px;padding-right: 0;">
+            <p>Potensi Maks berjalan </p>
+        </div>
+        <div class="" style="margin-left: -10px;">
+            <p style="margin-top: -3px;">: <strong style="font-size: 18px;"><?= rupiah((int)$potMaksPerBln * (int)idBulanIni()) ?></strong></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="" style="display: block;width: 200px;padding-right: 0;">
+            <p>Belum Terbayar</p>
+        </div>
+        <div class="" style="margin-left: -10px;">
+            <p style="margin-top: -3px;">: <strong style="font-size: 18px; color:darkred"><?= rupiah((int)$potMaksPerBln * (int)idBulanIni() - (int)$total_spp_kelas["total"]) ?></strong></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="" style="display: block;width: 200px;padding-right: 0;">
+            <p>Potensi Maks per bulan</p>
+        </div>
+        <div class="" style="margin-left: -10px;">
+            <p style="margin-top: -3px;">: <strong style="font-size: 18px;"><?= rupiah($potMaksPerBln) ?></strong></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="" style="display: block;width: 200px;padding-right: 0;">
+            <p>Potensi Maks total</p>
+        </div>
+        <div class="" style="margin-left: -10px;">
+            <p style="margin-top: -3px;">: <strong style="font-size: 18px;"><?= rupiah((int)$potMaksPerBln * 12) ?></strong></p>
+        </div>
+    </div>
     <div class="row d-flex justify-content-end idtransaksi" style="width:100%;margin-top:35px" data-idtransaksi="<?= $this->session->flashdata("idtransaksi") ?>" data-pembayar="<?= $this->session->flashdata('pembayar') ?>">
         <a href="<?= base_url('admin/spp') ?>" class="btn btn-secondary px-3 mt-2" style="border-radius: 20px;">Kembali</a>
         <?php if ($this->session->userdata("role") == "2") : ?>

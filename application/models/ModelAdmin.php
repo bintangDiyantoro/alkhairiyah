@@ -708,52 +708,38 @@ class ModelAdmin extends CI_Model
         }
     }
 
-    public function insertFetchedStudentData($data)
+    public function uploadStudentDataToDB($flag, $data)
     {
-        if (isset($data[2])) {
-            $studentIsExist = $this->db->query("SELECT * FROM siswa WHERE nomor_induk=" . $data[2])->row_array();
-        } else {
-            if (isset($data[4])) {
-                $studentIsExist = $this->db->query("SELECT * FROM siswa WHERE nisn=" . $data[4])->row_array();
-            } else {
-                $studentIsExist = $this->db->query('SELECT * FROM siswa WHERE nama="' . myStr($data[1]) . '" AND nama_ibu="' . myStr($data[30]) . '"')->row_array();
-            }
-        }
+        $rt_rw = ($data[12] && $data[13]) ? ", RT/RW: " . $data[12] . "/" . $data[13] : '';
+        $dusun = ($data[14]) ? ", Dusun: " . myStr($data[14]) : '';
+        $nama_wali = ($data[38]) ? $data[38] : '';
+        $nohpOrtu = ($data[21]) ? validatePhoneNumber($data[21]) : '';
 
-        $rt_rw = ($data[10] && $data[11]) ? ", RT/RW: " . $data[10] . "/" . $data[11] : '';
-        $dusun = ($data[12]) ? ", Dusun: " . myStr($data[12]) : '';
-        $nama_wali = (isset($data[36])) ? $data[36] : '';
-        $nohpOrtu = ($data[19]) ? $data[19] : '';
         $mapped = [
-            // "nomor_induk" => (isset($data[2])) ? $data[2] : '',
-            // "nisn" => (isset($data[4])) ? $data[4] : '',
-            "nama" => myStr($data[1]),
-            "ttl" => myStr($data[5]) . ', ' . explode('-', $data[6])[2] . '-' . explode('-', $data[6])[1] . '-' . explode('-', $data[6])[0],
-            "jenis_kelamin" => $data[3],
-            "alamat" => myStr($data[9]) . $rt_rw . $dusun . ', Kel. ' . myStr($data[13]) . ', ' . myStr($data[14]),
-            "nama_ayah" => ($data[24]) ? myStr($data[24]) : '',
-            "nama_ibu" => (isset($data[30])) ? myStr($data[30]) : '',
-            "alamat_ortu" => myStr($data[9]) . $rt_rw . $dusun,
+            "nomor_induk" => ($data[4]) ? $data[4] : NULL,
+            "nisn" => ($data[6]) ? $data[6] : NULL,
+            "nik_siswa" => ($data[9]) ? $data[9] : NULL,
+            "nama" => myStr($data[3]),
+            "ttl" => myStr($data[7]) . ', ' . explode('-', $data[8])[2] . '-' . explode('-', $data[8])[1] . '-' . explode('-', $data[8])[0],
+            "jenis_kelamin" => $data[5],
+            "alamat" => myStr($data[11]) . $rt_rw . $dusun . ', Kel. ' . myStr($data[15]) . ', ' . myStr($data[16]),
+            "nama_ayah" => ($data[26]) ? myStr($data[26]) : '',
+            "nama_ibu" => (isset($data[32])) ? myStr($data[32]) : '',
+            "alamat_ortu" => myStr($data[11]) . $rt_rw . $dusun,
             "nama_wali" => $nama_wali,
             "no_hp_ortu" => $nohpOrtu,
-            "pekerjaan_ayah" => $data[27],
-            "pekerjaan_ibu" => $data[33],
-            "kelurahan_ortu" => ', Kel. ' . myStr($data[13]),
-            "kecamatan_ortu" => myStr($data[14]),
+            "pekerjaan_ayah" => $data[29],
+            "pekerjaan_ibu" => $data[35],
+            "kelurahan_ortu" => ', Kel. ' . myStr($data[15]),
+            "kecamatan_ortu" => myStr($data[16]),
             "updated_by" => $this->session->userdata("id_staff")
         ];
-        if (isset($data[2])) {
-            $mapped["nomor_induk"] = $data[2];
-        }
-        if (isset($data[4])) {
-            $mapped["nisn"] = $data[4];
-        }
-        if (!$studentIsExist) {
-            $this->db->insert('siswa', $mapped);
-        } else {
-            $this->db->where('nama', myStr($data[1]));
-            $this->db->where('nama_ibu', myStr($data[30]));
+
+        if ($flag == "update") {
+            $this->db->where('id', $data[0]);
             $this->db->update('siswa', $mapped);
+        } elseif ($flag == "insert") {
+            $this->db->insert('siswa', $mapped);
         }
     }
 }

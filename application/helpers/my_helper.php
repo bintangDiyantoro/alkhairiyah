@@ -1,7 +1,5 @@
 <?php
 
-use function JmesPath\search;
-
 function isActive()
 {
     //get instance to call CI Libraries within this function
@@ -1343,7 +1341,11 @@ function tabelSPPLooper($siswa, $kelas, $bulan_akademik, $spp)
             if ($spp) {
                 $sppCounter = 1;
                 foreach ($spp as $sp) {
-                    if ($sp["tahun_ajaran"] == $s["tahun"] && $sp["id_siswa"] == $s["id_siswa"] && $sp["id_kelas_siswa"] == $s["id_kelas_siswa"] && $sp["bulan"] == $ba["id"]) {
+                    if (
+                        $sp["tahun_ajaran"] == $s["tahun"] && $sp["id_siswa"] == $s["id_siswa"]
+                        // && $sp["id_kelas_siswa"] == $s["id_kelas_siswa"]
+                        && $sp["bulan"] == $ba["id"]
+                    ) {
                         echo '<a href="" class="badge badge-pill text-secondary paid-off-spp-badge" data-idtrspp="' . $sp['id'] . '" data-toggle="modal" data-target="#paidOffModal">' . rupiah($sp["nominal"]) . '</a>';
                         break;
                     } else {
@@ -1542,4 +1544,36 @@ function potensiMaksSPPkelasPerBulan($idkelas, $tahunAjaran, $thajar)
     $total = $irreggularSumNominals + $regularSumNominals;
 
     return $total;
+}
+function idBulanIni()
+{
+    $thiz = get_instance();
+    $idbulanini = $thiz->db->query("SELECT id FROM bulan_akademik WHERE angka_bulan=" . date("m"))->result_array()[0]["id"];
+    return $idbulanini;
+}
+function totalSPPKelas($tahunajaran, $thajaran, $idkelas)
+{
+    $thiz = get_instance();
+    return $thiz->db->query("SELECT SUM(spp.nominal) AS total, kelas_siswa.id_kelas, kelas.id FROM spp JOIN kelas_siswa ON spp.id_kelas_siswa = kelas_siswa.id JOIN kelas ON kelas_siswa.id_kelas = kelas.id WHERE spp.tahun_ajaran='" . $tahunajaran . "/" . $thajaran . "' AND kelas.id = " . $idkelas)->row_array();
+}
+function totalSppKelasPerbulan($tahunajaran, $thajaran, $idkelas, $idbulan)
+{
+    $thiz = get_instance();
+    $total = $thiz->db->query("SELECT spp.nominal, kelas_siswa.id_kelas, kelas.class FROM spp JOIN kelas_siswa ON spp.id_kelas_siswa = kelas_siswa.id JOIN kelas ON kelas_siswa.id_kelas = kelas.id WHERE kelas.id = " . $idkelas . " AND spp.tahun_ajaran = '" . $tahunajaran . "/" . $thajaran . "' AND spp.bulan=" . $idbulan)->result_array();
+    $nominal = 0;
+    foreach ($total as $t) {
+        $nominal += (int)$t["nominal"];
+    }
+    return $nominal;
+}
+
+function validatePhoneNumber($number)
+{
+    $splittedNumber = str_split($number);
+
+    $newNumber = "+62";
+    for ($i = 0; $i < (count($splittedNumber) - 1); $i++) {
+        $newNumber = $newNumber . $splittedNumber[$i + 1];
+    }
+    return $newNumber;
 }

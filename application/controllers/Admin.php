@@ -662,11 +662,11 @@ class Admin extends CI_Controller
 
                         foreach ($dataCol as $dc) {
                             // var_dump($dc);
+                            // echo '<hr>';
                             $this->Admin->insertFetchedStudentData($dc);
                             $idsiswa = $this->db->query("SELECT id FROM siswa WHERE nomor_induk=" . $dc[2])->row_array()["id"];
                             $this->Admin->masukkankelasCore($idsiswa, $idkelas, $tahunkelas);
                             // var_dump($this->_sppStudentSearch($idsiswa, $tahun, $th)["reason"]);
-                            // echo '<hr>';
                         }
 
                         redirect('admin/daftarsiswa/' . $idkelas . '/' . $tahun . '/' . $th);
@@ -2612,6 +2612,7 @@ class Admin extends CI_Controller
                     if (!$this->upload->do_upload('fileexcel')) {
                         $data["error"] = $tr->translate(strip_tags($this->upload->display_errors()));
                     } else {
+                        $dbData = $this->db->query("SELECT * FROM siswa")->result_array();
                         $data = ['upload_data' => $this->upload->data()];
                         $refName = './assets/sheets/' . $this->upload->data()["file_name"];
                         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
@@ -2634,15 +2635,147 @@ class Admin extends CI_Controller
                             $i++;
                         }
 
+                        $comparison = [];
 
                         foreach ($dataCol as $dc) {
+                            foreach ($dbData as $dd) {
+                                if ($dd["nomor_induk"] && $dc[2]) {
+                                    if ($dd["nomor_induk"] == $dc[2]) {
+                                        array_unshift($dc, $dd["nama"]);
+                                        array_unshift($dc, $dd["id"]);
+                                        array_push($dc, 100);
+                                        $comparison[] = $dc;
+                                    }
+                                } else {
+                                    if ($dd["nisn"] && $dc[4]) {
+                                        if ($dd["nisn"] == $dc[4]) {
+                                            array_unshift($dc, $dd["nama"]);
+                                            array_unshift($dc, $dd["id"]);
+                                            array_push($dc, 100);
+                                            $comparison[] = $dc;
+                                        }
+                                    } else {
+                                        if ($dd["nik_siswa"] && $dc[7]) {
+                                            if ($dd["nik_siswa"] == $dc[7]) {
+                                                array_unshift($dc, $dd["nama"]);
+                                                array_unshift($dc, $dd["id"]);
+                                                array_push($dc, 100);
+                                                $comparison[] = $dc;
+                                            }
+                                        } else {
+                                            $splittedDcName = explode(" ", strtolower($dc[1]));
+                                            $splittedDdName = explode(" ", strtolower($dd["nama"]));
+                                            $dcNameCount = count($splittedDcName);
+                                            $ddNameCount = count($splittedDdName);
 
-                            $this->Admin->insertFetchedStudentData($dc);
-                            $idsiswa = $this->db->query('SELECT id FROM siswa WHERE nama="' . myStr($dc[1]) . '" AND nama_ibu="' . myStr($dc[30]) . '"')->row_array();
-                            $rombel = strtolower($dc[42]);
-                            if ($idsiswa) {
-                                $idsiswa = $idsiswa["id"];
+                                            if ($dd["nama_ayah"]) {
+                                                $ddDadNameFraction = explode(" ", $dd["nama_ayah"]);
+                                                $ddDadName = (strlen($ddDadNameFraction[0]) > 2) ? strtolower($ddDadNameFraction[0]) : strtolower($ddDadNameFraction[1]);
+                                            } else {
+                                                $ddDadName = "kosong";
+                                            }
+
+                                            if ($dc[24]) {
+                                                $dcDadNameFraction = explode(" ", $dc[24]);
+                                                $dcDadName = (strlen($dcDadNameFraction[0]) > 2) ? strtolower($dcDadNameFraction[0]) : strtolower($dcDadNameFraction[1]);
+                                            } else {
+                                                $dcDadName = "kosong";
+                                            }
+
+                                            if ($dd["nama_ibu"]) {
+                                                $ddMomNameFraction = explode(" ", $dd["nama_ibu"]);
+                                                $ddMomName = (strlen($ddMomNameFraction[0]) > 2) ? strtolower($ddMomNameFraction[0]) : strtolower($ddMomNameFraction[1]);
+                                            } else {
+                                                $ddMomName = "kosong";
+                                            }
+
+                                            if ($dc[30]) {
+                                                $dcMomNameFraction = explode(" ", $dc[30]);
+                                                $dcMomName = (strlen($dcMomNameFraction[0]) > 2) ? strtolower($dcMomNameFraction[0]) : strtolower($dcMomNameFraction[1]);
+                                            } else {
+                                                $dcMomName = "kosong";
+                                            }
+
+                                            if ($dcNameCount == 1) {
+                                                $splittedDcName[1] = "kosong";
+                                                $splittedDcName[2] = "kosong";
+                                                $splittedDcName[3] = "kosong";
+                                            } elseif ($dcNameCount == 2) {
+                                                $splittedDcName[2] = "kosong";
+                                                $splittedDcName[3] = "kosong";
+                                            } elseif ($dcNameCount == 3) {
+                                                $splittedDcName[3] = "kosong";
+                                            }
+
+                                            if ($ddNameCount == 1) {
+                                                $splittedDdName[1] = "kosong";
+                                                $splittedDdName[2] = "kosong";
+                                                $splittedDdName[3] = "kosong";
+                                            } elseif ($ddNameCount == 2) {
+                                                $splittedDdName[2] = "kosong";
+                                                $splittedDdName[3] = "kosong";
+                                            } elseif ($ddNameCount == 3) {
+                                                $splittedDdName[3] = "kosong";
+                                            }
+
+                                            similar_text($splittedDdName[0], $splittedDcName[0], $percName1);
+                                            similar_text($splittedDdName[1], $splittedDcName[1], $percName2);
+                                            similar_text($splittedDdName[2], $splittedDcName[2], $percName3);
+                                            similar_text($splittedDdName[3], $splittedDcName[3], $percName4);
+                                            similar_text($ddDadName, $dcDadName, $percDadName);
+                                            similar_text($ddMomName, $dcMomName, $percMomName);
+
+                                            $compWithDad = ((int)$percName1 + (int)$percName2 + (int)$percName3 + (int)$percName4 + (int)$percDadName) / 5;
+                                            $compWithMom = ((int)$percName1 + (int)$percName2 + (int)$percName3 + (int)$percName4 + (int)$percMomName) / 5;
+
+                                            $dcBirthday = $dc[6];
+                                            $unorderedDdBD = explode("-", trim(explode(",", $dd["ttl"])[1]));
+                                            $orderedDbBirthday = $unorderedDdBD[2] . "-" . $unorderedDdBD[1] . "-" . $unorderedDdBD[0];
+
+                                            if ($dcBirthday == $orderedDbBirthday) {
+                                                if ($compWithDad > 95 || $compWithMom > 95) {
+                                                    $perc = ($compWithMom > $compWithDad) ? $compWithMom : $compWithDad;
+                                                    array_unshift($dc, $dd["nama"]);
+                                                    array_unshift($dc, $dd["id"]);
+                                                    array_push($dc, $perc);
+                                                    $comparison[] = $dc;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
+                        }
+
+                        $groupedByName = [];
+                        foreach ($comparison as $c) {
+                            $groupedByName[$c[1]][] = $c;
+                        }
+
+                        $bestMatched = [];
+                        foreach ($groupedByName as $attr) {
+                            $bestMatched[] = array_reduce($attr, function ($a, $b) {
+                                return ($a[68] > $b[68]) ? $a : $b;
+                            }, $attr[0]);
+                        }
+
+                        $nameFound = [];
+                        foreach ($bestMatched as $b) {
+                            $nameFound[] = $b[3];
+                            $this->Admin->uploadStudentDataToDB("update", $b);
+                        }
+
+                        foreach ($dataCol as $dc) {
+                            if (!in_array($dc[1], $nameFound)) {
+                                array_unshift($dc, $dd["nama"]);
+                                array_unshift($dc, $dd["id"]);
+                                $this->Admin->uploadStudentDataToDB("insert", $dc);
+                            }
+                        }
+
+                        foreach ($dataCol as $dc) {
+                            $idsiswa = $this->db->query('SELECT id FROM siswa WHERE nama="' . myStr($dc[1]) . '" AND nama_ibu="' . myStr($dc[30]) . '"')->row_array()["id"];
+                            $rombel = strtolower($dc[42]);
 
                             switch ($rombel) {
                                 case 'kelas 1a':
@@ -2718,11 +2851,9 @@ class Admin extends CI_Controller
                                     $idkelas = "24";
                                     break;
                             }
-                            if ($idsiswa) {
-                                $this->Admin->masukkankelasCore($idsiswa, $idkelas, $tahunAjar);
-                            }
+
+                            $this->Admin->masukkankelasCore($idsiswa, $idkelas, $tahunAjar);
                         }
-                        var_dump($refName);
                         redirect('admin/mkkelas/' . $tahun . '/' . $th);
                     }
                 }
@@ -3099,6 +3230,22 @@ class Admin extends CI_Controller
         }
     }
 
+    public function gettotalsppkelasthtsb($tahunajaran, $thajaran, $idkelas)
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "2" || $this->session->userdata('role') == "5") {
+                $data["total_spp"] = totalSPPKelas($tahunajaran, $thajaran, $idkelas);
+                echo ($data["total_spp"]) ? rupiah($data["total_spp"]) : 'Rp0.-';
+                $this->load->view('admin/halamankosong');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+
     public function spp($nama = null, $kelas = null)
     {
         netralize();
@@ -3173,11 +3320,11 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('pembayar', $this->Admin->getSppPaymentDetail($idtransaksi)["nama"]);
         }
         $data["spp"] = $this->db->get('spp')->result_array();
-        $data["total_spp_kelas"] = $this->db->query("SELECT SUM(spp.nominal) AS total, kelas_siswa.id_kelas, kelas.id FROM spp JOIN kelas_siswa ON spp.id_kelas_siswa = kelas_siswa.id JOIN kelas ON kelas_siswa.id_kelas = kelas.id WHERE spp.tahun_ajaran='" . $tahunajaran . "/" . $thajaran . "' AND kelas.id = " . $idkelas)->row_array();
+        $data["total_spp_kelas"] = totalSPPKelas($tahunajaran, $thajaran, $idkelas);
         $data["spp_untuk_kelas"] = $spp_untuk_kelas;
+        $data["potMaksPerBln"] = potensiMaksSPPkelasPerBulan($idkelas, $tahunajaran, $thajaran);
         $this->load->view('admin/header', $data);
         if ($spp_untuk_kelas == true) {
-            // echo potensiMaksSPPkelasPerBulan($idkelas,$tahunajaran,$thajaran);
             $this->load->view('admin/sppkelas');
         } else {
             $data["tahun"] = $tahunajaran . '/' . $thajaran;

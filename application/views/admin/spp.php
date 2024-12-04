@@ -6,7 +6,7 @@
         <?php if (count($nominal_per_tingkat_tahun_ini) == 24) : ?>
             <div class="col d-flex justify-content-end main-spp-search-container">
                 <div class="row <?= togglesidebar($this->session->userdata("toggle")) ?>" id="customSppSearchToggle">
-                    <div class="align-bottom mx-3 mb-2 spp-cari-siswa-label" style="margin-top: 6px;width:75px;" >
+                    <div class="align-bottom mx-3 mb-2 spp-cari-siswa-label" style="margin-top: 6px;width:75px;">
                         Cari Siswa:
                     </div>
                     <div class="d-flex align-items-center">
@@ -59,6 +59,7 @@
                                 <div class="card class-card spp-class-card text-center px-0 mb-3 mx-2 <?= classCardColor($k["id"]) ?>" style="border-color: transparent;">
                                     <h5>Kelas <?= $k["class"] ?></h5>
                                     <button type="submit" name="idkelas" value="<?= $k["id"] ?>" class="btn btn-light <?= classBtnCardColor($k["id"]) ?> mb-3 mt-1" style="border-radius:20px">Buka Buku SPP</button>
+                                    <p class="text-center" data-idkelas="<?= $k["id"] ?>">Total Masuk: <span class="spp-kelas-total-spp-masuk"> <?= rupiah(0) ?></span></p>
                                 </div>
                             <?php endforeach; ?>
                         </div>
