@@ -51,17 +51,17 @@ class Ppdb extends CI_Controller
         $waktubuka2 = 4260000;
         $waktututup2 = 4261400;
 
-        if ($count < $kuota && (int)date('mdHi') < $waktututup2) {
-            if (((int)date('mdHi') >= $waktubuka1 && (int)date('mdHi') <= $waktututup1) || (int)date('mdHi') >= $waktubuka2) {
-                $this->load->view('pendaftaran/index');
-            } else {
-                $this->load->view('pendaftaran/sabar');
-            }
-            // $this->load->view('pendaftaran/index');
-        } else {
-            $this->load->view('pendaftaran/tutup');
-        }
-        $this->load->view('templates/footer');
+        // if ($count < $kuota && (int)date('mdHi') < $waktututup2) {
+        //     if (((int)date('mdHi') >= $waktubuka1 && (int)date('mdHi') <= $waktututup1) || (int)date('mdHi') >= $waktubuka2) {
+        //         $this->load->view('pendaftaran/index');
+        //     } else {
+        //         $this->load->view('pendaftaran/sabar');
+        //     }
+            $this->load->view('pendaftaran/index');
+        // } else {
+        //     $this->load->view('pendaftaran/tutup');
+        // }
+        // $this->load->view('templates/footer');
     }
 
     private function _validateFormOrtu()
@@ -326,6 +326,7 @@ class Ppdb extends CI_Controller
     public function cetak($id)
     {
         $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [160, 165]]);
+        $mpdf->showImageErrors = true;
         $calon_siswa = $this->Pendaftaran->getCalonSiswa($id);
         $tgl_lahir = explode('-', $calon_siswa['tgl_lahir']);
         $tgl_lahir = $tgl_lahir[2] . '-' . $tgl_lahir[1] . '-' . $tgl_lahir[0];

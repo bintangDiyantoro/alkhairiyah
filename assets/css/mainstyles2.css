@@ -198,7 +198,7 @@ div.nav-link {
     position: fixed;
     z-index: 2;
     /* right: 0px; */
-    right: -220px;
+    right: -230px;
     margin-top: 387px;
     border-radius: 15px 0 0 15px;
     /* overflow: hidden; */
@@ -265,6 +265,23 @@ div.nav-link {
     height: 40px;
 }
 
+@media(min-width:1370px){
+.right-float-button {
+        position: fixed;
+        z-index: 2;
+        /* right: 0px; */
+        right: -220px;
+        margin-top: 387px;
+        border-radius: 15px 0 0 15px;
+        /* overflow: hidden; */
+        transition-duration: .9s;
+        /* color: rgb(210, 255, 219); */
+        color: transparent;
+        padding: 5px;
+        background-color: rgb(55, 126, 55);
+    }
+}
+
 @media(min-width:800.1px) {
     .nav-container {
         display: flex;
@@ -274,6 +291,7 @@ div.nav-link {
         /* height: 50px; */
     }
 }
+
 
 @media(max-width:800px) {
     body {
