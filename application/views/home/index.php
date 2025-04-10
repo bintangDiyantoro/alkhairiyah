@@ -8,7 +8,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-9">
-                    <h2 class="text-center mb-3 main-section">Selamat Datang di <strong>SD Islam Al-Khairiyah Banyuwangi</strong></h2>
+                    <h2 class="text-center mb-3 main-section">Selamat Datang di website <strong>SD Islam Al-Khairiyah Banyuwangi</strong></h2>
                     <div class="row">
                         <div class="col-md-4">
                             <img src="./assets/img/78964067382af8722d2f18b5d211faa90fef5c8e_s2_n2_y2(1).webp" alt="Foto Kepala Sekolah SD Islam Al-Khairiyah Banyuwangi" class="img-thumbnail mb-3">
