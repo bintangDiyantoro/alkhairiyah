@@ -3,6 +3,7 @@
 class Notfound extends CI_Controller{
     public function index(){
         netralize();
-        $this->load->view('admin/404');
+        $data["base_url"] = base_url();
+        $this->load->view('admin/404',$data);
     }
 }

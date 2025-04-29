@@ -55,6 +55,25 @@ function selectKel($jns_kelamin)
     }
 }
 
+function selectKel2($jns_kelamin)
+{
+    $CI = get_instance();
+    if ($CI->input->post('jenis_kelamin') !== NULL) {
+        $newInput = $CI->input->post('jenis_kelamin');
+    } else {
+        $newInput = $CI->session->userdata('formDataPPDB')['jenis_kelamin'];
+    }
+    if ($newInput == $jns_kelamin) {
+        return 'selected';
+    }
+}
+
+function selectNationality($cca2)
+{
+    if ($cca2 === "ID") {
+        return "selected";
+    }
+}
 function stu_back()
 {
     $CI = get_instance();
@@ -125,6 +144,7 @@ function netralize()
     $CI->session->unset_userdata('alamat_ortu');
     $CI->session->unset_userdata('alamat_wali');
     $CI->session->unset_userdata('no_hp_ortu');
+    // $CI->session->unset_userdata('regex');
 }
 
 function netralize2()
@@ -236,6 +256,72 @@ function selectedOpt($value, $input)
     if ($value === $input) {
         return "selected";
     }
+}
+
+
+
+function selectedBirthplace($value, $input)
+{
+    if($input == NULL) {
+        $input = "Banyuwangi";
+    } else {
+        $input = $input;
+    }
+    if ($value === $input) {
+        return "selected";
+    }
+}
+
+function updateFormValue($oldValue, $newValue)
+{
+    return ($newValue !== NULL) ? $newValue : $oldValue;
+}
+
+function selectedReligion($value, $input)
+{
+    if ($value === $input) {
+        return "selected";
+    }
+}
+
+function punyaWali($value, $POSTinput, $sessionData)
+{
+    if ($POSTinput == NULL) {
+        if ($sessionData) {
+            $input = $sessionData;
+        } else {
+            $input = "tidak";
+        }
+    } else {
+        $input = $POSTinput;
+    }
+    if ($value == $input) {
+        return "checked";
+    }
+}
+
+function waliSelectedOpt($value, $POSTinput, $sessionData)
+{
+    if ($POSTinput == NULL) {
+        $input = $sessionData;
+    } else {
+        $input = $POSTinput;
+    }
+    if ($value == $input) {
+        return "selected";
+    }
+}
+
+function pendidikanWali($value, $input)
+{
+    if ($value === $input) {
+        return "selected";
+    }
+}
+
+function dataWali($post, $session)
+{
+    return $post == NULL ? $session : $post;
 }
 
 function guruKelas($idKelas, $waliKelas)
