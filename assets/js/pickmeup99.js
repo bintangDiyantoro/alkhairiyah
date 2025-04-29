@@ -1171,7 +1171,8 @@
 			}
 			if (current_value !== new_value) {
 				//noinspection JSUndefinedPropertyAssignment
-				target.value = new_value;
+				// target.value = new_value; // the original version
+				target.value = current_value; // what i've changed to
 			}
 		}
 	}

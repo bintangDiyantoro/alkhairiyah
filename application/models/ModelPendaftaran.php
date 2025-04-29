@@ -168,7 +168,7 @@ class ModelPendaftaran extends CI_Model
         } else {
             echo "<script>
                 if(confirm('Data " . $data['nama_calon_siswa'] . " sudah terdaftar!') == true){
-                    window.location='".base_url('ppdb/cs'). "'
+                    window.location='" . base_url('ppdb/cs') . "'
                 } else {
                     window.location='" . base_url('ppdb/calonsiswa') . "'
                 }
@@ -238,5 +238,73 @@ class ModelPendaftaran extends CI_Model
         $data['namawali'] = $namawali;
 
         return $data;
+    }
+    public function insertDataLengkapSiswa($datasiswa)
+    {
+        $mapped = [
+            "nisn" => ($datasiswa['nisn'] !== "" && $datasiswa['nisn'] !== "-") ? $datasiswa['nisn'] : null,
+            "nama" => myStr($datasiswa['nama_siswa']),
+            "jenis_kelamin" => $datasiswa["jenis_kelamin"],
+            "ttl" => myStr($datasiswa["tmpt_lhr_anak"]) . ', ' . $datasiswa["tgl_lahir"],
+            "pendidikan_sebelumnya" => $datasiswa["asal_tk"],
+            "kewarganegaraan" => $datasiswa["kewarganegaraan"],
+            "nik_siswa" => $datasiswa['nik_anak'],
+            "no_kk" => $datasiswa['no_kk'],
+            "no_reg_akta_lahir" => $datasiswa['no_reg_akta_lahir'],
+            "agama" => $datasiswa["agama"],
+            "alamat" => $datasiswa["alamat"],
+            "kecamatan" => $datasiswa["kecamatan"],
+            "kelurahan" => $datasiswa["kelurahan"],
+            "rt" => $datasiswa["rt"],
+            "rw" => $datasiswa["rw"],
+            "dusun" => $datasiswa["dusun"],
+            "kode_pos" => $datasiswa["kode_pos"],
+            "no_hp_ortu" => $datasiswa["nohape"],
+            "kebutuhan_khusus" => $datasiswa["kebutuhanKhusus"],
+            "tempat_tinggal" => $datasiswa["tempat_tinggal"],
+            "transportasi" => $datasiswa["transportasi"],
+            "anak_ke" => $datasiswa["anak_ke"],
+            "jml_saudara_kandung" => $datasiswa["jml_saudara_kandung"],
+            "berat_badan" => $datasiswa["berat_badan"],
+            "tinggi_badan" => $datasiswa["tinggi_badan"],
+            "lingkar_kepala" => $datasiswa["lingkar_kepala"],
+            "jarak_rumah_ke_sekolah" => $datasiswa["jarak_rumah_ke_sekolah"],
+            "nama_ayah" => $datasiswa["nama_ayah"],
+            "nik_ayah" => $datasiswa["nik_ayah"],
+            "tahun_lahir_ayah" => $datasiswa["tahun_lahir_ayah"],
+            "pendidikan_ayah" => $datasiswa["pendidikan_ayah"],
+            "pekerjaan_ayah" => $datasiswa["pekerjaan_ayah"],
+            "penghasilan_ayah" => $datasiswa["penghasilan_ayah"],
+            "kebutuhan_khusus_ayah" => $datasiswa["kebutuhanKhususAyah"],
+            "nama_ibu" => $datasiswa["nama_ibu"],
+            "nik_ibu" => $datasiswa["nik_ibu"],
+            "tahun_lahir_ibu" => $datasiswa["tahun_lahir_ibu"],
+            "pendidikan_ibu" => $datasiswa["pendidikan_ibu"],
+            "pekerjaan_ibu" => $datasiswa["pekerjaan_ibu"],
+            "penghasilan_ibu" => $datasiswa["penghasilan_ibu"],
+            "kebutuhan_khusus_ibu" => $datasiswa["kebutuhanKhususIbu"],
+            "nama_wali" => (isset($datasiswa["nama_wali"])) ? $datasiswa["nama_wali"] : "",
+            "nik_wali" => (isset($datasiswa["nik_wali"])) ? $datasiswa["nik_wali"] : "",
+            "tahun_lahir_wali" => (isset($datasiswa["tahun_lahir_wali"])) ? $datasiswa["tahun_lahir_wali"] : "",
+            "pendidikan_wali" => (isset($datasiswa["pendidikan_wali"])) ? $datasiswa["pendidikan_wali"] : "",
+            "pekerjaan_wali" => (isset($datasiswa["pekerjaan_wali"])) ? $datasiswa["pekerjaan_wali"] : "",
+            "penghasilan_wali" => (isset($datasiswa["penghasilan_wali"])) ? $datasiswa["penghasilan_wali"] : "",
+            "kebutuhan_khusus_wali" => (isset($datasiswa["kebutuhanKhususWali"])) ? $datasiswa["kebutuhanKhususWali"] : "",
+            "tahun_input_pertama" => $datasiswa["tahun_input_pertama"],
+        ];
+
+        $this->db->where('nik_siswa', $datasiswa['nik_anak']);
+        $existByNIK = $this->db->get('siswa')->result_array();
+        $this->db->where('nisn', $datasiswa['nisn']);
+        $existByNISN = $this->db->get('siswa')->result_array();
+        if (count($existByNIK) + count($existByNISN) < 1) {
+            $this->db->insert('siswa', $mapped);
+            if ($this->db->affected_rows() > 0) {
+                $this->db->where('nik_siswa', $datasiswa['nik_anak']);
+                return $this->db->get('siswa')->row_array()["id"];
+            }
+        } else {
+            return false;
+        }
     }
 }

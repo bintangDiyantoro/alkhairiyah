@@ -3310,9 +3310,9 @@ class Admin extends CI_Controller
             ];
         }
         if ($idsiswa !== null) {
-            $data["siswa"] = $this->db->query("SELECT kelas_siswa.id AS id_kelas_siswa, kelas_siswa.tahun, kelas_siswa.id_siswa, kelas_siswa.id_kelas, kelas_siswa.insert_by, siswa.nomor_induk, siswa.nama, siswa.status_spp, siswa.id_detail_status_spp FROM kelas_siswa JOIN siswa ON kelas_siswa.id_siswa = siswa.id WHERE kelas_siswa.id_siswa=" . $idsiswa . " AND kelas_siswa.id_kelas=" . $idkelas . " AND kelas_siswa.tahun='" . $tahunajaran . "/" . $thajaran . "'")->result_array();
+            $data["siswa"] = $this->db->query("SELECT kelas_siswa.id AS id_kelas_siswa, kelas_siswa.tahun, kelas_siswa.id_siswa, kelas_siswa.id_kelas, kelas_siswa.insert_by, siswa.nomor_induk, siswa.nama, siswa.status_spp, siswa.id_detail_status_spp FROM kelas_siswa JOIN siswa ON kelas_siswa.id_siswa = siswa.id WHERE kelas_siswa.id_siswa=" . $idsiswa . " AND kelas_siswa.id_kelas=" . $idkelas . " AND kelas_siswa.tahun='" . $tahunajaran . "/" . $thajaran . "' ORDER BY siswa.nama")->result_array();
         } else {
-            $data["siswa"] = $this->db->query("SELECT kelas_siswa.id AS id_kelas_siswa, kelas_siswa.tahun, kelas_siswa.id_siswa, kelas_siswa.id_kelas, kelas_siswa.insert_by, siswa.nomor_induk, siswa.nama, siswa.status_spp, siswa.id_detail_status_spp FROM kelas_siswa JOIN siswa ON kelas_siswa.id_siswa = siswa.id WHERE kelas_siswa.id_kelas=" . $idkelas . " AND kelas_siswa.tahun='" . $tahunajaran . "/" . $thajaran . "'")->result_array();
+            $data["siswa"] = $this->db->query("SELECT kelas_siswa.id AS id_kelas_siswa, kelas_siswa.tahun, kelas_siswa.id_siswa, kelas_siswa.id_kelas, kelas_siswa.insert_by, siswa.nomor_induk, siswa.nama, siswa.status_spp, siswa.id_detail_status_spp FROM kelas_siswa JOIN siswa ON kelas_siswa.id_siswa = siswa.id WHERE kelas_siswa.id_kelas=" . $idkelas . " AND kelas_siswa.tahun='" . $tahunajaran . "/" . $thajaran . "' ORDER BY siswa.nama")->result_array();
         }
         $data["bulan_akademik"] = $this->db->get('bulan_akademik')->result_array();
         if ($idtransaksi !== null) {
@@ -4826,7 +4826,7 @@ class Admin extends CI_Controller
                     )->getStyle("A1:AA1")->getFont()->setBold(true);
 
                 $writer = new Xlsx($sheet);
-                $writer->save('Data excel PPDB ' . date('Y') . '.xlsx');
+                $writer->save('Data excel PPDB ' . date('Y') ." (diupdate pada ".date('d-m-Y, H:i').")". '.xlsx');
                 redirect('/Data excel PPDB ' . date('Y') . '.xlsx');
             } else {
                 redirect('admin');
