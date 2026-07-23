@@ -35,7 +35,11 @@
             </div>
         </div>
     <?php else : ?>
-        <div class="main-spp-total <?= togglesidebar($this->session->userdata("toggle")) ?>">Total SPP Masuk: <span class="total-spp-th-tsb-span" style="font-size:22px"><?= ($total_spp_masuk["total_spp"]) ? rupiah($total_spp_masuk["total_spp"]) : 'Rp0.-' ?></span></div>
+        <div class="main-spp-total <?= togglesidebar($this->session->userdata("toggle")) ?>">Total SPP Masuk:
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#TotalSPPModal">
+                Lihat
+            </button>
+        </div>
         <form method="POST">
             <input type="hidden" name="<?= $csrf["name"] ?>" value="<?= $csrf["hash"] ?>">
             <div class="row spp-tahun-ajaran-row <?= togglesidebar($this->session->userdata("toggle")) ?>">
@@ -69,3 +73,23 @@
         <?php endif ?>
 </div>
 </form>
+
+<!-- Modal -->
+<div class="modal fade" id="TotalSPPModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Total SPP Masuk</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span class="total-spp-th-tsb-span" style="font-size:22px"><?= ($total_spp_masuk["total_spp"]) ? rupiah($total_spp_masuk["total_spp"]) : 'Rp0.-' ?></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>

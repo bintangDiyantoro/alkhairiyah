@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+use SebastianBergmann\Environment\Runtime;
+
 /**
  * Default utility for PHP sub-processes.
  *
@@ -27,12 +29,14 @@ class PHPUnit_Util_PHP_Default extends PHPUnit_Util_PHP
      */
     public function runJob($job, array $settings = [])
     {
+        $runtime = new Runtime;
+
         $process = proc_open(
-            $this->getCommand($settings),
+            $runtime->getBinary() . $this->settingsToParameters($settings),
             [
-                0 => ['pipe', 'r'],
-                1 => ['pipe', 'w'],
-                2 => ['pipe', 'w']
+            0 => ['pipe', 'r'],
+            1 => ['pipe', 'w'],
+            2 => ['pipe', 'w']
             ],
             $pipes
         );

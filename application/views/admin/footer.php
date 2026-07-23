@@ -55,7 +55,7 @@
         <script src="<?= base_url('assets/js/') ?>sb-admin-2-2.js"></script>
         <script src="<?= base_url('assets/js/') ?>sweetalert2.all.min.js"></script>
         <script src="<?= base_url('assets/js/') ?>pickmeup99.js"></script>
-        <script src="<?= base_url('assets/js/') ?>adminmainscript9.js"></script>
+        <script src="<?= base_url('assets/js/') ?>adminmainscript11.js"></script>
         <script src="<?= base_url('assets/js/') ?>app5.js"></script>
         </body>
 

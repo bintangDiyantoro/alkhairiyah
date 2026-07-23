@@ -152,6 +152,7 @@
                             <a class="collapse-item" href="<?= base_url('admin/dftketnaiklulus') ?>">Ket. Naik-Lulus</a>
                             <a class="collapse-item" href="<?= base_url('admin/dftsemester') ?>">Index Semester</a>
                             <a class="collapse-item" href="<?= base_url('admin/dftkompetensiinti') ?>">Kompetensi Inti</a>
+                            <a class="collapse-item" href="<?= base_url('admin/cetakexcelpdtingkat1dapodikpage') ?>">PD Tingkat 1 dapodik</a>
                         </div>
                     </div>
                 </li>

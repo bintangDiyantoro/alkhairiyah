@@ -30,6 +30,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top mr-0" style="display: flex;justify-content: center;">
         <div class="nav-container">
+            <!-- <input type="hidden" id="tersimpan" name="" value="<?= $this->session->flashdata('tersimpan') ?>"> -->
             <img src="<?= base_url() ?>assets/img/alkhairiyah.png" width="47px" height="47px" style="margin-right:7px" alt="SDI Al-Khairiyah Al Khairiyah Banyuwangi"></img>
             <a class="navbar-brand pt-3" href="<?= base_url() ?>">
                 <h1 style="font-size: 16.2px;">SDI Al-Khairiyah Banyuwangi</h1>
