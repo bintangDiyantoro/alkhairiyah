@@ -262,7 +262,7 @@ function selectedOpt($value, $input)
 
 function selectedBirthplace($value, $input)
 {
-    if($input == NULL) {
+    if ($input == NULL) {
         $input = "Banyuwangi";
     } else {
         $input = $input;
@@ -428,12 +428,14 @@ function hasilPencarianSiswa($query)
     $i = 1;
     foreach ($query as $q) :
         if ($q["class"] !== "lulus" && $q["class"] !== "belum daftar") :
+
             echo '<tr>
                     <td class="align-middle text-left">' . $q["nama"] . '</td>
                     <td class="align-middle">' . $q["class"] . '</td>';
             echo '<td class="align-middle">';
             if ($q["class"] === "-") :
                 if (explode('/', $_SERVER["HTTP_REFERER"])[4] == "sppkelas") :
+
                     echo '<span class="badge badge-primary badge-masukkan-siswa" data-csrf="' . $CI->csrf["hash"] . '" data-idsiswa="' . $q["id"] . '" data-idkelas="' . explode('/', $_SERVER["HTTP_REFERER"])[5] . '" data-tahun="' . explode('/', $_SERVER["HTTP_REFERER"])[6] . '/' . explode('/', $_SERVER["HTTP_REFERER"])[7] .  '" data-name="' . $q["nama"] . '" style="cursor:pointer">
                         Tambahkan Ke Kelas
                         </span>';
@@ -443,8 +445,64 @@ function hasilPencarianSiswa($query)
                         </span>';
                 endif;
             else :
-                echo '<span href="#" class="badge badge-secondary" style="cursor: pointer;">Tambahkan Ke Kelas</span>';
+                $tingkatKelasDariQuery = explode(' - ', $q["class"])[0];
+                switch ($tingkatKelasDariQuery) {
+                    case '1A':
+                    case '1B':
+                    case '1C':
+                    case '1D':
+                        $tingkatKelasDariQuery = 1;
+                        break;
+                    case '2A':
+                    case '2B':
+                    case '2C':
+                    case '2D':
+                        $tingkatKelasDariQuery = 2;
+                        break;
+                    case '3A':
+                    case '3B':
+                    case '3C':
+                    case '3D':
+                        $tingkatKelasDariQuery = 3;
+                        break;
+                    case '4A':
+                    case '4B':
+                    case '4C':
+                    case '4D':
+                        $tingkatKelasDariQuery = 4;
+                        break;
+                    case '5A':
+                    case '5B':
+                    case '5C':
+                    case '5D':
+                        $tingkatKelasDariQuery = 5;
+                        break;
+                    case '6A':
+                    case '6B':
+                    case '6C':
+                    case '6D':
+                        $tingkatKelasDariQuery = 6;
+                        break;
+                }
+
+                $tingkatKelasHalaman = ceil((int)explode('/', $_SERVER["HTTP_REFERER"])[5] / 4);
+                $tahunHalaman = (int)explode('/', $_SERVER["HTTP_REFERER"])[6];
+                if (strlen($q["class"]) > 2) {
+                    $tahunDariQuery = (int)explode('/', explode('- ',  $q["class"])[1])[0];
+                } else {
+                    $tahunDariQuery = $tahunHalaman;
+                }
+
+                if (($tingkatKelasHalaman - $tingkatKelasDariQuery == 1) && ($tahunHalaman - $tahunDariQuery == 1)) {
+                    echo '<span class="badge badge-primary badge-masukkan-siswa" data-csrf="' . $CI->csrf["hash"] . '" data-idsiswa="' . $q["id"] . '" data-idkelas="' . explode('/', $_SERVER["HTTP_REFERER"])[5] . '" data-tahun="' . explode('/', $_SERVER["HTTP_REFERER"])[6] . '/' . explode('/', $_SERVER["HTTP_REFERER"])[7] .  '" data-name="' . $q["nama"] . '" style="cursor:pointer">
+                        Tambahkan Ke Kelas
+                        </span>';
+                        } else {
+                            echo '<span href="#" class="badge badge-secondary" style="cursor: pointer;">'. $tingkatKelasHalaman." ". $tingkatKelasDariQuery." ". $tahunHalaman ." ".$tahunDariQuery .'</span>';
+                        }
+
             endif;
+
             echo '</td>';
             echo '<td class="align-middle">' . $q["nomor_induk"] . '</td>
                                 <td class="align-middle">' . $q["nisn"] . '</td>
@@ -1662,4 +1720,36 @@ function validatePhoneNumber($number)
         $newNumber = $newNumber . $splittedNumber[$i + 1];
     }
     return $newNumber;
+}
+
+function monthNameToNumber($monthName)
+{
+    switch (strtolower($monthName)) {
+        case 'jan':
+            return '01';
+        case 'feb':
+            return '02';
+        case 'mar':
+            return '03';
+        case 'apr':
+            return '04';
+        case 'may':
+            return '05';
+        case 'jun':
+            return '06';
+        case 'jul': 
+            return '07';
+        case 'aug':
+            return '08';
+        case 'sep':
+            return '09';
+        case 'oct':
+            return '10';
+        case 'nov':
+            return '11';
+        case 'dec':
+            return '12';
+        default:
+            return null;
+    }
 }

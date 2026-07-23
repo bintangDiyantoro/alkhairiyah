@@ -141,11 +141,10 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
     /**
      * @param PHPUnit_Framework_Test $suite
      * @param array                  $arguments
-     * @param bool                   $exit
      *
      * @return PHPUnit_Framework_TestResult
      */
-    public function doRun(PHPUnit_Framework_Test $suite, array $arguments = [], $exit)
+    public function doRun(PHPUnit_Framework_Test $suite, array $arguments = [])
     {
         if (isset($arguments['configuration'])) {
             $GLOBALS['__PHPUNIT_CONFIGURATION_FILE'] = $arguments['configuration'];
@@ -202,10 +201,6 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
 
         if ($arguments['stopOnFailure']) {
             $result->stopOnFailure(true);
-        }
-
-        if ($arguments['stopOnWarning']) {
-            $result->stopOnWarning(true);
         }
 
         if ($arguments['stopOnIncomplete']) {
@@ -273,10 +268,6 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
                         $arguments['configuration']->getFilename()
                     );
                 }
-            }
-
-            if (isset($arguments['deprecatedCheckForUnintentionallyCoveredCodeSettingUsed'])) {
-                print "Warning:       Deprecated configuration setting \"checkForUnintentionallyCoveredCode\" used\n";
             }
         }
 
@@ -372,8 +363,10 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
                 );
             }
 
-            if (isset($arguments['disableCodeCoverageIgnore'])) {
-                $codeCoverage->setDisableIgnoredLines(true);
+            if (isset($arguments['mapTestClassNameToCoveredClassName'])) {
+                $codeCoverage->setMapTestClassNameToCoveredClassName(
+                    $arguments['mapTestClassNameToCoveredClassName']
+                );
             }
 
             if (isset($arguments['whitelist'])) {
@@ -559,28 +552,6 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
             }
         }
 
-        if ($exit) {
-            if ($result->wasSuccessful()) {
-                if ($arguments['failOnRisky'] && !$result->allHarmless()) {
-                    exit(self::FAILURE_EXIT);
-                }
-
-                if ($arguments['failOnWarning'] && $result->warningCount() > 0) {
-                    exit(self::FAILURE_EXIT);
-                }
-
-                exit(self::SUCCESS_EXIT);
-            }
-
-            if ($result->errorCount() > 0) {
-                exit(self::EXCEPTION_EXIT);
-            }
-
-            if ($result->failureCount() > 0) {
-                exit(self::FAILURE_EXIT);
-            }
-        }
-
         return $result;
     }
 
@@ -661,10 +632,6 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
 
             $phpunitConfiguration = $arguments['configuration']->getPHPUnitConfiguration();
 
-            if (isset($phpunitConfiguration['deprecatedCheckForUnintentionallyCoveredCodeSettingUsed'])) {
-                $arguments['deprecatedCheckForUnintentionallyCoveredCodeSettingUsed'] = true;
-            }
-
             if (isset($phpunitConfiguration['backupGlobals']) &&
                 !isset($arguments['backupGlobals'])) {
                 $arguments['backupGlobals'] = $phpunitConfiguration['backupGlobals'];
@@ -725,11 +692,6 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
                 $arguments['stopOnFailure'] = $phpunitConfiguration['stopOnFailure'];
             }
 
-            if (isset($phpunitConfiguration['stopOnWarning']) &&
-                !isset($arguments['stopOnWarning'])) {
-                $arguments['stopOnWarning'] = $phpunitConfiguration['stopOnWarning'];
-            }
-
             if (isset($phpunitConfiguration['stopOnIncomplete']) &&
                 !isset($arguments['stopOnIncomplete'])) {
                 $arguments['stopOnIncomplete'] = $phpunitConfiguration['stopOnIncomplete'];
@@ -743,16 +705,6 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
             if (isset($phpunitConfiguration['stopOnSkipped']) &&
                 !isset($arguments['stopOnSkipped'])) {
                 $arguments['stopOnSkipped'] = $phpunitConfiguration['stopOnSkipped'];
-            }
-
-            if (isset($phpunitConfiguration['failOnWarning']) &&
-                !isset($arguments['failOnWarning'])) {
-                $arguments['failOnWarning'] = $phpunitConfiguration['failOnWarning'];
-            }
-
-            if (isset($phpunitConfiguration['failOnRisky']) &&
-                !isset($arguments['failOnRisky'])) {
-                $arguments['failOnRisky'] = $phpunitConfiguration['failOnRisky'];
             }
 
             if (isset($phpunitConfiguration['timeoutForSmallTests']) &&
@@ -815,9 +767,9 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
                 $arguments['forceCoversAnnotation'] = $phpunitConfiguration['forceCoversAnnotation'];
             }
 
-            if (isset($phpunitConfiguration['disableCodeCoverageIgnore']) &&
-                !isset($arguments['disableCodeCoverageIgnore'])) {
-                $arguments['disableCodeCoverageIgnore'] = $phpunitConfiguration['disableCodeCoverageIgnore'];
+            if (isset($phpunitConfiguration['mapTestClassNameToCoveredClassName']) &&
+                !isset($arguments['mapTestClassNameToCoveredClassName'])) {
+                $arguments['mapTestClassNameToCoveredClassName'] = $phpunitConfiguration['mapTestClassNameToCoveredClassName'];
             }
 
             $groupCliArgs = [];
@@ -1019,12 +971,9 @@ class PHPUnit_TextUI_TestRunner extends PHPUnit_Runner_BaseTestRunner
         $arguments['crap4jThreshold']                            = isset($arguments['crap4jThreshold'])                            ? $arguments['crap4jThreshold']                            : 30;
         $arguments['stopOnError']                                = isset($arguments['stopOnError'])                                ? $arguments['stopOnError']                                : false;
         $arguments['stopOnFailure']                              = isset($arguments['stopOnFailure'])                              ? $arguments['stopOnFailure']                              : false;
-        $arguments['stopOnWarning']                              = isset($arguments['stopOnWarning'])                              ? $arguments['stopOnWarning']                              : false;
         $arguments['stopOnIncomplete']                           = isset($arguments['stopOnIncomplete'])                           ? $arguments['stopOnIncomplete']                           : false;
         $arguments['stopOnRisky']                                = isset($arguments['stopOnRisky'])                                ? $arguments['stopOnRisky']                                : false;
         $arguments['stopOnSkipped']                              = isset($arguments['stopOnSkipped'])                              ? $arguments['stopOnSkipped']                              : false;
-        $arguments['failOnWarning']                              = isset($arguments['failOnWarning'])                              ? $arguments['failOnWarning']                              : false;
-        $arguments['failOnRisky']                                = isset($arguments['failOnRisky'])                                ? $arguments['failOnRisky']                                : false;
         $arguments['timeoutForSmallTests']                       = isset($arguments['timeoutForSmallTests'])                       ? $arguments['timeoutForSmallTests']                       : 1;
         $arguments['timeoutForMediumTests']                      = isset($arguments['timeoutForMediumTests'])                      ? $arguments['timeoutForMediumTests']                      : 10;
         $arguments['timeoutForLargeTests']                       = isset($arguments['timeoutForLargeTests'])                       ? $arguments['timeoutForLargeTests']                       : 60;

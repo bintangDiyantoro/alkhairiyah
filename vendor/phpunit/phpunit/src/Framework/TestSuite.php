@@ -306,7 +306,7 @@ class PHPUnit_Framework_TestSuite implements PHPUnit_Framework_Test, PHPUnit_Fra
      * as well as the separate import statements for the user's convenience.
      *
      * If the named file cannot be read or there are no new tests that can be
-     * added, a <code>PHPUnit_Framework_WarningTestCase</code> will be created instead,
+     * added, a <code>PHPUnit_Framework_Warning</code> will be created instead,
      * leaving the current test run untouched.
      *
      * @param string $filename
@@ -547,7 +547,7 @@ class PHPUnit_Framework_TestSuite implements PHPUnit_Framework_Test, PHPUnit_Fra
 
                     $groups = PHPUnit_Util_Test::getGroups($className, $name);
 
-                    if ($data instanceof PHPUnit_Framework_WarningTestCase ||
+                    if ($data instanceof PHPUnit_Framework_Warning ||
                         $data instanceof PHPUnit_Framework_SkippedTestCase ||
                         $data instanceof PHPUnit_Framework_IncompleteTestCase) {
                         $test->addTest($data, $groups);
@@ -905,20 +905,20 @@ class PHPUnit_Framework_TestSuite implements PHPUnit_Framework_Test, PHPUnit_Fra
 
         // @scenario on TestCase::testMethod()
         // @test     on TestCase::testMethod()
-        $docComment = $method->getDocComment();
+        $doc_comment = $method->getDocComment();
 
-        return strpos($docComment, '@test')     !== false ||
-               strpos($docComment, '@scenario') !== false;
+        return strpos($doc_comment, '@test')     !== false ||
+               strpos($doc_comment, '@scenario') !== false;
     }
 
     /**
      * @param string $message
      *
-     * @return PHPUnit_Framework_WarningTestCase
+     * @return PHPUnit_Framework_Warning
      */
     protected static function warning($message)
     {
-        return new PHPUnit_Framework_WarningTestCase($message);
+        return new PHPUnit_Framework_Warning($message);
     }
 
     /**

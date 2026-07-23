@@ -20,12 +20,14 @@ class Admin extends CI_Controller
         if ((int)date('m') >= 1 && (int)date('m') <= 6) {
             $tahun = (int)date('Y') - 1;
             $slash = (int)date('y');
-            $this->tahunAjar = (string)$tahun . "/" . (string)$slash;
+            $slash2 = (int)date('Y');
         } else {
             $tahun = (int)date('Y');
             $slash = (int)date('y') + 1;
-            $this->tahunAjar = (string)$tahun . "/" . (string)$slash;
+            $slash2 = (int)date('Y') + 1;
         }
+        $this->tahunAjar = (string)$tahun . "/" . (string)$slash;
+        $this->tahunAjarLengkap = (string)$tahun . "/" . (string)$slash2;
     }
 
     public function login()
@@ -174,7 +176,7 @@ class Admin extends CI_Controller
             true
         );
         $response_json = curl_exec($ch);
-        curl_close($ch);
+        // curl_close($ch); deprecated
         $response = json_decode($response_json, true);
         return $response;
     }
@@ -188,11 +190,26 @@ class Admin extends CI_Controller
             $this->db->where('id', $this->session->userdata("id_staff"));
             $data["staff"] = $this->db->get('staff')->row_array();
             $data["jokes"] = $this->_fetchAPI('https://candaan-api.vercel.app/api/text/random')["data"];
-            $haditsLib = $this->_fetchAPI('https://hadis-api-id.vercel.app/hadith');
-            $haditsIndex = $haditsLib[rand(0, 8)];
-            $haditsBook = $haditsIndex["slug"];
-            $haditsMaxIndex = $haditsIndex["total"];
-            $data["hadits"] = $this->_fetchAPI('https://hadis-api-id.vercel.app/hadith/' . $haditsBook . '/' . rand(0, $haditsMaxIndex - 1));
+
+            try {
+                $haditsLib = $this->_fetchAPI('https://hadis-api-id.vercel.app/hadith');
+                if (!$haditsLib) {
+                    throw new \Exception("Hadits tidak tersedia");
+                } else {
+                    $haditsIndex = $haditsLib[rand(0, 8)];
+                    $haditsBook = $haditsIndex["slug"];
+                    $haditsMaxIndex = $haditsIndex["total"];
+                    $data["hadits"] = $this->_fetchAPI('https://hadis-api-id.vercel.app/hadith/' . $haditsBook . '/' . rand(0, $haditsMaxIndex - 1));
+                }
+            } catch (\Throwable $e) {
+                $data["hadits"] = [
+                    "arab" => $e->getMessage(),
+                    "id" => $e->getMessage(),
+                    "name" => "",
+                    "number" => ""
+                ];
+            }
+
             $this->load->view('admin/header', $data);
             $this->load->view('admin/dashboard');
             $this->load->view('admin/footer');
@@ -664,7 +681,7 @@ class Admin extends CI_Controller
                             // var_dump($dc);
                             // echo '<hr>';
                             $this->Admin->insertFetchedStudentData($dc);
-                            $idsiswa = $this->db->query("SELECT id FROM siswa WHERE nomor_induk=" . $dc[2])->row_array()["id"];
+                            $idsiswa = $this->db->query("SELECT id FROM siswa WHERE nomor_induk=" . str_replace("'", "", $dc[2]))->row_array()["id"];
                             $this->Admin->masukkankelasCore($idsiswa, $idkelas, $tahunkelas);
                             // var_dump($this->_sppStudentSearch($idsiswa, $tahun, $th)["reason"]);
                         }
@@ -2612,6 +2629,7 @@ class Admin extends CI_Controller
                     if (!$this->upload->do_upload('fileexcel')) {
                         $data["error"] = $tr->translate(strip_tags($this->upload->display_errors()));
                     } else {
+                        $this->db->order_by("nama", "DESC");
                         $dbData = $this->db->query("SELECT * FROM siswa")->result_array();
                         $data = ['upload_data' => $this->upload->data()];
                         $refName = './assets/sheets/' . $this->upload->data()["file_name"];
@@ -2636,32 +2654,34 @@ class Admin extends CI_Controller
                         }
 
                         $comparison = [];
-
                         foreach ($dataCol as $dc) {
+                            $itterator = 0;
                             foreach ($dbData as $dd) {
-                                if ($dd["nomor_induk"] && $dc[2]) {
-                                    if ($dd["nomor_induk"] == $dc[2]) {
+                                $itterator++;
+                                if (($dd["nomor_induk"] && $dc[2]) && ($dd["nomor_induk"] === (string)$dc[2])) {
+                                    array_unshift($dc, $dd["nomor_induk"]);
+                                    array_unshift($dc, $dd["nama"]);
+                                    array_unshift($dc, $dd["id"]);
+                                    array_push($dc, 100);
+                                    array_push($dc, $itterator);
+                                    $comparison[] = $dc;
+                                    break;
+                                } else {
+                                    if ($dd["nisn"] && $dc[4] && $dd["nisn"] == str_replace("'", "", $dc[4])) {
                                         array_unshift($dc, $dd["nama"]);
                                         array_unshift($dc, $dd["id"]);
                                         array_push($dc, 100);
+                                        array_push($dc, $itterator);
                                         $comparison[] = $dc;
-                                    }
-                                } else {
-                                    if ($dd["nisn"] && $dc[4]) {
-                                        if ($dd["nisn"] == $dc[4]) {
+                                        break;
+                                    } else {
+                                        if ($dd["nik_siswa"] && $dc[7] && $dd["nik_siswa"] == str_replace("'", "", $dc[7])) {
                                             array_unshift($dc, $dd["nama"]);
                                             array_unshift($dc, $dd["id"]);
                                             array_push($dc, 100);
+                                            array_push($dc, $itterator);
                                             $comparison[] = $dc;
-                                        }
-                                    } else {
-                                        if ($dd["nik_siswa"] && $dc[7]) {
-                                            if ($dd["nik_siswa"] == $dc[7]) {
-                                                array_unshift($dc, $dd["nama"]);
-                                                array_unshift($dc, $dd["id"]);
-                                                array_push($dc, 100);
-                                                $comparison[] = $dc;
-                                            }
+                                            break;
                                         } else {
                                             $splittedDcName = explode(" ", strtolower($dc[1]));
                                             $splittedDdName = explode(" ", strtolower($dd["nama"]));
@@ -2738,7 +2758,11 @@ class Admin extends CI_Controller
                                                     array_unshift($dc, $dd["nama"]);
                                                     array_unshift($dc, $dd["id"]);
                                                     array_push($dc, $perc);
+                                                    array_push($dc, $itterator);
                                                     $comparison[] = $dc;
+                                                    break;
+                                                    // echo ($dcBirthday == $orderedDbBirthday);
+                                                    // echo "Birthday Match ". $dcBirthday ." - ". $orderedDbBirthday ."<hr> ";
                                                 }
                                             }
                                         }
@@ -2746,6 +2770,13 @@ class Admin extends CI_Controller
                                 }
                             }
                         }
+
+                        foreach ($comparison as $c) {
+                            echo "Comparison <hr>";
+                            var_dump($c);
+                        }
+
+                        die;
 
                         $groupedByName = [];
                         foreach ($comparison as $c) {
@@ -2762,8 +2793,16 @@ class Admin extends CI_Controller
                         $nameFound = [];
                         foreach ($bestMatched as $b) {
                             $nameFound[] = $b[3];
-                            $this->Admin->uploadStudentDataToDB("update", $b);
+                            // echo "Best Matched <hr>";
+                            // var_dump($b);
+                            // $this->Admin->uploadStudentDataToDB("update", $b);
                         }
+
+                        // foreach($nameFound as $nf) {
+                        //     var_dump($nf);
+                        //     echo "<hr>";
+                        // }
+                        // die;
 
                         foreach ($dataCol as $dc) {
                             if (!in_array($dc[1], $nameFound)) {
@@ -3301,7 +3340,7 @@ class Admin extends CI_Controller
         $kelas = $this->db->query("SELECT wali_kelas.*, kelas.class, staff.nama FROM wali_kelas JOIN kelas ON wali_kelas.id_kelas = kelas.id JOIN staff ON wali_kelas.id_staff = staff.id WHERE wali_kelas.id_kelas = " . $idkelas . " AND wali_kelas.tahun = '" . $tahunajaran . "/" . $thajaran . "'")->row_array();
         if ($kelas) {
             $data["kelas"] = $kelas;
-        } else {
+            } else {
             $data["kelas"] = [
                 "id_kelas" => $idkelas,
                 "class" => $this->db->query("SELECT class FROM kelas WHERE id=" . $idkelas)->row_array()["class"],
@@ -4027,9 +4066,31 @@ class Admin extends CI_Controller
             if ($this->session->userdata('role') == "9") {
                 $data["title"] = 'Buku SPP';
                 $data["csrf"] = $this->csrf;
+                $query = "SELECT spp.id, siswa.nomor_induk, siswa.nama, bulan_akademik.nama_bulan, spp.tanggal, spp.nominal, spp.tahun_ajaran FROM spp JOIN siswa ON spp.id_siswa = siswa.id JOIN bulan_akademik ON spp.bulan = bulan_akademik.id WHERE siswa.nomor_induk=" . $this->input->get('no_induk');
+                try {
+                    $data["siswa"] = $this->db->query($query)->result_array();
+                } catch (Exception $e) {
+                    $data["siswa"] = [];
+                }
                 $this->load->view('admin/header', $data);
                 $this->load->view('admin/editsppdata');
                 $this->load->view('admin/footer');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+    public function deletesppdata()
+    {
+        netralize();
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "9") {
+                if (isset($_POST["submit"])) {
+                    echo json_encode($this->Admin->hapusDataSPP($this->input->post('id_spp')));
+                }
+                $this->load->view('admin/halamankosong');
             } else {
                 redirect('admin');
             }
@@ -4058,6 +4119,7 @@ class Admin extends CI_Controller
             }
         }
     }
+
 
     public function postDakwah()
     {
@@ -4648,18 +4710,55 @@ class Admin extends CI_Controller
                 $data['title'] = 'Pendaftaran';
                 $data['description'] = 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi';
                 $data['csrf'] = $this->csrf;
+                $query = $this->db->query("SELECT calon_siswa.*, pendaftaran.tanggal, pendaftaran.jam FROM calon_siswa JOIN pendaftaran ON calon_siswa.id_dftr = pendaftaran.id_dftr WHERE tahun >= " . (int)date('Y') - 1)->result_array();
+                $query_result = [];
+                foreach ($query as $q) {
+                    $tanggal_daftar = (int)(explode(" ", explode(",", $q['tanggal'])[1])[3] . monthNameToNumber(explode(" ", explode(",", $q['tanggal'])[1])[2]) . explode(" ", explode(",", $q['tanggal'])[1])[1]);
+                    $query_result[] = [
+                        'id' => $q['id'],
+                        'nama' => $q['nama'],
+                        'jenis_kelamin' => $q['jenis_kelamin'],
+                        'tgl_lahir' => $q['tgl_lahir'],
+                        'asal_tk' => $q['asal_tk'],
+                        'tanggal' => $tanggal_daftar,
+                        'jam' => $q['jam'],
+                    ];
+                }
+
+                $first_ids = [];
+                foreach ($query_result as $qr) {
+                    if ((int)date('m') >= 1 && (int)date('m') <= 8) {
+                        $first_date = (int)((int)date("Y") - 1 . "0901");
+                        $last_date = (int)(date("Y") . "0831");
+                    } else {
+                        $first_date = (int)(date("Y") . "0901");
+                        $last_date = (int)((int)date("Y") + 1 . "0831");
+                    }
+
+                    if ($qr['tanggal'] >= $first_date && $qr['tanggal'] <= $last_date) {
+                        $first_ids[] = $qr;
+                    }
+                }
+
+                $first_id = null;
+                foreach ($first_ids as $fi) {
+                    $first_id = array_reduce($first_ids, function ($carry, $item) {
+                        return ($carry['id'] < $item['id']) ? $carry : $item;
+                    }, $fi);
+                }
+
                 if ($this->input->post('search') || isset($_POST['search'])) {
                     $keyword = $this->input->post('search');
                     $this->session->set_userdata('search', $this->input->post('search'));
                     $data['start'] = NULL;
-                    $result = $this->db->query("SELECT * FROM calon_siswa WHERE nama LIKE '%" . $keyword . "%' AND tahun = " . date('Y'))->num_rows();
+                    $result = $this->db->query('SELECT * FROM calon_siswa WHERE nama LIKE "%' . $keyword . '%" AND id >= ' . $first_id["id"])->num_rows();
                 } else {
                     $keyword = $this->session->userdata('search');
                     $data['start'] = (int)$this->uri->segment(3);
-                    $result = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y'))->num_rows();
+                    $result = $this->db->query("SELECT * FROM calon_siswa WHERE id >= " . $first_id['id'])->num_rows();
                 }
 
-                $config['base_url'] = base_url() . 'admin/pendaftartersimpan';
+                $config['base_url'] = base_url() . 'spmb/cs';
                 $config['total_rows'] = $result;
                 $config['per_page'] = 10;
                 $config['full_tag_open'] = '<nav><ul class="pagination">';
@@ -4681,15 +4780,15 @@ class Admin extends CI_Controller
 
                 if ($keyword) {
                     if ($data["start"]) {
-                        $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . " OFFSET " . $data["start"])->result_array();
+                        $data['calon_siswa'] = $this->db->query('SELECT * FROM calon_siswa WHERE id >= ' . $first_id["id"] . ' AND nama LIKE "%' . $keyword . '%" LIMIT ' . $config["per_page"] . " OFFSET " . $data["start"])->result_array();
                     } else {
-                        $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " AND nama LIKE '%" . $keyword . "%' LIMIT " . $config["per_page"] . "")->result_array();
+                        $data['calon_siswa'] = $this->db->query('SELECT * FROM calon_siswa WHERE id >= ' . $first_id["id"] . ' AND nama LIKE "%' . $keyword . '%" LIMIT ' . $config["per_page"] . "")->result_array();
                     }
                 } else {
                     if ($data["start"]) {
-                        $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . " OFFSET " . $data["start"])->result_array();
+                        $data['calon_siswa'] = $this->db->query('SELECT * FROM calon_siswa WHERE id >= ' . $first_id["id"] . ' LIMIT ' . $config["per_page"] . " OFFSET " . $data["start"])->result_array();
                     } else {
-                        $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE tahun = " . date('Y') . " LIMIT " . $config["per_page"] . "")->result_array();
+                        $data['calon_siswa'] = $this->db->query("SELECT * FROM calon_siswa WHERE id >= " . $first_id["id"] . " LIMIT " . $config["per_page"] . "")->result_array();
                     }
                 }
 
@@ -4801,7 +4900,48 @@ class Admin extends CI_Controller
             redirect('admin/login');
         } else {
             if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "4") {
-                $query = $this->db->query("SELECT calon_siswa.id_cs,calon_siswa.nama,calon_siswa.jenis_kelamin,calon_siswa.tgl_lahir,calon_siswa.asal_TK,calon_siswa.wali,wali.nama_ayah,wali.alamat_ayah,wali.pekerjaan_ayah,wali.pendterakhir_ayah,wali.keterangan_ayah,wali.nohape_ayah,wali.nama_ibu,wali.alamat_ibu,wali.pekerjaan_ibu,wali.pendterakhir_ibu,wali.keterangan_ibu,wali.nohape_ibu,wali.nama_wali,wali.alamat_wali,wali.status_wali,wali.pekerjaan_wali,wali.pendterakhir_wali,wali.nohape_wali,pendaftaran.tanggal,pendaftaran.jam FROM calon_siswa JOIN wali ON calon_siswa.id_wali = wali.id_wali JOIN pendaftaran ON calon_siswa.id_dftr = pendaftaran.id_dftr WHERE calon_siswa.tahun = '" . date('Y') . "'")->result_array();
+                $data['title'] = 'Pendaftaran';
+                $data['description'] = 'Detail calon siswa of SDI Al-Khairiyah Banyuwangi';
+                $query = $this->db->query("SELECT calon_siswa.*, pendaftaran.tanggal, pendaftaran.jam FROM calon_siswa JOIN pendaftaran ON calon_siswa.id_dftr = pendaftaran.id_dftr WHERE tahun >= " . (int)date('Y') - 1)->result_array();
+                $query_result = [];
+                foreach ($query as $q) {
+                    $tanggal_daftar = (int)(explode(" ", explode(",", $q['tanggal'])[1])[3] . monthNameToNumber(explode(" ", explode(",", $q['tanggal'])[1])[2]) . explode(" ", explode(",", $q['tanggal'])[1])[1]);
+                    $query_result[] = [
+                        'id' => $q['id'],
+                        'nama' => $q['nama'],
+                        'jenis_kelamin' => $q['jenis_kelamin'],
+                        'tgl_lahir' => $q['tgl_lahir'],
+                        'asal_tk' => $q['asal_tk'],
+                        'tanggal' => $tanggal_daftar,
+                        'jam' => $q['jam'],
+                    ];
+                }
+
+                $first_ids = [];
+                foreach ($query_result as $qr) {
+                    if ((int)date('m') >= 1 && (int)date('m') <= 8) {
+                        $first_date = (int)((int)date("Y") - 1 . "0901");
+                        $last_date = (int)(date("Y") . "0831");
+                    } else {
+                        $first_date = (int)(date("Y") . "0901");
+                        $last_date = (int)((int)date("Y") + 1 . "0831");
+                    }
+
+                    if ($qr['tanggal'] >= $first_date && $qr['tanggal'] <= $last_date) {
+                        $first_ids[] = $qr;
+                    }
+                }
+
+                $first_id = null;
+                foreach ($first_ids as $fi) {
+                    $first_id = array_reduce($first_ids, function ($carry, $item) {
+                        return ($carry['id'] < $item['id']) ? $carry : $item;
+                    }, $fi);
+                }
+
+                // $all = $this->db->query("SELECT nama FROM calon_siswa WHERE id >= " . $first_id['id'])->result_array();
+
+                $query = $this->db->query("SELECT calon_siswa.id_cs,calon_siswa.nama,calon_siswa.jenis_kelamin,calon_siswa.tgl_lahir,calon_siswa.asal_TK,calon_siswa.wali,wali.nama_ayah,wali.alamat_ayah,wali.pekerjaan_ayah,wali.pendterakhir_ayah,wali.keterangan_ayah,wali.nohape_ayah,wali.nama_ibu,wali.alamat_ibu,wali.pekerjaan_ibu,wali.pendterakhir_ibu,wali.keterangan_ibu,wali.nohape_ibu,wali.nama_wali,wali.alamat_wali,wali.status_wali,wali.pekerjaan_wali,wali.pendterakhir_wali,wali.nohape_wali,pendaftaran.tanggal,pendaftaran.jam FROM calon_siswa JOIN wali ON calon_siswa.id_wali = wali.id_wali JOIN pendaftaran ON calon_siswa.id_dftr = pendaftaran.id_dftr WHERE calon_siswa.id >= " . $first_id['id'])->result_array();
 
                 $sheet = new Spreadsheet();
 
@@ -4826,8 +4966,145 @@ class Admin extends CI_Controller
                     )->getStyle("A1:AA1")->getFont()->setBold(true);
 
                 $writer = new Xlsx($sheet);
-                $writer->save('Data excel PPDB ' . date('Y') ." (diupdate pada ".date('d-m-Y, H:i').")". '.xlsx');
-                redirect('/Data excel PPDB ' . date('Y') . '.xlsx');
+                $writer->save('Data_excel_PPDB_' . date('Y') . "_(diupdate_pada_" . date('d-m-Y, H:i') . ")" . '.xlsx');
+                redirect('Data_excel_PPDB_' . date('Y') . "_(diupdate_pada_" . date('d-m-Y, H:i') . ")" . '.xlsx');
+                // redirect('/Data excel PPDB ' . date('Y') . '.xlsx');
+                // $this->load->view('admin/header', $data);
+                // $this->load->view('admin/blank');
+                // $this->load->view('admin/footer');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+    public function cetakexcelpdtingkat1dapodikpage()
+    {
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "4") {
+                $this->load->view('admin/header', [
+                    'title' => 'Pendaftaran',
+                    'description' => 'Pendaftaran/registration of SDI Al-Khairiyah Banyuwangi',
+                    'csrf' => $this->csrf
+                ]);
+                $this->load->view('admin/cetakexcelpdtingkat1dapodikpage');
+                $this->load->view('admin/footer');
+            } else {
+                redirect('admin');
+            }
+        }
+    }
+    public function cetakexcelpdtingkat1dapodik()
+    {
+        if (!$this->session->userdata('admin')) {
+            redirect('admin/login');
+        } else {
+            if ($this->session->userdata('role') == "9" || $this->session->userdata('role') == "4") {
+                $query = $this->db->query("SELECT nama,nomor_induk,jenis_kelamin,nisn,ttl, nik_siswa,agama, alamat, rt, rw, dusun, kelurahan, kecamatan, kode_pos, tempat_tinggal,transportasi, no_hp_ortu, nama_ayah,tahun_lahir_ayah,pendidikan_ayah, pekerjaan_ayah, penghasilan_ayah, nik_ayah, nama_ibu,tahun_lahir_ibu,pendidikan_ibu, pekerjaan_ibu, penghasilan_ibu, nik_ibu, nama_wali,tahun_lahir_wali,pendidikan_wali, pekerjaan_wali, penghasilan_wali, nik_wali, no_reg_akta_lahir, kebutuhan_khusus, pendidikan_sebelumnya, anak_ke, no_kk, berat_badan, tinggi_badan, lingkar_kepala, jml_saudara_kandung, jarak_rumah_ke_sekolah FROM siswa  WHERE tahun_input_pertama = '" . $this->tahunAjarLengkap . "' ORDER BY nama ASC")->result_array();
+
+                $sheet = new Spreadsheet();
+
+                $arrayData1 = [["Daftar Peserta Didik Tingkat 1 Tahun Ajar " . $this->tahunAjarLengkap]];
+                $arrayData2 = [["SD ISLAM ALKHAIRIYAH"]];
+                $arrayData3 = [["Kecamatan Kec. Banyuwangi, Kabupaten Kab. Banyuwangi, Provinsi Prov. Jawa Timur"]];
+                $arrayData4 = [["Waktu Unduh: " . date('d-m-Y, H:i:s')]];
+                $arrayData5 = [["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "Data Ayah", "", "", "", "", "", "Data Ibu", "", "", "", "", "", "Data Wali", "", "", "", "", "",]];
+                $arrayData6 = [
+                    ["No", "Nama", "NIPD", "JK", "NISN", "Tempat Lahir", "Tanggal Lahir", "NIK", "Agama", "Alamat", "RT", "RW", "Dusun", "Kelurahan", "Kecamatan", "Kode Pos", "Jenis Tinggal", "Alat Transportasi", "Telepon", "HP", "E-Mail", "SKHUN", "Penerima KPS", "No. KPS", "Nama", "Tahun Lahir", "Jenjang Pendidikan", "Pekerjaan", "Penghasilan", "NIK", "Nama", "Tahun Lahir", "Jenjang Pendidikan", "Pekerjaan", "Penghasilan", "NIK", "Nama", "Tahun Lahir", "Jenjang Pendidikan", "Pekerjaan", "Penghasilan", "NIK", "Rombel Saat Ini", "No Peserta Ujian Nasional", "No Seri Ijazah", "Penerima KIP", "Nomor KIP", "Nama di KIP", "Nomor KKS", "No Registrasi Akta Lahir", "Bank", "Nomor Rekening Bank", "Rekening Atas Nama", "Layak PIP (usulan dari sekolah)", "Alasan Layak PIP", "Kebutuhan Khusus", "Sekolah Asal", "Anak ke-berapa", "Lintang", "Bujur", "No KK", "Berat Badan", "Tinggi Badan", "Lingkar Kepala", "Jml. Saudara Kandung", "Jarak Rumah ke Sekolah (KM)"],
+                ];
+                $mergedArrayData = array_merge($arrayData1, $arrayData2, $arrayData3, $arrayData4, $arrayData5, $arrayData6);
+                $counter = 1;
+                foreach ($query as $q) {
+                    $p = [
+                        "No" => $counter,
+                        "Nama" => $q['nama'],
+                        "NIPD" => $q['nomor_induk'],
+                        "JK" => $q['jenis_kelamin'],
+                        "NISN" => ($q['nisn']) ? "'" . $q['nisn'] : "",
+                        "Tempat Lahir" => explode(",", $q['ttl'])[0],
+                        "Tanggal Lahir" => explode("-", explode(", ", $q['ttl'])[1])[2] . '-' . explode("-", explode(", ", $q['ttl'])[1])[1] . '-' . explode("-", explode(", ", $q['ttl'])[1])[0],
+                        "NIK" => ($q['nik_siswa']) ? "'" . $q['nik_siswa'] : "",
+                        "Agama" => $q['agama'],
+                        "Alamat" => $q['alamat'],
+                        "RT" => $q['rt'],
+                        "RW" => $q['rw'],
+                        "Dusun" => $q['dusun'],
+                        "Kelurahan" => $q['kelurahan'],
+                        "Kecamatan" => $q['kecamatan'],
+                        "Kode Pos" => "'" . $q['kode_pos'],
+                        "Jenis Tinggal" => $q['tempat_tinggal'],
+                        "Alat Transportasi" => $q['transportasi'],
+                        "Telepon" => '',
+                        "HP" => ($q['no_hp_ortu']) ? "'" . $q['no_hp_ortu'] : "",
+                        "E-Mail" => '',
+                        "SKHUN" => '',
+                        "Penerima KPS" => '',
+                        "No. KPS" => '',
+                        // Data Ayah
+                        "Nama Ayah" => $q['nama_ayah'],
+                        "Tahun Lahir Ayah" => $q['tahun_lahir_ayah'],
+                        "Jenjang Pendidikan Ayah" => $q['pendidikan_ayah'],
+                        "Pekerjaan Ayah" => $q['pekerjaan_ayah'],
+                        "Penghasilan Ayah (per bulan)" => $q['penghasilan_ayah'],
+                        "NIK Ayah" => ($q['nik_ayah']) ? "'" . $q['nik_ayah'] : "",
+
+                        // Data Ibu
+                        "Nama Ibu" => $q['nama_ibu'],
+                        "Tahun Lahir Ibu" => $q['tahun_lahir_ibu'],
+                        "Jenjang Pendidikan Ibu" => $q['pendidikan_ibu'],
+                        "Pekerjaan Ibu" => $q['pekerjaan_ibu'],
+                        "Penghasilan Ibu (per bulan)" => $q['penghasilan_ibu'],
+                        "NIK Ibu" => ($q['nik_ibu']) ? "'" . $q['nik_ibu'] : "",
+
+                        // Data Wali
+                        "Nama Wali (selain ayah & ibu)" => $q['nama_wali'],
+                        "Tahun Lahir Wali" => $q['tahun_lahir_wali'],
+                        "Jenjang Pendidikan Wali" => $q['pendidikan_wali'],
+                        "Pekerjaan Wali" => $q['pekerjaan_wali'],
+                        "Penghasilan Wali (per bulan)" => $q['penghasilan_wali'],
+                        "NIK Wali" => ($q['nik_wali']) ? "'" . $q['nik_wali'] : "",
+                        "Rombel Saat Ini" => '',
+                        "No Peserta Ujian Nasional" => '',
+                        "No Seri Ijazah" => '',
+                        "Penerima KIP" => '',
+                        "Nomor KIP" => '',
+                        "Nama di KIP" => '',
+                        "Nomor KKS" => '',
+                        "No Registrasi Akta Lahir" => "'" . $q['no_reg_akta_lahir'],
+                        "Bank" => '',
+                        "Nomor Rekening Bank" => '',
+                        "Rekening Atas Nama" => '',
+                        "Layak PIP (usulan dari sekolah)" => '',
+                        "Alasan Layak PIP" => '',
+                        "Kebutuhan Khusus" => $q['kebutuhan_khusus'],
+                        "Sekolah Asal" => $q['pendidikan_sebelumnya'],
+                        "Anak ke-berapa" => $q['anak_ke'],
+                        "Lintang" => '',
+                        "Bujur" => '',
+                        "No KK" => "'" . $q['no_kk'],
+                        "Berat Badan" => $q['berat_badan'],
+                        "Tinggi Badan" => $q['tinggi_badan'],
+                        "Lingkar Kepala" => $q['lingkar_kepala'],
+                        "Jml. Saudara Kandung" => $q['jml_saudara_kandung'],
+                        "Jarak Rumah ke Sekolah (KM)" => $q['jarak_rumah_ke_sekolah'],
+                    ];
+
+                    $mergedArrayData[] = $p;
+                    $counter++;
+                }
+
+                $sheet->getActiveSheet()
+                    ->fromArray(
+                        $mergedArrayData,  // The data to set
+                        NULL,        // Array values with this value will not be set
+                        'A1'         // Top left coordinate of the worksheet range where
+                        //    we want to set these values (default is A1)
+                    )->getStyle("A1:BM6")->getFont()->setBold(true);
+
+                $writer = new Xlsx($sheet);
+                $writer->save('Data excel PD Tingkat I ' . date('Y') . " (diupdate pada " . date('d-m-Y, H:i') . ")" . '.xlsx');
+                redirect('/Data excel PD Tingkat I ' . date('Y') . " (diupdate pada " . date('d-m-Y, H:i') . ")" . '.xlsx');
             } else {
                 redirect('admin');
             }
@@ -4844,7 +5121,47 @@ class Admin extends CI_Controller
                 $data['title'] = 'Pendaftaran';
                 $data['description'] = 'Detail calon siswa of SDI Al-Khairiyah Banyuwangi';
 
-                $all = $this->db->query("SELECT nama FROM calon_siswa WHERE tahun=" . date('Y'))->result_array();
+                // $all = $this->db->query("SELECT nama FROM calon_siswa WHERE tahun=" . date('Y'))->result_array();
+                $query = $this->db->query("SELECT calon_siswa.*, pendaftaran.tanggal, pendaftaran.jam FROM calon_siswa JOIN pendaftaran ON calon_siswa.id_dftr = pendaftaran.id_dftr WHERE tahun >= " . (int)date('Y') - 1)->result_array();
+                $query_result = [];
+                foreach ($query as $q) {
+                    $tanggal_daftar = (int)(explode(" ", explode(",", $q['tanggal'])[1])[3] . monthNameToNumber(explode(" ", explode(",", $q['tanggal'])[1])[2]) . explode(" ", explode(",", $q['tanggal'])[1])[1]);
+                    $query_result[] = [
+                        'id' => $q['id'],
+                        'nama' => $q['nama'],
+                        'jenis_kelamin' => $q['jenis_kelamin'],
+                        'tgl_lahir' => $q['tgl_lahir'],
+                        'asal_tk' => $q['asal_tk'],
+                        'tanggal' => $tanggal_daftar,
+                        'jam' => $q['jam'],
+                    ];
+                }
+
+                $first_ids = [];
+                foreach ($query_result as $qr) {
+                    if ((int)date('m') >= 1 && (int)date('m') <= 8) {
+                        $first_date = (int)((int)date("Y") - 1 . "0901");
+                        $last_date = (int)(date("Y") . "0831");
+                    } else {
+                        $first_date = (int)(date("Y") . "0901");
+                        $last_date = (int)((int)date("Y") + 1 . "0831");
+                    }
+
+                    if ($qr['tanggal'] >= $first_date && $qr['tanggal'] <= $last_date) {
+                        $first_ids[] = $qr;
+                    }
+                }
+
+                $first_id = null;
+                foreach ($first_ids as $fi) {
+                    $first_id = array_reduce($first_ids, function ($carry, $item) {
+                        return ($carry['id'] < $item['id']) ? $carry : $item;
+                    }, $fi);
+                }
+
+                $all = $this->db->query("SELECT nama FROM calon_siswa WHERE id >= " . $first_id['id'])->result_array();
+
+
                 $seen = [];
                 $duplicates = [];
                 foreach ($all as $a) {
@@ -5005,6 +5322,7 @@ class Admin extends CI_Controller
             }
         }
     }
+
 
 
     public function redirectPilihKelas()

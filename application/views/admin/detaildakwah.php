@@ -35,5 +35,5 @@
     $con_length = strlen(substr($full, strpos($full,"<p>")+3));
     $title = strip_tags(substr($full, 0, -$con_length));
     ?>
-    <a href="<?= base_url('admin/hapusdakwah/') . $detail['id'] ?>" class="btn btn-danger" data-id="<?= $detail['id'] ?>" data-judul="<?= $title?>">Hapus</a>
+    <a href="<?= base_url('admin/hapusdakwah/') . $detail['id'] ?>" class="btn btn-danger article-delete-button" data-id="<?= $detail['id'] ?>" data-judul="<?= $title?>">Hapus</a>
 </div>

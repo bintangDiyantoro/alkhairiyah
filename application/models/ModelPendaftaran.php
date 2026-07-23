@@ -161,16 +161,16 @@ class ModelPendaftaran extends CI_Model
                 $id = $this->db->get('calon_siswa')->row_array()['id'];
                 $this->session->set_userdata('id_calon_siswa', $id);
                 $this->session->set_userdata('sukses', 'ok');
-                redirect('ppdb/daftar/' . $idDftr);
+                redirect('spmb/daftar/' . $idDftr);
             } else {
                 echo $this->db->error();
             }
         } else {
             echo "<script>
                 if(confirm('Data " . $data['nama_calon_siswa'] . " sudah terdaftar!') == true){
-                    window.location='" . base_url('ppdb/cs') . "'
+                    window.location='" . base_url('spmb/cs') . "'
                 } else {
-                    window.location='" . base_url('ppdb/calonsiswa') . "'
+                    window.location='" . base_url('spmb/calonsiswa') . "'
                 }
             </script>";
         }
@@ -245,7 +245,7 @@ class ModelPendaftaran extends CI_Model
             "nisn" => ($datasiswa['nisn'] !== "" && $datasiswa['nisn'] !== "-") ? $datasiswa['nisn'] : null,
             "nama" => myStr($datasiswa['nama_siswa']),
             "jenis_kelamin" => $datasiswa["jenis_kelamin"],
-            "ttl" => myStr($datasiswa["tmpt_lhr_anak"]) . ', ' . $datasiswa["tgl_lahir"],
+            "ttl" => myStr($datasiswa["tmpt_lhr_anak"]) . ', ' . explode('-',$datasiswa["tgl_lahir"])[2] . '-' . explode('-', $datasiswa["tgl_lahir"])[1] . '-' . explode('-', $datasiswa["tgl_lahir"])[0],
             "pendidikan_sebelumnya" => $datasiswa["asal_tk"],
             "kewarganegaraan" => $datasiswa["kewarganegaraan"],
             "nik_siswa" => $datasiswa['nik_anak'],

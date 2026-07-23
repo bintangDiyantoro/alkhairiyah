@@ -713,25 +713,25 @@ class ModelAdmin extends CI_Model
         $rt_rw = ($data[12] && $data[13]) ? ", RT/RW: " . $data[12] . "/" . $data[13] : '';
         $dusun = ($data[14]) ? ", Dusun: " . myStr($data[14]) : '';
         $nama_wali = ($data[38]) ? $data[38] : '';
-        $nohpOrtu = ($data[21]) ? validatePhoneNumber($data[21]) : '';
+        $nohpOrtu = ($data[21]) ? validatePhoneNumber(str_replace("'", "", $data[21])) : '';
 
         $mapped = [
-            "nomor_induk" => ($data[4]) ? $data[4] : NULL,
-            "nisn" => ($data[6]) ? $data[6] : NULL,
-            "nik_siswa" => ($data[9]) ? $data[9] : NULL,
+            "nomor_induk" => ($data[4]) ? str_replace("'","",$data[4]) : NULL,
+            "nisn" => ($data[6]) ? str_replace("'","",$data[6]) : NULL,
+            "nik_siswa" => ($data[9]) ? str_replace("'","",$data[9]) : NULL,
             "nama" => myStr($data[3]),
             "ttl" => myStr($data[7]) . ', ' . explode('-', $data[8])[2] . '-' . explode('-', $data[8])[1] . '-' . explode('-', $data[8])[0],
             "jenis_kelamin" => $data[5],
-            "alamat" => myStr($data[11]) . $rt_rw . $dusun . ', Kel. ' . myStr($data[15]) . ', ' . myStr($data[16]),
+            "alamat" => myStr(($data[11]) ? $data[11] : "") . $rt_rw . $dusun . ', Kel. ' . myStr(($data[15]) ? $data[15] : "-") . ', ' . myStr(($data[16]) ? $data[16] : "-"),
             "nama_ayah" => ($data[26]) ? myStr($data[26]) : '',
-            "nama_ibu" => (isset($data[32])) ? myStr($data[32]) : '',
-            "alamat_ortu" => myStr($data[11]) . $rt_rw . $dusun,
+            "nama_ibu" => (isset($data[32])) ? myStr(($data[32]) ? $data[32] : "-") : '',
+            "alamat_ortu" => myStr(($data[11]) ? $data[11] : "-") . $rt_rw . $dusun,
             "nama_wali" => $nama_wali,
             "no_hp_ortu" => $nohpOrtu,
             "pekerjaan_ayah" => $data[29],
             "pekerjaan_ibu" => $data[35],
-            "kelurahan_ortu" => ', Kel. ' . myStr($data[15]),
-            "kecamatan_ortu" => myStr($data[16]),
+            "kelurahan_ortu" => ', Kel. ' . myStr(($data[15]) ? $data[15] : "-"),
+            "kecamatan_ortu" => myStr(($data[16]) ? $data[16] : "-"),
             "updated_by" => $this->session->userdata("id_staff")
         ];
 
@@ -741,5 +741,11 @@ class ModelAdmin extends CI_Model
         } elseif ($flag == "insert") {
             $this->db->insert('siswa', $mapped);
         }
+    }
+    public function hapusDataSPP($data)
+    {
+        $this->db->where('id', $data);
+        $this->db->delete('spp');
+        return $this->db->affected_rows() > 0 ? "success" : "failed";
     }
 }

@@ -154,7 +154,7 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
     /**
      * The code of the expected Exception.
      *
-     * @var int|string
+     * @var int
      */
     private $expectedExceptionCode;
 
@@ -454,111 +454,35 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
     }
 
     /**
-     * @param mixed      $exception
-     * @param string     $message
-     * @param int|string $code
+     * @param mixed  $exceptionName
+     * @param string $exceptionMessage
+     * @param int    $exceptionCode
      *
-     * @throws PHPUnit_Framework_Exception
-     *
-     * @since      Method available since Release 3.2.0
-     * @deprecated Method deprecated since Release 5.2.0
+     * @since  Method available since Release 3.2.0
      */
-    public function setExpectedException($exception, $message = '', $code = null)
+    public function setExpectedException($exceptionName, $exceptionMessage = '', $exceptionCode = null)
     {
-        $this->expectedException = $exception;
-
-        if ($message !== '') {
-            $this->expectExceptionMessage($message);
-        }
-
-        if ($code !== null) {
-            $this->expectExceptionCode($code);
-        }
+        $this->expectedException        = $exceptionName;
+        $this->expectedExceptionMessage = $exceptionMessage;
+        $this->expectedExceptionCode    = $exceptionCode;
     }
 
     /**
-     * @param mixed  $exception
-     * @param string $messageRegExp
-     * @param int    $code
+     * @param mixed  $exceptionName
+     * @param string $exceptionMessageRegExp
+     * @param int    $exceptionCode
      *
-     * @throws PHPUnit_Framework_Exception
-     *
-     * @since  Method available since Release 4.3.0
+     * @since Method available since Release 4.3.0
      */
-    public function setExpectedExceptionRegExp($exception, $messageRegExp = '', $code = null)
+    public function setExpectedExceptionRegExp($exceptionName, $exceptionMessageRegExp = '', $exceptionCode = null)
     {
-        if (!is_string($messageRegExp)) {
-            throw PHPUnit_Util_InvalidArgumentHelper::factory(2, 'string');
-        }
-
-        $this->expectedException              = $exception;
-        $this->expectedExceptionMessageRegExp = $messageRegExp;
-
-        if ($code !== null) {
-            $this->expectExceptionCode($code);
-        }
+        $this->expectedException              = $exceptionName;
+        $this->expectedExceptionMessageRegExp = $exceptionMessageRegExp;
+        $this->expectedExceptionCode          = $exceptionCode;
     }
 
     /**
-     * @param mixed $exception
-     *
-     * @since  Method available since Release 5.2.0
-     */
-    public function expectException($exception)
-    {
-        $this->expectedException = $exception;
-    }
-
-    /**
-     * @param int|string $code
-     *
-     * @throws PHPUnit_Framework_Exception
-     *
-     * @since  Method available since Release 5.2.0
-     */
-    public function expectExceptionCode($code)
-    {
-        if (!is_int($code) && !is_string($code)) {
-            throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'integer or string');
-        }
-
-        $this->expectedExceptionCode = $code;
-    }
-
-    /**
-     * @param string $message
-     *
-     * @throws PHPUnit_Framework_Exception
-     *
-     * @since  Method available since Release 5.2.0
-     */
-    public function expectExceptionMessage($message)
-    {
-        if (!is_string($message)) {
-            throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
-        }
-
-        $this->expectedExceptionMessage = $message;
-    }
-
-    /**
-     * @param string $messageRegExp
-     *
-     * @throws PHPUnit_Framework_Exception
-     *
-     * @since  Method available since Release 5.2.0
-     */
-    public function expectExceptionMessageRegExp($messageRegExp)
-    {
-        if (!is_string($messageRegExp)) {
-            throw PHPUnit_Util_InvalidArgumentHelper::factory(1, 'string');
-        }
-
-        $this->expectedExceptionMessageRegExp = $messageRegExp;
-    }
-
-    /**
-     * @since Method available since Release 3.4.0
+     * @since  Method available since Release 3.4.0
      */
     protected function setExpectedExceptionFromAnnotation()
     {
@@ -569,16 +493,18 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
             );
 
             if ($expectedException !== false) {
-                $this->expectException($expectedException['class']);
+                $this->setExpectedException(
+                    $expectedException['class'],
+                    $expectedException['message'],
+                    $expectedException['code']
+                );
 
-                if ($expectedException['code'] !== null) {
-                    $this->expectExceptionCode($expectedException['code']);
-                }
-
-                if ($expectedException['message'] !== '') {
-                    $this->expectExceptionMessage($expectedException['message']);
-                } elseif ($expectedException['message_regex'] !== '') {
-                    $this->expectExceptionMessageRegExp($expectedException['message_regex']);
+                if (!empty($expectedException['message_regex'])) {
+                    $this->setExpectedExceptionRegExp(
+                        $expectedException['class'],
+                        $expectedException['message_regex'],
+                        $expectedException['code']
+                    );
                 }
             }
         } catch (ReflectionException $e) {
@@ -687,7 +613,7 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
             $result = $this->createResult();
         }
 
-        if (!$this instanceof PHPUnit_Framework_WarningTestCase) {
+        if (!$this instanceof PHPUnit_Framework_Warning) {
             $this->setTestResultObject($result);
             $this->setUseErrorHandlerFromAnnotation();
         }
@@ -697,7 +623,7 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
             $result->convertErrorsToExceptions($this->useErrorHandler);
         }
 
-        if (!$this instanceof PHPUnit_Framework_WarningTestCase && !$this->handleDependencies()) {
+        if (!$this instanceof PHPUnit_Framework_Warning && !$this->handleDependencies()) {
             return;
         }
 
@@ -851,9 +777,6 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
             $this->statusMessage = $e->getMessage();
         } catch (PHPUnit_Framework_SkippedTest $e) {
             $this->status        = PHPUnit_Runner_BaseTestRunner::STATUS_SKIPPED;
-            $this->statusMessage = $e->getMessage();
-        } catch (PHPUnit_Framework_Warning $e) {
-            $this->status        = PHPUnit_Runner_BaseTestRunner::STATUS_WARNING;
             $this->statusMessage = $e->getMessage();
         } catch (PHPUnit_Framework_AssertionFailedError $e) {
             $this->status        = PHPUnit_Runner_BaseTestRunner::STATUS_FAILURE;
@@ -1083,7 +1006,7 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
                 $this->prophet->checkPredictions();
             } catch (Throwable $t) {
                 /* Intentionally left empty */
-            } catch (Exception $t) {
+            } catch (Exception $e) {
                 /* Intentionally left empty */
             }
 
@@ -1095,8 +1018,8 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
                 }
             }
 
-            if (isset($t)) {
-                throw $t;
+            if (isset($e)) {
+                throw $e;
             }
         }
     }
@@ -1857,15 +1780,13 @@ abstract class PHPUnit_Framework_TestCase extends PHPUnit_Framework_Assert imple
     }
 
     /**
-     * @param Throwable|Exception $exception
+     * @param Exception $exception
      *
      * @return PHPUnit_Framework_MockObject_Stub_Exception
      *
      * @since  Method available since Release 3.1.0
-     *
-     * @todo   Add type declaration when support for PHP 5 is dropped
      */
-    public static function throwException($exception)
+    public static function throwException(Exception $exception)
     {
         return new PHPUnit_Framework_MockObject_Stub_Exception($exception);
     }
